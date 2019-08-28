@@ -11,7 +11,7 @@ module.exports = {
     "requestTimeout": 30,
     "requestTimeoutRenewal": 5,
     "errors": {
-
+        601: "Model not found"
     },
     "schema": {
 
