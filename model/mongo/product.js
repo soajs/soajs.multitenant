@@ -19,6 +19,7 @@ function Product(service, mongoCore) {
             });
             __self.mongoCore.createIndex(colName, {'tenant.id': 1}, {}, function (err, result) {
             });
+
             service.log.debug("Indexes for " + colName + " Updated!");
         }
     }
