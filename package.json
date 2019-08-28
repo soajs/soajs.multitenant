@@ -1,0 +1,37 @@
+{
+  "name": "soajs.multitenant",
+  "description": "soajs multitenant service",
+  "version": "1.0.0",
+  "author": {
+    "name": "soajs team",
+    "email": "team@soajs.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:soajs/soajs.multitenant.git"
+  },
+  "license": "Apache-2.0",
+  "engines": {
+    "node": "*"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "devDependencies": {
+
+    "grunt": "1.0.4",
+    "grunt-contrib-jshint": "2.1.0",
+    "grunt-jsdoc": "2.3.1",
+    "grunt-contrib-clean": "2.0.0",
+    "grunt-contrib-copy": "*",
+    "grunt-mocha-test": "0.13.3",
+    "grunt-env": "0.4.4",
+    "grunt-istanbul": "0.8.0",
+    "grunt-coveralls": "2.0.0"
+
+  },
+  "dependencies": {
+
+    "soajs": "2.5.10"
+  }
+}
