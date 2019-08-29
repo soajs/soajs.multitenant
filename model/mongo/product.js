@@ -10,7 +10,7 @@ function Product(service, mongoCore) {
     let indexingFn = () => {
         if (!indexing) {
             indexing = true;
-
+			//todo fix indexes
             __self.mongoCore.createIndex(colName, {'code': 1}, {unique: true}, function (err, result) {
             });
             __self.mongoCore.createIndex(colName, {'tenant.id': 1}, {}, function (err, result) {
