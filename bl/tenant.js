@@ -2,7 +2,7 @@
 
 
 let bl = {
-    "SSOT": null
+    "modelObj": null
 };
 
 module.exports = bl;

@@ -16,11 +16,22 @@ function init(service, localConfig, cb) {
         SSOT.productModelObj = new product(service, null);
     }
 
-    if (SSOT.productModelObj) {
+    let tenantModel = __dirname + "/../model/" + model + "/tenant.js";
+    if (fs.existsSync(productModel)) {
+        let product = require(productModel);
+        SSOT.tenantModelObj = new product(service, SSOT.productModelObj);
+    }
+
+    if (SSOT.productModelObj && SSOT.tenantModelObj) {
 
         let product = require("./product.js");
         product.modelObj = SSOT.productModelObj;
         BL.product = product;
+
+
+        let tenant = require("./tenant.js");
+        product.modelObj = SSOT.tenantModelObj;
+        BL.tenant = tenant;
 
         return cb(null);
     }
@@ -32,7 +43,8 @@ function init(service, localConfig, cb) {
 
 let BL = {
     init: init,
-    product: null
+    product: null,
+    tenant: null
 };
 
 module.exports = BL;
