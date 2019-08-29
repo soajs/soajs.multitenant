@@ -1,5 +1,5 @@
 # soajs.multitenant
-This is the soajs multitenant service 
+This is the soajs multi tenant service 
 
 ### Environment variables
 
