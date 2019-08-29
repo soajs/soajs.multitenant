@@ -8,7 +8,7 @@ let bl = {
     "list": function (soajs, inputmaskData, localConfig, cb) {
         let l_modelObj = bl.modelObj;
         if (soajs && soajs.tenant && soajs.tenant.type === "client" && soajs.tenant.dbConfig) {
-            l_modelObj = new model (soajs_service, soajs.tenant.dbConfig, null);
+            l_modelObj = new bl.model (bl.soajs_service, soajs.tenant.dbConfig, null);
         }
         l_modelObj.listProducts(null, (err, records) => {
             if (err) {
