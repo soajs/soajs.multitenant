@@ -3,6 +3,7 @@
 
 let bl = {
     "modelObj": null,
+    "model": null,
     "list": function (soajs, inputmaskData, localConfig, cb) {
         bl.modelObj.listProducts(null, (err, records) => {
             if (err) {

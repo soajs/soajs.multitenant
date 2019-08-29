@@ -13,24 +13,27 @@ function init(service, localConfig, cb) {
     let productModel = __dirname + "/../model/" + model + "/product.js";
     if (fs.existsSync(productModel)) {
         let product = require(productModel);
-        SSOT.productModelObj = new product(service, null);
+        SSOT.productModel = require(productModel);
+        SSOT.productModelObj = new SSOT.productModel(service, null);
     }
 
     let tenantModel = __dirname + "/../model/" + model + "/tenant.js";
-    if (fs.existsSync(productModel)) {
-        let product = require(productModel);
-        SSOT.tenantModelObj = new product(service, SSOT.productModelObj);
+    if (fs.existsSync(tenantModel)) {
+        SSOT.tenantModel = require(tenantModel);
+        SSOT.tenantModelObj = new SSOT.tenantModel(service, SSOT.productModelObj);
     }
 
     if (SSOT.productModelObj && SSOT.tenantModelObj) {
 
         let product = require("./product.js");
         product.modelObj = SSOT.productModelObj;
+        product.model = SSOT.productModel;
         BL.product = product;
 
 
         let tenant = require("./tenant.js");
         product.modelObj = SSOT.tenantModelObj;
+        product.model = SSOT.tenantModel;
         BL.tenant = tenant;
 
         return cb(null);

@@ -2,7 +2,8 @@
 
 
 let bl = {
-    "modelObj": null
+    "modelObj": null,
+    "model": null
 };
 
 module.exports = bl;
