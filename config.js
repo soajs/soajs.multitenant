@@ -15,5 +15,14 @@ module.exports = {
     },
     "schema": {
 
+        "get": {
+            "/products": {
+                _apiInfo: {
+                    "l": "List Products",
+                    "group": "Product",
+                    "groupMain": true
+                }
+            }
+        }
     }
 };
