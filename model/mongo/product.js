@@ -32,7 +32,7 @@ function Product(service, mongoCore) {
 
 Product.prototype.listProducts = function (data, cb) {
     let __self = this;
-
+	//todo add remove console products
     __self.mongoCore.find(colName, null, null, null, (err, records) => {
         if (err) {
             return cb(err, null);

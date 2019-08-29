@@ -30,7 +30,16 @@ function Tenant(service, mongoCore) {
         indexingFn();
     }
 }
-
+Tenant.prototype.listTenants = function (data, cb) {
+	let __self = this;
+	//todo add remove console tenants
+	__self.mongoCore.find(colName, null, null, null, (err, records) => {
+		if (err) {
+			return cb(err, null);
+		}
+		return cb(null, records);
+	});
+};
 
 Tenant.prototype.closeConnection = function () {
     let __self = this;
