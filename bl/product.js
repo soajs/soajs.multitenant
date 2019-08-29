@@ -4,14 +4,25 @@
 let bl = {
     "modelObj": null,
     "model": null,
+    "soajs_service": null,
     "list": function (soajs, inputmaskData, localConfig, cb) {
-        bl.modelObj.listProducts(null, (err, records) => {
+        let l_modelObj = bl.modelObj;
+        if (soajs && soajs.tenant && soajs.tenant.type === "client" && soajs.tenant.dbConfig) {
+            l_modelObj = new model (soajs_service, soajs.tenant.dbConfig, null);
+        }
+        l_modelObj.listProducts(null, (err, records) => {
             if (err) {
                 soajs.log.error(err);
+                if (soajs && soajs.tenant && soajs.tenant.type === "client" && soajs.tenant.dbConfig) {
+                    l_modelObj.closeConnection();
+                }
                 return cb({
                     "code": 460,
                     "msg": localConfig.errors[460]
                 });
+            }
+            if (soajs && soajs.tenant && soajs.tenant.type === "client" && soajs.tenant.dbConfig) {
+                l_modelObj.closeConnection();
             }
             return cb(null, records);
         });

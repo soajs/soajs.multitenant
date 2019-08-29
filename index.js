@@ -14,25 +14,25 @@ service.init(() => {
         if (error) {
             throw new Error('Failed starting service');
         }
-	    /**
-	     * product routes
-	     */
-	    service.get("/products", function (req, res) {
+        /**
+         * product routes
+         */
+        service.get("/products", function (req, res) {
             bl.product.list(req.soajs, req.soajs.inputmaskData, config, (error, data) => {
                 return res.json(req.soajs.buildResponse(error, data));
             });
         });
-	
-	
-	    /**
-	     * tenant routes
-	     */
-	    service.get("/tenants", function (req, res) {
-		    bl.tenant.list(req.soajs, req.soajs.inputmaskData, config, (error, data) => {
-			    return res.json(req.soajs.buildResponse(error, data));
-		    });
-	    });
-	    
+
+
+        /**
+         * tenant routes
+         */
+        service.get("/tenants", function (req, res) {
+            bl.tenant.list(req.soajs, req.soajs.inputmaskData, config, (error, data) => {
+                return res.json(req.soajs.buildResponse(error, data));
+            });
+        });
+
         service.start();
     });
 });

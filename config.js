@@ -10,12 +10,12 @@ module.exports = {
     "servicePort": 4004,
     "requestTimeout": 30,
     "requestTimeoutRenewal": 5,
-	"oauth": false,
+    "oauth": false,
     "errors": {
         601: "Model not found"
     },
     "schema": {
-	    "commonFields": {},
+        "commonFields": {},
         "get": {
             "/products": {
                 _apiInfo: {
@@ -24,13 +24,13 @@ module.exports = {
                     "groupMain": true
                 }
             },
-	        "/tenants": {
-		        _apiInfo: {
-			        "l": "List Tenants",
-			        "group": "Tenant",
-			        "groupMain": true
-		        }
-	        }
+            "/tenants": {
+                _apiInfo: {
+                    "l": "List Tenants",
+                    "group": "Tenant",
+                    "groupMain": true
+                }
+            }
         }
     }
 };
