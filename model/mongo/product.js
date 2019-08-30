@@ -15,6 +15,12 @@ function Product(service, dbConfig, mongoCore) {
             });
             __self.mongoCore.createIndex(colName, {'tenant.id': 1}, {}, function (err, result) {
             });
+	        __self.mongoCore.createIndex(colName, {'packages.code': 1}, function (err, result) {
+	        });
+	        __self.mongoCore.createIndex(colName, {'code': 1, 'packages.code': 1}, function (err, result) {
+	        });
+	        __self.mongoCore.createIndex(colName, {'tenant.id': 1}, {}, function (err, result) {
+	        });
 
             service.log.debug("Indexes for " + colName + " Updated!");
         }

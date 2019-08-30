@@ -13,8 +13,17 @@ function Tenant(service, dbConfig, mongoCore) {
             //todo fix indexes
             __self.mongoCore.createIndex(colName, {'code': 1}, {unique: true}, function (err, result) {
             });
-            __self.mongoCore.createIndex(colName, {'tenant.id': 1}, {}, function (err, result) {
+            __self.mongoCore.createIndex(colName, {'applications.keys.key': 1}, {}, function (err, result) {
             });
+	        __self.mongoCore.createIndex(colName, {'name': 1}, {}, function (err, result) {
+	        });
+	        __self.mongoCore.createIndex(colName, {'type': 1}, {}, function (err, result) {
+	        });
+	        __self.mongoCore.createIndex(colName, {'application.keys.extKeys.env': 1}, {}, function (err, result) {
+	        });
+	        __self.mongoCore.createIndex(colName, {'tenant.id': 1}, {}, function (err, result) {
+	        });
+	        
 
             service.log.debug("Indexes for " + colName + " Updated!");
         }
