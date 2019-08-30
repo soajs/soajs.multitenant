@@ -8,17 +8,17 @@ let bl = {
     "list": function (soajs, inputmaskData, localConfig, cb) {
         let l_modelObj = bl.modelObj;
         if (soajs && soajs.tenant && soajs.tenant.type === "client" && soajs.tenant.dbConfig) {
-            l_modelObj = new bl.model (bl.soajs_service, soajs.tenant.dbConfig, null);
+            l_modelObj = new bl.model(bl.soajs_service, soajs.tenant.dbConfig, null);
         }
-        bl.modelObj.listTenants(null, (err, records) => {
+        l_modelObj.listTenants(null, (err, records) => {
             if (err) {
                 soajs.log.error(err);
                 if (soajs && soajs.tenant && soajs.tenant.type === "client" && soajs.tenant.dbConfig) {
                     l_modelObj.closeConnection();
                 }
                 return cb({
-                    "code": 460,
-                    "msg": localConfig.errors[460]
+                    "code": 430,
+                    "msg": localConfig.errors[430]
                 });
             }
             if (soajs && soajs.tenant && soajs.tenant.type === "client" && soajs.tenant.dbConfig) {

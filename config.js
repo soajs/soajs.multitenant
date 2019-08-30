@@ -12,6 +12,8 @@ module.exports = {
     "requestTimeoutRenewal": 5,
     "oauth": false,
     "errors": {
+        430: "Tenant not found for this user.",
+        460: "Unable to find product",
         601: "Model not found"
     },
     "schema": {
