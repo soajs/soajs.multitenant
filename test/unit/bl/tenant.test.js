@@ -12,6 +12,7 @@ describe("Unit test for: BL - tenant", () => {
         config: {
             "errors": {
                 430: "Tenant not found for this user.",
+                436: "Unable to find tenants",
                 601: "Model not found"
             },
         },
@@ -45,6 +46,7 @@ describe("Unit test for: BL - tenant", () => {
                 config: {
                     "errors": {
                         430: "Tenant not found for this user.",
+                        436: "Unable to find tenants",
                         601: "Model not found"
                     },
                 },
@@ -83,8 +85,8 @@ describe("Unit test for: BL - tenant", () => {
                 assert.ok(err);
                 assert.equal(records, null);
                 assert.deepEqual(err, {
-                    code: 430,
-                    msg: soajs.config.errors[430]
+                    code: 436,
+                    msg: soajs.config.errors[436]
                 });
                 done();
             });
@@ -95,6 +97,7 @@ describe("Unit test for: BL - tenant", () => {
                 config: {
                     "errors": {
                         430: "Tenant not found for this user.",
+                        436: "Unable to find tenants",
                         601: "Model not found"
                     },
                 },
@@ -119,8 +122,8 @@ describe("Unit test for: BL - tenant", () => {
                 assert.ok(err);
                 assert.equal(records, null);
                 assert.deepEqual(err, {
-                    code: 430,
-                    msg: soajs.config.errors[430]
+                    code: 436,
+                    msg: soajs.config.errors[436]
                 });
                 done();
             });

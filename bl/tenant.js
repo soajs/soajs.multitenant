@@ -17,8 +17,8 @@ let bl = {
                     l_modelObj.closeConnection();
                 }
                 return cb({
-                    "code": 430,
-                    "msg": localConfig.errors[430]
+                    "code": 436,
+                    "msg": localConfig.errors[436]
                 });
             }
             if (soajs && soajs.tenant && soajs.tenant.type === "client" && soajs.tenant.dbConfig) {

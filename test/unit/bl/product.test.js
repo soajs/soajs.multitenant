@@ -11,7 +11,7 @@ describe("Unit test for: BL - product", () => {
     let soajs = {
         config: {
             "errors": {
-                460: "Unable to find product",
+                460: "Unable to find products",
                 601: "Model not found"
             },
         },
@@ -43,7 +43,7 @@ describe("Unit test for: BL - product", () => {
             let soajsClient = {
                 config: {
                     "errors": {
-                        460: "Unable to find product",
+                        460: "Unable to find products",
                         601: "Model not found"
                     },
                 },
@@ -93,7 +93,7 @@ describe("Unit test for: BL - product", () => {
             let soajsClient = {
                 config: {
                     "errors": {
-                        460: "Unable to find product",
+                        460: "Unable to find products",
                         601: "Model not found"
                     },
                 },
