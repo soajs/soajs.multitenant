@@ -89,11 +89,13 @@ module.exports = function (grunt) {
 
 		env: {
 			mochaTest: {
-				SOAJS_ENV: "dev",
+				SOAJS_ENV: "dashboard",
+				SOAJS_SRVIP: "127.0.0.1",
 				APP_DIR_FOR_CODE_COVERAGE: '../test/coverage/instrument/'
 			},
 			coverage: {
-				SOAJS_ENV: "dev",
+				SOAJS_ENV: "dashboard",
+				SOAJS_SRVIP: "127.0.0.1",
 				APP_DIR_FOR_CODE_COVERAGE: '../test/coverage/instrument/'
 			}
 		},
@@ -151,7 +153,7 @@ module.exports = function (grunt) {
 					reporter: 'spec',
 					timeout: 90000
 				},
-				src: ['test/integration/index.test.js']
+				src: ['test/integration/_server.test.js']
 			}
 		},
 

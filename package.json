@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "async": "^2.1.4",
+    "sinon": "^7.4.1",
     "soajs": "2.5.10"
   }
 }

@@ -59,7 +59,7 @@ function requester(apiName, method, params, cb) {
     }
 }
 
-describe("starting integration tests", () => {
+describe("starting product tests", () => {
 
     before(function (done) {
         mongoSession.dropDatabase(function () {
@@ -73,41 +73,6 @@ describe("starting integration tests", () => {
     afterEach((done) => {
         console.log("=======================================");
         done();
-    });
-
-    it("do import", (done) => {
-        let rootPath = process.cwd();
-        imported(rootPath + "/test/data/soajs_profile.js", rootPath + "/test/data/provision/", (err, msg) => {
-            if (err)
-                console.log(err);
-            if (msg)
-                console.log(msg);
-
-            done();
-        });
-    });
-
-    describe("Testing list products API", () => {
-        it("Success - will return all product records", (done) => {
-            let params = {};
-            requester('/products', 'get', params, (error, body) => {
-                assert.ifError(error);
-                assert.ok(body);
-                assert.ok(body.data);
-                assert.ok(body.data.length > 0);
-                done();
-            });
-        });
-
-        it("Fail - will not return all product records - wrong request", (done) => {
-            let params = {};
-            requester('/products', 'post', params, (error, body) => {
-                assert.ifError(error);
-                assert.ok(body);
-                assert.ok(body.errors.codes);
-                done();
-            });
-        });
     });
 
     describe("Testing list tenants API", () => {
