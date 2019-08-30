@@ -1,6 +1,8 @@
 "use strict";
 let helper = require("../helper.js");
 const imported = require("../data/import.js");
+var sampleData = require("soajs.mongodb.data/modules/urac");
+
 let multitenant, controller;
 
 let soajs = require('soajs');
