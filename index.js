@@ -29,6 +29,12 @@ service.init(() => {
             });
         });
 
+        service.get("/product", function (req, res) {
+            bl.product.get(req.soajs, req.soajs.inputmaskData, config, (error, data) => {
+                return res.json(req.soajs.buildResponse(error, data));
+            });
+        });
+
         /**
          * tenant routes
          */

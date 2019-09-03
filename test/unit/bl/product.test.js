@@ -253,4 +253,13 @@ describe("Unit test for: BL - product", () => {
             });
         });
     });
+
+    describe("Testing Get product", () => {
+        afterEach((done) => {
+            BL.modelObj = null;
+            done();
+        });
+
+    });
+
 });

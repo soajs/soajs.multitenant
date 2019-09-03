@@ -15,6 +15,7 @@ module.exports = {
         "product": "DSBRD"
     },
     "errors": {
+        426: 'Invalid Product ID provided',
         430: "Tenant not found for this user",
         436: "Unable to find tenants",
         460: "Unable to find products",
@@ -28,6 +29,36 @@ module.exports = {
                     "l": "List Products",
                     "group": "Product",
                     "groupMain": true
+                }
+            },
+            "/products/console": {
+                _apiInfo: {
+                    "l": "List Console Products",
+                    "group": "Product",
+                    "groupMain": true
+                }
+            },
+            "/product": {
+                _apiInfo: {
+                    "l": "Get Product",
+                    "group": "Product",
+                    "groupMain": true
+                },
+                id: {
+                    "source": ['query.id'],
+                    "required": false,
+                    "validation": {
+                        "type": "string"
+                    }
+                },
+                code: {
+                    "source": ["query.code"],
+                    "required": false,
+                    "validation": {
+                        "type": "string",
+                        "format": "alphanumeric",
+                        "maxLength": 6
+                    }
                 }
             },
             "/tenants": {
