@@ -30,11 +30,12 @@
     "mocha": "^6.2.0",
 
     "soajs.mongodb.data": "2.1.*",
-    "soajs.controller": "2.5.*"
+    "soajs.controller": "2.5.*",
+
+    "sinon": "^7.4.1"
   },
   "dependencies": {
     "async": "^2.1.4",
-    "sinon": "^7.4.1",
     "soajs": "2.5.10"
   }
 }
