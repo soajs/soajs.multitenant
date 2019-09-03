@@ -1,22 +1,6 @@
 "use strict";
 const assert = require('assert');
-const imported = require("../data/import.js");
-
-let soajs = require('soajs');
 let request = require("request");
-let helper = require("../helper.js");
-
-let Mongo = soajs.mongo;
-let dbConfig = require("./db.config.test.js");
-
-let sessionConfig = dbConfig();
-sessionConfig.name = "core_session";
-let mongoSession = new Mongo(sessionConfig);
-
-let multitenancyConfig = dbConfig();
-multitenancyConfig.name = "test_multitenancy";
-let mongo = new Mongo(multitenancyConfig);
-
 
 let extKey = '';
 
@@ -59,15 +43,10 @@ function requester(apiName, method, params, cb) {
     }
 }
 
-describe("starting product tests", () => {
+describe("starting Tenant integration tests", () => {
 
     before(function (done) {
-        mongoSession.dropDatabase(function () {
-            console.log('starting tests ....');
-            setTimeout(function () {
-                done();
-            }, 500);
-        });
+       done();
     });
 
     afterEach((done) => {
