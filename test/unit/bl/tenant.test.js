@@ -15,7 +15,7 @@ describe("Unit test for: BL - tenant", () => {
             },
         },
         log: {
-            error: () => { console.log() }
+            error: () => { console.log(); }
         }
     };
 
@@ -53,7 +53,7 @@ describe("Unit test for: BL - tenant", () => {
                     dbConfig: {}
                 },
                 log: {
-                    error: () => { console.log() }
+                    error: () => { console.log(); }
                 }
             };
             function Tenant() {
@@ -104,7 +104,7 @@ describe("Unit test for: BL - tenant", () => {
                     dbConfig: {}
                 },
                 log: {
-                    error: () => { console.log() }
+                    error: () => { console.log(); }
                 }
             };
             function Tenant() {

@@ -11,6 +11,9 @@ module.exports = {
     "requestTimeout": 30,
     "requestTimeoutRenewal": 5,
     "oauth": false,
+    "console": {
+        "product": "DSBRD"
+    },
     "errors": {
         430: "Tenant not found for this user",
         436: "Unable to find tenants",

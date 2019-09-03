@@ -42,14 +42,33 @@ function Product(service, dbConfig, mongoCore) {
 
 Product.prototype.listProducts = function (data, cb) {
 	let __self = this;
-	//todo add remove console products
-	__self.mongoCore.find(colName, null, null, null, (err, records) => {
+	//todo Check remove console products
+	let condition = {
+		code: {
+			$ne: data.console.product
+		}
+	};
+	__self.mongoCore.find(colName, condition, null, null, (err, records) => {
 		if (err) {
 			return cb(err, null);
 		}
 		return cb(null, records);
 	});
 };
+
+Product.prototype.listConsoleProducts = function (data, cb) {
+	let __self = this;
+	let condition = {
+		code: data.console.product
+	};
+	__self.mongoCore.find(colName, condition, null, null, (err, records) => {
+		if (err) {
+			return cb(err, null);
+		}
+		return cb(null, records);
+	});
+};
+
 
 Product.prototype.closeConnection = function () {
 	let __self = this;

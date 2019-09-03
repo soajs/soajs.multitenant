@@ -18,7 +18,6 @@ function requester(apiName, method, params, cb) {
         for (let header in params.headers) {
             if (Object.hasOwnProperty.call(params.headers, header)) {
                 options.headers[header] = params.headers[header];
-            } else {
             }
         }
     }
@@ -76,4 +75,28 @@ describe("starting product integration tests", () => {
             });
         });
     });
+
+    describe("Testing list console products API", () => {
+        it("Success - will return all console product records", (done) => {
+            let params = {};
+            requester('/products/console', 'get', params, (error, body) => {
+                assert.ifError(error);
+                assert.ok(body);
+                assert.ok(body.data);
+                assert.ok(body.data.length > 0);
+                done();
+            });
+        });
+
+        it("Fail - will not return all product records - wrong request", (done) => {
+            let params = {};
+            requester('/products/console', 'post', params, (error, body) => {
+                assert.ifError(error);
+                assert.ok(body);
+                assert.ok(body.errors.codes);
+                done();
+            });
+        });
+    });
+
 });

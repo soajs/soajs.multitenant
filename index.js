@@ -23,6 +23,11 @@ service.init(() => {
             });
         });
 
+        service.get("/products/console", function (req, res) {
+            bl.product.listConsole(req.soajs, req.soajs.inputmaskData, config, (error, data) => {
+                return res.json(req.soajs.buildResponse(error, data));
+            });
+        });
 
         /**
          * tenant routes

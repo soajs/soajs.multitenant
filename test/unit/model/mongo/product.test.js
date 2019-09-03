@@ -2,18 +2,21 @@
 
 const coreModules = require("soajs.core.modules");
 const helper = require("../../../helper.js");
-const product = helper.requireModule('model/mongo/product.js');
+const Product = helper.requireModule('model/mongo/product.js');
 const assert = require('assert');
 
-describe("Unit test for: BL - product", () => {
+describe("Unit test for: Model - product", () => {
 	let model;
 	let service = {
 		config: {
 			"errors": {},
+			"console": {
+				"product": "DSBRD"
+			},
 		},
 		log: {
-			error: () => { console.log() },
-			debug: () => { console.log() }
+			error: () => { console.log(); },
+			debug: () => { console.log(); }
 		},
 		registry : {
 			get : ()=>{
@@ -35,22 +38,23 @@ describe("Unit test for: BL - product", () => {
 							}
 						}
 					}
-				}
+				};
 			}
 		}
 	};
 	
 	describe("Testing product no instance", () => {
 		before((done) => {
-			model = new product(service);
+			model = new Product(service);
 			done();
 		});
 		
 		afterEach((done) => {
 			done();
 		});
+
 		it("Success - listProducts", (done) => {
-			model.listProducts(null, ()=>{
+			model.listProducts(service.config, () =>{
 				done();
 			});
 		});
@@ -63,7 +67,7 @@ describe("Unit test for: BL - product", () => {
 	
 	describe("Testing product with db config", () => {
 		before((done) => {
-			model = new product(service, {
+			model = new Product(service, {
 				"name": "core_provision",
 				"prefix": '',
 				"servers": [
@@ -84,8 +88,9 @@ describe("Unit test for: BL - product", () => {
 		afterEach((done) => {
 			done();
 		});
+
 		it("Success - listProducts", (done) => {
-			model.listProducts(null, ()=>{
+			model.listProducts(service.config, () =>{
 				done();
 			});
 		});
@@ -98,7 +103,7 @@ describe("Unit test for: BL - product", () => {
 	
 	describe("Testing product with instance", () => {
 		it("Success", (done) => {
-			model = new product(service, null, true);
+			model = new Product(service, null, true);
 			done();
 		});
 	});
