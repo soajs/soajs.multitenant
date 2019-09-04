@@ -21,7 +21,6 @@ module.exports = {
         460: "Unable to find products",
         468: "Product already exists",
         469: "Unable to add the product record",
-        473: "Missing required field: name",
         474: "Missing required field: either id or code",
         601: "Model not found"
     },

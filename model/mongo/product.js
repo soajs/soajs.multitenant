@@ -67,6 +67,12 @@ Product.prototype.validateId = function (data, cb) {
 
 Product.prototype.listProducts = function (data, cb) {
     let __self = this;
+
+    if (!data || !data.product) {
+        let error = new Error("Missing Fields: product");
+        return cb(error, null);
+    }
+
     //todo Check remove console products
     let condition = {
         code: {
@@ -83,6 +89,12 @@ Product.prototype.listProducts = function (data, cb) {
 
 Product.prototype.listConsoleProducts = function (data, cb) {
     let __self = this;
+
+    if (!data || !data.product) {
+        let error = new Error("Missing Fields: product");
+        return cb(error, null);
+    }
+
     let condition = {
         code: data.product
     };
@@ -107,10 +119,15 @@ Product.prototype.getProduct = function (data, cb) {
     let __self = this;
     let condition = {};
 
+    if (!data || !(data.id || data.code)) {
+        let error = new Error("must provide either id or code.");
+        return cb(error, null);
+    }
+
     if (data.id) {
         condition = {'_id': data.id};
     } else if (data.code) {
-        condition = {'code': data.code};
+        condition = {'code': data.code}; // TODO: ADD to documentation
     }
 
     __self.mongoCore.findOne(colName, condition, null, null, (err, record) => {
@@ -124,15 +141,23 @@ Product.prototype.getProduct = function (data, cb) {
 Product.prototype.checkIfExist = function (data, cb) {
     let __self = this;
 
-    let condition = {
-        '$or':
-            [
-                {'code': data['code']},
-                {'id': data['id']}
-            ]
-    };
+    if (!data || !(data.code && !data.id)) {
+        let error = new Error("must provide either code or id.");
+        return cb(error, null);
+    }
+
+    let condition = {};
+
+    if (data.code) {
+        condition.code = data.code;
+    } else if (data.id){
+        condition.id = data.id;
+    }
+
 
     __self.mongoCore.count(colName, condition, (err, count) => {
+        console.log(condition);
+        console.log(count);
         if (err) {
             return cb(err, null);
         }
