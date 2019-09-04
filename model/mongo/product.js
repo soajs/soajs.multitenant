@@ -156,8 +156,6 @@ Product.prototype.checkIfExist = function (data, cb) {
 
 
     __self.mongoCore.count(colName, condition, (err, count) => {
-        console.log(condition);
-        console.log(count);
         if (err) {
             return cb(err, null);
         }
