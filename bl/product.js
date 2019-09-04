@@ -107,7 +107,6 @@ let bl = {
 
     "add": function (soajs, inputmaskData, localConfig, cb) {
         let l_modelObj = bl.modelObj;
-        console.log(inputmaskData)
         let data = {
             name: inputmaskData.name,
             code: inputmaskData.code,
