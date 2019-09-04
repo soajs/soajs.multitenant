@@ -113,7 +113,6 @@ describe("Unit test for: Model - product", () => {
                 prods = records;
 
                 model.getProduct({id: prods[0]._id}, (err, record) => {
-                    console.log(err, record);
                     assert.ifError(err);
                     assert.ok(record);
                     done();
@@ -259,7 +258,6 @@ describe("Unit test for: Model - product", () => {
                 prods = records;
 
                 model.getProduct({id: prods[0]._id}, (err, record) => {
-                    console.log(err, record);
                     assert.ifError(err);
                     assert.ok(record);
                     done();

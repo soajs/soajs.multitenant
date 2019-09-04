@@ -560,7 +560,6 @@ describe("Unit test for: BL - product", () => {
 			};
 			BL.add(soajs, inputMask, soajs.config, (err, record) => {
 				assert.ok(record);
-				console.log(record);
 				done();
 			});
 		});
