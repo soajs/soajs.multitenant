@@ -65,16 +65,6 @@ Product.prototype.validateId = function (data, cb) {
     }
 };
 
-Product.prototype.listAllProducts = function (data, cb) {
-    let __self = this;
-    __self.mongoCore.find(colName, null, null, null, (err, records) => {
-        if (err) {
-            return cb(err, null);
-        }
-        return cb(null, records);
-    });
-};
-
 Product.prototype.listProducts = function (data, cb) {
     let __self = this;
     //todo Check remove console products

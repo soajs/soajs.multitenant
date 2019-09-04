@@ -78,7 +78,7 @@ describe("Unit test for: Model - product", () => {
 		});
 
 		it("Success - getProduct id", (done) => {
-			model.getProduct({id: ''}, () =>{
+			model.getProduct({id: 'IDTOTEST'}, () =>{
 				done();
 			});
 		});
@@ -144,7 +144,7 @@ describe("Unit test for: Model - product", () => {
 		});
 
 		it("Success - getProduct id", (done) => {
-			model.getProduct({id: ''}, () =>{
+			model.getProduct({id: 'IDTOTEST'}, () =>{
 				done();
 			});
 		});
