@@ -1,9 +1,7 @@
 "use strict";
 
-const coreModules = require("soajs.core.modules");
 const helper = require("../../../helper.js");
 const Product = helper.requireModule('model/mongo/product.js');
-const assert = require('assert');
 
 describe("Unit test for: Model - product", () => {
 	let model;

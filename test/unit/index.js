@@ -1,9 +1,5 @@
 "use strict";
 
-const shell = require('shelljs');
-const assert = require('assert');
-let sampleData = {};
-
 describe("Starting Unit test", () => {
 
     before((done) => {

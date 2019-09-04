@@ -1,9 +1,7 @@
 "use strict";
 
-const coreModules = require("soajs.core.modules");
 const helper = require("../../../helper.js");
 const Tenant = helper.requireModule('model/mongo/tenant.js');
-const assert = require('assert');
 
 describe("Unit test for: Model - tenant", () => {
     let model;
