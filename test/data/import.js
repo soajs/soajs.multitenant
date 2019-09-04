@@ -139,6 +139,11 @@ module.exports = (profilePath, dataPath, callback) => {
         //use soajs.core.modules to create a connection to core_provision database
         let mongoConnection = new Mongo(profile);
         async.series([
+		        function (cb) {
+			        //remove old data
+			        mongoConnection.dropDatabase('core.provision', cb);
+			        return cb(null);
+		        },
                 function (cb) {
                     //check for environment data
                     if (fs.existsSync(dataPath + "environment/")) {

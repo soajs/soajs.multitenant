@@ -99,26 +99,7 @@ describe("Unit test for: Model - product", () => {
         });
 
 
-        it("Success - getProduct code", (done) => {
-            model.getProduct({code: 'DSBRD'}, (err, record) => {
-                assert.ifError(err);
-                assert.ok(record);
-                done();
-            });
-        });
-
-        it("Success - getProduct id", (done) => {
-            let prods = [];
-            model.listProducts(service.config.console, (err, records) => {
-                prods = records;
-
-                model.getProduct({id: prods[0]._id}, (err, record) => {
-                    assert.ifError(err);
-                    assert.ok(record);
-                    done();
-                });
-            });
-        });
+       
 
         it("Fails - getProduct null", (done) => {
         	model.getProduct(null, (err, recoord) => {
@@ -137,7 +118,28 @@ describe("Unit test for: Model - product", () => {
                 done();
             });
         });
-
+	
+	    it("Success - getProduct code", (done) => {
+		    model.getProduct({code: 'CODE'}, (err, record) => {
+			    assert.ifError(err);
+			    assert.ok(record);
+			    done();
+		    });
+	    });
+	
+	    it("Success - getProduct id", (done) => {
+		    let prods = [];
+		    model.listProducts(service.config.console, (err, records) => {
+			    prods = records;
+			
+			    model.getProduct({id: prods[0]._id}, (err, record) => {
+				    assert.ifError(err);
+				    assert.ok(record);
+				    done();
+			    });
+		    });
+	    });
+	    
         //TODO fix indexes
 
         // it("Fails - add Product", (done) => {
@@ -247,7 +249,7 @@ describe("Unit test for: Model - product", () => {
 
 
         it("Success - getProduct code", (done) => {
-            model.getProduct({code: 'DSBRD'}, (err, record) => {
+            model.getProduct({code: 'CODE'}, (err, record) => {
                 assert.ifError(err);
                 assert.ok(record);
                 done();
