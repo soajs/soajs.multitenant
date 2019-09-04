@@ -129,13 +129,14 @@ describe("starting product integration tests", () => {
         it("Success - will return ", (done) => {
             let params = {
                 form: {
-                    name: 'TESTING'
+                    name: 'SOME',
+                    code: 'SOMEC'
                 }
             };
             requester('/product', 'post', params, (error, body) => {
                 assert.ifError(error);
                 assert.ok(body);
-                console.log(body);
+                console.log(body.errors);
                 // assert.ok(body.data);
                 done();
             });

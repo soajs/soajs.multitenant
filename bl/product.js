@@ -1,6 +1,5 @@
 'use strict';
 
-
 let bl = {
     "modelObj": null,
     "model": null,
@@ -109,22 +108,22 @@ let bl = {
     "add": function (soajs, inputmaskData, localConfig, cb) {
         let l_modelObj = bl.modelObj;
 
-        if (!inputmaskData || !inputmaskData.name) {
+        if (!inputmaskData || !(inputmaskData.name && inputmaskData.code)) {
             return cb({
                 "code": 473,
                 "msg": localConfig.errors[473]
             });
         }
-
         let data = {
-            code: inputmaskData.code,
             name: inputmaskData.name,
+            code: inputmaskData.code,
             description: inputmaskData.description,
             scope: {
                 acl: {}
             },
             packages: []
         };
+
         if (soajs && soajs.tenant && soajs.tenant.type === "client" && soajs.tenant.dbConfig) {
             l_modelObj = new bl.model(bl.soajs_service, soajs.tenant.dbConfig, null);
         }

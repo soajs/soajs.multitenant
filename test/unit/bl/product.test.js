@@ -447,11 +447,54 @@ describe("Unit test for: BL - product", () => {
             Product.prototype.getProduct = (data, cb) => {
                 return cb(true, null);
             };
+            Product.prototype.validateId = (data, cb) => {
+                return cb(true, "notfound");
+            };
             Product.prototype.closeConnection = () => {
             };
             BL.model = Product;
 
-            BL.get(soajsClient, null, soajsClient.config, (err, record) => {
+            BL.get(soajsClient, {id: "notfound"}, soajsClient.config, (err, record) => {
+                assert.ok(err);
+                done();
+            });
+        });
+
+        it("Fail - Get product - client tenant", (done) => {
+            let soajsClient = {
+                config: {
+                    "errors": {
+                        460: "Unable to find products",
+                        601: "Model not found"
+                    },
+                },
+                tenant: {
+                    type: "client",
+                    dbConfig: {}
+                },
+                log: {
+                    error: () => {
+                        console.log();
+                    }
+                }
+            };
+
+            function Product() {
+                console.log("Product");
+            }
+
+            Product.prototype.getProduct = (data, cb) => {
+                return cb(true, null);
+            };
+            Product.prototype.validateId = (data, cb) => {
+                return cb(true, "notfound");
+            };
+            Product.prototype.closeConnection = () => {
+            };
+
+            BL.model = Product;
+
+            BL.get(soajsClient, {id: "notfound"}, soajsClient.config, (err, record) => {
                 assert.ok(err);
                 done();
             });

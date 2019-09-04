@@ -98,7 +98,7 @@ module.exports = {
                 commonFields: ['description', 'name'],
                 code: {
                     "source": ['body.code'],
-                    "required": false,
+                    "required": true,
                     "validation": {
                         "type": "string",
                         "format": "alphanumeric",

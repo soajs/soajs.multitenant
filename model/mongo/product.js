@@ -65,6 +65,16 @@ Product.prototype.validateId = function (data, cb) {
     }
 };
 
+Product.prototype.listAllProducts = function (data, cb) {
+    let __self = this;
+    __self.mongoCore.find(colName, null, null, null, (err, records) => {
+        if (err) {
+            return cb(err, null);
+        }
+        return cb(null, records);
+    });
+};
+
 Product.prototype.listProducts = function (data, cb) {
     let __self = this;
     //todo Check remove console products
@@ -122,7 +132,22 @@ Product.prototype.getProduct = function (data, cb) {
 };
 
 Product.prototype.checkIfExist = function (data, cb) {
+    let __self = this;
 
+    let condition = {
+        '$or':
+            [
+                {'code': data['code']},
+                {'id': data['id']}
+            ]
+    };
+
+    __self.mongoCore.count(colName, condition, (err, count) => {
+        if (err) {
+            return cb(err, null);
+        }
+        return cb(null, count);
+    });
 };
 
 Product.prototype.addProduct = function (data, cb) {

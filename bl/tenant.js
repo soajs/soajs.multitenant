@@ -26,7 +26,11 @@ let bl = {
             }
             return cb(null, records);
         });
-    }
+    },
+
+    "add": function (soajs, inputmaskData, localConfig, cb) {
+
+    },
 };
 
 module.exports = bl;

@@ -120,7 +120,7 @@ describe("Unit test for: Model - product", () => {
 		});
 
 		it("Success - validateId", (done) => {
-			model.validateId({id: ''}, () =>{
+			model.validateId({id: 'someidTotest'}, () =>{
 				done();
 			});
 		});
@@ -149,8 +149,20 @@ describe("Unit test for: Model - product", () => {
 			});
 		});
 
-		it("Success - getProduct id", (done) => {
+		it("Success - add Product", (done) => {
 			model.addProduct({}, () =>{
+				done();
+			});
+		});
+
+		it('Success - check if exist - code', (done) => {
+			model.checkIfExist({code: 'TEST'}, () =>{
+				done();
+			});
+		});
+
+		it('Success - check if exist - id', (done) => {
+			model.checkIfExist({id: 'TEST'}, () =>{
 				done();
 			});
 		});
