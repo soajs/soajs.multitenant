@@ -125,4 +125,31 @@ describe("starting product integration tests", () => {
         });
     });
 
+    describe("Testing add product API", () => {
+        it("Success - will return ", (done) => {
+            let params = {
+                form: {
+                    name: 'TESTING'
+                }
+            };
+            requester('/product', 'post', params, (error, body) => {
+                assert.ifError(error);
+                assert.ok(body);
+                console.log(body);
+                // assert.ok(body.data);
+                done();
+            });
+        });
+
+        it("Fail - will not return - no name", (done) => {
+            let params = {};
+            requester('/product', 'post', params, (error, body) => {
+                assert.ifError(error);
+                assert.ok(body);
+                assert.ok(body.errors.codes);
+                done();
+            });
+        });
+    });
+
 });

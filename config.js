@@ -19,10 +19,29 @@ module.exports = {
         430: "Tenant not found for this user",
         436: "Unable to find tenants",
         460: "Unable to find products",
+        468: "Product already exists",
+        469: "Unable to add the product record",
+        473: "Missing required field: name",
+        474: "Missing required field: either id or code",
         601: "Model not found"
     },
     "schema": {
-        "commonFields": {},
+        "commonFields": {
+            "description": {
+                "source": ['body.description'],
+                "required": false,
+                "validation": {
+                    "type": "string"
+                }
+            },
+            "name": {
+                "source": ['body.name'],
+                "required": true,
+                "validation": {
+                    "type": "string"
+                }
+            }
+        },
         "get": {
             "/products": {
                 _apiInfo: {
@@ -66,6 +85,26 @@ module.exports = {
                     "l": "List Tenants",
                     "group": "Tenant",
                     "groupMain": true
+                }
+            }
+        },
+        "post": {
+            "/product": {
+                _apiInfo: {
+                    "l": "Add Product",
+                    "group": "Product",
+                    "groupMain": true
+                },
+                commonFields: ['description', 'name'],
+                code: {
+                    "source": ['body.code'],
+                    "required": false,
+                    "validation": {
+                        "type": "string",
+                        "format": "alphanumeric",
+                        "minLength": 4,
+                        "maxLength": 5
+                    }
                 }
             }
         }

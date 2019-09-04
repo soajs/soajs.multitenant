@@ -121,6 +121,20 @@ Product.prototype.getProduct = function (data, cb) {
     });
 };
 
+Product.prototype.checkIfExist = function (data, cb) {
+
+};
+
+Product.prototype.addProduct = function (data, cb) {
+    let __self = this;
+
+    __self.mongoCore.insert(colName, data, (err, result) => {
+        if (err) {
+            return cb(err, null);
+        }
+        return cb(null, result);
+    });
+};
 
 Product.prototype.closeConnection = function () {
     let __self = this;

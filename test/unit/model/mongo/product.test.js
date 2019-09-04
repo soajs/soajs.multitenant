@@ -53,12 +53,42 @@ describe("Unit test for: Model - product", () => {
 			done();
 		});
 
+		it("Success - validateId", (done) => {
+			model.validateId({id: ''}, () =>{
+				done();
+			});
+		});
+
 		it("Success - listProducts", (done) => {
 			model.listProducts(service.config, () =>{
 				done();
 			});
 		});
-		
+
+		it("Success - listConsoleProducts", (done) => {
+			model.listConsoleProducts(service.config, () =>{
+				done();
+			});
+		});
+
+		it("Success - getProduct code", (done) => {
+			model.getProduct({code: 'DSBRD'}, () =>{
+				done();
+			});
+		});
+
+		it("Success - getProduct id", (done) => {
+			model.getProduct({id: ''}, () =>{
+				done();
+			});
+		});
+
+		it("Success - getProduct id", (done) => {
+			model.addProduct({}, () =>{
+				done();
+			});
+		});
+
 		it("Success - closeConnection", (done) => {
 			model.closeConnection();
 			done();
@@ -89,12 +119,42 @@ describe("Unit test for: Model - product", () => {
 			done();
 		});
 
+		it("Success - validateId", (done) => {
+			model.validateId({id: ''}, () =>{
+				done();
+			});
+		});
+
 		it("Success - listProducts", (done) => {
 			model.listProducts(service.config, () =>{
 				done();
 			});
 		});
-		
+
+		it("Success - listConsoleProducts", (done) => {
+			model.listConsoleProducts(service.config, () =>{
+				done();
+			});
+		});
+
+		it("Success - getProduct code", (done) => {
+			model.getProduct({code: 'DSBRD'}, () =>{
+				done();
+			});
+		});
+
+		it("Success - getProduct id", (done) => {
+			model.getProduct({id: ''}, () =>{
+				done();
+			});
+		});
+
+		it("Success - getProduct id", (done) => {
+			model.addProduct({}, () =>{
+				done();
+			});
+		});
+
 		it("Success - closeConnection", (done) => {
 			model.closeConnection();
 			done();
