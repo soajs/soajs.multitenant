@@ -107,13 +107,7 @@ let bl = {
 
     "add": function (soajs, inputmaskData, localConfig, cb) {
         let l_modelObj = bl.modelObj;
-
-        if (!inputmaskData || !(inputmaskData.name && inputmaskData.code)) {
-            return cb({
-                "code": 473,
-                "msg": localConfig.errors[473]
-            });
-        }
+        console.log(inputmaskData)
         let data = {
             name: inputmaskData.name,
             code: inputmaskData.code,
