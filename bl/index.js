@@ -20,6 +20,7 @@ function init(service, localConfig, cb) {
             temp.modelObj = SSOT[`${blName}ModelObj`];
             temp.model = SSOT[`${blName}Model`];
             temp.soajs_service = service;
+            temp.localConfig = localConfig;
             BL[blName] = temp;
             return cb(null);
         } else {

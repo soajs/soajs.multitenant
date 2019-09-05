@@ -4,24 +4,39 @@ let bl = {
     "modelObj": null,
     "model": null,
     "soajs_service": null,
-    "list": function (soajs, inputmaskData, localConfig, cb) {
-        let l_modelObj = bl.modelObj;
-        if (soajs && soajs.tenant && soajs.tenant.type === "client" && soajs.tenant.dbConfig) {
-            l_modelObj = new bl.model(bl.soajs_service, soajs.tenant.dbConfig, null);
+    "localConfig": null,
+
+    "handleError": (soajs, errCode, err) => {
+        if (err) {
+            soajs.log.error(err);
         }
-        l_modelObj.listProducts(localConfig.console, (err, records) => {
-            if (err) {
-                soajs.log.error(err);
-                if (soajs && soajs.tenant && soajs.tenant.type === "client" && soajs.tenant.dbConfig) {
-                    l_modelObj.closeConnection();
-                }
-                return cb({
-                    "code": 460,
-                    "msg": localConfig.errors[460]
-                });
+        return ({
+            "code": errCode,
+            "msg": bl.localConfig.errors[errCode]
+        });
+    },
+
+    "mp": {
+        "getModel": (soajs) => {
+            let l_modelObj = bl.modelObj;
+            if (soajs && soajs.tenant && soajs.tenant.type === "client" && soajs.tenant.dbConfig) {
+                l_modelObj = new bl.model(bl.soajs_service, soajs.tenant.dbConfig, null);
             }
+            return l_modelObj;
+        },
+        "closeModel": (soajs, l_modelObj) => {
             if (soajs && soajs.tenant && soajs.tenant.type === "client" && soajs.tenant.dbConfig) {
                 l_modelObj.closeConnection();
+            }
+        }
+    },
+
+    "list": function (soajs, inputmaskData, cb) {
+        let l_modelObj = bl.mp.getModel(soajs);
+        l_modelObj.listProducts(localConfig.console, (err, records) => {
+            bl.mp.closeModel(soajs, l_modelObj);
+            if (err) {
+                return cb(bl.handleError(soajs, 460, err));
             }
             return cb(null, records);
         });
