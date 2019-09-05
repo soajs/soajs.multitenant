@@ -19,7 +19,7 @@ module.exports = {
         426: 'Invalid Product ID provided',
         430: "Tenant not found for this user",
         436: "Unable to find tenants",
-        460: "Unable to find products",
+        460: "Unable to find product",
         468: "Product already exists",
         469: "Unable to add the product record",
         474: "Missing required field: either id or code",
@@ -40,7 +40,14 @@ module.exports = {
                 "validation": {
                     "type": "string"
                 }
-            }
+            },
+            "id": {
+                "source": ['query.id'],
+                "required": true,
+                "validation": {
+                    "type": "string"
+                }
+            },
         },
         "get": {
             "/products": {
@@ -107,6 +114,52 @@ module.exports = {
                     }
                 }
             }
+        },
+        "delete": {
+            "/product": {
+                _apiInfo: {
+                    "l": "Add Product",
+                    "group": "Product",
+                    "groupMain": true
+                },
+                "id": {
+                    "source": ['query.id'],
+                    "required": false,
+                    "validation": {
+                        "type": "string"
+                    }
+                },
+                "code": {
+                    "source": ['query.code'],
+                    "required": false,
+                    "validation": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "put": {
+            "/product": {
+                _apiInfo: {
+                    "l": "Update Product",
+                    "group": "Product"
+                },
+                "commonFields": ['id', 'name', 'description']
+            },
+            "/product/scope": {
+                _apiInfo: {
+                    "l": "Update Product Scope",
+                    "group": "Product"
+                },
+                "commonFields": ['id', 'acl'], //TODO: Create ACL Schema
+                "scope": {
+                    "source": ["body.scope"],
+                    "required": true,
+                    "validation": {
+                        "type": "object"
+                    }
+                }
+            },
         }
     }
 };

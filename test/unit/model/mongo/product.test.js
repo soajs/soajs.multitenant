@@ -99,47 +99,112 @@ describe("Unit test for: Model - product", () => {
         });
 
 
-       
-
         it("Fails - getProduct null", (done) => {
-        	model.getProduct(null, (err, recoord) => {
-        		assert.ok(err);
-        		done();
-        	});
+            model.getProduct(null, (err, recoord) => {
+                assert.ok(err);
+                done();
+            });
         });
 
         it("Success - add Product", (done) => {
             model.addProduct({
-                name: "SOMETHING",
-                code: "CODE"
+                name: "SOMETHING2",
+                code: "CODE2"
             }, (err, record) => {
                 assert.ifError(err);
                 assert.ok(record);
                 done();
             });
         });
-	
-	    it("Success - getProduct code", (done) => {
-		    model.getProduct({code: 'CODE'}, (err, record) => {
-			    assert.ifError(err);
-			    assert.ok(record);
-			    done();
-		    });
-	    });
-	
-	    it("Success - getProduct id", (done) => {
-		    let prods = [];
-		    model.listProducts(service.config.console, (err, records) => {
-			    prods = records;
-			
-			    model.getProduct({id: prods[0]._id}, (err, record) => {
-				    assert.ifError(err);
-				    assert.ok(record);
-				    done();
-			    });
-		    });
-	    });
-	    
+
+        it("Success - add Product", (done) => {
+            model.addProduct({
+                name: "SOMETHING4",
+                code: "CODE4"
+            }, (err, record) => {
+                assert.ifError(err);
+                assert.ok(record);
+                done();
+            });
+        });
+
+        it("Success - getProduct code", (done) => {
+            model.getProduct({code: 'CODE2'}, (err, record) => {
+                console.log(err, record);
+                assert.ifError(err);
+                assert.ok(record);
+                done();
+            });
+        });
+
+        it("Success - getProduct id", (done) => {
+            let prods = [];
+            model.listProducts(service.config.console, (err, records) => {
+                prods = records;
+
+                model.getProduct({id: prods[0]._id}, (err, record) => {
+                    assert.ifError(err);
+                    assert.ok(record);
+                    done();
+                });
+            });
+        });
+
+        it('Success - update - id and name', (done) => {
+            let prods = [];
+            model.listProducts(service.config.console, (err, records) => {
+                prods = records;
+                console.log(prods);
+                model.updateProduct({id: prods[1]._id, code: "Something", name: "Somesome"}, (err, record) => {
+                    assert.ifError(err);
+                    assert.ok(record);
+                    done();
+                });
+            });
+        });
+
+        it('Fails - update - null data', (done) => {
+            model.updateProduct(null, (err, record) => {
+                assert.ok(err);
+                done();
+            });
+        });
+
+        it("Success - deleteProduct - id", (done) => {
+            let prods = [];
+            model.listProducts(service.config.console, (err, records) => {
+                prods = records;
+                model.deleteProduct({
+                    id: prods[1]._id
+                }, (err, record) => {
+                    assert.ifError(err);
+                    assert.ok(record);
+                    done();
+                });
+            });
+        });
+
+        it("Success - deleteProduct - code", (done) => {
+            let prods = [];
+            model.listProducts(service.config.console, (err, records) => {
+                prods = records;
+                model.deleteProduct({
+                    code: 'CODE4'
+                }, (err, record) => {
+                    assert.ifError(err);
+                    assert.ok(record);
+                    done();
+                });
+            });
+        });
+
+        it("Fails - deleteProduct - Null data", (done) => {
+            model.deleteProduct(null, (err, record) => {
+                assert.ok(err);
+                done();
+            });
+        });
+
         //TODO fix indexes
 
         // it("Fails - add Product", (done) => {
@@ -247,9 +312,19 @@ describe("Unit test for: Model - product", () => {
             });
         });
 
+        it("Success - add Product", (done) => {
+            model.addProduct({
+                name: "SOMETHING3",
+                code: "CODE3"
+            }, (err, record) => {
+                assert.ifError(err);
+                assert.ok(record);
+                done();
+            });
+        });
 
         it("Success - getProduct code", (done) => {
-            model.getProduct({code: 'CODE'}, (err, record) => {
+            model.getProduct({code: 'CODE3'}, (err, record) => {
                 assert.ifError(err);
                 assert.ok(record);
                 done();
@@ -285,8 +360,60 @@ describe("Unit test for: Model - product", () => {
         //     });
         // });
 
+
+        it('Success - update - id and name', (done) => {
+            let prods = [];
+            model.listProducts(service.config.console, (err, records) => {
+                prods = records;
+                model.updateProduct({
+                    id: prods[1]._id,
+                    name: "NEW",
+                    code: "UPDATE"
+                }, (err, record) => {
+                    assert.ifError(err);
+                    assert.ok(record);
+                    done();
+                });
+            });
+        });
+
+        it('Fails - update - null data', (done) => {
+            model.updateProduct(null, (err, record) => {
+                assert.ok(err);
+                done();
+            });
+        });
+
+        it("Success - deleteProduct id", (done) => {
+            let prods = [];
+            model.listProducts(service.config.console, (err, records) => {
+                prods = records;
+
+                model.deleteProduct({id: prods[1]._id}, (err, record) => {
+                    assert.ifError(err);
+                    assert.ok(record);
+                    done();
+                });
+            });
+        });
+
+        it("Fails - deleteProduct id", (done) => {
+            model.deleteProduct(null, (err, record) => {
+                assert.ok(err);
+                done();
+            });
+        });
+
         it('Success - check if exist - code', (done) => {
             model.checkIfExist({code: 'TEST'}, (err, count) => {
+                assert.ifError(err);
+                assert.deepEqual(count, 0);
+                done();
+            });
+        });
+
+        it('Success - check if exist - id', (done) => {
+            model.checkIfExist({id: 'NOTFOUND'}, (err, count) => {
                 assert.ifError(err);
                 assert.deepEqual(count, 0);
                 done();

@@ -17,26 +17,61 @@ service.init(() => {
         /**
          * product routes
          */
+
+        /*
+         * GET
+         */
+
         service.get("/products", function (req, res) {
-            bl.product.list(req.soajs, req.soajs.inputmaskData, config, (error, data) => {
+            bl.product.list(req.soajs, req.soajs.inputmaskData, (error, data) => {
                 return res.json(req.soajs.buildResponse(error, data));
             });
         });
 
         service.get("/products/console", function (req, res) {
-            bl.product.listConsole(req.soajs, req.soajs.inputmaskData, config, (error, data) => {
+            bl.product.listConsole(req.soajs, req.soajs.inputmaskData, (error, data) => {
                 return res.json(req.soajs.buildResponse(error, data));
             });
         });
 
         service.get("/product", function (req, res) {
-            bl.product.get(req.soajs, req.soajs.inputmaskData, config, (error, data) => {
+            bl.product.get(req.soajs, req.soajs.inputmaskData, (error, data) => {
                 return res.json(req.soajs.buildResponse(error, data));
             });
         });
 
+        /*
+         * POST
+         */
+
         service.post("/product", function (req, res) {
-            bl.product.add(req.soajs, req.soajs.inputmaskData, config, (error, data) => {
+            bl.product.add(req.soajs, req.soajs.inputmaskData, (error, data) => {
+                return res.json(req.soajs.buildResponse(error, data));
+            });
+        });
+
+        /*
+         * DELETE
+         */
+
+        service.delete("/product", function (req, res) {
+            bl.product.delete(req.soajs, req.soajs.inputmaskData, (error, data) => {
+                return res.json(req.soajs.buildResponse(error, data));
+            });
+        });
+
+        /*
+         * PUT
+         */
+
+        service.put("/product", function (req, res) {
+            bl.product.update(req.soajs, req.soajs.inputmaskData, (error, data) => {
+                return res.json(req.soajs.buildResponse(error, data));
+            });
+        });
+
+        service.put("/product/scope", function (req, res) {
+            bl.product.updateScope(req.soajs, req.soajs.inputmaskData, (error, data) => {
                 return res.json(req.soajs.buildResponse(error, data));
             });
         });

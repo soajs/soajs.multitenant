@@ -36,92 +36,46 @@ let bl = {
         l_modelObj.listProducts(bl.localConfig.console, (err, records) => {
             bl.mp.closeModel(soajs, l_modelObj);
             if (err) {
+                console.log(err);
+                return cb(bl.handleError(soajs, 460, err), null);
+            }
+            return cb(null, records);
+        });
+    },
+
+    "listConsole": function (soajs, inputmaskData, cb) {
+        let l_modelObj = bl.mp.getModel(soajs);
+        l_modelObj.listConsoleProducts(bl.localConfig.console, (err, records) => {
+            bl.mp.closeModel(soajs, l_modelObj);
+            if (err) {
                 return cb(bl.handleError(soajs, 460, err));
             }
             return cb(null, records);
         });
     },
 
-    "listConsole": function (soajs, inputmaskData, localConfig, cb) {
-        let l_modelObj = bl.modelObj;
-        if (soajs && soajs.tenant && soajs.tenant.type === "client" && soajs.tenant.dbConfig) {
-            l_modelObj = new bl.model(bl.soajs_service, soajs.tenant.dbConfig, null);
+    "get": function (soajs, inputmaskData, cb) {
+        let l_modelObj = bl.mp.getModel(soajs);
+
+        let data = {};
+
+        if (inputmaskData.id) {
+            data.id = inputmaskData.id;
+        } else if (inputmaskData.code) {
+            data.code = inputmaskData.code;
         }
-        l_modelObj.listConsoleProducts(localConfig.console, (err, records) => {
+
+        l_modelObj.getProduct(data, (err, record) => {
+            bl.mp.closeModel(soajs, l_modelObj);
             if (err) {
-                soajs.log.error(err);
-                if (soajs && soajs.tenant && soajs.tenant.type === "client" && soajs.tenant.dbConfig) {
-                    l_modelObj.closeConnection();
-                }
-                return cb({
-                    "code": 460,
-                    "msg": localConfig.errors[460]
-                });
+                return cb(bl.handleError(soajs, 460, err), null);
             }
-            if (soajs && soajs.tenant && soajs.tenant.type === "client" && soajs.tenant.dbConfig) {
-                l_modelObj.closeConnection();
-            }
-            return cb(null, records);
+            return cb(null, record);
         });
     },
 
-    "get": function (soajs, inputmaskData, localConfig, cb) {
-        let l_modelObj = bl.modelObj;
-
-        if (!inputmaskData || !(inputmaskData.code || inputmaskData.id)) {
-            return cb({
-                "code": 474,
-                "msg": localConfig.errors[474]
-            });
-        }
-
-        let data = {};
-        if (soajs && soajs.tenant && soajs.tenant.type === "client" && soajs.tenant.dbConfig) {
-            l_modelObj = new bl.model(bl.soajs_service, soajs.tenant.dbConfig, null);
-        }
-
-        let getProduct = (data) => {
-            l_modelObj.getProduct(data, (err, record) => {
-                if (err) {
-                    soajs.log.error(err);
-                    if (soajs && soajs.tenant && soajs.tenant.type === "client" && soajs.tenant.dbConfig) {
-                        l_modelObj.closeConnection();
-                    }
-                    return cb({
-                        "code": 460,
-                        "msg": localConfig.errors[460]
-                    });
-                }
-                if (soajs && soajs.tenant && soajs.tenant.type === "client" && soajs.tenant.dbConfig) {
-                    l_modelObj.closeConnection();
-                }
-                return cb(null, record);
-            });
-        };
-
-        if (inputmaskData.id) {
-            l_modelObj.validateId(inputmaskData, (err, id) => {
-                if (err) {
-                    soajs.log.error(err);
-                    if (soajs && soajs.tenant && soajs.tenant.type === "client" && soajs.tenant.dbConfig) {
-                        l_modelObj.closeConnection();
-                    }
-                    return cb({
-                        "code": 426,
-                        "msg": localConfig.errors[426]
-                    });
-                }
-                data.id = id;
-                getProduct(data);
-            });
-        } else if (inputmaskData.code) {
-            data.code = inputmaskData.code;
-            getProduct(data);
-        }
-    },
-
-    "add": function (soajs, inputmaskData, localConfig, cb) {
-        let l_modelObj = bl.modelObj;
+    "add": function (soajs, inputmaskData, cb) {
+        let l_modelObj = bl.mp.getModel(soajs);
         let data = {
             name: inputmaskData.name,
             code: inputmaskData.code,
@@ -132,46 +86,150 @@ let bl = {
             packages: []
         };
 
-        if (soajs && soajs.tenant && soajs.tenant.type === "client" && soajs.tenant.dbConfig) {
-            l_modelObj = new bl.model(bl.soajs_service, soajs.tenant.dbConfig, null);
-        }
-
         l_modelObj.checkIfExist(data, (err, count) => {
+            bl.mp.closeModel(soajs, l_modelObj);
             if (err) {
-                soajs.log.error(err);
-                if (soajs && soajs.tenant && soajs.tenant.type === "client" && soajs.tenant.dbConfig) {
-                    l_modelObj.closeConnection();
-                }
-                return cb({
-                    "code": 474,
-                    "msg": localConfig.errors[474]
-                });
+                return cb(bl.handleError(soajs, 474, err));
             }
+
             if (count > 0) {
-                if (soajs && soajs.tenant && soajs.tenant.type === "client" && soajs.tenant.dbConfig) {
-                    l_modelObj.closeConnection();
-                }
-                return cb({
-                    "code": 468,
-                    "msg": localConfig.errors[468]
-                });
+                bl.mp.closeModel(soajs, l_modelObj);
+                return cb(bl.handleError(soajs, 468, err));
             } else {
                 l_modelObj.addProduct(data, (err, record) => {
+                    bl.mp.closeModel(soajs, l_modelObj);
                     if (err) {
-                        soajs.log.error(err);
-                        if (soajs && soajs.tenant && soajs.tenant.type === "client" && soajs.tenant.dbConfig) {
-                            l_modelObj.closeConnection();
-                        }
-                        return cb({
-                            "code": 469,
-                            "msg": localConfig.errors[469]
-                        });
+                        return cb(bl.handleError(soajs, 469, err));
                     }
                     return cb(null, record);
                 });
             }
         });
     },
+
+    "delete": function (soajs, inputmaskData, cb) {
+        let l_modelObj = bl.mp.getModel(soajs);
+        let data = {};
+        if (!inputmaskData || !(inputmaskData.code || inputmaskData.id)) {
+            return cb(bl.handleError(soajs, 474, null));
+        }
+
+        if (inputmaskData.code) {
+            data.code = inputmaskData.code;
+        } else {
+            data.id = inputmaskData.id;
+        }
+
+        l_modelObj.getProduct(data, (err, record) => {
+            if (err) {
+                bl.mp.closeModel(soajs, l_modelObj);
+                return cb(bl.handleError(soajs, 460, err));
+            }
+            if (!record) {
+                bl.mp.closeModel(soajs, l_modelObj);
+                if (inputmaskData.id) {
+                    return cb(bl.handleError(soajs, 426, null));
+                } else {
+                    return cb(bl.handleError(soajs, 477, null));
+                }
+            }
+            if (soajs.tenant.application.product === record.code) {
+                bl.mp.closeModel(soajs, l_modelObj);
+                return cb(bl.handleError(soajs, 466, null));
+            }
+            if (!soajs.tenant.locked && record && record.locked) {
+                bl.mp.closeModel(soajs, l_modelObj);
+                return cb(bl.handleError(soajs, 500, null));
+            }
+            l_modelObj.deleteProduct(data, (err, result) => {
+                bl.mp.closeModel(soajs, l_modelObj);
+                if (err) {
+                    return cb(bl.handleError(soajs, 475, err));
+                }
+                return cb(null, result);
+            });
+        });
+    },
+
+    "update": function (soajs, inputmaskData, cb) {
+        let l_modelObj = bl.mp.getModel(soajs);
+        let data = {};
+
+        data.name = inputmaskData.name;
+        data.description = inputmaskData.description;
+        data.id = inputmaskData.id;
+        l_modelObj.getProduct(data, (err, record) => {
+            if (err) {
+                bl.mp.closeModel(soajs, l_modelObj);
+                return cb(bl.handleError(soajs, 460, err));
+            }
+            if (!record) {
+                bl.mp.closeModel(soajs, l_modelObj);
+                if (soajs && soajs.tenant && soajs.tenant.type === "client" && soajs.tenant.dbConfig) {
+                    l_modelObj.closeConnection();
+                }
+                if (inputmaskData.id) {
+                    return cb(bl.handleError(soajs, 426, null));
+                } else {
+                    return cb(bl.handleError(soajs, 477, null));
+                }
+            }
+            if (soajs.tenant.application.product === record.code) {
+                bl.mp.closeModel(soajs, l_modelObj);
+                return cb(bl.handleError(soajs, 466, null));
+            }
+            if (!soajs.tenant.locked && record && record.locked) {
+                bl.mp.closeModel(soajs, l_modelObj);
+                return cb(bl.handleError(soajs, 500, null));
+            }
+            l_modelObj.updateProduct(data, (err, result) => {
+                bl.mp.closeModel(soajs, l_modelObj);
+                if (err) {
+                    return cb(bl.handleError(soajs, 475, err));
+                }
+                return cb(null, result);
+            });
+        });
+    },
+
+    // "updateScope": function (soajs, inputmaskData, cb) {
+    //     let l_modelObj = bl.mp.getModel(soajs);
+    //     let data = {};
+    //
+    //     data.id = id;
+    //     data.scope = inputmaskData.scope;
+    //
+    //     l_modelObj.getProduct(data, (err, record) => {
+    //         if (err) {
+    //             bl.mp.closeModel(soajs, l_modelObj);
+    //             return cb(bl.handleError(soajs, 460, err));
+    //         }
+    //         if (!record) {
+    //             if (inputmaskData.id) {
+    //                 bl.mp.closeModel(soajs, l_modelObj);
+    //                 return cb(bl.handleError(soajs, 426, null));
+    //             } else {
+    //                 bl.mp.closeModel(soajs, l_modelObj);
+    //                 return cb(bl.handleError(soajs, 477, null));
+    //             }
+    //         }
+    //         if (soajs.tenant.application.product === record.code) {
+    //             bl.mp.closeModel(soajs, l_modelObj);
+    //             return cb(bl.handleError(soajs, 466, null));
+    //         }
+    //         if (!soajs.tenant.locked && record && record.locked) {
+    //             bl.mp.closeModel(soajs, l_modelObj);
+    //             return cb(bl.handleError(soajs, 500, null));
+    //         }
+    //         l_modelObj.updateScope(data, (err, result) => {
+    //             bl.mp.closeModel(soajs, l_modelObj);
+    //             if (err) {
+    //                 return cb(bl.handleError(soajs, 475, null));
+    //             }
+    //             return cb(null, result);
+    //         });
+    //     });
+    // },
 
 };
 

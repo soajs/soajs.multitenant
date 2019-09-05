@@ -2,6 +2,8 @@
 const colName = "products";
 const core = require("soajs");
 const Mongo = core.mongo;
+const async = require("async");
+const soajsLib = require("soajs.core.libs");
 
 let indexing = false;
 
@@ -125,6 +127,11 @@ Product.prototype.getProduct = function (data, cb) {
     }
 
     if (data.id) {
+        try {
+            data.id = __self.mongoCore.ObjectId(data.id);
+        } catch (e) {
+            return cb(e, null);
+        }
         condition = {'_id': data.id};
     } else if (data.code) {
         condition = {'code': data.code}; // TODO: ADD to documentation
@@ -141,7 +148,7 @@ Product.prototype.getProduct = function (data, cb) {
 Product.prototype.checkIfExist = function (data, cb) {
     let __self = this;
 
-    if (!data || !(data.code && !data.id)) {
+    if (!data || !(data.code || data.id)) {
         let error = new Error("must provide either code or id.");
         return cb(error, null);
     }
@@ -150,7 +157,7 @@ Product.prototype.checkIfExist = function (data, cb) {
 
     if (data.code) {
         condition.code = data.code;
-    } else if (data.id){
+    } else if (data.id) {
         condition.id = data.id;
     }
 
@@ -173,6 +180,99 @@ Product.prototype.addProduct = function (data, cb) {
         return cb(null, result);
     });
 };
+
+Product.prototype.deleteProduct = function (data, cb) {
+    let __self = this;
+    if (!data || !(data.id || data.code)) {
+        let error = new Error("must provide either id or code.");
+        return cb(error, null);
+    }
+
+    let condition = {};
+
+    if (data.code) {
+        condition.code = data.code;
+    } else if (data.id) {
+        condition.id = data.id;
+    }
+
+    __self.mongoCore.remove(colName, condition, (err, result) => {
+        if (err) {
+            return cb(err, null);
+        }
+        return cb(null, result);
+    });
+};
+
+/**
+ * To edit a product
+ *
+ * @param data
+ *  should have:
+ *      required (id)
+ *
+ * @param cb
+ */
+Product.prototype.updateProduct = function (data, cb) {
+    let __self = this;
+    if (!data || !data.id) {
+        let error = new Error("id is required.");
+        return cb(error, null);
+    }
+
+    let condition = {'_id': data.id};
+
+    let options = {'upsert': false, 'safe': true};
+
+    __self.mongoCore.update(colName, condition, data, options, (err, result) => {
+
+        if (err) {
+            return cb(err, null);
+        }
+        return cb(null, result);
+    });
+};
+
+// Product.prototype.sanitize = function (cb) {
+//     let __self = this;
+//     async.eachOf(__self.soajs.inputmaskData.scope, function (env, envKey, call) {
+//         async.eachOf(env, function (service, serviceKey, callback) {
+//             let sanitizedVersion = {};
+//             Object.keys(service).forEach(function (key) {
+//                 sanitizedVersion[soajsLib.version.sanitize(key)] = service[key];
+//                 delete service[key];
+//             });
+//             __self.soajs.inputmaskData.scope[envKey][serviceKey] = sanitizedVersion;
+//             callback();
+//         }, call);
+//     }, cb);
+// };
+//
+// Product.prototype.unsanitize = function (record, cb) {
+//     if (record && record.scope && record.scope.acl && Object.keys(record.scope.acl > 0)) {
+//         let scope = record.scope.acl;
+//         unsanitize(scope, () => {
+//             record.scope.acl = scope;
+//             return cb(null, record);
+//         });
+//     } else {
+//         return cb(null, record);
+//     }
+//
+//     function unsanitize(acl, cb) {
+//         async.eachOf(acl, function (env, envKey, call) {
+//             async.eachOf(env, function (service, serviceKey, callback) {
+//                 let sanitizedVersion = {};
+//                 Object.keys(service).forEach(function (key) {
+//                     sanitizedVersion[soajsLib.version.unsanitize(key)] = service[key];
+//                     delete service[key];
+//                 });
+//                 acl[envKey][serviceKey] = sanitizedVersion;
+//                 callback();
+//             }, call);
+//         }, cb);
+//     }
+// };
 
 Product.prototype.closeConnection = function () {
     let __self = this;
