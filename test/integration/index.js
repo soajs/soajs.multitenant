@@ -14,20 +14,15 @@ describe("starting integration tests", () => {
             if (msg)
                 console.log(msg);
 
-            done();
-        });
-    });
-
-    it("Starting Controller and Multitenant service", (done) => {
-        controller = require("soajs.controller");
-        console.log("Controller!");
-        setTimeout(function () {
-            multitenant = helper.requireModule('./index');
-            console.log("Multitenant", multitenant);
+            console.log("Starting Controller and Multitenant service");
+            controller = require("soajs.controller");
             setTimeout(function () {
-                done();
-            }, 1500);
-        }, 1000);
+                multitenant = helper.requireModule('./index');
+                setTimeout(function () {
+                    done();
+                }, 1500);
+            }, 1000);
+        });
     });
 
     it("loading tests", (done) => {

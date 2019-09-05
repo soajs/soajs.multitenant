@@ -91,7 +91,7 @@ let lib = {
 			},
 			"logger": { //ATTENTION: this is not all the properties for logger
 				"src": true,
-				"level": "fatal",//minimizing logging as much as possible
+				"level": "debug",//minimizing logging as much as possible
 				"formatter": {
 					outputMode: 'short'
 				}

@@ -11,6 +11,7 @@ module.exports = {
     "requestTimeout": 30,
     "requestTimeoutRenewal": 5,
     "oauth": false,
+    "extKeyRequired": true,
     "console": {
         "product": "DSBRD"
     },
