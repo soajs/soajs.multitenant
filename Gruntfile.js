@@ -91,11 +91,13 @@ module.exports = function (grunt) {
 			mochaTest: {
 				SOAJS_ENV: "dashboard",
 				SOAJS_SRVIP: "127.0.0.1",
+                SOAJS_TEST: true,
 				APP_DIR_FOR_CODE_COVERAGE: '../test/coverage/instrument/'
 			},
 			coverage: {
 				SOAJS_ENV: "dashboard",
 				SOAJS_SRVIP: "127.0.0.1",
+                SOAJS_TEST: true,
 				APP_DIR_FOR_CODE_COVERAGE: '../test/coverage/instrument/'
 			}
 		},
