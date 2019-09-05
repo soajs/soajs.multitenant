@@ -33,7 +33,7 @@ let bl = {
 
     "list": function (soajs, inputmaskData, cb) {
         let l_modelObj = bl.mp.getModel(soajs);
-        l_modelObj.listProducts(localConfig.console, (err, records) => {
+        l_modelObj.listProducts(bl.localConfig.console, (err, records) => {
             bl.mp.closeModel(soajs, l_modelObj);
             if (err) {
                 return cb(bl.handleError(soajs, 460, err));
