@@ -40,6 +40,18 @@ service.init(() => {
             });
         });
 
+        service.get("/product/packages", function (req, res) {
+            bl.product.listPackages(req.soajs, req.soajs.inputmaskData, (error, data) => {
+                return res.json(req.soajs.buildResponse(error, data));
+            });
+        });
+
+        service.get("/product/package", function (req, res) {
+            bl.product.getPackage(req.soajs, req.soajs.inputmaskData, (error, data) => {
+                return res.json(req.soajs.buildResponse(error, data));
+            });
+        });
+
         /*
          * POST
          */
@@ -59,6 +71,13 @@ service.init(() => {
                 return res.json(req.soajs.buildResponse(error, data));
             });
         });
+
+        service.delete("/product/package", function (req, res) {
+            bl.product.deletePackage(req.soajs, req.soajs.inputmaskData, (error, data) => {
+                return res.json(req.soajs.buildResponse(error, data));
+            });
+        });
+
 
         /*
          * PUT

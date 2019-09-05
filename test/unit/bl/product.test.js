@@ -1004,4 +1004,325 @@ describe("Unit test for: BL - product", () => {
 		});
 	});
 
+	// describe("Testing Update Scope Product", () => {
+	// 	afterEach((done) => {
+	// 		BL.modelObj = null;
+	// 		done();
+	// 	});
+	//
+	// });
+
+	describe("Testing list all packages inside Product", () => {
+		afterEach((done) => {
+			BL.modelObj = null;
+			done();
+		});
+
+		let inputMask = {
+			id: "ID"
+		};
+
+		it("Success - List packages - null data", (done) => {
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(null, {
+						"code" : "TPROD",
+						"name" : "Test Product",
+						"description" : "this is a description for test product",
+						"packages" : [
+							{
+								"code" : "TPROD_BASIC",
+								"name" : "basic package",
+								"description" : "this is a description for test product basic package",
+								"acl" : {
+									"urac" : {},
+									"multitenant" : {}
+								},
+								"_TTL" : 86400000 // 24 hours
+							},
+							{
+								"code" : "TPROD_EXAMPLE03",
+								"name" : "example03 package",
+								"description" : "this is a description for test product example03 package",
+								"acl" : {
+									"urac" : {},
+									"example03" : {}
+								},
+								"_TTL" : 86400000 // 24 hours
+							}
+						]
+					});
+				}
+			};
+			BL.listPackages(soajs, inputMask, (err, records) => {
+				assert.ok(records);
+				assert(Array.isArray(records));
+				done();
+			});
+		});
+
+		it("Success - List packages  - client tenant", (done) => {
+			let soajsClient = {
+				config: {
+					"errors": {
+						460: "Unable to find product",
+						601: "Model not found"
+					},
+				},
+				tenant: {
+					type: "client",
+					dbConfig: {}
+				},
+				log: {
+					error: () => {
+						console.log();
+					}
+				}
+			};
+
+			let inputMask = {
+				id: "ID"
+			};
+
+			function Product() {
+				console.log("Product");
+			}
+
+			Product.prototype.getProduct = (inputMask, cb) => {
+				return cb(null, {
+					"code" : "TPROD",
+					"name" : "Test Product",
+					"description" : "this is a description for test product",
+					"packages" : [
+						{
+							"code" : "TPROD_BASIC",
+							"name" : "basic package",
+							"description" : "this is a description for test product basic package",
+							"acl" : {
+								"urac" : {},
+								"multitenant" : {}
+							},
+							"_TTL" : 86400000 // 24 hours
+						},
+						{
+							"code" : "TPROD_EXAMPLE03",
+							"name" : "example03 package",
+							"description" : "this is a description for test product example03 package",
+							"acl" : {
+								"urac" : {},
+								"example03" : {}
+							},
+							"_TTL" : 86400000 // 24 hours
+						}
+					]
+				});
+			};
+			Product.prototype.closeConnection = () => {
+			};
+			BL.model = Product;
+
+			BL.listPackages(soajsClient, inputMask, (err, records) => {
+				assert.ok(records);
+				assert(Array.isArray(records));
+				done();
+			});
+		});
+
+		it("Fails - List packages - null config", (done) => {
+			BL.modelObj = {
+				getProduct: (nullObject, cb) => {
+					return cb(true, null);
+				}
+			};
+			BL.listPackages(soajs, null, (err, records) => {
+				assert.ok(err);
+				assert.equal(records, null);
+				assert.deepEqual(err, {
+					code: 460,
+					msg: soajs.config.errors[460]
+				});
+				done();
+			});
+		});
+
+		it("Fails - List packages - error - client tenant", (done) => {
+			let soajsClient = {
+				config: {
+					"errors": {
+						460: "Unable to find product",
+						601: "Model not found"
+					},
+				},
+				tenant: {
+					type: "client",
+					dbConfig: {}
+				},
+				log: {
+					error: () => {
+						console.log();
+					}
+				}
+			};
+
+			function Product() {
+				console.log("Product");
+			}
+
+			Product.prototype.getProduct = (data, cb) => {
+				return cb(true, null);
+			};
+			Product.prototype.closeConnection = () => {
+			};
+			BL.model = Product;
+			BL.listPackages(soajsClient, null, (err, records) => {
+				assert.ok(err);
+				assert.equal(records, null);
+				assert.deepEqual(err, {
+					code: 460,
+					msg: soajs.config.errors[460]
+				});
+				done();
+			});
+		});
+
+	});
+
+	describe("Testing get package inside Product", () => {
+		afterEach((done) => {
+			BL.modelObj = null;
+			done();
+		});
+
+		let inputMask = {
+			packageCode: "TPROD_BASIC",
+			productCode: "TPROD",
+		};
+
+		it("Success - get package - null data", (done) => {
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(null, {
+								"code" : "TPROD_BASIC",
+								"name" : "basic package",
+								"description" : "this is a description for test product basic package",
+								"acl" : {
+									"urac" : {},
+									"multitenant" : {}
+								},
+								"_TTL" : 86400000 // 24 hours
+					});
+				}
+			};
+			BL.getPackage(soajs, inputMask, (err, records) => {
+				assert.ok(records);
+				assert(Array.isArray(records));
+				done();
+			});
+		});
+
+		it("Success - get package  - client tenant", (done) => {
+			let soajsClient = {
+				config: {
+					"errors": {
+						460: "Unable to find product",
+						601: "Model not found"
+					},
+				},
+				tenant: {
+					type: "client",
+					dbConfig: {}
+				},
+				log: {
+					error: () => {
+						console.log();
+					}
+				}
+			};
+
+			function Product() {
+				console.log("Product");
+			}
+
+			Product.prototype.getProduct = (inputMask, cb) => {
+				return cb(null, {
+					"code" : "TPROD_BASIC",
+					"name" : "basic package",
+					"description" : "this is a description for test product basic package",
+					"acl" : {
+						"urac" : {},
+						"multitenant" : {}
+					},
+					"_TTL" : 86400000 // 24 hours
+				});
+			};
+			Product.prototype.closeConnection = () => {
+			};
+			BL.model = Product;
+
+			BL.getPackage(soajsClient, inputMask, (err, records) => {
+				assert.ok(records);
+				assert(Array.isArray(records));
+				done();
+			});
+		});
+
+		it("Fails - get package - null config", (done) => {
+			BL.modelObj = {
+				getProduct: (nullObject, cb) => {
+					return cb(true, null);
+				}
+			};
+			BL.getPackage(soajs, null, (err, records) => {
+				assert.ok(err);
+				assert.equal(records, null);
+				assert.deepEqual(err, {
+					code: 460,
+					msg: soajs.config.errors[460]
+				});
+				done();
+			});
+		});
+
+		it("Fails - get package - error - client tenant", (done) => {
+			let soajsClient = {
+				config: {
+					"errors": {
+						460: "Unable to find product",
+						601: "Model not found"
+					},
+				},
+				tenant: {
+					type: "client",
+					dbConfig: {}
+				},
+				log: {
+					error: () => {
+						console.log();
+					}
+				}
+			};
+
+			function Product() {
+				console.log("Product");
+			}
+
+			Product.prototype.getProduct = (data, cb) => {
+				return cb(true, null);
+			};
+			Product.prototype.closeConnection = () => {
+			};
+			BL.model = Product;
+			BL.getPackage(soajsClient, null, (err, records) => {
+				assert.ok(err);
+				assert.equal(records, null);
+				assert.deepEqual(err, {
+					code: 460,
+					msg: soajs.config.errors[460]
+				});
+				done();
+			});
+		});
+
+	});
+
 });

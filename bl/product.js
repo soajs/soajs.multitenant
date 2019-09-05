@@ -56,7 +56,9 @@ let bl = {
 
     "get": function (soajs, inputmaskData, cb) {
         let l_modelObj = bl.mp.getModel(soajs);
-
+        if (!inputmaskData) {
+            return cb(bl.handleError(soajs, 474, null));
+        }
         let data = {};
 
         if (inputmaskData.id) {
@@ -76,6 +78,9 @@ let bl = {
 
     "add": function (soajs, inputmaskData, cb) {
         let l_modelObj = bl.mp.getModel(soajs);
+        if (!inputmaskData) {
+            return cb(bl.handleError(soajs, 473, null));
+        }
         let data = {
             name: inputmaskData.name,
             code: inputmaskData.code,
@@ -110,7 +115,7 @@ let bl = {
     "delete": function (soajs, inputmaskData, cb) {
         let l_modelObj = bl.mp.getModel(soajs);
         let data = {};
-        if (!inputmaskData || !(inputmaskData.code || inputmaskData.id)) {
+        if (!inputmaskData) {
             return cb(bl.handleError(soajs, 474, null));
         }
 
@@ -155,6 +160,10 @@ let bl = {
         let l_modelObj = bl.mp.getModel(soajs);
         let data = {};
 
+        if (!inputmaskData) {
+            return cb(bl.handleError(soajs, 473, null));
+        }
+
         data.name = inputmaskData.name;
         data.description = inputmaskData.description;
         data.id = inputmaskData.id;
@@ -165,9 +174,6 @@ let bl = {
             }
             if (!record) {
                 bl.mp.closeModel(soajs, l_modelObj);
-                if (soajs && soajs.tenant && soajs.tenant.type === "client" && soajs.tenant.dbConfig) {
-                    l_modelObj.closeConnection();
-                }
                 if (inputmaskData.id) {
                     return cb(bl.handleError(soajs, 426, null));
                 } else {
@@ -185,7 +191,7 @@ let bl = {
             l_modelObj.updateProduct(data, (err, result) => {
                 bl.mp.closeModel(soajs, l_modelObj);
                 if (err) {
-                    return cb(bl.handleError(soajs, 475, err));
+                    return cb(bl.handleError(soajs, 476, err));
                 }
                 return cb(null, result);
             });
@@ -196,7 +202,11 @@ let bl = {
     //     let l_modelObj = bl.mp.getModel(soajs);
     //     let data = {};
     //
-    //     data.id = id;
+    //     if (!inputmaskData) {
+    //         return cb(bl.handleError(soajs, 473, null));
+    //     }
+    //
+    //     data.id = inputmaskData.id;
     //     data.scope = inputmaskData.scope;
     //
     //     l_modelObj.getProduct(data, (err, record) => {
@@ -230,6 +240,104 @@ let bl = {
     //         });
     //     });
     // },
+
+    "listPackages": function (soajs, inputmaskData, cb) {
+        let l_modelObj = bl.mp.getModel(soajs);
+        if (!inputmaskData) {
+            return cb(bl.handleError(soajs, 423, null));
+        }
+        let data = {};
+
+        if (inputmaskData.id) {
+            data.id = inputmaskData.id;
+        } else if (inputmaskData.code) {
+            data.code = inputmaskData.code;
+        }
+
+        l_modelObj.getProduct(data, (err, record) => {
+            bl.mp.closeModel(soajs, l_modelObj);
+            if (err) {
+                return cb(bl.handleError(soajs, 460, err), null);
+            }
+            return cb(null, record.packages);
+        });
+    },
+
+    "getPackage": function (soajs, inputmaskData, cb) {
+        let l_modelObj = bl.mp.getModel(soajs);
+        if (!inputmaskData) {
+            return cb(bl.handleError(soajs, 423, null));
+        }
+        let data = {};
+        let selectedPackage = {};
+        let found = false;
+        let prefix;
+
+
+        data.code = inputmaskData.productCode;
+
+        l_modelObj.getProduct(data, (err, record) => {
+            bl.mp.closeModel(soajs, l_modelObj);
+            if (err) {
+                return cb(bl.handleError(soajs, 460, err), null);
+            }
+            prefix = record.code + '_';
+            record.packages.forEach(pack => {
+                if (pack.code === prefix + inputmaskData.packageCode) {
+                    selectedPackage = pack;
+                    found = true;
+                }
+            });
+
+            if (!found) {
+                return cb(bl.handleError(soajs, 461, err), null);
+            } else {
+                return cb(null, selectedPackage);
+            }
+        });
+    },
+
+    "deletePackage": function (soajs, inputmaskData, cb) {
+        let l_modelObj = bl.mp.getModel(soajs);
+        if (!inputmaskData) {
+            return cb(bl.handleError(soajs, 473, null));
+        }
+        let data = {};
+
+        data.id = inputmaskData.id;
+
+        l_modelObj.getProduct(data, (err, record) => {
+            bl.mp.closeModel(soajs, l_modelObj);
+            if (err) {
+                return cb(bl.handleError(soajs, 460, err), null);
+            }
+            if (record.code + '_' + inputmaskData.packageCode === soajs.tenant.application.package) {
+                return cb(bl.handleError(soajs, 467, err), null);
+            }
+            let found = false;
+            let prefix = record.code + '_';
+
+            for (let i = 0; i < record.packages.length; i++) {
+                if (record.packages[i].code === prefix + inputmaskData.packageCode) {
+                    record.packages.splice(i, 1);
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                return cb(bl.handleError(soajs, 461, err), null);
+            }
+            l_modelObj.updateProduct(record, (err, result) => {
+                bl.mp.closeModel(soajs, l_modelObj);
+                if (err) {
+                    return cb(bl.handleError(soajs, 476, err), null);
+                }
+                return cb(null, record.packages);
+            });
+        });
+    },
+
 
 };
 

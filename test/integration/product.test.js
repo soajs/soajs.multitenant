@@ -151,4 +151,167 @@ describe("starting product integration tests", () => {
         });
     });
 
+    // describe("Testing delete product API", () => {
+    //     it("Success - will delete ", (done) => {
+    //         let params = {
+    //             qs: {
+    //                 code: 'SOMEC'
+    //             }
+    //         };
+    //         requester('/product', 'delete', params, (error, body) => {
+    //             assert.ifError(error);
+    //             assert.ok(body);
+    //             done();
+    //         });
+    //     });
+    //
+    //     it("Fail - will not delete - no params", (done) => {
+    //         let params = {};
+    //         requester('/product', 'delete', params, (error, body) => {
+    //             assert.ifError(error);
+    //             assert.ok(body);
+    //             assert.ok(body.errors.codes);
+    //             done();
+    //         });
+    //     });
+    // });
+
+    // describe("Testing update product API", () => {
+    //let prods = [];
+    //     it("Success - will return all product records", (done) => {
+    //         let params = {};
+    //         requester('/products', 'get', params, (error, body) => {
+    //             assert.ifError(error);
+    //             assert.ok(body);
+    //             assert.ok(body.data);
+    //                 prods = body.data;
+    //             assert.ok(body.data.length > 0);
+    //             done();
+    //         });
+    //     });
+    //     it("Success - will delete ", (done) => {
+    //         let params = {
+    //             qs: {
+    //                 id: prods[1]._id
+    //             }
+    //         };
+    //         requester('/product', 'put', params, (error, body) => {
+    //             assert.ifError(error);
+    //             assert.ok(body);
+    //             done();
+    //         });
+    //     });
+    //
+    //     it("Fail - will not update - no params", (done) => {
+    //         let params = {};
+    //         requester('/product', 'put', params, (error, body) => {
+    //             assert.ifError(error);
+    //             assert.ok(body);
+    //             assert.ok(body.errors.codes);
+    //             done();
+    //         });
+    //     });
+    // });
+
+    // describe("Testing List Packages API", () => {
+    //let prods = [];
+    //     it("Success - will return all product records", (done) => {
+    //         let params = {};
+    //         requester('/products', 'get', params, (error, body) => {
+    //             assert.ifError(error);
+    //             assert.ok(body);
+    //             assert.ok(body.data);
+    //                 prods = body.data;
+    //             assert.ok(body.data.length > 0);
+    //             done();
+    //         });
+    //     });
+    //     it("Success - will return all packages of product records ", (done) => {
+    //         let params = {
+    //             qs: {
+    //                 id: prods[0]._id
+    //             }
+    //         };
+    //         requester('/product/packages', 'get', params, (error, body) => {
+    //             assert.ifError(error);
+    //             assert.ok(body);
+    //             done();
+    //         });
+    //     });
+    //
+    //     it("Fail - will not will return all packages of product records - no params", (done) => {
+    //         let params = {};
+    //         requester('/product', 'get', params, (error, body) => {
+    //             assert.ifError(error);
+    //             assert.ok(body);
+    //             assert.ok(body.errors.codes);
+    //             done();
+    //         });
+    //     });
+    // });
+
+    // describe("Testing get Package API", () => {
+    //     it("Success - will get a product package ", (done) => {
+    //         let params = {
+    //             qs: {
+    //                 packageCode: 'DSBRD_GUEST',
+    //                 productCode: 'DSBRD'
+    //             }
+    //         };
+    //         requester('/product/package', 'get', params, (error, body) => {
+    //             assert.ifError(error);
+    //             assert.ok(body);
+    //             done();
+    //         });
+    //     });
+    //
+    //     it("Fail - will not get a product package - no params", (done) => {
+    //         let params = {};
+    //         requester('/product', 'get', params, (error, body) => {
+    //             assert.ifError(error);
+    //             assert.ok(body);
+    //             assert.ok(body.errors.codes);
+    //             done();
+    //         });
+    //     });
+    // });
+
+    // describe("Testing delete Package API", () => {
+    //let prods = [];
+    //     it("Success - will return all product records", (done) => {
+    //         let params = {};
+    //         requester('/product/package', 'get', params, (error, body) => {
+    //             assert.ifError(error);
+    //             assert.ok(body);
+    //             assert.ok(body.data);
+    //                 prods = body.data;
+    //             assert.ok(body.data.length > 0);
+    //             done();
+    //         });
+    //     });
+    //     it("Success - will delete package from product ", (done) => {
+    //         let params = {
+    //             qs: {
+    //                 id: prods[1]._id,
+    //                 packageCode: 'TPROD_TEST'
+    //             }
+    //         };
+    //         requester('/product/package', 'delete', params, (error, body) => {
+    //             assert.ifError(error);
+    //             assert.ok(body);
+    //             done();
+    //         });
+    //     });
+    //
+    //     it("Fail - will not delete package from product - no params", (done) => {
+    //         let params = {};
+    //         requester('/product', 'delete', params, (error, body) => {
+    //             assert.ifError(error);
+    //             assert.ok(body);
+    //             assert.ok(body.errors.codes);
+    //             done();
+    //         });
+    //     });
+    // });
+
 });

@@ -16,13 +16,21 @@ module.exports = {
         "product": "DSBRD"
     },
     "errors": {
+        423: "An id must be provided",
         426: 'Invalid Product ID provided',
         430: "Tenant not found for this user",
         436: "Unable to find tenants",
-        460: "Unable to find product",
+        460: "Unable to find products",
+        461: "Unable to find package",
+        466: "You are not allowed to remove the product you are currently logged in with",
         468: "Product already exists",
         469: "Unable to add the product record",
+        473: "Missing required fields",
         474: "Missing required field: either id or code",
+        475: "Unable to remove product record",
+        476: "Unable to update product record",
+        477: "Invalid product code provided",
+        500: "This record is locked. You cannot modify or delete it",
         601: "Model not found"
     },
     "schema": {
@@ -46,6 +54,14 @@ module.exports = {
                 "required": true,
                 "validation": {
                     "type": "string"
+                }
+            },
+            "packageCode": {
+                "source": ['body.packageCode'],
+                "required": true,
+                "validation": {
+                    "type": "string",
+                    "format": "alphanumeric"
                 }
             },
         },
@@ -87,6 +103,39 @@ module.exports = {
                     }
                 }
             },
+            "/product/packages": {
+                _apiInfo: {
+                    "l": "List Product Packages",
+                    "group": "Product"
+                },
+                "commonFields": ['id']
+            },
+
+            "/product/package": {
+                _apiInfo: {
+                    "l": "Get Product Package",
+                    "group": "Product"
+                },
+                "packageCode": {
+                    "source": ["query.packageCode"],
+                    "required": true,
+                    "validation": {
+                        "type": "string"
+                    }
+                },
+                "productCode": {
+                    "source": ["query.productCode"],
+                    "required": true,
+                    "validation": {
+                        "type": "string",
+                        "format": "alphanumeric",
+                        "maxLength": 6
+                    }
+                }
+            },
+
+            // Tenant APIs
+
             "/tenants": {
                 _apiInfo: {
                     "l": "List Tenants",
@@ -136,7 +185,22 @@ module.exports = {
                         "type": "string"
                     }
                 }
-            }
+            },
+            "/product/package": {
+                _apiInfo: {
+                    "l": "Delete Product Package",
+                    "group": "Product"
+                },
+                "commonFields": ['id'],
+                "packageCode": {
+                    "source": ['query.packageCode'],
+                    "required": true,
+                    "validation": {
+                        "type": "string",
+                        "format": "alphanumeric"
+                    }
+                }
+            },
         },
         "put": {
             "/product": {
