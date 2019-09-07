@@ -65,7 +65,7 @@ describe("starting product integration tests", () => {
             });
         });
 
-        it("Fail - will not return all product records - wrong request", (done) => {
+        it("Fail - will not return all product records - wrong request - no params", (done) => {
             let params = {};
             requester('/products', 'post', params, (error, body) => {
                 assert.ifError(error);
@@ -88,7 +88,7 @@ describe("starting product integration tests", () => {
             });
         });
 
-        it("Fail - will not return all product records - wrong request", (done) => {
+        it("Fail - will not return all product records - wrong request - no params", (done) => {
             let params = {};
             requester('/products/console', 'post', params, (error, body) => {
                 assert.ifError(error);
@@ -151,167 +151,308 @@ describe("starting product integration tests", () => {
         });
     });
 
-    // describe("Testing delete product API", () => {
-    //     it("Success - will delete ", (done) => {
-    //         let params = {
-    //             qs: {
-    //                 code: 'SOMEC'
-    //             }
-    //         };
-    //         requester('/product', 'delete', params, (error, body) => {
-    //             assert.ifError(error);
-    //             assert.ok(body);
-    //             done();
-    //         });
-    //     });
-    //
-    //     it("Fail - will not delete - no params", (done) => {
-    //         let params = {};
-    //         requester('/product', 'delete', params, (error, body) => {
-    //             assert.ifError(error);
-    //             assert.ok(body);
-    //             assert.ok(body.errors.codes);
-    //             done();
-    //         });
-    //     });
-    // });
+    describe("Testing update product API", () => {
+        let prods = [];
+        it("Success - will return all product records", (done) => {
+            let params = {};
+            requester('/products', 'get', params, (error, body) => {
+                assert.ifError(error);
+                assert.ok(body);
+                assert.ok(body.data);
+                prods = body.data;
+                assert.ok(body.data.length > 0);
+                done();
+            });
+        });
+        it("Success - will update ", (done) => {
+            let params = {
+                qs: {
+                    id: prods[1]._id
+                }
+            };
+            requester('/product', 'put', params, (error, body) => {
+                assert.ifError(error);
+                assert.ok(body);
+                done();
+            });
+        });
 
-    // describe("Testing update product API", () => {
-    //let prods = [];
-    //     it("Success - will return all product records", (done) => {
-    //         let params = {};
-    //         requester('/products', 'get', params, (error, body) => {
-    //             assert.ifError(error);
-    //             assert.ok(body);
-    //             assert.ok(body.data);
-    //                 prods = body.data;
-    //             assert.ok(body.data.length > 0);
-    //             done();
-    //         });
-    //     });
-    //     it("Success - will delete ", (done) => {
-    //         let params = {
-    //             qs: {
-    //                 id: prods[1]._id
-    //             }
-    //         };
-    //         requester('/product', 'put', params, (error, body) => {
-    //             assert.ifError(error);
-    //             assert.ok(body);
-    //             done();
-    //         });
-    //     });
-    //
-    //     it("Fail - will not update - no params", (done) => {
-    //         let params = {};
-    //         requester('/product', 'put', params, (error, body) => {
-    //             assert.ifError(error);
-    //             assert.ok(body);
-    //             assert.ok(body.errors.codes);
-    //             done();
-    //         });
-    //     });
-    // });
+        it("Fail - will not update - no params", (done) => {
+            let params = {};
+            requester('/product', 'put', params, (error, body) => {
+                assert.ifError(error);
+                assert.ok(body);
+                assert.ok(body.errors.codes);
+                done();
+            });
+        });
+    });
 
-    // describe("Testing List Packages API", () => {
-    //let prods = [];
-    //     it("Success - will return all product records", (done) => {
-    //         let params = {};
-    //         requester('/products', 'get', params, (error, body) => {
-    //             assert.ifError(error);
-    //             assert.ok(body);
-    //             assert.ok(body.data);
-    //                 prods = body.data;
-    //             assert.ok(body.data.length > 0);
-    //             done();
-    //         });
-    //     });
-    //     it("Success - will return all packages of product records ", (done) => {
-    //         let params = {
-    //             qs: {
-    //                 id: prods[0]._id
-    //             }
-    //         };
-    //         requester('/product/packages', 'get', params, (error, body) => {
-    //             assert.ifError(error);
-    //             assert.ok(body);
-    //             done();
-    //         });
-    //     });
-    //
-    //     it("Fail - will not will return all packages of product records - no params", (done) => {
-    //         let params = {};
-    //         requester('/product', 'get', params, (error, body) => {
-    //             assert.ifError(error);
-    //             assert.ok(body);
-    //             assert.ok(body.errors.codes);
-    //             done();
-    //         });
-    //     });
-    // });
+    describe("Testing delete product API", () => {
+        it("Success - will delete ", (done) => {
+            let params = {
+                qs: {
+                    code: 'SOMEC'
+                }
+            };
+            requester('/product', 'delete', params, (error, body) => {
+                assert.ifError(error);
+                assert.ok(body);
+                done();
+            });
+        });
 
-    // describe("Testing get Package API", () => {
-    //     it("Success - will get a product package ", (done) => {
-    //         let params = {
-    //             qs: {
-    //                 packageCode: 'DSBRD_GUEST',
-    //                 productCode: 'DSBRD'
-    //             }
-    //         };
-    //         requester('/product/package', 'get', params, (error, body) => {
-    //             assert.ifError(error);
-    //             assert.ok(body);
-    //             done();
-    //         });
-    //     });
-    //
-    //     it("Fail - will not get a product package - no params", (done) => {
-    //         let params = {};
-    //         requester('/product', 'get', params, (error, body) => {
-    //             assert.ifError(error);
-    //             assert.ok(body);
-    //             assert.ok(body.errors.codes);
-    //             done();
-    //         });
-    //     });
-    // });
+        it("Fail - will not delete - no params", (done) => {
+            let params = {};
+            requester('/product', 'delete', params, (error, body) => {
+                assert.ifError(error);
+                assert.ok(body);
+                assert.ok(body.errors.codes);
+                done();
+            });
+        });
+    });
 
-    // describe("Testing delete Package API", () => {
-    //let prods = [];
-    //     it("Success - will return all product records", (done) => {
-    //         let params = {};
-    //         requester('/product/package', 'get', params, (error, body) => {
-    //             assert.ifError(error);
-    //             assert.ok(body);
-    //             assert.ok(body.data);
-    //                 prods = body.data;
-    //             assert.ok(body.data.length > 0);
-    //             done();
-    //         });
-    //     });
-    //     it("Success - will delete package from product ", (done) => {
-    //         let params = {
-    //             qs: {
-    //                 id: prods[1]._id,
-    //                 packageCode: 'TPROD_TEST'
-    //             }
-    //         };
-    //         requester('/product/package', 'delete', params, (error, body) => {
-    //             assert.ifError(error);
-    //             assert.ok(body);
-    //             done();
-    //         });
-    //     });
-    //
-    //     it("Fail - will not delete package from product - no params", (done) => {
-    //         let params = {};
-    //         requester('/product', 'delete', params, (error, body) => {
-    //             assert.ifError(error);
-    //             assert.ok(body);
-    //             assert.ok(body.errors.codes);
-    //             done();
-    //         });
-    //     });
-    // });
+    describe("Testing List Packages API", () => {
+    let prods = [];
+        it("Success - will return all product records", (done) => {
+            let params = {};
+            requester('/products', 'get', params, (error, body) => {
+                assert.ifError(error);
+                assert.ok(body);
+                assert.ok(body.data);
+                    prods = body.data;
+                assert.ok(body.data.length > 0);
+                done();
+            });
+        });
+        it("Success - will return all packages of product records ", (done) => {
+            let params = {
+                qs: {
+                    id: prods[0]._id
+                }
+            };
+            requester('/product/packages', 'get', params, (error, body) => {
+                assert.ifError(error);
+                assert.ok(body);
+                done();
+            });
+        });
+
+        it("Fail - will not will return all packages of product records - no params", (done) => {
+            let params = {};
+            requester('/product', 'get', params, (error, body) => {
+                assert.ifError(error);
+                assert.ok(body);
+                assert.ok(body.errors.codes);
+                done();
+            });
+        });
+    });
+
+    describe("Testing get Package API", () => {
+        it("Success - will get a product package ", (done) => {
+            let params = {
+                qs: {
+                    packageCode: 'DSBRD_GUEST',
+                    productCode: 'DSBRD'
+                }
+            };
+            requester('/product/package', 'get', params, (error, body) => {
+                assert.ifError(error);
+                assert.ok(body);
+                done();
+            });
+        });
+
+        it("Fail - will not get a product package - no params", (done) => {
+            let params = {};
+            requester('/product', 'get', params, (error, body) => {
+                assert.ifError(error);
+                assert.ok(body);
+                assert.ok(body.errors.codes);
+                done();
+            });
+        });
+    });
+
+    /* describe("Testing Add Package API", () => {
+        let prods = [];
+        it("Success - will return all product records", (done) => {
+            let params = {};
+            requester('/products', 'get', params, (error, body) => {
+                assert.ifError(error);
+                assert.ok(body);
+                prods = body.data;
+                assert.ok(body.data);
+                prods = body.data;
+                assert.ok(body.data.length > 0);
+                done();
+            });
+        });
+        it("Success - will add product package", (done) => {
+            let params = {
+                qs: {
+                    id: prods[0]._id
+                },
+                form: {
+                    name: "PACK_NAME",
+                    code: "NEWS",
+                    description: "Pack Description",
+                    acl: {
+                        "urac" : {},
+                        "example03" : {}
+                    },
+                    _TTL: 48
+                }
+            };
+            requester('/product/package', 'post', params, (error, body) => {
+                console.log("Some error:", body.errors);
+                assert.ifError(error);
+                assert.ok(body);
+                assert.ok(body.data);
+                assert.ok(body.data.length > 0);
+                done();
+            });
+        });
+
+        it("Fail - will not add package to product - no params", (done) => {
+            let params = {};
+            requester('/product/package', 'post', params, (error, body) => {
+                assert.ifError(error);
+                assert.ok(body);
+                assert.ok(body.errors.codes);
+                done();
+            });
+        });
+    });
+
+    describe("Testing Update Package API", () => {
+        let prods = [];
+        it("Success - will return all product records", (done) => {
+            let params = {};
+            requester('/products', 'get', params, (error, body) => {
+                assert.ifError(error);
+                assert.ok(body);
+                prods = body.data;
+                assert.ok(body.data);
+                prods = body.data;
+                assert.ok(body.data.length > 0);
+                done();
+            });
+        });
+        it("Success - will update product package", (done) => {
+            let params = {
+                qs: {
+                    id: prods[0]._id,
+                    code: "TPROD_PACK_NAME"
+                },
+                form: {
+                    name: "PACK_NAME2",
+                    description: "Pack Description after update",
+                    _TTL: 86400000,
+                    acl: {}
+                }
+            };
+            requester('/product/package', 'put', params, (error, body) => {
+                assert.ifError(error);
+                assert.ok(body);
+                assert.ok(body.data);
+                assert.ok(body.data.length > 0);
+                done();
+            });
+        });
+
+        it("Fail - will not add package to product - no params", (done) => {
+            let params = {};
+            requester('/product/package', 'put', params, (error, body) => {
+                assert.ifError(error);
+                assert.ok(body);
+                assert.ok(body.errors.codes);
+                done();
+            });
+        });
+    }); */
+
+    describe("Testing delete Package API", () => {
+    let prods = [];
+        it("Success - will return all product records", (done) => {
+            let params = {};
+            requester('/products', 'get', params, (error, body) => {
+                assert.ifError(error);
+                assert.ok(body);
+                assert.ok(body.data);
+                prods = body.data;
+                assert.ok(body.data.length > 0);
+                done();
+            });
+        });
+        it("Success - will delete package from product ", (done) => {
+            let params = {
+                qs: {
+                    id: prods[1]._id,
+                    packageCode: 'TPROD_TEST'
+                }
+            };
+            requester('/product/package', 'delete', params, (error, body) => {
+                assert.ifError(error);
+                assert.ok(body);
+                done();
+            });
+        });
+
+        it("Fail - will not delete package from product - no params", (done) => {
+            let params = {};
+            requester('/product', 'delete', params, (error, body) => {
+                assert.ifError(error);
+                assert.ok(body);
+                assert.ok(body.errors.codes);
+                done();
+            });
+        });
+    });
+
+    /* describe("Testing purge product API", () => {
+    let prods = [];
+        it("Success - will return all product records", (done) => {
+            let params = {};
+            requester('/products', 'get', params, (error, body) => {
+                assert.ifError(error);
+                assert.ok(body);
+                prods = body.data;
+                assert.ok(body.data);
+                prods = body.data;
+                assert.ok(body.data.length > 0);
+                done();
+            });
+        });
+        it("Success - will purge product", (done) => {
+            let params = {
+                qs: {
+                    id: prods[0]._id,
+                },
+                form: {
+                    description: "product Description after update",
+                }
+            };
+            requester('/product/purge', 'put', params, (error, body) => {
+                assert.ifError(error);
+                assert.ok(body);
+                assert.ok(body.data);
+                assert.ok(body.data.length > 0);
+                done();
+            });
+        });
+
+        it("Fail - will not add package to product - no params", (done) => {
+            let params = {};
+            requester('/product/purge', 'put', params, (error, body) => {
+                assert.ifError(error);
+                assert.ok(body);
+                assert.ok(body.errors.codes);
+                done();
+            });
+        });
+    });*/
 
 });

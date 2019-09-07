@@ -32,7 +32,7 @@ describe("Unit test for: BL - tenant", () => {
                     return cb(null, []);
                 }
             };
-            BL.list(soajs, null, soajs.config, (err, records) => {
+            BL.list(soajs, null, (err, records) => {
                 assert.ok(records);
                 assert(Array.isArray(records));
                 done();
@@ -66,7 +66,7 @@ describe("Unit test for: BL - tenant", () => {
             };
             BL.model = Tenant;
 
-            BL.list(soajsClient, null, soajsClient.config, (err, records) => {
+            BL.list(soajsClient, null, (err, records) => {
                 assert.ok(records);
                 assert(Array.isArray(records));
                 done();
@@ -79,7 +79,7 @@ describe("Unit test for: BL - tenant", () => {
                     return cb(true, null);
                 }
             };
-            BL.list(soajs, null, soajs.config, (err, records) => {
+            BL.list(soajs, null, (err, records) => {
                 assert.ok(err);
                 assert.equal(records, null);
                 assert.deepEqual(err, {
@@ -116,7 +116,7 @@ describe("Unit test for: BL - tenant", () => {
             Tenant.prototype.closeConnection = () => {
             };
             BL.model = Tenant;
-            BL.list(soajsClient, null, soajsClient.config, (err, records) => {
+            BL.list(soajsClient, null, (err, records) => {
                 assert.ok(err);
                 assert.equal(records, null);
                 assert.deepEqual(err, {

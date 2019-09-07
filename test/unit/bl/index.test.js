@@ -9,7 +9,21 @@ describe("Unit test for: BL - product", () => {
     let soajs = {
         config: {
             "errors": {
-                460: "Unable to find product",
+                423: "An id must be provided",
+                426: 'Invalid Product ID provided',
+                430: "Tenant not found for this user",
+                436: "Unable to find tenants",
+                460: "Unable to find products",
+                461: "Unable to find package",
+                466: "You are not allowed to remove the product you are currently logged in with",
+                468: "Product already exists",
+                469: "Unable to add the product record",
+                473: "Missing required fields",
+                474: "Missing required field: either id or code",
+                475: "Unable to remove product record",
+                476: "Unable to update product record",
+                477: "Invalid product code provided",
+                500: "This record is locked. You cannot modify or delete it",
                 601: "Model not found"
             },
         },

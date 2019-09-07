@@ -62,6 +62,12 @@ service.init(() => {
             });
         });
 
+        service.post("/product/package", function (req, res) {
+            bl.product.addPackage(req.soajs, req.soajs.inputmaskData, (error, data) => {
+                return res.json(req.soajs.buildResponse(error, data));
+            });
+        });
+
         /*
          * DELETE
          */
@@ -95,11 +101,33 @@ service.init(() => {
             });
         });
 
+        service.put("/product/purge", function (req, res) {
+            bl.product.purgeProduct(req.soajs, req.soajs.inputmaskData, (error, data) => {
+                return res.json(req.soajs.buildResponse(error, data));
+            });
+        });
+
+        service.put("/product/package", function (req, res) {
+            bl.product.updatePackage(req.soajs, req.soajs.inputmaskData, (error, data) => {
+                return res.json(req.soajs.buildResponse(error, data));
+            });
+        });
+
+
         /**
          * tenant routes
          */
         service.get("/tenants", function (req, res) {
-            bl.tenant.list(req.soajs, req.soajs.inputmaskData, config, (error, data) => {
+            bl.tenant.list(req.soajs, req.soajs.inputmaskData, (error, data) => {
+                return res.json(req.soajs.buildResponse(error, data));
+            });
+        });
+
+        /*
+         * PUT
+         */
+        service.put("/tenants", function (req, res) {
+            bl.tenant.update(req.soajs, req.soajs.inputmaskData, (error, data) => {
                 return res.json(req.soajs.buildResponse(error, data));
             });
         });

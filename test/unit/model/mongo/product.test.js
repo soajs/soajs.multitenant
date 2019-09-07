@@ -9,9 +9,6 @@ describe("Unit test for: Model - product", () => {
     let service = {
         config: {
             "errors": {},
-            "console": {
-                "product": "DSBRD"
-            },
         },
         log: {
             error: () => {
@@ -70,33 +67,33 @@ describe("Unit test for: Model - product", () => {
             });
         });
 
-        it("Fail - listProducts", (done) => {
-            model.listProducts(null, (err, records) => {
-                assert.ok(err);
-                done();
-            });
-        });
+        // it("Fail - listProducts", (done) => {
+        //     model.listProducts(null, (err, records) => {
+        //         assert.ok(err);
+        //         done();
+        //     });
+        // });
 
         it("Success - listProducts", (done) => {
-            model.listProducts(service.config.console, (err, records) => {
+            model.listProducts(null, (err, records) => {
                 assert.ok(records);
                 done();
             });
         });
 
         it("Success - listConsoleProducts", (done) => {
-            model.listConsoleProducts(service.config.console, (err, records) => {
+            model.listConsoleProducts(null, (err, records) => {
                 assert.ok(records);
                 done();
             });
         });
 
-        it("Fails - listConsoleProducts", (done) => {
-            model.listConsoleProducts(null, (err, records) => {
-                assert.ok(err);
-                done();
-            });
-        });
+        // it("Fails - listConsoleProducts", (done) => {
+        //     model.listConsoleProducts(null, (err, records) => {
+        //         assert.ok(err);
+        //         done();
+        //     });
+        // });
 
 
         it("Fails - getProduct null", (done) => {
@@ -139,7 +136,7 @@ describe("Unit test for: Model - product", () => {
 
         it("Success - getProduct id", (done) => {
             let prods = [];
-            model.listProducts(service.config.console, (err, records) => {
+            model.listProducts(null, (err, records) => {
                 prods = records;
 
                 model.getProduct({id: prods[0]._id}, (err, record) => {
@@ -152,7 +149,7 @@ describe("Unit test for: Model - product", () => {
 
         it('Success - update - id and name', (done) => {
             let prods = [];
-            model.listProducts(service.config.console, (err, records) => {
+            model.listProducts(null, (err, records) => {
                 prods = records;
                 console.log(prods);
                 model.updateProduct({id: prods[1]._id, code: "Something", name: "Somesome"}, (err, record) => {
@@ -172,7 +169,7 @@ describe("Unit test for: Model - product", () => {
 
         it("Success - deleteProduct - id", (done) => {
             let prods = [];
-            model.listProducts(service.config.console, (err, records) => {
+            model.listProducts(null, (err, records) => {
                 prods = records;
                 model.deleteProduct({
                     id: prods[1]._id
@@ -186,7 +183,7 @@ describe("Unit test for: Model - product", () => {
 
         it("Success - deleteProduct - code", (done) => {
             let prods = [];
-            model.listProducts(service.config.console, (err, records) => {
+            model.listProducts(null, (err, records) => {
                 prods = records;
                 model.deleteProduct({
                     code: 'CODE4'
@@ -229,6 +226,20 @@ describe("Unit test for: Model - product", () => {
             });
         });
 
+        it('Success - list Environments - console', (done) => {
+            model.listEnvironments({console: false}, (err, records) => {
+                assert.ifError(err);
+                assert.ok(records);
+                done();
+            });
+        });
+
+        // it('Fails - list Environments - null', (done) => {
+        //     model.listEnvironments(null, (err, records) => {
+        //         assert.ok(err);
+        //         done();
+        //     });
+        // });
 
         //TODO fix indexes
 
@@ -284,33 +295,33 @@ describe("Unit test for: Model - product", () => {
             });
         });
 
-        it("Fail - listProducts", (done) => {
-            model.listProducts(null, (err, records) => {
-                assert.ok(err);
-                done();
-            });
-        });
+        // it("Fail - listProducts", (done) => {
+        //     model.listProducts(null, (err, records) => {
+        //         assert.ok(err);
+        //         done();
+        //     });
+        // });
 
         it("Success - listProducts", (done) => {
-            model.listProducts(service.config.console, (err, records) => {
+            model.listProducts(null, (err, records) => {
                 assert.ok(records);
                 done();
             });
         });
 
         it("Success - listConsoleProducts", (done) => {
-            model.listConsoleProducts(service.config.console, (err, records) => {
+            model.listConsoleProducts(null, (err, records) => {
                 assert.ok(records);
                 done();
             });
         });
 
-        it("Fails - listConsoleProducts", (done) => {
-            model.listConsoleProducts(null, (err, records) => {
-                assert.ok(err);
-                done();
-            });
-        });
+        // it("Fails - listConsoleProducts", (done) => {
+        //     model.listConsoleProducts(null, (err, records) => {
+        //         assert.ok(err);
+        //         done();
+        //     });
+        // });
 
         it("Success - add Product", (done) => {
             model.addProduct({
@@ -333,7 +344,7 @@ describe("Unit test for: Model - product", () => {
 
         it("Success - getProduct id", (done) => {
             let prods = [];
-            model.listProducts(service.config.console, (err, records) => {
+            model.listProducts(null, (err, records) => {
                 prods = records;
 
                 model.getProduct({id: prods[0]._id}, (err, record) => {
@@ -363,7 +374,7 @@ describe("Unit test for: Model - product", () => {
 
         it('Success - update - id and name', (done) => {
             let prods = [];
-            model.listProducts(service.config.console, (err, records) => {
+            model.listProducts(null, (err, records) => {
                 prods = records;
                 model.updateProduct({
                     id: prods[1]._id,
@@ -386,7 +397,7 @@ describe("Unit test for: Model - product", () => {
 
         it("Success - deleteProduct id", (done) => {
             let prods = [];
-            model.listProducts(service.config.console, (err, records) => {
+            model.listProducts(null, (err, records) => {
                 prods = records;
 
                 model.deleteProduct({id: prods[1]._id}, (err, record) => {

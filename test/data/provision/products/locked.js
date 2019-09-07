@@ -5,6 +5,7 @@ let lib = {
 	"code": "DSBRD",
 	"name": "Main Product",
 	"description": "this is the main dashboard product.",
+	"console": true,
 	"packages": [
 		{
 			"code": "DSBRD_DEFLT",

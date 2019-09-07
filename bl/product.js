@@ -12,7 +12,7 @@ let bl = {
         }
         return ({
             "code": errCode,
-            "msg": bl.localConfig.errors[errCode]
+            "msg": bl.localConfig.errors[errCode] + ((err && errCode === 473) ? err.message : "")
         });
     },
 
@@ -33,10 +33,9 @@ let bl = {
 
     "list": function (soajs, inputmaskData, cb) {
         let l_modelObj = bl.mp.getModel(soajs);
-        l_modelObj.listProducts(bl.localConfig.console, (err, records) => {
+        l_modelObj.listProducts(null, (err, records) => {
             bl.mp.closeModel(soajs, l_modelObj);
             if (err) {
-                console.log(err);
                 return cb(bl.handleError(soajs, 460, err), null);
             }
             return cb(null, records);
@@ -45,7 +44,7 @@ let bl = {
 
     "listConsole": function (soajs, inputmaskData, cb) {
         let l_modelObj = bl.mp.getModel(soajs);
-        l_modelObj.listConsoleProducts(bl.localConfig.console, (err, records) => {
+        l_modelObj.listConsoleProducts(null, (err, records) => {
             bl.mp.closeModel(soajs, l_modelObj);
             if (err) {
                 return cb(bl.handleError(soajs, 460, err));
@@ -55,10 +54,10 @@ let bl = {
     },
 
     "get": function (soajs, inputmaskData, cb) {
-        let l_modelObj = bl.mp.getModel(soajs);
         if (!inputmaskData) {
             return cb(bl.handleError(soajs, 474, null));
         }
+        let l_modelObj = bl.mp.getModel(soajs);
         let data = {};
 
         if (inputmaskData.id) {
@@ -77,10 +76,10 @@ let bl = {
     },
 
     "add": function (soajs, inputmaskData, cb) {
-        let l_modelObj = bl.mp.getModel(soajs);
         if (!inputmaskData) {
             return cb(bl.handleError(soajs, 473, null));
         }
+        let l_modelObj = bl.mp.getModel(soajs);
         let data = {
             name: inputmaskData.name,
             code: inputmaskData.code,
@@ -113,11 +112,11 @@ let bl = {
     },
 
     "delete": function (soajs, inputmaskData, cb) {
-        let l_modelObj = bl.mp.getModel(soajs);
-        let data = {};
         if (!inputmaskData) {
             return cb(bl.handleError(soajs, 474, null));
         }
+        let l_modelObj = bl.mp.getModel(soajs);
+        let data = {};
 
         if (inputmaskData.code) {
             data.code = inputmaskData.code;
@@ -157,12 +156,12 @@ let bl = {
     },
 
     "update": function (soajs, inputmaskData, cb) {
-        let l_modelObj = bl.mp.getModel(soajs);
-        let data = {};
-
         if (!inputmaskData) {
             return cb(bl.handleError(soajs, 473, null));
         }
+
+        let l_modelObj = bl.mp.getModel(soajs);
+        let data = {};
 
         data.name = inputmaskData.name;
         data.description = inputmaskData.description;
@@ -180,10 +179,6 @@ let bl = {
                     return cb(bl.handleError(soajs, 477, null));
                 }
             }
-            if (soajs.tenant.application.product === record.code) {
-                bl.mp.closeModel(soajs, l_modelObj);
-                return cb(bl.handleError(soajs, 466, null));
-            }
             if (!soajs.tenant.locked && record && record.locked) {
                 bl.mp.closeModel(soajs, l_modelObj);
                 return cb(bl.handleError(soajs, 500, null));
@@ -199,12 +194,12 @@ let bl = {
     },
 
     // "updateScope": function (soajs, inputmaskData, cb) {
-    //     let l_modelObj = bl.mp.getModel(soajs);
-    //     let data = {};
-    //
     //     if (!inputmaskData) {
     //         return cb(bl.handleError(soajs, 473, null));
     //     }
+    //
+    //     let l_modelObj = bl.mp.getModel(soajs);
+    //     let data = {};
     //
     //     data.id = inputmaskData.id;
     //     data.scope = inputmaskData.scope;
@@ -242,10 +237,11 @@ let bl = {
     // },
 
     "listPackages": function (soajs, inputmaskData, cb) {
-        let l_modelObj = bl.mp.getModel(soajs);
         if (!inputmaskData) {
-            return cb(bl.handleError(soajs, 423, null));
+            return cb(bl.handleError(soajs, 473, null));
         }
+        let l_modelObj = bl.mp.getModel(soajs);
+
         let data = {};
 
         if (inputmaskData.id) {
@@ -264,10 +260,11 @@ let bl = {
     },
 
     "getPackage": function (soajs, inputmaskData, cb) {
-        let l_modelObj = bl.mp.getModel(soajs);
         if (!inputmaskData) {
-            return cb(bl.handleError(soajs, 423, null));
+            return cb(bl.handleError(soajs, 473, null));
         }
+        let l_modelObj = bl.mp.getModel(soajs);
+
         let data = {};
         let selectedPackage = {};
         let found = false;
@@ -282,6 +279,7 @@ let bl = {
                 return cb(bl.handleError(soajs, 460, err), null);
             }
             prefix = record.code + '_';
+
             record.packages.forEach(pack => {
                 if (pack.code === prefix + inputmaskData.packageCode) {
                     selectedPackage = pack;
@@ -298,10 +296,10 @@ let bl = {
     },
 
     "deletePackage": function (soajs, inputmaskData, cb) {
-        let l_modelObj = bl.mp.getModel(soajs);
         if (!inputmaskData) {
             return cb(bl.handleError(soajs, 473, null));
         }
+        let l_modelObj = bl.mp.getModel(soajs);
         let data = {};
 
         data.id = inputmaskData.id;
@@ -338,7 +336,181 @@ let bl = {
         });
     },
 
+    "addPackage": function (soajs, inputmaskData, cb) {
+        if (!inputmaskData) {
+            return cb(bl.handleError(soajs, 473, null));
+        }
 
+        let l_modelObj = bl.mp.getModel(soajs);
+        let data = {};
+
+        data.id = inputmaskData.id;
+
+        l_modelObj.getProduct(data, (err, record) => {
+            if (err || !record) { //TODO: NEEDS MODIFICATION
+                return cb(bl.handleError(soajs, 460, null));
+            }
+            if (record && record.locked) {
+                return cb(bl.handleError(soajs, 500, null));
+            }
+            let prefix = record.code.toUpperCase() + '_';
+
+            if (inputmaskData.code) {
+                record.packages.forEach(pack => {
+                    if (pack.code === prefix + inputmaskData.code) {
+                        return cb(bl.handleError(soajs, 467, null));
+                    }
+                });
+            }
+
+            l_modelObj.listEnvironments(record, (err, environments) => {
+                if (err) {
+                    return cb(bl.handleError(soajs, 437, err));
+                }
+                let status = false;
+                console.log("ACL:", inputmaskData);
+                let postedEnvs = Object.keys(inputmaskData.acl);
+                for (var i = 0; i < environments.length; i++) {
+                    if (postedEnvs.indexOf(environments[i].code.toLowerCase()) !== -1) {
+                        status = true;
+                        break;
+                    }
+                }
+                if (!status) {
+                    //return err
+                }
+
+                let newPackage = {
+                    "code": prefix + inputmaskData.code.toUpperCase(),
+                    "name": inputmaskData.name,
+                    "description": inputmaskData.description,
+                    "acl": inputmaskData.acl,
+                    "_TTL": inputmaskData._TTL * 3600 * 1000
+                };
+
+                record.packages.push(newPackage);
+
+                l_modelObj.updateProduct(record, (err, result) => {
+                    bl.mp.closeModel(soajs, l_modelObj);
+                    if (err) {
+                        return cb(bl.handleError(soajs, 476, err), null);
+                    }
+                    return cb(null, result);
+                });
+            });
+            // TODO: check
+        });
+    },
+
+    "updatePackage": function (soajs, inputmaskData, cb) {
+        if (!inputmaskData) {
+            return cb(bl.handleError(soajs, 473, null));
+        }
+
+        let l_modelObj = bl.mp.getModel(soajs);
+        let data = {};
+
+        data.id = inputmaskData.id;
+
+        l_modelObj.getProduct(data, (err, record) => {
+            if (err) {
+                return cb(bl.handleError(soajs, 460, null));
+            }
+            if (!record) {
+
+            }
+            if (record && record.locked) {
+                return cb(bl.handleError(soajs, 500, null));
+            }
+            let prefix = record.code.toUpperCase() + '_';
+
+            l_modelObj.listEnvironments(record, (err, environments) => {
+                if (err) {
+                    return cb(bl.handleError(soajs, 437, err));
+                }
+                let status = false;
+                let postedEnvs = Object.keys(inputmaskData.acl);
+                if (postedEnvs.length === 0) {
+                    status = true;
+                } else {
+                    for (var i = 0; i < environments.length; i++) {
+                        if (postedEnvs.indexOf(environments[i].code.toLowerCase()) !== -1) {
+                            status = true;
+                            break;
+                        }
+                    }
+                }
+                if (!status) {
+                    //return err
+                }
+
+                let found = false;
+                for (let i = 0; i < record.packages.length; i++) {
+                    if (record.packages[i].code.toUpperCase() === prefix + inputmaskData.code.toUpperCase()) {
+                        record.packages[i].name = inputmaskData.name;
+                        record.packages[i].description = inputmaskData.description;
+                        record.packages[i]._TTL = inputmaskData._TTL * 3600 * 1000;
+                        record.packages[i].acl = inputmaskData.acl;
+                        found = true;
+                        break;
+                    }
+                }
+
+                record.packages.forEach(pack => {
+                    if (pack.code.toUpperCase() === prefix + inputmaskData.code.toUpperCase()) {
+                        pack.name = inputmaskData.name;
+                        pack.description = inputmaskData.description;
+                        pack._TTL = inputmaskData._TTL * 3600 * 1000;
+                        pack.acl = inputmaskData.acl;
+                        found = true;
+                    }
+                });
+
+                if (!found) {
+                    return cb(bl.handleError(soajs, 461, null));
+                }
+
+                l_modelObj.updateProduct(record, (err, result) => {
+                    bl.mp.closeModel(soajs, l_modelObj);
+                    if (err) {
+                        return cb(bl.handleError(soajs, 476, err), null);
+                    }
+                    return cb(null, result);
+                });
+            });
+            // TODO: check
+        });
+    },
+
+    "purgeProduct": function (soajs, inputmaskData, cb) {
+        if (!inputmaskData) {
+            return cb(bl.handleError(soajs, 473, null));
+        }
+
+        let l_modelObj = bl.mp.getModel(soajs);
+        let data = {};
+
+        data.id = inputmaskData.id;
+
+        l_modelObj.getProduct(data, (err, record) => {
+            if (err) {
+                return cb(bl.handleError(soajs, 460, null));
+            }
+            record.scope = {
+                acl: {}
+            };
+            record.packages.forEach(pack => {
+                pack.acl = {};
+            });
+            l_modelObj.updateProduct(record, (err, result) => {
+                bl.mp.closeModel(soajs, l_modelObj);
+                if (err) {
+                    return cb(bl.handleError(soajs, 476, err), null);
+                }
+                return cb(null, result);
+            });
+        });
+    }
 };
 
 module.exports = bl;

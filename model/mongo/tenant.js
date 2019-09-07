@@ -55,6 +55,114 @@ Tenant.prototype.listTenants = function (data, cb) {
 	});
 };
 
+/**
+ * To validate and convert an id to mongodb objectID
+ *
+ * @param data
+ *  should have:
+ *      required (id)
+ *
+ * @param cb
+ */
+Tenant.prototype.validateId = (data, cb) => {
+	let __self = this;
+
+	if (!data || !data.id) {
+		let error = new Error("must provide id.");
+		return cb(error, null);
+	}
+
+	try {
+		data.id = __self.mongoCore.ObjectId(data.id);
+		return cb(null, data.id);
+	} catch (e) {
+		return cb(e, null);
+	}
+};
+
+Tenant.prototype.addTenant = (data, cb) => {
+	let __self = this;
+
+	__self.mongoCore.insert(colName, data, (err, result) => {
+		if (err) {
+			return cb(err, null);
+		}
+		return cb(null, result);
+	});
+};
+
+Tenant.prototype.getTenant = (data, cb) => {
+	let __self = this;
+	let condition = {};
+
+	if (!data || !(data.id || data.code)) {
+		let error = new Error("must provide either id or code.");
+		return cb(error, null);
+	}
+
+	if (data.id) {
+		try {
+			data.id = __self.mongoCore.ObjectId(data.id);
+		} catch (e) {
+			return cb(e, null);
+		}
+		condition = {'_id': data.id};
+	} else if (data.code) {
+		condition = {'code': data.code};
+	}
+
+	__self.mongoCore.findOne(colName, condition, null, null, (err, record) => {
+		if (err) {
+			return cb(err, null);
+		}
+		return cb(null, record);
+	});
+};
+
+Tenant.prototype.updateTenant = (data, cb) => {
+	let __self = this;
+	let condition = {};
+	let options = {'upsert': false, 'safe': true};
+
+	if (!data || !(data.id || data.code)) {
+		let error = new Error("must provide either id or code.");
+		return cb(error, null);
+	}
+
+	if (data.id) {
+		try {
+			data.id = __self.mongoCore.ObjectId(data.id);
+		} catch (e) {
+			return cb(e, null);
+		}
+		condition = {'_id': data.id};
+	} else if (data.code) {
+		condition = {'code': data.code};
+	}
+
+	let record = {
+		'$set': {
+			'description': data.description,
+			'name': data.name,
+			'type': data.type
+		}
+	};
+	if (data.profile) {
+		record['$set']['profile'] = data.profile;
+	}
+	if (data.inputmaskData.tag) {
+		record['$set']['tag'] = data.tag;
+	}
+
+	__self.mongoCore.update(colName, condition, record, options, (err, result) => {
+
+		if (err) {
+			return cb(err, null);
+		}
+		return cb(null, result);
+	});
+};
+
 Tenant.prototype.closeConnection = function () {
 	let __self = this;
 	

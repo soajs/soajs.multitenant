@@ -4,6 +4,7 @@ let lib = {
     "code" : "TPROD",
     "name" : "Test Product",
     "description" : "this is a description for test product",
+    "console": false,
     "packages" : [
         {
             "code" : "TPROD_BASIC",

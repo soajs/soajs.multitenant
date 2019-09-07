@@ -1,5 +1,6 @@
 "use strict";
 const colName = "products";
+const envColName = "environment";
 const core = require("soajs");
 const Mongo = core.mongo;
 const async = require("async");
@@ -70,17 +71,14 @@ Product.prototype.validateId = function (data, cb) {
 Product.prototype.listProducts = function (data, cb) {
     let __self = this;
 
-    if (!data || !data.product) {
-        let error = new Error("Missing Fields: product");
-        return cb(error, null);
-    }
-
     //todo Check remove console products
     let condition = {
-        code: {
-            $ne: data.product
-        }
+        $or: [
+            { console: false },
+            { console: null }
+        ]
     };
+
     __self.mongoCore.find(colName, condition, null, null, (err, records) => {
         if (err) {
             return cb(err, null);
@@ -92,13 +90,8 @@ Product.prototype.listProducts = function (data, cb) {
 Product.prototype.listConsoleProducts = function (data, cb) {
     let __self = this;
 
-    if (!data || !data.product) {
-        let error = new Error("Missing Fields: product");
-        return cb(error, null);
-    }
-
     let condition = {
-        code: data.product
+        console: true
     };
     __self.mongoCore.find(colName, condition, null, null, (err, records) => {
         if (err) {
@@ -230,6 +223,25 @@ Product.prototype.updateProduct = function (data, cb) {
             return cb(err, null);
         }
         return cb(null, result);
+    });
+};
+
+Product.prototype.listEnvironments = function (data, cb) {
+    let __self = this;
+    let condition = {};
+
+    let params = {"code": 1};
+
+    if (!data.console) {
+        condition = {
+            code: {$ne: process.env.SOAJS_ENV.toUpperCase()}
+        };
+    }
+    __self.mongoCore.find(envColName, condition, params, null, (err, record) => {
+        if (err) {
+            return cb(err, null);
+        }
+        return cb(null, record);
     });
 };
 
