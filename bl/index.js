@@ -39,7 +39,21 @@ function init(service, localConfig, cb) {
 let BL = {
     init: init,
     product: null,
-    tenant: null
+    tenant: null,
+
+    "addApplication": (soajs, inputmaskData, cb) => {
+        if (!inputmaskData) {
+            return cb(BL.handleError(soajs, 473, null));
+        }
+
+        let l_modelObj = BL.mp.getModel(soajs);
+        let data = {
+            id: inputmaskData.id,
+        };
+
+
+    }, //TODO: Continue
+
 };
 
 module.exports = BL;

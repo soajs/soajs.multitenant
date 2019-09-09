@@ -423,7 +423,7 @@ describe("Unit test for: Model - product", () => {
             });
         });
 
-        it('Success - check if exist - id', (done) => {
+        it.skip('Success - check if exist - id', (done) => {
             model.checkIfExist({id: 'NOTFOUND'}, (err, count) => {
                 assert.ifError(err);
                 assert.deepEqual(count, 0);

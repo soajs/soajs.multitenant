@@ -9,13 +9,17 @@ describe("Unit test for: BL - product", () => {
     let soajs = {
         config: {
             "errors": {
+                421: "Unable to update the tenant record",
                 423: "An id must be provided",
                 426: 'Invalid Product ID provided',
                 430: "Tenant not found for this user",
                 436: "Unable to find tenants",
+                437: "Unable to get the environment records",
                 460: "Unable to find products",
                 461: "Unable to find package",
+                464: "You are not allowed to remove the key you are currently logged in with",
                 466: "You are not allowed to remove the product you are currently logged in with",
+                467: "Package already exists",
                 468: "Product already exists",
                 469: "Unable to add the product record",
                 473: "Missing required fields",

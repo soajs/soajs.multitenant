@@ -11,8 +11,23 @@ let lib = {
             "name" : "basic package",
             "description" : "this is a description for test product basic package",
             "acl" : {
-                "urac" : {},
-                "multitenant" : {}
+                "dashboard": {
+                    "oauth": [
+                        {
+                            version: "1",
+                            get: [
+                                "Guest"
+                            ],
+                            post: [
+                                "Guest",
+                                "Tokenization"
+                            ],
+                            delete: [
+                                "Tokenization"
+                            ]
+                        }
+                    ]
+                }
             },
             "_TTL" : 86400000 // 24 hours
         },
@@ -21,8 +36,20 @@ let lib = {
             "name" : "example03 package",
             "description" : "this is a description for test product example03 package",
             "acl" : {
-                "urac" : {},
-                "example03" : {}
+                "dashboard": {
+                    urac: [
+                        {
+                            version: "2",
+                            post: [
+                                "Guest Password Settings"
+                            ],
+                            get: [
+                                "Guest Password Settings",
+                                "Guest Email Validation"
+                            ]
+                        }
+                    ]
+                }
             },
             "_TTL" : 86400000 // 24 hours
         }

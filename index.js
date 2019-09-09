@@ -22,47 +22,48 @@ service.init(() => {
          * GET
          */
 
-        service.get("/products", function (req, res) {
+        service.get("/products", (req, res) => {
             bl.product.list(req.soajs, req.soajs.inputmaskData, (error, data) => {
                 return res.json(req.soajs.buildResponse(error, data));
             });
         });
 
-        service.get("/products/console", function (req, res) {
+        service.get("/products/console", (req, res) => {
             bl.product.listConsole(req.soajs, req.soajs.inputmaskData, (error, data) => {
                 return res.json(req.soajs.buildResponse(error, data));
             });
         });
 
-        service.get("/product", function (req, res) {
+        service.get("/product", (req, res) => {
             bl.product.get(req.soajs, req.soajs.inputmaskData, (error, data) => {
                 return res.json(req.soajs.buildResponse(error, data));
             });
         });
 
-        service.get("/product/packages", function (req, res) {
+        service.get("/product/packages", (req, res) => {
             bl.product.listPackages(req.soajs, req.soajs.inputmaskData, (error, data) => {
                 return res.json(req.soajs.buildResponse(error, data));
             });
         });
 
-        service.get("/product/package", function (req, res) {
+        service.get("/product/package", (req, res) => {
             bl.product.getPackage(req.soajs, req.soajs.inputmaskData, (error, data) => {
                 return res.json(req.soajs.buildResponse(error, data));
             });
         });
 
+
         /*
          * POST
          */
 
-        service.post("/product", function (req, res) {
+        service.post("/product", (req, res) => {
             bl.product.add(req.soajs, req.soajs.inputmaskData, (error, data) => {
                 return res.json(req.soajs.buildResponse(error, data));
             });
         });
 
-        service.post("/product/package", function (req, res) {
+        service.post("/product/package", (req, res) => {
             bl.product.addPackage(req.soajs, req.soajs.inputmaskData, (error, data) => {
                 return res.json(req.soajs.buildResponse(error, data));
             });
@@ -72,13 +73,13 @@ service.init(() => {
          * DELETE
          */
 
-        service.delete("/product", function (req, res) {
+        service.delete("/product", (req, res) => {
             bl.product.delete(req.soajs, req.soajs.inputmaskData, (error, data) => {
                 return res.json(req.soajs.buildResponse(error, data));
             });
         });
 
-        service.delete("/product/package", function (req, res) {
+        service.delete("/product/package", (req, res) => {
             bl.product.deletePackage(req.soajs, req.soajs.inputmaskData, (error, data) => {
                 return res.json(req.soajs.buildResponse(error, data));
             });
@@ -89,25 +90,25 @@ service.init(() => {
          * PUT
          */
 
-        service.put("/product", function (req, res) {
+        service.put("/product", (req, res) => {
             bl.product.update(req.soajs, req.soajs.inputmaskData, (error, data) => {
                 return res.json(req.soajs.buildResponse(error, data));
             });
         });
 
-        service.put("/product/scope", function (req, res) {
+        service.put("/product/scope", (req, res) => {
             bl.product.updateScope(req.soajs, req.soajs.inputmaskData, (error, data) => {
                 return res.json(req.soajs.buildResponse(error, data));
             });
         });
 
-        service.put("/product/purge", function (req, res) {
+        service.put("/product/purge", (req, res) => {
             bl.product.purgeProduct(req.soajs, req.soajs.inputmaskData, (error, data) => {
                 return res.json(req.soajs.buildResponse(error, data));
             });
         });
 
-        service.put("/product/package", function (req, res) {
+        service.put("/product/package", (req, res) => {
             bl.product.updatePackage(req.soajs, req.soajs.inputmaskData, (error, data) => {
                 return res.json(req.soajs.buildResponse(error, data));
             });
@@ -117,17 +118,82 @@ service.init(() => {
         /**
          * tenant routes
          */
-        service.get("/tenants", function (req, res) {
+        service.get("/tenants", (req, res) => {
             bl.tenant.list(req.soajs, req.soajs.inputmaskData, (error, data) => {
                 return res.json(req.soajs.buildResponse(error, data));
             });
         });
 
+        service.get("/tenants/console", (req, res) => {
+            bl.tenant.listConsole(req.soajs, req.soajs.inputmaskData, (error, data) => {
+                return res.json(req.soajs.buildResponse(error, data));
+            });
+        });
+
+        service.get("/tenant", (req, res) => {
+            bl.tenant.get(req.soajs, req.soajs.inputmaskData, (error, data) => {
+                return res.json(req.soajs.buildResponse(error, data));
+            });
+        });
+
+        service.get("/tenant/oauth", (req, res) => {
+            bl.tenant.getOAuth(req.soajs, req.soajs.inputmaskData, (error, data) => {
+                return res.json(req.soajs.buildResponse(error, data));
+            });
+        });
+
+        service.get("/tenant/application", (req, res) => {
+            bl.tenant.listApplications(req.soajs, req.soajs.inputmaskData, (error, data) => {
+                return res.json(req.soajs.buildResponse(error, data));
+            });
+        });
+
+        service.get("/tenant/application/keys", (req, res) => {
+            bl.product.getPackage(req.soajs, req.soajs.inputmaskData, (error, data) => {
+                return res.json(req.soajs.buildResponse(error, data));
+            });
+        });
+
+        service.get("/tenant/application/keys/ext", (req, res) => {
+            bl.product.listApplicationExtKeys(req.soajs, req.soajs.inputmaskData, (error, data) => {
+                return res.json(req.soajs.buildResponse(error, data));
+            });
+        });
+
+        service.get("/tenant/application/key/config", (req, res) => {
+            bl.product.listApplicationConfig(req.soajs, req.soajs.inputmaskData, (error, data) => {
+                return res.json(req.soajs.buildResponse(error, data));
+            });
+        });
+
+        service.get("/tenant/dashboard/keys", (req, res) => {
+            bl.product.listDashboardKeys(req.soajs, req.soajs.inputmaskData, (error, data) => {
+                return res.json(req.soajs.buildResponse(error, data));
+            });
+        });
+
+
         /*
          * PUT
          */
-        service.put("/tenants", function (req, res) {
+        service.put("/tenant", (req, res) => {
             bl.tenant.update(req.soajs, req.soajs.inputmaskData, (error, data) => {
+                return res.json(req.soajs.buildResponse(error, data));
+            });
+        });
+
+        /*
+         * DELETE
+         */
+
+        service.delete("/tenant/oauth", (req, res) => {
+            bl.tenant.deleteOAuth(req.soajs, req.soajs.inputmaskData, (error, data) => {
+                return res.json(req.soajs.buildResponse(error, data));
+            });
+        });
+
+        service.delete("/tenant/application/key", (req, res) => {
+            bl.tenant.deleteApplicationKey(req.soajs, req.soajs.inputmaskData, (error, data) => {
                 return res.json(req.soajs.buildResponse(error, data));
             });
         });

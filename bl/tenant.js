@@ -1,5 +1,8 @@
 'use strict';
 
+let soajs = require("soajs");
+const Auth = soajs.authorization;
+
 function makeId(length) {
     let result = '';
     let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -28,15 +31,10 @@ let bl = {
     "handleError": (soajs, errCode, err) => {
         if (err) {
             soajs.log.error(err);
-
-            return ({
-                "code": errCode,
-                "msg": bl.localConfig.errors[errCode] + (errCode === 473 ? err.message : "")
-            });
         }
         return ({
             "code": errCode,
-            "msg": bl.localConfig.errors[errCode]
+            "msg": bl.localConfig.errors[errCode] + ((err && errCode === 473) ? err.message : "")
         });
     },
 
@@ -55,10 +53,9 @@ let bl = {
         }
     },
 
-    "checkCanEdit": (soajs, inputmaskData, cb) => {
+    "checkCanEdit": (l_modelObj, inputmaskData, cb) => {
         let uracDriver;
-        let data;
-        let modelObject = bl.modelObj;
+        let data = {};
 
         if (soajs.uracDriver && soajs.uracDriver.getProfile()) {
             uracDriver = soajs.uracDriver.getProfile();
@@ -66,29 +63,80 @@ let bl = {
 
         if (inputmaskData.id) {
             if (uracDriver && uracDriver.tenant.id.toString() === inputmaskData.id.toString()) {
+                bl.mp.closeModel(soajs, l_modelObj);
                 return cb(null, {});
             }
             data.id = inputmaskData.id;
             data.locked = true;
 
-        } else if (inputmaskData.code){
+        } else if (inputmaskData.code) {
             if (uracDriver && uracDriver.tenant.code.toUpperCase() === inputmaskData.code.toUpperCase()) {
+                bl.mp.closeModel(soajs, l_modelObj);
                 return cb(null, {});
             }
 
             data.code = inputmaskData.code;
             data.locked = true;
         }
-        modelObject.getTenant(data, (err, record) => {
+        l_modelObj.getTenant(data, (err, record) => {
             if (err) {
-                return cb(bl.handleError(soajs, 473, err));
+                bl.mp.closeModel(soajs, l_modelObj);
+                return cb(bl.handleError(soajs, 436, err));
             }
 
             if (record) { // root tenant
+                bl.mp.closeModel(soajs, l_modelObj);
                 return cb(bl.handleError(soajs, 500, null));
             }
             return cb(null, {}); // Can update/delete not root tenant
         });
+    },
+
+    "getRequestedSubElementsPositions": (inputmaskData, tenantRecord) => {
+        let found = false;
+        let position = [];
+
+        for (let i = 0; i < tenantRecord.applications.length; i++) {
+            if (tenantRecord.applications[i].appId.toString() === inputmaskData.appId) {
+                position.push(i); //application position found
+
+                //if key is requested, go one level deeper
+                if (inputmaskData.key) {
+
+                    //find the key
+                    for (let j = 0; j < tenantRecord.applications[i].keys.length; j++) {
+                        if (tenantRecord.applications[i].keys[j].key === inputmaskData.key) {
+                            position.push(j); //application key position found
+
+                            //if extKey is requested, go one level deeper
+                            if (inputmaskData.extKey && inputmaskData.extKeyEnv) {
+                                //find the ext key
+                                for (let k = 0; k < tenantRecord.applications[i].keys[j].extKeys.length; k++) {
+                                    if (tenantRecord.applications[i].keys[j].extKeys[k].extKey === inputmaskData.extKey && tenantRecord.applications[i].keys[j].extKeys[k].env === inputmaskData.extKeyEnv) {
+                                        position.push(k); //application extKey found
+
+                                        //no need to go further, simply return
+                                        found = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            //else return what is found
+                            else {
+                                found = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+                //else return what is found
+                else {
+                    found = true;
+                    break;
+                }
+            }
+        }
+        return {'found': found, 'position': position};
     },
 
     "list": (soajs, inputmaskData, cb) => {
@@ -101,6 +149,35 @@ let bl = {
                 return cb(bl.handleError(soajs, 436, err));
             }
             return cb(null, records);
+        });
+    },
+
+    "listConsole": (soajs, inputmaskData, cb) => {
+        if (!inputmaskData) {
+            return cb(bl.handleError(soajs, 473, null));
+        }
+
+        let l_modelObj = bl.mp.getModel(soajs);
+        let data = {};
+
+        if (inputmaskData.type) {
+            data.type = inputmaskData.data;
+            if (Object.hasOwnProperty.call(inputmaskData, "negate")) {
+                data.negate = inputmaskData.negate;
+            }
+        }
+
+        l_modelObj.listConsoleTenants(data, (err, record) => {
+            bl.mp.closeModel(soajs, l_modelObj);
+            if (err || !record) {
+                return cb(bl.handleError(soajs, 436, err));
+            }
+            if (record.oauth && record.oauth.secret && record.oauth.secret !== '') {
+                record.oauth.authorization = Auth.generate(record._id, record.oauth.secret);
+            } else {
+                record.oauth.authorization = "No Authorization Enabled, update tenant and set an 'oAuth Secret' to enable token generation.";
+            }
+            return cb(null, record);
         });
     },
 
@@ -153,13 +230,14 @@ let bl = {
     // },
 
     "update": (soajs, inputmaskData, cb) => {
-        let l_modelObj = bl.mp.getModel(soajs);
-
         if (!inputmaskData) {
             return cb(bl.handleError(soajs, 473, null));
         }
 
+        let l_modelObj = bl.mp.getModel(soajs);
+
         let data = {
+            id: inputmaskData.id,
             description: inputmaskData.description,
             name: inputmaskData.name,
             type: inputmaskData.type
@@ -172,8 +250,9 @@ let bl = {
             data.tag = inputmaskData.tag;
         }
 
-        bl.checkCanEdit(soajs, data, (err, result) => {
+        bl.checkCanEdit(l_modelObj, data, (err, result) => {
             l_modelObj.updateTenant(data, (err, record) => {
+                bl.mp.closeModel(soajs, l_modelObj);
                 if (err) {
                     return cb(bl.handleError(soajs, 421, err));
                 }
@@ -182,7 +261,233 @@ let bl = {
         });
     },
 
+    "get": (soajs, inputmaskData, cb) => {
+        if (!inputmaskData) {
+            return cb(bl.handleError(soajs, 474, null));
+        }
 
+        let l_modelObj = bl.mp.getModel(soajs);
+
+        let data = {};
+
+        if (inputmaskData.id) {
+            data.id = inputmaskData.id;
+        } else {
+            data.code = inputmaskData.code;
+        }
+
+        l_modelObj.getTenant(data, (err, record) => {
+            bl.mp.closeModel(soajs, l_modelObj);
+            if (err) {
+                return cb(bl.handleError(soajs, 436, err));
+            }
+            if (record && record.oauth && record.oauth.secret && record.oauth.secret !== '') {
+                record.oauth.authorization = "Basic " + new Buffer(record._id.toString() + ":" + record.oauth.secret).toString('base64');
+            }
+            return cb(null, record);
+        });
+    },
+
+    "deleteOAuth": (soajs, inputmaskData, cb) => {
+        if (!inputmaskData) {
+            return cb(bl.handleError(soajs, 423, null));
+        }
+        let l_modelObj = bl.mp.getModel(soajs);
+
+        let data = {};
+        data.id = inputmaskData.id;
+        data.oauth = {};
+
+        bl.checkCanEdit(l_modelObj, data, (err, result) => {
+            l_modelObj.updateTenant(data, (err, record) => {
+                bl.mp.closeModel(soajs, l_modelObj);
+                if (err) {
+                    return cb(bl.handleError(soajs, 421, err));
+                }
+                return cb(null, record);
+            });
+        });
+    },
+
+    "getOAuth": (soajs, inputmaskData, cb) => {
+        if (!inputmaskData) {
+            return cb(bl.handleError(soajs, 423, null));
+        }
+        let l_modelObj = bl.mp.getModel(soajs);
+        let data = {
+            id: inputmaskData.id,
+        };
+        l_modelObj.getTenant(data, (err, record) => {
+            bl.mp.closeModel(soajs, l_modelObj);
+            if (err) {
+                return cb(bl.handleError(soajs, 436, err));
+            }
+
+            return cb(null, record.oauth);
+        });
+    },
+
+    /*"getOAuthUsers": (soajs, inputmaskData, cb) => {
+        if (!inputmaskData) {
+            return cb(bl.handleError(soajs, 423, null));
+        }
+        let l_modelObj = bl.mp.getModel(soajs);
+        let data = {
+            id: inputmaskData.id,
+        };
+        l_modelObj.getTenant(data, (err, record) => {
+            bl.mp.closeModel(soajs, l_modelObj);
+            if (err) {
+                return cb(bl.handleError(soajs, 436, err));
+            }
+
+            return cb(null, record.oauth); // TODO: GET USERS NOT OAUTH OBJECT FROM OAUTH URAC
+        });
+    }, //TODO: TESTS and URAC OAUTH */
+
+    "listApplications": (soajs, inputmaskData, cb) => {
+        if (!inputmaskData) {
+            return cb(bl.handleError(soajs, 423, null));
+        }
+        let l_modelObj = bl.mp.getModel(soajs);
+        let data = {
+            id: inputmaskData.id,
+        };
+        l_modelObj.getTenant(data, (err, record) => {
+            bl.mp.closeModel(soajs, l_modelObj);
+            if (err) {
+                return cb(bl.handleError(soajs, 436, err));
+            }
+            return cb(null, record.application);
+        });
+    },
+
+    "getApplicationKeys": (soajs, inputmaskData, cb) => {
+        if (!inputmaskData) {
+            return cb(bl.handleError(soajs, 423, null));
+        }
+        let l_modelObj = bl.mp.getModel(soajs);
+        let data = {
+            id: inputmaskData.id,
+        };
+        l_modelObj.getTenant(data, (err, record) => {
+            bl.mp.closeModel(soajs, l_modelObj);
+            if (err) {
+                return cb(bl.handleError(soajs, 436, err));
+            }
+            let keys = [];
+            record.applications.forEach(app => {
+                if (app.appId.toString() === inputmaskData.appId) {
+                    keys = app.keys;
+                }
+            });
+            return cb(null, keys);
+        });
+    },
+
+    "deleteApplicationKey": (soajs, inputmaskData, cb) => {
+        if (!inputmaskData) {
+            return cb(bl.handleError(soajs, 473, null));
+        }
+
+        // if (inputmaskData.key === soajs.tenant.key.iKey) {
+        //     return cb(bl.handleError(soajs, 464, null));
+        // } //TODO: Check if still tenant key
+
+        let l_modelObj = bl.mp.getModel(soajs);
+
+        let data = {
+            id: inputmaskData.id,
+        };
+        l_modelObj.getTenant(data, (err, record) => {
+            if (err) {
+                bl.mp.closeModel(soajs, l_modelObj);
+                return cb(bl.handleError(soajs, 436, err));
+            }
+            l_modelObj.updateTenant(data, (err, result) => {
+                bl.mp.closeModel(soajs, l_modelObj);
+                if (err) {
+                    return cb(bl.handleError(soajs, 421, err));
+                }
+                let x = bl.getRequestedSubElementsPositions(inputmaskData, record);
+                record.applications[x.position[0]].keys.splice(x.position[1], 1);
+                return cb(null, result);
+            });
+        });
+    },
+
+    "listApplicationExtKeys": (soajs, inputmaskData, cb) => {
+        if (!inputmaskData) {
+            return cb(bl.handleError(soajs, 423, null));
+        }
+        let l_modelObj = bl.mp.getModel(soajs);
+        let data = {
+            id: inputmaskData.id
+        };
+
+        l_modelObj.getTenant(data, (err, record) => {
+            bl.mp.closeModel(soajs, l_modelObj);
+            if (err) {
+                return cb(bl.handleError(soajs, 436, err));
+            }
+            let x = bl.getRequestedSubElementsPositions(inputmaskData, record);
+            if (x.found) {
+                let extKeys = record.applications[x.position[0]].keys[x.position[1]].extKeys;
+                return cb(null, extKeys);
+            } else {
+                return cb(null, []);
+            }
+        });
+    },
+
+    "listApplicationConfig": (soajs, inputmaskData, cb) => {
+        if (!inputmaskData) {
+            return cb(bl.handleError(soajs, 423, null));
+        }
+        let l_modelObj = bl.mp.getModel(soajs);
+        let data = {
+            id: inputmaskData.id,
+        };
+        l_modelObj.getTenant(data, (err, record) => {
+            bl.mp.closeModel(soajs, l_modelObj);
+            if (err) {
+                return cb(bl.handleError(soajs, 436, err));
+            }
+            let x = bl.getRequestedSubElementsPositions(inputmaskData, record);
+            if (x.found) {
+                return cb(null, record.applications[x.position[0]].keys[x.position[1]].config);
+            } else {
+                return cb(null, {});
+            }
+        });
+    },
+
+    "listDashboardKeys": (soajs, inputmaskData, cb) => {
+        if (!inputmaskData) {
+            return cb(bl.handleError(soajs, 473, null));
+        }
+        let l_modelObj = bl.mp.getModel(soajs);
+        let data = {
+            code: inputmaskData.code,
+        };
+        l_modelObj.getTenant(data, (err, record) => {
+            bl.mp.closeModel(soajs, l_modelObj);
+            if (err) {
+                return cb(bl.handleError(soajs, 436, err));
+            }
+            let keys = [];
+            record.applications.forEach(app => {
+                app.keys.forEach(key => {
+                    key.extKeys.forEach(extKey => {
+                        if (extKey.dashboardAccess) {
+                            keys.push(extKey.extKey);
+                        }
+                    });
+                });
+            });
+            return cb(null, keys);
+        });
+    },
 };
 
 module.exports = bl;

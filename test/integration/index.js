@@ -26,8 +26,8 @@ describe("starting integration tests", () => {
     });
 
     it("loading tests", (done) => {
-        require("./product.test.js");
-        require("./tenant.test.js");
+        require("./product/product.test.js");
+        require("./tenant/tenant.test.js");
         done();
     });
 

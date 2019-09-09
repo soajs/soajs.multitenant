@@ -23,7 +23,8 @@ module.exports = {
         437: "Unable to get the environment records",
         460: "Unable to find products",
         461: "Unable to find package",
-        466: "You are not allowed to remove or update the product you are currently logged in with",
+        464: "You are not allowed to remove the key you are currently logged in with",
+        466: "You are not allowed to remove the product you are currently logged in with",
         467: "Package already exists",
         468: "Product already exists",
         469: "Unable to add the product record",
@@ -73,6 +74,20 @@ module.exports = {
                 "validation": {
                     "type": "string",
                     "enum": ['6', '12', '24', '48', '72', '96', '120', '144', '168']
+                }
+            },
+            'appId': {
+                "source": ['query.appId'],
+                "required": true,
+                "validation": {
+                    "type": "string"
+                }
+            },
+            'key': {
+                "source": ['query.key'],
+                "required": true,
+                "validation": {
+                    "type": "string"
                 }
             },
         },
@@ -153,7 +168,99 @@ module.exports = {
                     "group": "Tenant",
                     "groupMain": true
                 }
-            }
+            },
+            "/tenants/console": {
+                _apiInfo: {
+                    "l": "List Console Tenants",
+                    "group": "Console Tenant"
+                },
+                "type": {
+                    "source": ['query.type'],
+                    "required": false,
+                    "validation": {
+                        "type": "string",
+                        "enum": ["admin", "product", "client"]
+                    }
+                },
+                "negate": {
+                    "source": ['query.negate'],
+                    "required": false,
+                    "default": false,
+                    "validation": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "/tenant": {
+                _apiInfo: {
+                    "l": "Get Tenant",
+                    "group": "Tenant"
+                },
+                "id": {
+                    "source": ['query.id'],
+                    "required": false,
+                    "validation": {
+                        "type": "string"
+                    }
+                },
+                "code": {
+                    "source": ["query.code"],
+                    "required": false,
+                    "validation": {
+                        "type": "string"
+                    }
+                }
+            },
+
+            "/tenant/oauth": {
+                _apiInfo: {
+                    "l": "Get Tenant oAuth Configuration",
+                    "group": "Tenant oAuth"
+                },
+                "commonFields": ['id']
+            },
+
+            "/tenant/application": {
+                _apiInfo: {
+                    "l": "List Tenant Applications",
+                    "group": "Tenant Application"
+                },
+                "commonFields": ['id']
+            },
+            "/tenant/application/keys": {
+                _apiInfo: {
+                    "l": "List Tenant Application Keys",
+                    "group": "Tenant Application"
+                },
+                "commonFields": ['id', 'appId']
+            },
+            "/tenant/application/keys/ext": {
+                _apiInfo: {
+                    "l": "List Tenant Application External Keys",
+                    "group": "Tenant Application"
+                },
+                "commonFields": ['id', 'appId', 'key']
+            },
+            "/tenant/application/key/config": {
+                _apiInfo: {
+                    "l": "List Tenant Application Key Configuration",
+                    "group": "Tenant Application"
+                },
+                "commonFields": ['id', 'appId', 'key']
+            },
+            "/tenant/dashboard/keys": {
+                _apiInfo: {
+                    "l": "List Dashboard Tenant Keys",
+                    "group": "Dashboard Tenants"
+                },
+                "code": {
+                    "source": ["query.code"],
+                    "required": true,
+                    "validation": {
+                        "type": "string"
+                    }
+                }
+            },
         },
         "post": {
             "/product": {
@@ -190,6 +297,16 @@ module.exports = {
                         "maxLength": 5
                     }
                 }
+            },
+
+            //Tenant APIs
+
+            "/tenant/application/": {
+                _apiInfo: {
+                    "l": "Add Tenant Application",
+                    "group": "Tenant Application"
+                },
+                "commonFields": ['id', '_TTL', 'description', 'acl', 'productCode', 'packageCode']
             },
         },
         "delete": {
@@ -229,6 +346,20 @@ module.exports = {
                     }
                 }
             },
+            "/tenant/oauth": {
+                _apiInfo: {
+                    "l": "Delete Tenant oAuth Configuration",
+                    "group": "Tenant oAuth"
+                },
+                "commonFields": ['id']
+            },
+            "/tenant/application/key": {
+                _apiInfo: {
+                    "l": "Delete Tenant Application Key",
+                    "group": "Tenant Application"
+                },
+                "commonFields": ['id', 'appId', 'key']
+            }
         },
         "put": {
             "/product": {
@@ -243,7 +374,7 @@ module.exports = {
                     "l": "Update Product Scope",
                     "group": "Product"
                 },
-                "commonFields": ['id', 'acl'], //TODO: Create ACL Schema
+                "commonFields": ['id', 'acl'],
                 "scope": {
                     "source": ["body.scope"],
                     "required": true,
@@ -273,12 +404,12 @@ module.exports = {
                     "l": "Purge Product",
                     "group": "Product"
                 },
-                "commonFields": ['id', 'description']
+                "commonFields": ['id']
             },
 
             // Tenant APIs
 
-            "/tenant/update": {
+            "/tenant": {
                 _apiInfo: {
                     "l": "Update Tenant",
                     "group": "Tenant"

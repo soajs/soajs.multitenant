@@ -74,16 +74,13 @@ Product.prototype.listProducts = function (data, cb) {
     //todo Check remove console products
     let condition = {
         $or: [
-            { console: false },
-            { console: null }
+            {console: false},
+            {console: null}
         ]
     };
 
     __self.mongoCore.find(colName, condition, null, null, (err, records) => {
-        if (err) {
-            return cb(err, null);
-        }
-        return cb(null, records);
+        return cb(err, records);
     });
 };
 
@@ -94,10 +91,7 @@ Product.prototype.listConsoleProducts = function (data, cb) {
         console: true
     };
     __self.mongoCore.find(colName, condition, null, null, (err, records) => {
-        if (err) {
-            return cb(err, null);
-        }
-        return cb(null, records);
+        return cb(err, records);
     });
 };
 
@@ -120,21 +114,18 @@ Product.prototype.getProduct = function (data, cb) {
     }
 
     if (data.id) {
-        try {
-            data.id = __self.mongoCore.ObjectId(data.id);
-        } catch (e) {
-            return cb(e, null);
-        }
-        condition = {'_id': data.id};
+        __self.validateId(data, (err, id) => {
+            if (err) {
+                return cb(err, null);
+            }
+            condition = {'_id': id};
+        });
     } else if (data.code) {
         condition = {'code': data.code}; // TODO: ADD to documentation
     }
 
     __self.mongoCore.findOne(colName, condition, null, null, (err, record) => {
-        if (err) {
-            return cb(err, null);
-        }
-        return cb(null, record);
+        return cb(err, record);
     });
 };
 
@@ -151,15 +142,16 @@ Product.prototype.checkIfExist = function (data, cb) {
     if (data.code) {
         condition.code = data.code;
     } else if (data.id) {
-        condition.id = data.id;
+        __self.validateId(data, (err, id) => {
+            if (err) {
+                return cb(err, null);
+            }
+            condition = {'_id': id};
+        });
     }
 
-
     __self.mongoCore.count(colName, condition, (err, count) => {
-        if (err) {
-            return cb(err, null);
-        }
-        return cb(null, count);
+        return cb(err, count);
     });
 };
 
@@ -167,10 +159,7 @@ Product.prototype.addProduct = function (data, cb) {
     let __self = this;
 
     __self.mongoCore.insert(colName, data, (err, result) => {
-        if (err) {
-            return cb(err, null);
-        }
-        return cb(null, result);
+        return cb(err, result);
     });
 };
 
@@ -184,16 +173,13 @@ Product.prototype.deleteProduct = function (data, cb) {
     let condition = {};
 
     if (data.code) {
-        condition.code = data.code;
+        condition = {'code': data.code};
     } else if (data.id) {
-        condition.id = data.id;
+        condition = {'_id': data.id};
     }
 
     __self.mongoCore.remove(colName, condition, (err, result) => {
-        if (err) {
-            return cb(err, null);
-        }
-        return cb(null, result);
+        return cb(err, result);
     });
 };
 
@@ -218,11 +204,7 @@ Product.prototype.updateProduct = function (data, cb) {
     let options = {'upsert': false, 'safe': true};
 
     __self.mongoCore.update(colName, condition, data, options, (err, result) => {
-
-        if (err) {
-            return cb(err, null);
-        }
-        return cb(null, result);
+        return cb(err, result);
     });
 };
 
@@ -238,10 +220,7 @@ Product.prototype.listEnvironments = function (data, cb) {
         };
     }
     __self.mongoCore.find(envColName, condition, params, null, (err, record) => {
-        if (err) {
-            return cb(err, null);
-        }
-        return cb(null, record);
+        return cb(err, record);
     });
 };
 

@@ -91,8 +91,8 @@ let bl = {
         };
 
         l_modelObj.checkIfExist(data, (err, count) => {
-            bl.mp.closeModel(soajs, l_modelObj);
             if (err) {
+                bl.mp.closeModel(soajs, l_modelObj);
                 return cb(bl.handleError(soajs, 474, err));
             }
 
@@ -305,11 +305,12 @@ let bl = {
         data.id = inputmaskData.id;
 
         l_modelObj.getProduct(data, (err, record) => {
-            bl.mp.closeModel(soajs, l_modelObj);
             if (err) {
+                bl.mp.closeModel(soajs, l_modelObj);
                 return cb(bl.handleError(soajs, 460, err), null);
             }
             if (record.code + '_' + inputmaskData.packageCode === soajs.tenant.application.package) {
+                bl.mp.closeModel(soajs, l_modelObj);
                 return cb(bl.handleError(soajs, 467, err), null);
             }
             let found = false;
@@ -324,6 +325,7 @@ let bl = {
             }
 
             if (!found) {
+                bl.mp.closeModel(soajs, l_modelObj);
                 return cb(bl.handleError(soajs, 461, err), null);
             }
             l_modelObj.updateProduct(record, (err, result) => {
@@ -347,10 +349,12 @@ let bl = {
         data.id = inputmaskData.id;
 
         l_modelObj.getProduct(data, (err, record) => {
-            if (err || !record) { //TODO: NEEDS MODIFICATION
+            if (err) {
+                bl.mp.closeModel(soajs, l_modelObj);
                 return cb(bl.handleError(soajs, 460, null));
             }
             if (record && record.locked) {
+                bl.mp.closeModel(soajs, l_modelObj);
                 return cb(bl.handleError(soajs, 500, null));
             }
             let prefix = record.code.toUpperCase() + '_';
@@ -365,12 +369,12 @@ let bl = {
 
             l_modelObj.listEnvironments(record, (err, environments) => {
                 if (err) {
+                    bl.mp.closeModel(soajs, l_modelObj);
                     return cb(bl.handleError(soajs, 437, err));
                 }
                 let status = false;
-                console.log("ACL:", inputmaskData);
                 let postedEnvs = Object.keys(inputmaskData.acl);
-                for (var i = 0; i < environments.length; i++) {
+                for (let i = 0; i < environments.length; i++) {
                     if (postedEnvs.indexOf(environments[i].code.toLowerCase()) !== -1) {
                         status = true;
                         break;
@@ -414,18 +418,22 @@ let bl = {
 
         l_modelObj.getProduct(data, (err, record) => {
             if (err) {
+                bl.mp.closeModel(soajs, l_modelObj);
                 return cb(bl.handleError(soajs, 460, null));
             }
             if (!record) {
-
+                bl.mp.closeModel(soajs, l_modelObj);
+                // TODO: Display error
             }
             if (record && record.locked) {
+                bl.mp.closeModel(soajs, l_modelObj);
                 return cb(bl.handleError(soajs, 500, null));
             }
             let prefix = record.code.toUpperCase() + '_';
 
             l_modelObj.listEnvironments(record, (err, environments) => {
                 if (err) {
+                    bl.mp.closeModel(soajs, l_modelObj);
                     return cb(bl.handleError(soajs, 437, err));
                 }
                 let status = false;
@@ -441,7 +449,8 @@ let bl = {
                     }
                 }
                 if (!status) {
-                    //return err
+                    bl.mp.closeModel(soajs, l_modelObj);
+                    //TODO: return err
                 }
 
                 let found = false;
@@ -467,6 +476,7 @@ let bl = {
                 });
 
                 if (!found) {
+                    bl.mp.closeModel(soajs, l_modelObj);
                     return cb(bl.handleError(soajs, 461, null));
                 }
 
@@ -494,11 +504,14 @@ let bl = {
 
         l_modelObj.getProduct(data, (err, record) => {
             if (err) {
+                bl.mp.closeModel(soajs, l_modelObj);
                 return cb(bl.handleError(soajs, 460, null));
             }
             record.scope = {
                 acl: {}
             };
+
+            //todo: add locked check
             record.packages.forEach(pack => {
                 pack.acl = {};
             });

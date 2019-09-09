@@ -7,21 +7,49 @@ let lib = {
     "console": false,
     "packages" : [
         {
-            "code" : "TEST2_BASIC",
-            "name" : "SOME package",
-            "description" : "this is a description for test product SOME package",
+            "code" : "TEST2_NEWS",
+            "name" : "news package",
+            "description" : "this is a description for test 2 product news package",
             "acl" : {
-                "multitenant" : {}
+                "dashboard": {
+                    "oauth": [
+                        {
+                            version: "1",
+                            get: [
+                                "Guest"
+                            ],
+                            post: [
+                                "Guest",
+                                "Tokenization"
+                            ],
+                            delete: [
+                                "Tokenization"
+                            ]
+                        }
+                    ]
+                }
             },
             "_TTL" : 86400000 // 24 hours
         },
         {
-            "code" : "TEST2_EXAMPLE03",
-            "name" : "SOME 2 package",
-            "description" : "this is a description for test product SOME 2 package",
+            "code" : "TEST2_NEW",
+            "name" : "new package",
+            "description" : "this is a description for test 2 product new package",
             "acl" : {
-                "urac" : {},
-                "example03" : {}
+                "dashboard": {
+                    urac: [
+                        {
+                            version: "2",
+                            post: [
+                                "Guest Password Settings"
+                            ],
+                            get: [
+                                "Guest Password Settings",
+                                "Guest Email Validation"
+                            ]
+                        }
+                    ]
+                }
             },
             "_TTL" : 86400000 // 24 hours
         }
