@@ -39,7 +39,7 @@ function Product(service, options, mongoCore) {
         // __self.mongoCore.createIndex(colName, {'code': 1, 'packages.code': 1}, {}, function (err, result) {
         // });
 
-        soajs.log.debug("Product: Indexes for " + index + " Updated!");
+        service.log.debug("Product: Indexes for " + index + " Updated!");
     }
 }
 

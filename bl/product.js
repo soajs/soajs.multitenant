@@ -81,7 +81,7 @@ let bl = {
 
     "add": (soajs, inputmaskData, cb) => {
         if (!inputmaskData) {
-            return cb(bl.handleError(soajs, 474, null));
+            return cb(bl.handleError(soajs, 400, null));
         }
         let l_modelObj = bl.mp.getModel(soajs);
         let data = {
@@ -117,7 +117,7 @@ let bl = {
 
     "delete": (soajs, inputmaskData, cb) => {
         if (!inputmaskData) {
-            return cb(bl.handleError(soajs, 474, null));
+            return cb(bl.handleError(soajs, 400, null));
         }
         let l_modelObj = bl.mp.getModel(soajs);
         let data = {};
