@@ -52,7 +52,15 @@ module.exports = {
                 "validation": {
                     "type": "string"
                 }
-            }
+            },
+            "_TTL": {
+                "source": ['body._TTL'],
+                "required": true,
+                "validation": {
+                    "type": "string",
+                    "enum": ['6', '12', '24', '48', '72', '96', '120', '144', '168']
+                }
+            },
         },
         "get": {
             "/products": {
@@ -125,7 +133,7 @@ module.exports = {
         "post": {
             "/product": {
                 _apiInfo: {
-                    "l": "Add Product",
+                    "l": "Add a Product",
                     "group": "Product",
                     "groupMain": true
                 },
@@ -140,13 +148,30 @@ module.exports = {
                         "maxLength": 5
                     }
                 }
-            }
+            },
+            "/product/package": {
+                _apiInfo: {
+                    "l": "Add a package to a Product",
+                    "group": "Product"
+                },
+                "commonFields": ['id', 'name', 'description', '_TTL', 'acl'],
+                "code": {
+                    "source": ["body.code"],
+                    "required": false,
+                    "validation": {
+                        "type": "string",
+                        "format": "alphanumeric",
+                        "minLength": 4,
+                        "maxLength": 5
+                    }
+                }
+            },
 
         },
         "delete": {
             "/product": {
                 _apiInfo: {
-                    "l": "Add Product",
+                    "l": "Delete a Product",
                     "group": "Product",
                     "groupMain": true
                 },
@@ -171,7 +196,7 @@ module.exports = {
 
             "/product/purge": {
                 _apiInfo: {
-                    "l": "Purge Product and its packages ACL",
+                    "l": "Purge ACL for a Product and all its packages",
                     "group": "Product"
                 },
                 "commonFields": ['id']
