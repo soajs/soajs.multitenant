@@ -5,9 +5,9 @@ const fs = require("fs");
 
 let SSOT = {};
 let model = process.env.SOAJS_SERVICE_MODEL || "mongo";
+const BLs = ["product"];
 
 function init(service, localConfig, cb) {
-    let BLs = ["product", "tenant"];
     let fillModels = (blName, cb) => {
         let typeModel = __dirname + `/../model/${model}/${blName}.js`;
 
@@ -38,8 +38,7 @@ function init(service, localConfig, cb) {
 
 let BL = {
     init: init,
-    product: null,
-    tenant: null,
+    product: null
 
 };
 

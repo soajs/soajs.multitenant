@@ -12,8 +12,9 @@ module.exports = {
     "servicePort": 4004,
     "requestTimeout": 30,
     "requestTimeoutRenewal": 5,
-    "oauth": false,
+    "oauth": true,
     "extKeyRequired": true,
+
     "errors": {
         400: "Business logic required data are missing.",
         421: "Unable to update the tenant record",
@@ -139,7 +140,6 @@ module.exports = {
                 },
                 "commonFields": ['id']
             },
-
             "/product/package": {
                 _apiInfo: {
                     "l": "Get Product Package",
@@ -161,109 +161,8 @@ module.exports = {
                         "maxLength": 6
                     }
                 }
-            },
+            }
 
-            // Tenant APIs
-
-            "/tenants": {
-                _apiInfo: {
-                    "l": "List Tenants",
-                    "group": "Tenant",
-                    "groupMain": true
-                }
-            },
-            "/tenants/console": {
-                _apiInfo: {
-                    "l": "List Console Tenants",
-                    "group": "Console Tenant"
-                },
-                "type": {
-                    "source": ['query.type'],
-                    "required": false,
-                    "validation": {
-                        "type": "string",
-                        "enum": ["admin", "product", "client"]
-                    }
-                },
-                "negate": {
-                    "source": ['query.negate'],
-                    "required": false,
-                    "default": false,
-                    "validation": {
-                        "type": "boolean"
-                    }
-                }
-            },
-            "/tenant": {
-                _apiInfo: {
-                    "l": "Get Tenant",
-                    "group": "Tenant"
-                },
-                "id": {
-                    "source": ['query.id'],
-                    "required": false,
-                    "validation": {
-                        "type": "string"
-                    }
-                },
-                "code": {
-                    "source": ["query.code"],
-                    "required": false,
-                    "validation": {
-                        "type": "string"
-                    }
-                }
-            },
-
-            "/tenant/oauth": {
-                _apiInfo: {
-                    "l": "Get Tenant oAuth Configuration",
-                    "group": "Tenant oAuth"
-                },
-                "commonFields": ['id']
-            },
-
-            "/tenant/application": {
-                _apiInfo: {
-                    "l": "List Tenant Applications",
-                    "group": "Tenant Application"
-                },
-                "commonFields": ['id']
-            },
-            "/tenant/application/keys": {
-                _apiInfo: {
-                    "l": "List Tenant Application Keys",
-                    "group": "Tenant Application"
-                },
-                "commonFields": ['id', 'appId']
-            },
-            "/tenant/application/keys/ext": {
-                _apiInfo: {
-                    "l": "List Tenant Application External Keys",
-                    "group": "Tenant Application"
-                },
-                "commonFields": ['id', 'appId', 'key']
-            },
-            "/tenant/application/key/config": {
-                _apiInfo: {
-                    "l": "List Tenant Application Key Configuration",
-                    "group": "Tenant Application"
-                },
-                "commonFields": ['id', 'appId', 'key']
-            },
-            "/tenant/dashboard/keys": {
-                _apiInfo: {
-                    "l": "List Dashboard Tenant Keys",
-                    "group": "Dashboard Tenants"
-                },
-                "code": {
-                    "source": ["query.code"],
-                    "required": true,
-                    "validation": {
-                        "type": "string"
-                    }
-                }
-            },
         },
         "post": {
             "/product": {
@@ -300,17 +199,8 @@ module.exports = {
                         "maxLength": 5
                     }
                 }
-            },
+            }
 
-            //Tenant APIs
-
-            "/tenant/application/": {
-                _apiInfo: {
-                    "l": "Add Tenant Application",
-                    "group": "Tenant Application"
-                },
-                "commonFields": ['id', '_TTL', 'description', 'acl', 'productCode', 'packageCode']
-            },
         },
         "delete": {
             "/product": {
@@ -348,21 +238,8 @@ module.exports = {
                         "format": "alphanumeric"
                     }
                 }
-            },
-            "/tenant/oauth": {
-                _apiInfo: {
-                    "l": "Delete Tenant oAuth Configuration",
-                    "group": "Tenant oAuth"
-                },
-                "commonFields": ['id']
-            },
-            "/tenant/application/key": {
-                _apiInfo: {
-                    "l": "Delete Tenant Application Key",
-                    "group": "Tenant Application"
-                },
-                "commonFields": ['id', 'appId', 'key']
             }
+
         },
         "put": {
             "/product": {
@@ -401,47 +278,14 @@ module.exports = {
                     }
                 }
             },
-
             "/product/purge": {
                 _apiInfo: {
                     "l": "Purge Product",
                     "group": "Product"
                 },
                 "commonFields": ['id']
-            },
+            }
 
-            // Tenant APIs
-
-            "/tenant": {
-                _apiInfo: {
-                    "l": "Update Tenant",
-                    "group": "Tenant"
-                },
-                "commonFields": ['id', 'name', 'description'],
-                "type": {
-                    "source": ['body.type'],
-                    "required": false,
-                    "default": "client",
-                    "validation": {
-                        "type": "string",
-                        "enum": ["admin", "product", "client"]
-                    }
-                },
-                "tag": {
-                    "source": ['body.tag'],
-                    "required": false,
-                    "validation": {
-                        "type": "string"
-                    }
-                },
-                "profile": {
-                    "source": ['body.profile'],
-                    "required": false,
-                    "validation": {
-                        "type": "object"
-                    }
-                },
-            },
         }
     }
 };
