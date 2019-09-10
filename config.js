@@ -19,6 +19,7 @@ module.exports = {
         400: "Business logic required data are missing.",
 
         460: "Unable to find product.",
+        461: "Unable to find packages.",
         466: "You are not allowed to remove the product you are currently logged in with.",
         468: "Product already exists.",
         500: "You cannot modify or delete a locked record.",
@@ -40,6 +41,13 @@ module.exports = {
             },
             "name": {
                 "source": ['body.name'],
+                "required": true,
+                "validation": {
+                    "type": "string"
+                }
+            },
+            "id": {
+                "source": ['query.id'],
                 "required": true,
                 "validation": {
                     "type": "string"
@@ -83,7 +91,14 @@ module.exports = {
                         "maxLength": 6
                     }
                 }
-            }
+            },
+            "/product/packages": {
+                _apiInfo: {
+                    "l": "List Product Packages",
+                    "group": "Product"
+                },
+                "commonFields": ['id']
+            },
 
         },
         "post": {

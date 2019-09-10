@@ -79,6 +79,26 @@ let bl = {
         });
     },
 
+    "getPackages": (soajs, inputmaskData, cb) => {
+        if (!inputmaskData) {
+            return cb(bl.handleError(soajs, 400, null));
+        }
+        let modelObj = bl.mp.getModel(soajs);
+        let data = {};
+        data.id = inputmaskData.id;
+
+        modelObj.getProduct(data, (err, record) => {
+            bl.mp.closeModel(soajs, modelObj);
+            if (err) {
+                return cb(bl.handleError(soajs, 602, err), null);
+            }
+            if (!record || !record.packages) {
+                return cb(bl.handleError(soajs, 461, err), null);
+            }
+            return cb(null, record.packages);
+        });
+    },
+
 
     "add": (soajs, inputmaskData, cb) => {
         if (!inputmaskData) {
