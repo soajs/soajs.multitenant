@@ -25,48 +25,14 @@ function Product(service, options, mongoCore) {
     }
     if (indexing && !indexing[index]) {
         indexing[index] = true;
-        //todo fix indexes
         __self.mongoCore.createIndex(colName, {'code': 1}, {unique: true}, (err, result) => {
         });
-
         __self.mongoCore.createIndex(colName, {'tenant.id': 1}, {}, (err, result) => {
         });
-
-        // __self.mongoCore.createIndex(colName, {'tenant.id': 1}, {}, function (err, result) {
-        // });
-        // __self.mongoCore.createIndex(colName, {'packages.code': 1}, {}, function (err, result) {
-        // });
-        // __self.mongoCore.createIndex(colName, {'code': 1, 'packages.code': 1}, {}, function (err, result) {
-        // });
 
         service.log.debug("Product: Indexes for " + index + " Updated!");
     }
 }
-
-/**
- * To validate and convert an id to mongodb objectID
- *
- * @param data
- *  should have:
- *      required (id)
- *
- * @param cb
- */
-Product.prototype.validateId = function (id, cb) {
-    let __self = this;
-
-    if (!id) {
-        let error = new Error("must provide id.");
-        return cb(error, null);
-    }
-
-    try {
-        id = __self.mongoCore.ObjectId(id);
-        return cb(null, id);
-    } catch (e) {
-        return cb(e, null);
-    }
-};
 
 Product.prototype.listProducts = function (data, cb) {
     let __self = this;
@@ -168,7 +134,7 @@ Product.prototype.checkIfExist = function (data, cb) {
 Product.prototype.addProduct = function (data, cb) {
     let __self = this;
 
-    if (!data || !(data.code || data.name)) {
+    if (!data || !data.code || !data.name) {
         let error = new Error("must provide name and code.");
         return cb(error, null);
     }
@@ -207,88 +173,25 @@ Product.prototype.deleteProduct = function (data, cb) {
         });
     }
 };
-//
-// /**
-//  * To edit a product
-//  *
-//  * @param data
-//  *  should have:
-//  *      required (id)
-//  *
-//  * @param cb
-//  */
-// Product.prototype.updateProduct = function (data, cb) {
-//     let __self = this;
-//     if (!data || !data.id) {
-//         let error = new Error("id is required.");
-//         return cb(error, null);
-//     }
-//
-//     let condition = {'_id': data.id};
-//
-//     let options = {'upsert': false, 'safe': true};
-//
-//     __self.mongoCore.update(colName, condition, data, options, (err, result) => {
-//         return cb(err, result);
-//     });
-// };
-//
-// // Product.prototype.listEnvironments = function (data, cb) {
-// //     let __self = this;
-// //     let condition = {};
-// //
-// //     let params = {"code": 1};
-// //
-// //     if (!data.console) {
-// //         condition = {
-// //             code: {$ne: process.env.SOAJS_ENV.toUpperCase()}
-// //         };
-// //     }
-// //     __self.mongoCore.find(envColName, condition, params, null, (err, record) => {
-// //         return cb(err, record);
-// //     });
-// // };
-//
-// // Product.prototype.sanitize = function (cb) {
-// //     let __self = this;
-// //     async.eachOf(__self.soajs.inputmaskData.scope, function (env, envKey, call) {
-// //         async.eachOf(env, function (service, serviceKey, callback) {
-// //             let sanitizedVersion = {};
-// //             Object.keys(service).forEach(function (key) {
-// //                 sanitizedVersion[soajsLib.version.sanitize(key)] = service[key];
-// //                 delete service[key];
-// //             });
-// //             __self.soajs.inputmaskData.scope[envKey][serviceKey] = sanitizedVersion;
-// //             callback();
-// //         }, call);
-// //     }, cb);
-// // };
-// //
-// // Product.prototype.unsanitize = function (record, cb) {
-// //     if (record && record.scope && record.scope.acl && Object.keys(record.scope.acl > 0)) {
-// //         let scope = record.scope.acl;
-// //         unsanitize(scope, () => {
-// //             record.scope.acl = scope;
-// //             return cb(null, record);
-// //         });
-// //     } else {
-// //         return cb(null, record);
-// //     }
-// //
-// //     function unsanitize(acl, cb) {
-// //         async.eachOf(acl, function (env, envKey, call) {
-// //             async.eachOf(env, function (service, serviceKey, callback) {
-// //                 let sanitizedVersion = {};
-// //                 Object.keys(service).forEach(function (key) {
-// //                     sanitizedVersion[soajsLib.version.unsanitize(key)] = service[key];
-// //                     delete service[key];
-// //                 });
-// //                 acl[envKey][serviceKey] = sanitizedVersion;
-// //                 callback();
-// //             }, call);
-// //         }, cb);
-// //     }
-// // };
+
+
+
+
+Product.prototype.validateId = function (id, cb) {
+    let __self = this;
+
+    if (!id) {
+        let error = new Error("must provide id.");
+        return cb(error, null);
+    }
+
+    try {
+        id = __self.mongoCore.ObjectId(id);
+        return cb(null, id);
+    } catch (e) {
+        return cb(e, null);
+    }
+};
 
 Product.prototype.closeConnection = function () {
     let __self = this;
