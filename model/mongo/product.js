@@ -74,7 +74,7 @@ Product.prototype.listConsoleProducts = function (data, cb) {
 Product.prototype.getProduct = function (data, cb) {
     let __self = this;
     if (!data || !(data.id || data.code)) {
-        let error = new Error("must provide either id or code.");
+        let error = new Error("id or code is required.");
         return cb(error, null);
     }
 
@@ -105,7 +105,7 @@ Product.prototype.checkIfExist = function (data, cb) {
     let __self = this;
 
     if (!data || !(data.code || data.id)) {
-        let error = new Error("must provide either code or id.");
+        let error = new Error("code or id is required.");
         return cb(error, null);
     }
 
@@ -135,7 +135,7 @@ Product.prototype.addProduct = function (data, cb) {
     let __self = this;
 
     if (!data || !data.code || !data.name) {
-        let error = new Error("must provide name and code.");
+        let error = new Error("name and code are required.");
         return cb(error, null);
     }
 
@@ -149,7 +149,7 @@ Product.prototype.addProduct = function (data, cb) {
 Product.prototype.deleteProduct = function (data, cb) {
     let __self = this;
     if (!data || !(data.id || data.code)) {
-        let error = new Error("must provide either id or code.");
+        let error = new Error("id or code are required.");
         return cb(error, null);
     }
 
@@ -181,7 +181,7 @@ Product.prototype.validateId = function (id, cb) {
     let __self = this;
 
     if (!id) {
-        let error = new Error("must provide id.");
+        let error = new Error("id is required.");
         return cb(error, null);
     }
 
