@@ -15,6 +15,7 @@ module.exports = {
     "oauth": false,
     "extKeyRequired": true,
     "errors": {
+        400: "Business logic required data are missing.",
         421: "Unable to update the tenant record",
         423: "An id must be provided",
         426: 'Invalid Product ID provided',
@@ -104,7 +105,7 @@ module.exports = {
             "/products/console": {
                 _apiInfo: {
                     "l": "List Console Products",
-                    "group": "Product",
+                    "group": "Console product",
                     "groupMain": true
                 }
             },

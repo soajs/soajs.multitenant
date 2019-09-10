@@ -1,47 +1,45 @@
 "use strict";
 const colName = "products";
-const envColName = "environment";
 const core = require("soajs");
 const Mongo = core.mongo;
-const async = require("async");
-const soajsLib = require("soajs.core.libs");
 
-let indexing = false;
+let indexing = {};
 
-function Product(service, dbConfig, mongoCore) {
+function Product(service, options, mongoCore) {
     let __self = this;
-    let indexingFn = () => {
-        if (!indexing) {
-            indexing = true;
-            //todo fix indexes
-            __self.mongoCore.createIndex(colName, {'code': 1}, {unique: true}, (err, result) => {
-            });
 
-            __self.mongoCore.createIndex(colName, {'tenant.id': 1}, {}, (err, result) => {
-            });
-
-            // __self.mongoCore.createIndex(colName, {'tenant.id': 1}, {}, function (err, result) {
-            // });
-            // __self.mongoCore.createIndex(colName, {'packages.code': 1}, {}, function (err, result) {
-            // });
-            // __self.mongoCore.createIndex(colName, {'code': 1, 'packages.code': 1}, {}, function (err, result) {
-            // });
-
-            service.log.debug("Indexes for " + colName + " Updated!");
-        }
-    };
     if (mongoCore) {
         __self.mongoCore = mongoCore;
-        indexingFn();
     }
     if (!__self.mongoCore) {
-        if (dbConfig) {
-            __self.mongoCore = new Mongo(dbConfig);
+        if (options && options.dbConfig) {
+            __self.mongoCore = new Mongo(options.dbConfig);
         } else {
             let registry = service.registry.get();
             __self.mongoCore = new Mongo(registry.coreDB.provision);
         }
-        indexingFn();
+    }
+    let index = "default";
+    if (options && options.index) {
+        index = options.index;
+    }
+    if (indexing && !indexing[index]) {
+        indexing[index] = true;
+        //todo fix indexes
+        __self.mongoCore.createIndex(colName, {'code': 1}, {unique: true}, (err, result) => {
+        });
+
+        __self.mongoCore.createIndex(colName, {'tenant.id': 1}, {}, (err, result) => {
+        });
+
+        // __self.mongoCore.createIndex(colName, {'tenant.id': 1}, {}, function (err, result) {
+        // });
+        // __self.mongoCore.createIndex(colName, {'packages.code': 1}, {}, function (err, result) {
+        // });
+        // __self.mongoCore.createIndex(colName, {'code': 1, 'packages.code': 1}, {}, function (err, result) {
+        // });
+
+        soajs.log.debug("Product: Indexes for " + index + " Updated!");
     }
 }
 
@@ -109,27 +107,32 @@ Product.prototype.listConsoleProducts = function (data, cb) {
  */
 Product.prototype.getProduct = function (data, cb) {
     let __self = this;
-    let condition = {};
-
     if (!data || !(data.id || data.code)) {
         let error = new Error("must provide either id or code.");
         return cb(error, null);
     }
 
+    let condition = {};
     if (data.id) {
         __self.validateId(data.id, (err, id) => {
             if (err) {
                 return cb(err, null);
             }
             condition = {'_id': id};
-        });
-    } else if (data.code) {
-        condition = {'code': data.code}; // TODO: ADD to documentation
-    }
 
-    __self.mongoCore.findOne(colName, condition, null, null, (err, record) => {
-        return cb(err, record);
-    });
+            __self.mongoCore.findOne(colName, condition, null, null, (err, record) => {
+                return cb(err, record);
+            });
+        });
+    } else {
+        if (data.code) {
+            condition = {'code': data.code}; // TODO: ADD to documentation
+        }
+
+        __self.mongoCore.findOne(colName, condition, null, null, (err, record) => {
+            return cb(err, record);
+        });
+    }
 };
 
 Product.prototype.checkIfExist = function (data, cb) {
@@ -142,20 +145,24 @@ Product.prototype.checkIfExist = function (data, cb) {
 
     let condition = {};
 
-    if (data.code) {
-        condition.code = data.code;
-    } else if (data.id) {
+    if (data.id) {
         __self.validateId(data.id, (err, id) => {
             if (err) {
                 return cb(err, null);
             }
             condition = {'_id': id};
+            __self.mongoCore.count(colName, condition, (err, count) => {
+                return cb(err, count);
+            });
+        });
+    } else {
+        if (data.code) {
+            condition.code = data.code;
+        }
+        __self.mongoCore.count(colName, condition, (err, count) => {
+            return cb(err, count);
         });
     }
-
-    __self.mongoCore.count(colName, condition, (err, count) => {
-        return cb(err, count);
-    });
 };
 
 Product.prototype.addProduct = function (data, cb) {
@@ -166,8 +173,10 @@ Product.prototype.addProduct = function (data, cb) {
         return cb(error, null);
     }
 
-    __self.mongoCore.insert(colName, data, (err, result) => {
-        return cb(err, result);
+    __self.mongoCore.insert(colName, data, (err, record) => {
+        if (record && Array.isArray(record))
+            record = record [0];
+        return cb(err, record);
     });
 };
 
@@ -179,21 +188,24 @@ Product.prototype.deleteProduct = function (data, cb) {
     }
 
     let condition = {};
-
-    if (data.code) {
-        condition = {'code': data.code};
-    } else if (data.id) {
+    if (data.id) {
         __self.validateId(data.id, (err, id) => {
             if (err) {
                 return cb(err, null);
             }
             condition = {'_id': id};
+            __self.mongoCore.remove(colName, condition, (err, count) => {
+                return cb(err, count);
+            });
+        });
+    } else {
+        if (data.code) {
+            condition.code = data.code;
+        }
+        __self.mongoCore.remove(colName, condition, (err, count) => {
+            return cb(err, count);
         });
     }
-
-    __self.mongoCore.remove(colName, condition, (err, result) => {
-        return cb(err, result);
-    });
 };
 //
 // /**

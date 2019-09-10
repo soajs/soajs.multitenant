@@ -20,7 +20,11 @@ let bl = {
         "getModel": (soajs) => {
             let l_modelObj = bl.modelObj;
             if (soajs && soajs.tenant && soajs.tenant.type === "client" && soajs.tenant.dbConfig) {
-                l_modelObj = new bl.model(bl.soajs_service, soajs.tenant.dbConfig, null);
+                let options = {
+                    "dbConfig": soajs.tenant.dbConfig,
+                    "index": soajs.tenant.id
+                };
+                l_modelObj = new bl.model(bl.soajs_service, options, null);
             }
             return l_modelObj;
         },
@@ -55,16 +59,12 @@ let bl = {
 
     "get": (soajs, inputmaskData, cb) => {
         if (!inputmaskData) {
-            return cb(bl.handleError(soajs, 474, null));
+            return cb(bl.handleError(soajs, 400, null));
         }
         let l_modelObj = bl.mp.getModel(soajs);
         let data = {};
-
-        if (inputmaskData.id) {
-            data.id = inputmaskData.id;
-        } else if (inputmaskData.code) {
-            data.code = inputmaskData.code;
-        }
+        data.id = inputmaskData.id;
+        data.code = inputmaskData.code;
 
         l_modelObj.getProduct(data, (err, record) => {
             bl.mp.closeModel(soajs, l_modelObj);
@@ -121,12 +121,8 @@ let bl = {
         }
         let l_modelObj = bl.mp.getModel(soajs);
         let data = {};
-
-        if (inputmaskData.code) {
-            data.code = inputmaskData.code;
-        } else {
-            data.id = inputmaskData.id;
-        }
+        data.code = inputmaskData.code;
+        data.id = inputmaskData.id;
 
         l_modelObj.getProduct(data, (err, record) => {
             if (err) {
