@@ -98,6 +98,33 @@ let bl = {
             return cb(null, record.packages);
         });
     },
+    "getPackage": (soajs, inputmaskData, cb) => {
+        if (!inputmaskData || !inputmaskData.packageCode) {
+            return cb(bl.handleError(soajs, 400, null));
+        }
+        let modelObj = bl.mp.getModel(soajs);
+        let data = {};
+        data.code = inputmaskData.code;
+
+        modelObj.getProduct(data, (err, record) => {
+            bl.mp.closeModel(soajs, modelObj);
+            if (err) {
+                return cb(bl.handleError(soajs, 602, err), null);
+            }
+            if (!record || !record.packages) {
+                return cb(bl.handleError(soajs, 461, err), null);
+            }
+            let pck = null;
+            let prefix = inputmaskData.code + '_';
+            for (let i = 0; i < record.packages.length; i++) {
+                if (record.packages[i].code === prefix + inputmaskData.packageCode) {
+                    pck = record.packages[i];
+                    break;
+                }
+            }
+            return cb(null, (pck || {}));
+        });
+    },
 
 
     "add": (soajs, inputmaskData, cb) => {

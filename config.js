@@ -99,7 +99,28 @@ module.exports = {
                 },
                 "commonFields": ['id']
             },
-
+            "/product/package": {
+                _apiInfo: {
+                    "l": "Get Product Package",
+                    "group": "Product"
+                },
+                "packageCode": {
+                    "source": ["query.packageCode"],
+                    "required": true,
+                    "validation": {
+                        "type": "string"
+                    }
+                },
+                "productCode": {
+                    "source": ["query.code"],
+                    "required": true,
+                    "validation": {
+                        "type": "string",
+                        "format": "alphanumeric",
+                        "maxLength": 6
+                    }
+                }
+            }
         },
         "post": {
             "/product": {

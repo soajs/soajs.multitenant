@@ -39,6 +39,11 @@ service.init(() => {
                 return res.json(req.soajs.buildResponse(error, data));
             });
         });
+        service.get("/product/package", (req, res) => {
+            bl.product.getPackage(req.soajs, req.soajs.inputmaskData, (error, data) => {
+                return res.json(req.soajs.buildResponse(error, data));
+            });
+        });
 
 
         //* POST
