@@ -34,7 +34,9 @@ module.exports = {
         476: "Unable to update product record",
         477: "Invalid product code provided",
         500: "This record is locked. You cannot modify or delete it",
-        601: "Model not found"
+        601: "Model not found",
+        602: "Model error: ",
+
     },
     "schema": {
         "commonFields": {

@@ -11,20 +11,27 @@ describe("Unit test for: BL - product", () => {
     let soajs = {
         config: {
             "errors": {
+                421: "Unable to update the tenant record",
                 423: "An id must be provided",
                 426: 'Invalid Product ID provided',
                 430: "Tenant not found for this user",
                 436: "Unable to find tenants",
-                460: "Unable to find product",
+                437: "Unable to get the environment records",
+                460: "Unable to find products",
+                461: "Unable to find package",
+                464: "You are not allowed to remove the key you are currently logged in with",
                 466: "You are not allowed to remove the product you are currently logged in with",
+                467: "Package already exists",
                 468: "Product already exists",
                 469: "Unable to add the product record",
                 473: "Missing required fields",
                 474: "Missing required field: either id or code",
                 475: "Unable to remove product record",
+                476: "Unable to update product record",
                 477: "Invalid product code provided",
                 500: "This record is locked. You cannot modify or delete it",
-                601: "Model not found"
+                601: "Model not found",
+                602: "Model error: ",
             },
             "console": {
                 "product": "DSBRD"
@@ -58,6 +65,20 @@ describe("Unit test for: BL - product", () => {
             BL.list(soajs, null, (err, records) => {
                 assert.ok(records);
                 assert(Array.isArray(records));
+                done();
+            });
+        });
+
+        it("Fails - List products - null config", (done) => {
+            BL.modelObj = {
+                listProducts: (nullObject, cb) => {
+                    return cb(true, null);
+                }
+            };
+            BL.list(soajs, null, (err, records) => {
+                assert.ok(err);
+                assert.equal(records, null);
+                assert.deepEqual(err.code, 602);
                 done();
             });
         });
@@ -99,62 +120,44 @@ describe("Unit test for: BL - product", () => {
             });
         });
 
-        // it("Fails - List products - null config", (done) => {
-        // 	BL.modelObj = {
-        // 		listProducts: (nullObject, cb) => {
-        // 			return cb(true, null);
-        // 		}
-        // 	};
-        // 	BL.list(soajs, null, (err, records) => {
-        // 		assert.ok(err);
-        // 		assert.equal(records, null);
-        // 		assert.deepEqual(err, {
-        // 			code: 460,
-        // 			msg: soajs.config.errors[460]
-        // 		});
-        // 		done();
-        // 	});
-        // });
+        it("Fails - List products - error - client tenant", (done) => {
+            let soajsClient = {
+                config: {
+                    "errors": {
+                        460: "Unable to find product",
+                        601: "Model not found",
+                        602: "Model error: ",
 
-        // it("Fails - List products - error - client tenant", (done) => {
-        // 	let soajsClient = {
-        // 		config: {
-        // 			"errors": {
-        // 				460: "Unable to find product",
-        // 				601: "Model not found"
-        // 			},
-        // 		},
-        // 		tenant: {
-        // 			type: "client",
-        // 			dbConfig: {}
-        // 		},
-        // 		log: {
-        // 			error: () => {
-        // 				console.log();
-        // 			}
-        // 		}
-        // 	};
-        //
-        // 	function Product() {
-        // 		console.log("Product");
-        // 	}
-        //
-        // 	Product.prototype.listProducts = (data, cb) => {
-        // 		return cb(true, null);
-        // 	};
-        // 	Product.prototype.closeConnection = () => {
-        // 	};
-        // 	BL.model = Product;
-        // 	BL.list(soajsClient, null, (err, records) => {
-        // 		assert.ok(err);
-        // 		assert.equal(records, null);
-        // 		assert.deepEqual(err, {
-        // 			code: 460,
-        // 			msg: soajs.config.errors[460]
-        // 		});
-        // 		done();
-        // 	});
-        // });
+                    },
+                },
+                tenant: {
+                    type: "client",
+                    dbConfig: {}
+                },
+                log: {
+                    error: () => {
+                        console.log();
+                    }
+                }
+            };
+
+            function Product() {
+                console.log("Product");
+            }
+
+            Product.prototype.listProducts = (data, cb) => {
+                return cb(true, null);
+            };
+            Product.prototype.closeConnection = () => {
+            };
+            BL.model = Product;
+            BL.list(soajsClient, null, (err, records) => {
+                assert.ok(err);
+                assert.equal(records, null);
+                assert.deepEqual(err.code, 602);
+                done();
+            });
+        });
     });
 
     describe("Testing list console Products", () => {
@@ -176,12 +179,27 @@ describe("Unit test for: BL - product", () => {
             });
         });
 
+        it("Fails - List console products - null config", (done) => {
+            BL.modelObj = {
+                listConsoleProducts: (nullObject, cb) => {
+                    return cb(true, null);
+                }
+            };
+            BL.listConsole(soajs, null, (err, records) => {
+                assert.ok(err);
+                assert.equal(records, null);
+                assert.deepEqual(err.code, 602);
+                done();
+            });
+        });
+
         it("Success - List console products - null data - client tenant", (done) => {
             let soajsClient = {
                 config: {
                     "errors": {
                         460: "Unable to find product",
-                        601: "Model not found"
+                        601: "Model not found",
+                        602: "Model error: "
                     },
                 },
                 tenant: {
@@ -213,62 +231,43 @@ describe("Unit test for: BL - product", () => {
             });
         });
 
-        // it("Fails - List console products - null config", (done) => {
-        // 	BL.modelObj = {
-        // 		listConsoleProducts: (nullObject, cb) => {
-        // 			return cb(true, null);
-        // 		}
-        // 	};
-        // 	BL.listConsole(soajs, null, (err, records) => {
-        // 		assert.ok(err);
-        // 		assert.equal(records, null);
-        // 		assert.deepEqual(err, {
-        // 			code: 460,
-        // 			msg: soajs.config.errors[460]
-        // 		});
-        // 		done();
-        // 	});
-        // });
-        //
-        // it("Fails - List console products - error - client tenant", (done) => {
-        // 	let soajsClient = {
-        // 		config: {
-        // 			"errors": {
-        // 				460: "Unable to find product",
-        // 				601: "Model not found"
-        // 			},
-        // 		},
-        // 		tenant: {
-        // 			type: "client",
-        // 			dbConfig: {}
-        // 		},
-        // 		log: {
-        // 			error: () => {
-        // 				console.log();
-        // 			}
-        // 		}
-        // 	};
-        //
-        // 	function Product() {
-        // 		console.log("Product");
-        // 	}
-        //
-        // 	Product.prototype.listConsoleProducts = (data, cb) => {
-        // 		return cb(true, null);
-        // 	};
-        // 	Product.prototype.closeConnection = () => {
-        // 	};
-        // 	BL.model = Product;
-        // 	BL.listConsole(soajsClient, null, (err, records) => {
-        // 		assert.ok(err);
-        // 		assert.equal(records, null);
-        // 		assert.deepEqual(err, {
-        // 			code: 460,
-        // 			msg: soajs.config.errors[460]
-        // 		});
-        // 		done();
-        // 	});
-        // });
+        it("Fails - List console products - error - client tenant", (done) => {
+            let soajsClient = {
+                config: {
+                    "errors": {
+                        460: "Unable to find product",
+                        601: "Model not found",
+                        602: "Model error: "
+                    },
+                },
+                tenant: {
+                    type: "client",
+                    dbConfig: {}
+                },
+                log: {
+                    error: () => {
+                        console.log();
+                    }
+                }
+            };
+
+            function Product() {
+                console.log("Product");
+            }
+
+            Product.prototype.listConsoleProducts = (data, cb) => {
+                return cb(true, null);
+            };
+            Product.prototype.closeConnection = () => {
+            };
+            BL.model = Product;
+            BL.listConsole(soajsClient, null, (err, records) => {
+                assert.ok(err);
+                assert.equal(records, null);
+                assert.deepEqual(err.code, 602);
+                done();
+            });
+        });
     });
 
     describe("Testing Get product", () => {
@@ -306,7 +305,7 @@ describe("Unit test for: BL - product", () => {
             BL.modelObj = {
                 getProduct: (inputMask, cb) => {
                     return cb(null, {
-                        "id": "testid",
+                        "_id": "testid",
                         "name": "Console UI Product",
                         "description": "This is the main Console UI Product.",
                     });
@@ -322,11 +321,12 @@ describe("Unit test for: BL - product", () => {
         it("Fails - Get product - null data", (done) => {
             BL.modelObj = {
                 getProduct: (nullObject, cb) => {
-                    return cb(true, null);
+                    return cb(null, null);
                 }
             };
             BL.get(soajs, null, (err, record) => {
                 assert.ok(err);
+                assert.equal(err.code, 474);
                 done();
             });
         });
@@ -336,7 +336,8 @@ describe("Unit test for: BL - product", () => {
                 config: {
                     "errors": {
                         460: "Unable to find product",
-                        601: "Model not found"
+                        601: "Model not found",
+                        602: "Model error: ",
                     },
                 },
                 tenant: {
@@ -381,7 +382,9 @@ describe("Unit test for: BL - product", () => {
                 config: {
                     "errors": {
                         460: "Unable to find product",
-                        601: "Model not found"
+                        601: "Model not found",
+                        602: "Model error: ",
+
                     },
                 },
                 tenant: {
@@ -401,7 +404,7 @@ describe("Unit test for: BL - product", () => {
 
             Product.prototype.getProduct = (inputMask, cb) => {
                 return cb(null, {
-                    "id": "testid",
+                    "_id": "testid",
                     "name": "Console UI Product",
                     "description": "This is the main Console UI Product.",
                 });
@@ -427,7 +430,9 @@ describe("Unit test for: BL - product", () => {
                 config: {
                     "errors": {
                         460: "Unable to find product",
-                        601: "Model not found"
+                        474: "Missing required field: either id or code",
+                        601: "Model not found",
+                        602: "Model error: "
                     },
                 },
                 tenant: {
@@ -452,18 +457,20 @@ describe("Unit test for: BL - product", () => {
             };
             BL.model = Product;
 
-            BL.get(soajsClient, {id: "notfound"}, (err, record) => {
+            BL.get(soajsClient, null, (err, record) => {
                 assert.ok(err);
+                assert.deepEqual(err.code, 474);
                 done();
             });
         });
 
-        it("Fail - Get product - client tenant", (done) => {
+        it("Fail - Get product - null record - client tenant", (done) => {
             let soajsClient = {
                 config: {
                     "errors": {
                         460: "Unable to find product",
-                        601: "Model not found"
+                        601: "Model not found",
+                        602: "Model error: "
                     },
                 },
                 tenant: {
@@ -482,7 +489,7 @@ describe("Unit test for: BL - product", () => {
             }
 
             Product.prototype.getProduct = (data, cb) => {
-                return cb(true, null);
+                return cb(null, null);
             };
             Product.prototype.closeConnection = () => {
             };
@@ -491,6 +498,7 @@ describe("Unit test for: BL - product", () => {
 
             BL.get(soajsClient, {id: "notfound"}, (err, record) => {
                 assert.ok(err);
+                assert.deepEqual(err.code, 460);
                 done();
             });
         });
@@ -500,7 +508,8 @@ describe("Unit test for: BL - product", () => {
                 config: {
                     "errors": {
                         460: "Unable to find product",
-                        601: "Model not found"
+                        601: "Model not found",
+                        602: "Model error: "
                     },
                 },
                 tenant: {
@@ -527,6 +536,7 @@ describe("Unit test for: BL - product", () => {
             BL.model = Product;
 
             BL.get(soajsClient, {id: "found"}, (err, record) => {
+                assert.deepEqual(err.code, 602);
                 assert.ok(err);
                 done();
             });
@@ -542,7 +552,8 @@ describe("Unit test for: BL - product", () => {
         it("Success - Add product - code, name", (done) => {
             let inputMask = {
                 code: "TESTP",
-                name: "Test Product"
+                name: "Test Product",
+                description: 'Some Test Description'
             };
 
             BL.modelObj = {
@@ -561,8 +572,9 @@ describe("Unit test for: BL - product", () => {
 
         it("Fails - Add product - Product Already Exist", (done) => {
             let inputMask = {
-                code: 'DSBRD',
-                name: 'Main Product'
+                code: 'DSBRT',
+                name: 'Some Product',
+                description: 'Some Test Description'
             };
 
             BL.modelObj = {
@@ -581,7 +593,7 @@ describe("Unit test for: BL - product", () => {
             });
         });
 
-        it("Fails - Add product - Product Already Exist with tenant client", (done) => {
+        it("Fails - Add product - Product Already Exist - client tenant", (done) => {
             let inputMask = {
                 code: 'DSBRD',
                 name: 'Main Product'
@@ -589,6 +601,7 @@ describe("Unit test for: BL - product", () => {
             let soajsClient = {
                 config: {
                     "errors": {
+                        468: "Product already exists",
                         460: "Unable to find product",
                         601: "Model not found"
                     },
@@ -624,7 +637,7 @@ describe("Unit test for: BL - product", () => {
             });
         });
 
-        it("Fails - Add product - mongo error check if exists", (done) => {
+        it("Fails - Add product - mongo error check if exists - client tenant", (done) => {
             let soajsClient = {
                 config: {
                     "errors": {
@@ -662,16 +675,16 @@ describe("Unit test for: BL - product", () => {
             BL.model = Product;
             BL.add(soajsClient, inputMask, (err, record) => {
                 assert.ok(err);
-                assert.deepEqual(err.code, 474);
+                assert.deepEqual(err.code, 602);
                 done();
             });
         });
 
-        it("Fails - Add product - mongo error when adding product", (done) => {
+        it("Fails - Add product - mongo error when adding product - client tenant", (done) => {
             let soajsClient = {
                 config: {
                     "errors": {
-                        460: "Unable to find product",
+                        469: "Unable to add the product record",
                         601: "Model not found"
                     },
                 },
@@ -721,7 +734,7 @@ describe("Unit test for: BL - product", () => {
             };
             BL.add(soajs, null, (err, record) => {
                 assert.ok(err);
-                assert.deepEqual(err.code, 473);
+                assert.deepEqual(err.code, 474);
                 done();
             });
         });
@@ -730,7 +743,7 @@ describe("Unit test for: BL - product", () => {
             let soajsClient = {
                 config: {
                     "errors": {
-                        460: "Unable to find product",
+                        474: "Missing required field: either id or code",
                         601: "Model not found"
                     },
                 },
@@ -799,43 +812,43 @@ describe("Unit test for: BL - product", () => {
             });
         });
 
-        // it("Fails - Delete product - valid id", (done) => {
-        // 	let inputMask = {
-        // 		id: "someID",
-        // 	};
-        //
-        // 	BL.modelObj = {
-        // 		deleteProduct: (inputMask, cb) => {
-        // 			return cb(true, null);
-        // 		},
-        // 		getProduct: (inputMask, cb) => {
-        // 			return cb(true, null);
-        // 		}
-        // 	};
-        // 	BL.delete(soajs, inputMask, (err, record) => {
-        // 		assert.ok(err);
-        // 		done();
-        // 	});
-        // });
+        it("Fails - Delete product - valid id", (done) => {
+            let inputMask = {
+                id: "someID",
+            };
 
-        // it("Fails - Delete product - valid id no record", (done) => {
-        // 	let inputMask = {
-        // 		id: "someID",
-        // 	};
-        //
-        // 	BL.modelObj = {
-        // 		deleteProduct: (inputMask, cb) => {
-        // 			return cb(true, null);
-        // 		},
-        // 		getProduct: (inputMask, cb) => {
-        // 			return cb(null, null);
-        // 		}
-        // 	};
-        // 	BL.delete(soajs, inputMask, (err, record) => {
-        // 		assert.ok(err);
-        // 		done();
-        // 	});
-        // });
+            BL.modelObj = {
+                deleteProduct: (inputMask, cb) => {
+                    return cb(true, null);
+                },
+                getProduct: (inputMask, cb) => {
+                    return cb(true, null);
+                }
+            };
+            BL.delete(soajs, inputMask, (err, record) => {
+                assert.ok(err);
+                done();
+            });
+        });
+
+        it("Fails - Delete product - valid id no record", (done) => {
+            let inputMask = {
+                id: "someID",
+            };
+
+            BL.modelObj = {
+                deleteProduct: (inputMask, cb) => {
+                    return cb(true, null);
+                },
+                getProduct: (inputMask, cb) => {
+                    return cb(null, null);
+                }
+            };
+            BL.delete(soajs, inputMask, (err, record) => {
+                assert.ok(err);
+                done();
+            });
+        });
 
         it("Fails - Delete product - null Data", (done) => {
             BL.modelObj = {
@@ -872,6 +885,48 @@ describe("Unit test for: BL - product", () => {
             });
         });
 
+        let soajs2 = {
+            config: {
+                "errors": {
+                    421: "Unable to update the tenant record",
+                    423: "An id must be provided",
+                    426: 'Invalid Product ID provided',
+                    430: "Tenant not found for this user",
+                    436: "Unable to find tenants",
+                    437: "Unable to get the environment records",
+                    460: "Unable to find products",
+                    461: "Unable to find package",
+                    464: "You are not allowed to remove the key you are currently logged in with",
+                    466: "You are not allowed to remove the product you are currently logged in with",
+                    467: "Package already exists",
+                    468: "Product already exists",
+                    469: "Unable to add the product record",
+                    473: "Missing required fields",
+                    474: "Missing required field: either id or code",
+                    475: "Unable to remove product record",
+                    476: "Unable to update product record",
+                    477: "Invalid product code provided",
+                    500: "This record is locked. You cannot modify or delete it",
+                    601: "Model not found",
+                    602: "Model error: ",
+                },
+                "console": {
+                    "product": "DSBRD"
+                },
+            },
+            tenant: {
+                application: {
+                    product: "DSBRD",
+                    package: "DSBRD_TEST",
+                }
+            },
+            log: {
+                error: () => {
+                    console.log();
+                }
+            }
+        };
+
         it("Fails - Delete product - Tenant product", (done) => {
             let inputMask = {
                 code: "DSBRD",
@@ -882,10 +937,10 @@ describe("Unit test for: BL - product", () => {
                     return cb(true, null);
                 },
                 getProduct: (inputMask, cb) => {
-                    return cb(null, null);
+                    return cb(null, {});
                 }
             };
-            BL.delete(soajs, inputMask, (err, record) => {
+            BL.delete(soajs2, inputMask, (err, record) => {
                 assert.ok(err);
                 done();
             });
@@ -902,12 +957,14 @@ describe("Unit test for: BL - product", () => {
                 },
                 getProduct: (inputMask, cb) => {
                     return cb(null, {
-                        locked: true
+                        locked: true,
+                        console: true
                     });
                 }
             };
             BL.delete(soajs, inputMask, (err, record) => {
                 assert.ok(err);
+                assert.deepEqual(err.code, 500);
                 done();
             });
         });
@@ -947,46 +1004,9 @@ describe("Unit test for: BL - product", () => {
                 done();
             });
         });
-
-        it("Fails - Update product - code no record", (done) => {
-            let inputMask = {
-                code: "someCode",
-            };
-
-            BL.modelObj = {
-                updateProduct: (inputMask, cb) => {
-                    return cb(true, null);
-                },
-                getProduct: (inputMask, cb) => {
-                    return cb(null, null);
-                }
-            };
-            BL.update(soajs, inputMask, (err, record) => {
-                assert.ok(err);
-                done();
-            });
-        });
-
-        it("Fails - Delete product - not record id", (done) => {
-            let inputMask = {
-                id: "NOTVALID",
-            };
-
-            BL.modelObj = {
-                updateProduct: (inputMask, cb) => {
-                    return cb(true, null);
-                },
-                getProduct: (inputMask, cb) => {
-                    return cb(null, null);
-                }
-            };
-            BL.update(soajs, inputMask, (err, record) => {
-                assert.ok(err);
-                done();
-            });
-        });
     });
 
+    /*
     describe("Testing Update Product", () => {
         afterEach((done) => {
             BL.modelObj = null;
@@ -2219,4 +2239,5 @@ describe("Unit test for: BL - product", () => {
 
     });
 
+    */
 });

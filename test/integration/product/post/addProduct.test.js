@@ -12,11 +12,12 @@ describe("Testing add product API", () => {
         done();
     });
 
-    it("Success - will return ", (done) => {
+    it("Success - will add product ", (done) => {
         let params = {
             form: {
                 name: 'SOME',
-                code: 'SOMEC'
+                code: 'SOMEC',
+                description: 'Will add due test'
             }
         };
         requester('/product', 'post', params, (error, body) => {
@@ -26,7 +27,54 @@ describe("Testing add product API", () => {
         });
     });
 
-    it("Fail - will not return - no name", (done) => {
+    it("Success - will add product ", (done) => {
+        let params = {
+            form: {
+                name: 'SOME2',
+                code: 'SOME2',
+                description: 'Will add due test 2'
+            }
+        };
+        requester('/product', 'post', params, (error, body) => {
+            assert.ifError(error);
+            assert.ok(body);
+            done();
+        });
+    });
+
+    it("Fail - will not add - wrong object", (done) => {
+        let params = {
+            form: {
+                product: "{\n" +
+                    "            code: 'CODET',\n" +
+                    "            description: 'Will not add due to input error'\n" +
+                    "        }"
+            }
+        };
+        requester('/product', 'post', params, (error, body) => {
+            assert.ifError(error);
+            assert.ok(body);
+            assert.ok(body.errors.codes);
+            done();
+        });
+    });
+
+    it("Fail - will not add - no name", (done) => {
+        let params = {
+            form: {
+                code: 'CODET',
+                description: 'Will not add due to non-existance of name'
+            }
+        };
+        requester('/product', 'post', params, (error, body) => {
+            assert.ifError(error);
+            assert.ok(body);
+            assert.ok(body.errors.codes);
+            done();
+        });
+    });
+
+    it("Fail - will not add - no data", (done) => {
         let params = {};
         requester('/product', 'post', params, (error, body) => {
             assert.ifError(error);

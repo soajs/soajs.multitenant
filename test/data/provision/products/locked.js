@@ -441,6 +441,27 @@ let lib = {
 								"Continuous Integration"
 							]
 						}
+					],
+					multitenant: [
+						{
+							version: "1",
+							get: [
+								"Product",
+								"Tenant"
+							],
+							post: [
+								"Product",
+								"Tenant"
+							],
+							delete: [
+								"Product",
+								"Tenant"
+							],
+							put:[
+								"Product",
+								"Tenant"
+							]
+						}
 					]
 				}
 			},
@@ -708,6 +729,27 @@ let lib = {
 								"Git Accounts",
 								"API Builder",
 								"Secrets"
+							]
+						}
+					],
+					multitenant: [
+						{
+							version: "1",
+							get: [
+								"Product",
+								"Tenant"
+							],
+							post: [
+								"Product",
+								"Tenant"
+							],
+							delete: [
+								"Product",
+								"Tenant"
+							],
+							put:[
+								"Product",
+								"Tenant"
 							]
 						}
 					]

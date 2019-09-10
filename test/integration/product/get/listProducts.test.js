@@ -16,7 +16,6 @@ describe("Testing list products API", () => {
     it("Success - will return all product records", (done) => {
         let params = {};
         requester('/products', 'get', params, (error, body) => {
-            console.log(JSON.stringify(body, null, 2));
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.data);
@@ -35,6 +34,7 @@ describe("Testing list products API", () => {
         });
     });
 });
+
 
 describe("Testing list console products API", () => {
     it("Success - will return all console product records", (done) => {

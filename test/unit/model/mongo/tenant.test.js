@@ -79,7 +79,7 @@ describe("Unit test for: Model - tenant", () => {
             });
         });
 
-        it("Success - get Tenant", (done) => {
+        it.skip("Success - get Tenant", (done) => {
             let inputmaskData = {
                 id: consoleTenants[0]._id
             };
