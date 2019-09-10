@@ -126,6 +126,46 @@ let bl = {
         });
     },
 
+    "purge": (soajs, inputmaskData, cb) => {
+        if (!inputmaskData) {
+            return cb(bl.handleError(soajs, 400, null));
+        }
+        let modelObj = bl.mp.getModel(soajs);
+        let data = {};
+        data.id = inputmaskData.id;
+        modelObj.getProduct(data, (err, record) => {
+            if (err) {
+                bl.mp.closeModel(soajs, modelObj);
+                return cb(bl.handleError(soajs, 602, err), null);
+            }
+            if (!record) {
+                bl.mp.closeModel(soajs, modelObj);
+                return cb(bl.handleError(soajs, 460, err), null);
+            }
+            record.scope = {
+                acl: {}
+            };
+            for (let i = 0; i < record.packages.length; i++) {
+                record.packages[i].acl = {};
+            }
+
+            modelObj.saveProduct(record, (err) => {
+                bl.mp.closeModel(soajs, modelObj);
+                if (err) {
+                    return cb(bl.handleError(soajs, 602, err), null);
+                }
+                return cb(null, true);
+            });
+        });
+
+        modelObj.listConsoleProducts(null, (err, records) => {
+            bl.mp.closeModel(soajs, modelObj);
+            if (err) {
+                return cb(bl.handleError(soajs, 602, err));
+            }
+            return cb(null, records);
+        });
+    },
 
     "add": (soajs, inputmaskData, cb) => {
         if (!inputmaskData) {

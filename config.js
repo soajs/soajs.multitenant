@@ -169,6 +169,13 @@ module.exports = {
         },
         "put": {
 
+            "/product/purge": {
+                _apiInfo: {
+                    "l": "Purge Product and its packages ACL",
+                    "group": "Product"
+                },
+                "commonFields": ['id']
+            },
         }
     }
 };

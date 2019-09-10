@@ -66,6 +66,11 @@ service.init(() => {
 
         //* PUT
 
+        service.put("/product/purge", (req, res) => {
+            bl.product.purge(req.soajs, req.soajs.inputmaskData, (error, data) => {
+                return res.json(req.soajs.buildResponse(error, data));
+            });
+        });
 
 
         service.start();

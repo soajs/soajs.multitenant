@@ -61,6 +61,16 @@ Product.prototype.listConsoleProducts = function (data, cb) {
     });
 };
 
+Product.prototype.saveProduct = function (data, cb) {
+    let __self = this;
+    if (!data || !data._id) {
+        let error = new Error("_id is required.");
+        return cb(error, null);
+    }
+    __self.mongoCore.save(colName, data, (err, result) => {
+        return cb(err, result);
+    });
+};
 
 /**
  * To get a product
@@ -173,8 +183,6 @@ Product.prototype.deleteProduct = function (data, cb) {
         });
     }
 };
-
-
 
 
 Product.prototype.validateId = function (id, cb) {
