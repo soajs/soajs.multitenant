@@ -65,3 +65,6 @@ typings/
 
 # webstorm project formatting
 .idea
+
+# package-lock
+package-lock.json
