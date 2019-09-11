@@ -7,20 +7,38 @@ let accessSchema = {
 	"type": "boolean", "required": false
 };
 
+let apisObject = {
+	"type": "object",
+	"required": false,
+	"patternProperties": {
+		"^[_a-z\/][_a-zA-Z0-9\/:]*$": { //pattern to match an api route
+			"type": "object",
+			"required": true,
+			"properties": {
+				"access": accessSchema
+			},
+			"additionalProperties": false
+		}
+	}
+};
+
 let aclMethod = {
-	"type": "array",
 	"required": false,
 	"items": {
 		"required": false,
 		"items": {
-			"type": "string"
+			"type": "object",
+			"properties" :{
+				"apis": apisObject,
+				"group": {"type": "string", "required": true}
+			}
 		},
 		"uniqueItems": true
 	}
 };
 
-let acl = {
-	'source': ['body.acl'],
+let scope = {
+	'source': ['body.scope'],
 	'required': false,
 	'validation': {
 		"type": "object",
@@ -64,4 +82,4 @@ let acl = {
 	}
 };
 
-module.exports = acl;
+module.exports = scope;

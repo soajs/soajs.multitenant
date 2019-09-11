@@ -1,4 +1,5 @@
 let aclSchema = require("./schemas/acl");
+let scopeSchema = require("./schemas/scope");
 
 module.exports = {
     type: 'service',
@@ -32,6 +33,7 @@ module.exports = {
     "schema": {
         "commonFields": {
             "acl": aclSchema,
+            "scope": scopeSchema,
             "description": {
                 "source": ['body.description'],
                 "required": false,
@@ -137,8 +139,8 @@ module.exports = {
                     "group": "Product",
                     "groupMain": true
                 },
-                commonFields: ['description', 'name'],
-                code: {
+                "commonFields": ['description', 'name', 'scope'],
+                "code": {
                     "source": ['body.code'],
                     "required": true,
                     "validation": {
@@ -193,7 +195,6 @@ module.exports = {
 
         },
         "put": {
-
             "/product/purge": {
                 _apiInfo: {
                     "l": "Purge ACL for a Product and all its packages",

@@ -98,6 +98,7 @@ let bl = {
             return cb(null, record.packages);
         });
     },
+	
     "getPackage": (soajs, inputmaskData, cb) => {
         if (!inputmaskData || !inputmaskData.packageCode) {
             return cb(bl.handleError(soajs, 400, null));
@@ -180,7 +181,10 @@ let bl = {
             },
             packages: []
         };
-
+		
+        if (inputmaskData.scope){
+	        data.scope = inputmaskData.scope;
+        }
         modelObj.checkIfExist(data, (err, count) => {
             if (err) {
                 bl.mp.closeModel(soajs, modelObj);
