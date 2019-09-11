@@ -17,7 +17,26 @@ describe("Testing add product API", () => {
             form: {
                 name: 'SOME',
                 code: 'SOMEC',
-                description: 'Will add due test'
+                description: 'Will add due test',
+                scope: {
+                    acl: {
+                        dashboard: {
+                            multitenant: {
+                                1: {
+                                    access: false,
+                                    get: [
+                                        {
+                                            "/product": {
+                                                access: false
+                                            },
+                                            group: 'Product'
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
             }
         };
         requester('/product', 'post', params, (error, body) => {
@@ -27,7 +46,7 @@ describe("Testing add product API", () => {
         });
     });
 
-    it("Success - will add product ", (done) => {
+    it("Success - will add product no scope", (done) => {
         let params = {
             form: {
                 name: 'SOME2',
@@ -38,6 +57,7 @@ describe("Testing add product API", () => {
         requester('/product', 'post', params, (error, body) => {
             assert.ifError(error);
             assert.ok(body);
+            assert.deepEqual(body.data.scope, {acl: {}});
             done();
         });
     });

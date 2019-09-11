@@ -1,5 +1,7 @@
 "use strict";
 
+let scopeSchema = require('../../../../schemas/scope');
+
 let listProductsSchema = {
     "result": "boolean",
     "data": {
@@ -14,6 +16,7 @@ let listProductsSchema = {
                 "name": {"type": "string", "required": true},
                 "description": {"type": "string", "required": false},
                 "console": {"type": "boolean", "required": false},
+                "scope": scopeSchema,
                 "packages": {
                     "type": "array",
                     "required": true,
@@ -27,25 +30,6 @@ let listProductsSchema = {
                             "description": {"type": "string", "required": false},
                             "_TTL": {"type": "number", "min": 1, "required": true},
                             "acl": {"type": "object", "required": true}
-                            /*"acl": {
-                                "type": "object",
-                                "required":true,
-                                "properties": {
-                                    "^\/[a-zA-Z0-9_\.\-]+$": {
-                                        "type": "object",
-                                        "properties": {
-                                            "^\/[a-zA-Z0-9_\.\-]+$": {
-                                                "type": "object",
-                                                "method": {
-                                                    "type": "string",
-                                                    "required": false,
-                                                    "enum": ["GET", "POST", "PUT", "DELETE", "DEL"]
-                                                },
-                                            }
-                                        }
-                                    }
-                                }
-                            }*/
                         }
                     }
                 }

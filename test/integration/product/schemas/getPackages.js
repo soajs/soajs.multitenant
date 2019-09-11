@@ -15,25 +15,6 @@ let getPackagesSchema = {
                 "description": {"type": "string", "required": false},
                 "_TTL": {"type": "number", "min": 1, "required": true},
                 "acl": {"type": "object", "required": true}
-                /*"acl": {
-                    "type": "object",
-                    "required":true,
-                    "properties": {
-                        "^\/[a-zA-Z0-9_\.\-]+$": {
-                            "type": "object",
-                            "properties": {
-                                "^\/[a-zA-Z0-9_\.\-]+$": {
-                                    "type": "object",
-                                    "method": {
-                                        "type": "string",
-                                        "required": false,
-                                        "enum": ["GET", "POST", "PUT", "DELETE", "DEL"]
-                                    },
-                                }
-                            }
-                        }
-                    }
-                }*/
             }
         }
     }

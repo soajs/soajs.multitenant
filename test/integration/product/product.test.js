@@ -19,7 +19,7 @@ describe("starting product integration tests", () => {
         require("./get/getPackage.test.js");
 
         // POST
-        // require("./post/addProduct.test.js");
+        require("./post/addProduct.test.js");
         // require("./post/addPackage.test.js");
 
         // PUT

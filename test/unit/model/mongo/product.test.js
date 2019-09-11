@@ -126,7 +126,7 @@ describe("Unit test for: Model - product", () => {
             });
         });
 
-        it.skip('Success - check if exist - code', (done) => {
+        it('Success - check if exist - code', (done) => {
             model.checkIfExist({code: 'TEST'}, (err, count) => {
                 assert.ifError(err);
                 assert.deepEqual(count, 0);
@@ -134,58 +134,59 @@ describe("Unit test for: Model - product", () => {
             });
         });
 
-        it.skip('Fail - check if exist - id', (done) => {
+        it('Fail - check if exist - id', (done) => {
             model.checkIfExist(null, (err, count) => {
                 assert.ok(err);
                 done();
             });
         });
 
-        it.skip("Success - add Product", (done) => {
+        it("Success - add Product", (done) => {
             model.addProduct({
                 name: "SOMETHING2",
                 code: "CODE2"
             }, (err, record) => {
                 assert.ifError(err);
                 assert.ok(record);
+                assert.ok(record._id);
+                assert.deepEqual(record.name, "SOMETHING2");
                 done();
             });
         });
 
 
         //TODO: After add
-        it.skip("Success - getProduct code", (done) => {
+        it("Success - getProduct code", (done) => {
             model.getProduct({code: 'CODE2'}, (err, record) => {
                 console.log(err, record);
                 assert.ifError(err);
                 assert.ok(record);
+                assert.deepEqual(record.name, "SOMETHING2");
                 done();
             });
         });
 
-        it.skip("Fails - add Product", (done) => {
+        it("Fails - add Product", (done) => {
             model.addProduct(null, (err, record) => {
                 assert.ok(err);
                 done();
             });
         });
 
-        //TODO fix indexes
-
-        it.skip('Success - update - id and name', (done) => {
+        it('Success - update - id and name', (done) => {
             let prods = [];
             model.listProducts(null, (err, records) => {
                 prods = records;
-                console.log(prods);
-                model.updateProduct({id: prods[1]._id, code: "Something", name: "Somesome"}, (err, record) => {
+                model.updateProduct({_id: prods[1]._id, name: "Somesome"}, (err, record) => {
                     assert.ifError(err);
                     assert.ok(record);
+                    assert.deepEqual(record, 1);
                     done();
                 });
             });
         });
 
-        it.skip('Fails - update - null data', (done) => {
+        it('Fails - update - null data', (done) => {
             model.updateProduct(null, (err, record) => {
                 assert.ok(err);
                 done();
@@ -341,7 +342,7 @@ describe("Unit test for: Model - product", () => {
             });
         });
 
-        it.skip('Success - check if exist - code', (done) => {
+        it('Success - check if exist - code', (done) => {
             model.checkIfExist({code: 'TEST'}, (err, count) => {
                 assert.ifError(err);
                 assert.deepEqual(count, 0);
@@ -349,7 +350,7 @@ describe("Unit test for: Model - product", () => {
             });
         });
 
-        it.skip('Success - check if exist - id', (done) => {
+        it('Success - check if exist - id', (done) => {
             let prods = [];
             model.listProducts(null, (err, records) => {
                 prods = records;
@@ -362,47 +363,107 @@ describe("Unit test for: Model - product", () => {
             });
         });
 
-        it.skip('Fail - check if exist - id', (done) => {
+        it('Fail - check if exist - id', (done) => {
             model.checkIfExist(null, (err, count) => {
                 assert.ok(err);
                 done();
             });
         });
 
-        it.skip("Success - add Product", (done) => {
+        it("Success - add Product", (done) => {
             model.addProduct({
                 name: "SOMETHING3",
                 code: "CODE3"
             }, (err, record) => {
                 assert.ifError(err);
                 assert.ok(record);
+                assert.ok(record._id);
+                assert.deepEqual(record.name, "SOMETHING3");
                 done();
             });
         });
 
-        it.skip("Success - add Product", (done) => {
+        it("Success - add Product", (done) => {
             model.addProduct({
                 name: "SOMETHING1",
-                code: "CODE1"
+                code: "CODE1",
+                scope: {
+                    acl: {
+                        dashboard: {
+                            multitenant: {
+                                1: {
+                                    access: false,
+                                    get: [
+                                        {
+                                            "/product": {
+                                                access: false
+                                            },
+                                            group: 'Product'
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
             }, (err, record) => {
                 assert.ifError(err);
                 assert.ok(record);
+                assert.ok(record._id);
+                assert.deepEqual(record.name, "SOMETHING1");
                 done();
             });
         });
 
         // TODO: After Add
-        it.skip("Success - getProduct code", (done) => {
+        it("Success - getProduct code", (done) => {
             model.getProduct({code: 'CODE3'}, (err, record) => {
                 assert.ifError(err);
                 assert.ok(record);
+                assert.deepEqual(record.name, "SOMETHING3");
                 done();
             });
         });
 
-        it.skip("Fails - add Product", (done) => {
+        it("Fails - add Product", (done) => {
             model.addProduct(null, (err, record) => {
                 assert.ok(err);
+                done();
+            });
+        });
+
+        it('Success - update - id and name', (done) => {
+            let prods = [];
+            model.listProducts(null, (err, records) => {
+                prods = records;
+                model.updateProduct({
+                    _id: prods[1]._id,
+                    name: "NEW",
+                    description: "Somedesc",
+                    scope: {}
+                }, (err, record) => {
+                    assert.ifError(err);
+                    assert.ok(record);
+                    done();
+                });
+            });
+        });
+
+        it('Fails - update - no name', (done) => {
+            let prods = [];
+            model.listProducts(null, (err, records) => {
+                prods = records;
+                model.updateProduct({_id: prods[1]._id}, (err, record) => {
+                    assert.deepEqual(record, 0);
+                    done();
+                });
+            });
+        });
+
+        it('Fails - update - null data', (done) => {
+            model.updateProduct(null, (err, record) => {
+                assert.ok(err);
+                assert.deepEqual(err, new Error("_id is required."));
                 done();
             });
         });
@@ -436,29 +497,6 @@ describe("Unit test for: Model - product", () => {
 
         it.skip("Fails - deleteProduct", (done) => {
             model.deleteProduct(null, (err, record) => {
-                assert.ok(err);
-                done();
-            });
-        });
-
-        it.skip('Success - update - id and name', (done) => {
-            let prods = [];
-            model.listProducts(null, (err, records) => {
-                prods = records;
-                model.updateProduct({
-                    id: prods[1]._id,
-                    name: "NEW",
-                    code: "UPDATE"
-                }, (err, record) => {
-                    assert.ifError(err);
-                    assert.ok(record);
-                    done();
-                });
-            });
-        });
-
-        it.skip('Fails - update - null data', (done) => {
-            model.updateProduct(null, (err, record) => {
                 assert.ok(err);
                 done();
             });

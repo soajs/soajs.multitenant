@@ -184,7 +184,7 @@ Product.prototype.validateId = function (id, cb) {
 Product.prototype.updateProduct = function (data, cb) {
 	let __self = this;
 	if (!data || !data._id) {
-		let error = new Error("data_id is required.");
+		let error = new Error("_id is required.");
 		return cb(error, null);
 	}
 	
