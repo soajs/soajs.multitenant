@@ -36,7 +36,6 @@ module.exports = {
     "schema": {
         "commonFields": {
             "acl": aclSchema,
-            "scope": scopeSchema,
             "description": {
                 "source": ['body.description'],
                 "required": false,
@@ -142,7 +141,7 @@ module.exports = {
                     "group": "Product",
                     "groupMain": true
                 },
-                "commonFields": ['description', 'name', 'scope'],
+                "commonFields": ['description', 'name'],
                 "code": {
                     "source": ['body.code'],
                     "required": true,
@@ -152,7 +151,17 @@ module.exports = {
                         "minLength": 4,
                         "maxLength": 5
                     }
-                }
+                },
+	            "scope": {
+		            'source': ['body.scope'],
+		            'required': true,
+		            'validation': {
+			            "type": "object",
+			            "properties": {
+				            "acl": scopeSchema
+			            }
+		            }
+	            }
             },
             "/product/package": {
                 _apiInfo: {
@@ -211,6 +220,23 @@ module.exports = {
 			        "group": "Product"
 		        },
 		        "commonFields": ['id', 'name', 'description']
+	        },
+	        "/product/scope": {
+		        _apiInfo: {
+			        "l": "Update Product Scope",
+			        "group": "Product"
+		        },
+		        "commonFields": ['id'],
+		        "scope": {
+			        'source': ['body.scope'],
+			        'required': true,
+			        'validation': {
+				        "type": "object",
+				        "properties": {
+					        "acl": scopeSchema
+				        }
+			        }
+		        }
 	        },
         }
     }

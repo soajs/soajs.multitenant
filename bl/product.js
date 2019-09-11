@@ -186,6 +186,38 @@ let bl = {
 		});
 	},
 	
+	"updateScope": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {};
+		data.id = inputmaskData.id;
+		modelObj.getProduct(data, (err, record) => {
+			if (err) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 602, err));
+			}
+			if (!record) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 460, null));
+			}
+			if (!soajs.tenant.locked && record && record.locked) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 500, null));
+			}
+			data.scope = inputmaskData.scope;
+			data._id = record._id;
+			modelObj.updateProduct(data, (err, result) => {
+				bl.mp.closeModel(soajs, modelObj);
+				if (err) {
+					return cb(bl.handleError(soajs, 470, err));
+				}
+				return cb(null, result);
+			});
+		});
+	},
+	
 	"delete": (soajs, inputmaskData, cb) => {
 		if (!inputmaskData) {
 			return cb(bl.handleError(soajs, 400, null));
@@ -248,7 +280,7 @@ let bl = {
     },
 	
     "getPackage": (soajs, inputmaskData, cb) => {
-        if (!inputmaskData || !inputmaskData.packageCode) {
+        if (!inputmaskData) {
             return cb(bl.handleError(soajs, 400, null));
         }
         let modelObj = bl.mp.getModel(soajs);
@@ -272,7 +304,7 @@ let bl = {
             }
             return cb(null, (pck || {}));
         });
-    }
+    },
  
 };
 

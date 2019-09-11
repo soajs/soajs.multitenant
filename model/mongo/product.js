@@ -183,7 +183,7 @@ Product.prototype.validateId = function (id, cb) {
 
 Product.prototype.updateProduct = function (data, cb) {
 	let __self = this;
-	if (!data || !data_id) {
+	if (!data || !data._id) {
 		let error = new Error("data_id is required.");
 		return cb(error, null);
 	}
@@ -192,19 +192,29 @@ Product.prototype.updateProduct = function (data, cb) {
 	let options = {'upsert': false, 'safe': true};
 	let fields = {
 		'$set': {
-			'name': data.name
 		}
 	};
-	
 	if (data.description){
 		fields['$set'].description = data.description;
+	}
+	
+	if (data.name){
+		fields['$set'].name = data.name;
+	}
+	
+	if (data.scope){
+		fields['$set'].scope = data.scope;
+	}
+	
+	if (Object.keys(fields['$set']).length === 0){
+		//nothing to update
+		return cb(null, 0);
 	}
 	
 	__self.mongoCore.update(colName, condition, fields, options, (err, result) => {
 		return cb(err, result);
 	});
 };
-
 Product.prototype.closeConnection = function () {
     let __self = this;
     __self.mongoCore.closeDb();

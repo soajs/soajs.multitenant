@@ -77,6 +77,12 @@ service.init(() => {
 			    return res.json(req.soajs.buildResponse(error, data));
 		    });
 	    });
+	
+	    service.put("/product/scope", (req, res) => {
+		    bl.product.updateScope(req.soajs, req.soajs.inputmaskData, (error, data) => {
+			    return res.json(req.soajs.buildResponse(error, data));
+		    });
+	    });
 
 
         service.start();
