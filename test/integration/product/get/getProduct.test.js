@@ -2,6 +2,10 @@
 const assert = require('assert');
 const requester = require('../../requester');
 
+let core = require('soajs').core;
+let validator = new core.validator.Validator();
+let getProductSchema = require("../schemas/getProduct.js");
+
 describe("Testing get product API", () => {
 
     before(function (done) {
@@ -23,6 +27,9 @@ describe("Testing get product API", () => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.data);
+            let check = validator.validate(body, getProductSchema);
+            assert.deepEqual(check.valid, true);
+            assert.deepEqual(check.errors, []);
             done();
         });
     });

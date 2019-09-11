@@ -4,7 +4,7 @@ const requester = require('../../requester');
 
 let core = require('soajs').core;
 let validator = new core.validator.Validator();
-// let listProducts = require("../schemas/listProducts.js");
+let listProductsSchema = require("../schemas/listProducts.js");
 
 describe("Testing list products API", () => {
 
@@ -24,6 +24,9 @@ describe("Testing list products API", () => {
             assert.ok(body);
             assert.ok(body.data);
             assert.ok(body.data.length > 0);
+            let check = validator.validate(body, listProductsSchema);
+            assert.deepEqual(check.valid, true);
+            assert.deepEqual(check.errors, []);
             done();
         });
     });
@@ -48,6 +51,9 @@ describe("Testing list console products API", () => {
             assert.ok(body);
             assert.ok(body.data);
             assert.ok(body.data.length > 0);
+            let check = validator.validate(body, listProductsSchema);
+            assert.deepEqual(check.valid, true);
+            assert.deepEqual(check.errors, []);
             done();
         });
     });
