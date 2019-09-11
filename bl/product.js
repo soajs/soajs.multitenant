@@ -28,14 +28,16 @@ let bl = {
             }
             return modelObj;
         },
-        "closeModel": (soajs, l_modelObj) => {
+        "closeModel": (soajs, modelObj) => {
             if (soajs && soajs.tenant && soajs.tenant.type === "client" && soajs.tenant.dbConfig) {
-                l_modelObj.closeConnection();
+                modelObj.closeConnection();
             }
         }
     },
-
-
+	
+	/**
+	 * Product
+	 */
     "list": (soajs, inputmaskData, cb) => {
         let modelObj = bl.mp.getModel(soajs);
         modelObj.listProducts(null, (err, records) => {
@@ -78,7 +80,151 @@ let bl = {
             return cb(null, record);
         });
     },
-
+	
+	"purge": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {};
+		data.id = inputmaskData.id;
+		modelObj.getProduct(data, (err, record) => {
+			if (err) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 602, err), null);
+			}
+			if (!record) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 460, err), null);
+			}
+			record.scope = {
+				acl: {}
+			};
+			for (let i = 0; i < record.packages.length; i++) {
+				record.packages[i].acl = {};
+			}
+			
+			modelObj.saveProduct(record, (err) => {
+				bl.mp.closeModel(soajs, modelObj);
+				if (err) {
+					return cb(bl.handleError(soajs, 602, err), null);
+				}
+				return cb(null, true);
+			});
+		});
+	},
+	
+	"add": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {
+			name: inputmaskData.name,
+			code: inputmaskData.code,
+			description: inputmaskData.description,
+			scope: {
+				acl: {}
+			},
+			packages: []
+		};
+		
+		if (inputmaskData.scope){
+			data.scope = inputmaskData.scope;
+		}
+		modelObj.checkIfExist(data, (err, count) => {
+			if (err) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 602, err));
+			}
+			
+			if (count > 0) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 468, err));
+			}
+			
+			modelObj.addProduct(data, (err, record) => {
+				bl.mp.closeModel(soajs, modelObj);
+				if (err) {
+					return cb(bl.handleError(soajs, 602, err));
+				}
+				return cb(null, record);
+			});
+		});
+	},
+	
+	"update": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {};
+		data.id = inputmaskData.id;
+		modelObj.checkIfExist(data, (err, count) => {
+			if (err) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 602, err));
+			}
+			if (count > 0) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 460, null));
+			}
+			if (!soajs.tenant.locked && record && record.locked) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 500, null));
+			}
+			data.name = inputmaskData.name;
+			data.description = inputmaskData.description;
+			modelObj.updateProduct(data, (err, result) => {
+				bl.mp.closeModel(soajs, modelObj);
+				if (err) {
+					return cb(bl.handleError(soajs, 470, err));
+				}
+				return cb(null, result);
+			});
+		});
+	},
+	
+	"delete": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {};
+		data.code = inputmaskData.code;
+		data.id = inputmaskData.id;
+		
+		modelObj.getProduct(data, (err, record) => {
+			if (err) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 602, err));
+			}
+			if (!record) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 460, null));
+			}
+			if (soajs.tenant.application.product === record.code) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 466, null));
+			}
+			if (!soajs.tenant.locked && record && record.locked) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 500, null));
+			}
+			modelObj.deleteProduct(data, (err, result) => {
+				bl.mp.closeModel(soajs, modelObj);
+				if (err) {
+					return cb(bl.handleError(soajs, 602, err));
+				}
+				return cb(null, result);
+			});
+		});
+	},
+	
+	/**
+	 * Packages
+	 */
+	
     "getPackages": (soajs, inputmaskData, cb) => {
         if (!inputmaskData) {
             return cb(bl.handleError(soajs, 400, null));
@@ -124,123 +270,8 @@ let bl = {
             }
             return cb(null, (pck || {}));
         });
-    },
-
-    "purge": (soajs, inputmaskData, cb) => {
-        if (!inputmaskData) {
-            return cb(bl.handleError(soajs, 400, null));
-        }
-        let modelObj = bl.mp.getModel(soajs);
-        let data = {};
-        data.id = inputmaskData.id;
-        modelObj.getProduct(data, (err, record) => {
-            if (err) {
-                bl.mp.closeModel(soajs, modelObj);
-                return cb(bl.handleError(soajs, 602, err), null);
-            }
-            if (!record) {
-                bl.mp.closeModel(soajs, modelObj);
-                return cb(bl.handleError(soajs, 460, err), null);
-            }
-            record.scope = {
-                acl: {}
-            };
-            for (let i = 0; i < record.packages.length; i++) {
-                record.packages[i].acl = {};
-            }
-
-            modelObj.saveProduct(record, (err) => {
-                bl.mp.closeModel(soajs, modelObj);
-                if (err) {
-                    return cb(bl.handleError(soajs, 602, err), null);
-                }
-                return cb(null, true);
-            });
-        });
-
-        modelObj.listConsoleProducts(null, (err, records) => {
-            bl.mp.closeModel(soajs, modelObj);
-            if (err) {
-                return cb(bl.handleError(soajs, 602, err));
-            }
-            return cb(null, records);
-        });
-    },
-
-    "add": (soajs, inputmaskData, cb) => {
-        if (!inputmaskData) {
-            return cb(bl.handleError(soajs, 400, null));
-        }
-        let modelObj = bl.mp.getModel(soajs);
-        let data = {
-            name: inputmaskData.name,
-            code: inputmaskData.code,
-            description: inputmaskData.description,
-            scope: {
-                acl: {}
-            },
-            packages: []
-        };
-		
-        if (inputmaskData.scope){
-	        data.scope = inputmaskData.scope;
-        }
-        modelObj.checkIfExist(data, (err, count) => {
-            if (err) {
-                bl.mp.closeModel(soajs, modelObj);
-                return cb(bl.handleError(soajs, 602, err));
-            }
-
-            if (count > 0) {
-                bl.mp.closeModel(soajs, modelObj);
-                return cb(bl.handleError(soajs, 468, err));
-            }
-
-            modelObj.addProduct(data, (err, record) => {
-                bl.mp.closeModel(soajs, modelObj);
-                if (err) {
-                    return cb(bl.handleError(soajs, 602, err));
-                }
-                return cb(null, record);
-            });
-        });
-    },
-
-    "delete": (soajs, inputmaskData, cb) => {
-        if (!inputmaskData) {
-            return cb(bl.handleError(soajs, 400, null));
-        }
-        let modelObj = bl.mp.getModel(soajs);
-        let data = {};
-        data.code = inputmaskData.code;
-        data.id = inputmaskData.id;
-
-        modelObj.getProduct(data, (err, record) => {
-            if (err) {
-                bl.mp.closeModel(soajs, modelObj);
-                return cb(bl.handleError(soajs, 602, err));
-            }
-            if (!record) {
-                bl.mp.closeModel(soajs, modelObj);
-                return cb(bl.handleError(soajs, 460, null));
-            }
-            if (soajs.tenant.application.product === record.code) {
-                bl.mp.closeModel(soajs, modelObj);
-                return cb(bl.handleError(soajs, 466, null));
-            }
-            if (!soajs.tenant.locked && record && record.locked) {
-                bl.mp.closeModel(soajs, modelObj);
-                return cb(bl.handleError(soajs, 500, null));
-            }
-            modelObj.deleteProduct(data, (err, result) => {
-                bl.mp.closeModel(soajs, modelObj);
-                if (err) {
-                    return cb(bl.handleError(soajs, 602, err));
-                }
-                return cb(null, result);
-            });
-        });
     }
+ 
 };
 
 module.exports = bl;

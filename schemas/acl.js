@@ -37,7 +37,7 @@ let acl = {
 								"type": "object",
 								"required": false,
 								"patternProperties": {
-									"^[a-zA-Z0-9._]+$": { //version
+									"^[a-zA-Z0-9_]+$": { //version
 										"type": "object",
 										"required": false,
 										"properties": {

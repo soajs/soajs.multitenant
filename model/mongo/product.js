@@ -71,15 +71,6 @@ Product.prototype.saveProduct = function (data, cb) {
     });
 };
 
-/**
- * To get a product
- *
- * @param data
- *  should have:
- *      required (id)
- *
- * @param cb
- */
 Product.prototype.getProduct = function (data, cb) {
     let __self = this;
     if (!data || !(data.id || data.code)) {
@@ -197,6 +188,37 @@ Product.prototype.validateId = function (id, cb) {
     } catch (e) {
         return cb(e, null);
     }
+};
+
+Product.prototype.updateProduct = function (data, cb) {
+	let __self = this;
+	if (!data || !data.id) {
+		let error = new Error("id is required.");
+		return cb(error, null);
+	}
+	
+	let condition = {};
+	
+	__self.validateId(data.id, (err, id) => {
+		if (err) {
+			return cb(err, null);
+		}
+		condition = {'_id': id};
+		let options = {'upsert': false, 'safe': true};
+		let fields = {
+			'$set': {
+				'name': data.name
+			}
+		};
+		
+		if (data.description){
+			fields['$set'].description = data.description;
+		}
+		
+		__self.mongoCore.update(colName, condition, fields, options, (err, result) => {
+			return cb(err, result);
+		});
+	});
 };
 
 Product.prototype.closeConnection = function () {

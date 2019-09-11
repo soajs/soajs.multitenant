@@ -71,6 +71,12 @@ service.init(() => {
                 return res.json(req.soajs.buildResponse(error, data));
             });
         });
+	
+	    service.put("/product", (req, res) => {
+		    bl.product.update(req.soajs, req.soajs.inputmaskData, (error, data) => {
+			    return res.json(req.soajs.buildResponse(error, data));
+		    });
+	    });
 
 
         service.start();
