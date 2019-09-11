@@ -154,7 +154,7 @@ module.exports = {
                 },
 	            "scope": {
 		            'source': ['body.scope'],
-		            'required': true,
+		            'required': false,
 		            'validation': {
 			            "type": "object",
 			            "properties": {
