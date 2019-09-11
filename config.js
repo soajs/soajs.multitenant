@@ -119,8 +119,8 @@ module.exports = {
                         "type": "string"
                     }
                 },
-                "productCode": {
-                    "source": ["query.code"],
+                "code": {
+                    "source": ["query.productCode"],
                     "required": true,
                     "validation": {
                         "type": "string",

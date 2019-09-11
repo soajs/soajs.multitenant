@@ -36,8 +36,7 @@ function Product(service, options, mongoCore) {
 
 Product.prototype.listProducts = function (data, cb) {
     let __self = this;
-
-    //todo Check remove console products
+    
     let condition = {
         $or: [
             {console: false},
@@ -183,7 +182,6 @@ Product.prototype.deleteProduct = function (data, cb) {
         });
     }
 };
-
 
 Product.prototype.validateId = function (id, cb) {
     let __self = this;

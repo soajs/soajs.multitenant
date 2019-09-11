@@ -115,9 +115,8 @@ let bl = {
                 return cb(bl.handleError(soajs, 461, err), null);
             }
             let pck = null;
-            let prefix = inputmaskData.code + '_';
             for (let i = 0; i < record.packages.length; i++) {
-                if (record.packages[i].code === prefix + inputmaskData.packageCode) {
+                if (record.packages[i].code === inputmaskData.packageCode) {
                     pck = record.packages[i];
                     break;
                 }
