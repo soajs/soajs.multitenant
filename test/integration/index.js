@@ -8,7 +8,7 @@ describe("starting integration tests", () => {
 
     before((done) => {
         let rootPath = process.cwd();
-        imported(rootPath + "/test/data/soajs_profile.js", rootPath + "/test/data/provision/", (err, msg) => {
+        imported(rootPath + "/test/data/soajs_profile.js", rootPath + "/test/data/provision_integration/", (err, msg) => {
             if (err)
                 console.log(err);
             if (msg)

@@ -2,6 +2,10 @@
 const assert = require('assert');
 const requester = require('../../requester');
 
+let core = require('soajs').core;
+let validator = new core.validator.Validator();
+// let listProducts = require("../schemas/listProducts.js");
+
 describe("Testing list products API", () => {
 
     before(function (done) {

@@ -1,4 +1,6 @@
-{
+"use strict";
+
+let listProducts = {
   "result": "boolean",
   "data": {
     "type": "Array",
@@ -41,4 +43,5 @@
       "_TTL": "integer"
     }
   }
-}
+};
+module.exports(listProducts);
