@@ -160,12 +160,12 @@ let bl = {
 		let modelObj = bl.mp.getModel(soajs);
 		let data = {};
 		data.id = inputmaskData.id;
-		modelObj.checkIfExist(data, (err, count) => {
+		modelObj.getProduct(data, (err, record) => {
 			if (err) {
 				bl.mp.closeModel(soajs, modelObj);
 				return cb(bl.handleError(soajs, 602, err));
 			}
-			if (count > 0) {
+			if (!record) {
 				bl.mp.closeModel(soajs, modelObj);
 				return cb(bl.handleError(soajs, 460, null));
 			}
@@ -175,6 +175,7 @@ let bl = {
 			}
 			data.name = inputmaskData.name;
 			data.description = inputmaskData.description;
+			data._id = record._id;
 			modelObj.updateProduct(data, (err, result) => {
 				bl.mp.closeModel(soajs, modelObj);
 				if (err) {
@@ -211,6 +212,7 @@ let bl = {
 				bl.mp.closeModel(soajs, modelObj);
 				return cb(bl.handleError(soajs, 500, null));
 			}
+			data._id = record._id;
 			modelObj.deleteProduct(data, (err, result) => {
 				bl.mp.closeModel(soajs, modelObj);
 				if (err) {

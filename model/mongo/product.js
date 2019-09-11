@@ -148,30 +148,21 @@ Product.prototype.addProduct = function (data, cb) {
 
 Product.prototype.deleteProduct = function (data, cb) {
     let __self = this;
-    if (!data || !(data.id || data.code)) {
-        let error = new Error("id or code are required.");
+    if (!data || !(data.code || data._id)) {
+        let error = new Error("_id or code are required.");
         return cb(error, null);
     }
 
     let condition = {};
-    if (data.id) {
-        __self.validateId(data.id, (err, id) => {
-            if (err) {
-                return cb(err, null);
-            }
-            condition = {'_id': id};
-            __self.mongoCore.remove(colName, condition, (err, count) => {
-                return cb(err, count);
-            });
-        });
-    } else {
-        if (data.code) {
-            condition.code = data.code;
-        }
-        __self.mongoCore.remove(colName, condition, (err, count) => {
-            return cb(err, count);
-        });
-    }
+	
+	if (data._id) {
+		condition._id = data._id;
+	} else {
+		condition.code = data.code;
+	}
+	__self.mongoCore.remove(colName, condition, (err, count) => {
+		return cb(err, count);
+	});
 };
 
 Product.prototype.validateId = function (id, cb) {
@@ -192,32 +183,25 @@ Product.prototype.validateId = function (id, cb) {
 
 Product.prototype.updateProduct = function (data, cb) {
 	let __self = this;
-	if (!data || !data.id) {
-		let error = new Error("id is required.");
+	if (!data || !data_id) {
+		let error = new Error("data_id is required.");
 		return cb(error, null);
 	}
 	
-	let condition = {};
+	let condition = {'_id': data._id};
+	let options = {'upsert': false, 'safe': true};
+	let fields = {
+		'$set': {
+			'name': data.name
+		}
+	};
 	
-	__self.validateId(data.id, (err, id) => {
-		if (err) {
-			return cb(err, null);
-		}
-		condition = {'_id': id};
-		let options = {'upsert': false, 'safe': true};
-		let fields = {
-			'$set': {
-				'name': data.name
-			}
-		};
-		
-		if (data.description){
-			fields['$set'].description = data.description;
-		}
-		
-		__self.mongoCore.update(colName, condition, fields, options, (err, result) => {
-			return cb(err, result);
-		});
+	if (data.description){
+		fields['$set'].description = data.description;
+	}
+	
+	__self.mongoCore.update(colName, condition, fields, options, (err, result) => {
+		return cb(err, result);
 	});
 };
 
