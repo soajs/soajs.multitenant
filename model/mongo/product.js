@@ -100,7 +100,7 @@ Product.prototype.getProduct = function (data, cb) {
             condition["$and"].push({'_id': id});
 
             __self.mongoCore.findOne(colName, condition, null, null, (err, record) => {
-                return cb(err, record);
+	            lib.unsanitize(record, cb);
             });
         });
     } else {
@@ -146,17 +146,28 @@ Product.prototype.checkIfExist = function (data, cb) {
 
 Product.prototype.addProduct = function (data, cb) {
     let __self = this;
-
-    if (!data || !data.code || !data.name) {
-        let error = new Error("name and code are required.");
-        return cb(error, null);
-    }
-
-    __self.mongoCore.insert(colName, data, (err, record) => {
-        if (record && Array.isArray(record))
-            record = record [0];
-        return cb(err, record);
-    });
+	
+	if (!data || !data.code || !data.name) {
+		let error = new Error("name and code are required.");
+		return cb(error, null);
+	}
+	if (data.scope && data.scope.acl) {
+		let scope = data.scope.acl;
+		lib.sanitize(scope, () => {
+			data.scope.acl = scope;
+			__self.mongoCore.insert(colName, data, (err, record) => {
+				if (record && Array.isArray(record))
+					record = record [0];
+				return cb(err, record);
+			});
+		});
+	} else {
+		__self.mongoCore.insert(colName, data, (err, record) => {
+			if (record && Array.isArray(record))
+				record = record [0];
+			return cb(err, record);
+		});
+	}
 };
 
 Product.prototype.deleteProduct = function (data, cb) {
@@ -215,22 +226,29 @@ Product.prototype.updateProduct = function (data, cb) {
 		fields['$set'].name = data.name;
 	}
 	
-	if (data.scope){
-		fields['$set'].scope = data.scope;
-	}
-	
 	if (data.packages){
 		fields['$set'].packages = data.packages;
 	}
-	
-	if (Object.keys(fields['$set']).length === 0){
-		//nothing to update
-		return cb(null, 0);
+	if (data.scope){
+		let scope = data.scope.acl;
+		lib.sanitize(scope, () => {
+			fields['$set'].scope = scope;
+			__self.mongoCore.update(colName, condition, fields, options, (err, result) => {
+				return cb(err, result);
+			});
+		});
+	}
+	else {
+		if (Object.keys(fields['$set']).length === 0){
+			//nothing to update
+			return cb(null, 0);
+		}
+		
+		__self.mongoCore.update(colName, condition, fields, options, (err, result) => {
+			return cb(err, result);
+		});
 	}
 	
-	__self.mongoCore.update(colName, condition, fields, options, (err, result) => {
-		return cb(err, result);
-	});
 };
 
 Product.prototype.closeConnection = function () {

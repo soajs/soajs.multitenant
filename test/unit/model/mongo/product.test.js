@@ -146,6 +146,7 @@ describe("Unit test for: Model - product", () => {
                 name: "SOMETHING2",
                 code: "CODE2"
             }, (err, record) => {
+            
                 assert.ifError(err);
                 assert.ok(record);
                 assert.ok(record._id);
@@ -158,7 +159,6 @@ describe("Unit test for: Model - product", () => {
         //TODO: After add
         it("Success - getProduct code", (done) => {
             model.getProduct({code: 'CODE2'}, (err, record) => {
-                console.log(err, record);
                 assert.ifError(err);
                 assert.ok(record);
                 assert.deepEqual(record.name, "SOMETHING2");

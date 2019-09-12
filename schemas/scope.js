@@ -24,14 +24,13 @@ let apisObject = {
 
 let aclMethod = {
 	"required": false,
+	"type": "array",
 	"items": {
 		"required": false,
-		"items": {
-			"type": "object",
-			"properties" :{
-				"apis": apisObject,
-				"group": {"type": "string", "required": true}
-			}
+		"type": "object",
+		"properties" :{
+			"apis": apisObject,
+			"group": {"type": "string", "required": true}
 		},
 		"uniqueItems": true
 	}
@@ -49,7 +48,7 @@ let scope = {
 					"type": "object",
 					"required": false,
 					"patternProperties": {
-						"^[a-zA-Z0-9.]+$": { //version
+						"^[0-9]+(.[0-9]+)$": { //version
 							"type": "object",
 							"required": false,
 							"properties": {
