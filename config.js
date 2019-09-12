@@ -1,3 +1,5 @@
+'use strict';
+
 let aclSchema = require("./schemas/acl");
 let scopeSchema = require("./schemas/scope");
 
