@@ -30,19 +30,6 @@ describe("Testing list products API", () => {
             done();
         });
     });
-
-    it("Fail - will not return all product records - wrong request - no params", (done) => {
-        let params = {};
-        requester('/products', 'post', params, (error, body) => {
-            assert.ifError(error);
-            assert.ok(body);
-            assert.ok(body.errors.codes);
-            let check = validator.validate(body, listProductsSchema);
-            assert.deepEqual(check.valid, true);
-            assert.deepEqual(check.errors, []);
-            done();
-        });
-    });
 });
 
 
@@ -54,19 +41,6 @@ describe("Testing list console products API", () => {
             assert.ok(body);
             assert.ok(body.data);
             assert.ok(body.data.length > 0);
-            let check = validator.validate(body, listProductsSchema);
-            assert.deepEqual(check.valid, true);
-            assert.deepEqual(check.errors, []);
-            done();
-        });
-    });
-
-    it("Fail - will not return all product records - wrong request - no params", (done) => {
-        let params = {};
-        requester('/products/console', 'post', params, (error, body) => {
-            assert.ifError(error);
-            assert.ok(body);
-            assert.ok(body.errors.codes);
             let check = validator.validate(body, listProductsSchema);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);
