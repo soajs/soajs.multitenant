@@ -63,11 +63,9 @@ let scope = {
 							},
 							"additionalProperties": false
 						}
-					},
-					"additionalProperties": false
+					}
 				}
-			},
-			"additionalProperties": false
+			}
 		}
 	}
 };

@@ -44,11 +44,9 @@ let acl = {
 							"additionalProperties": false
 						}
 					}
-				},
-				"additionalProperties": false
+				}
 			}
-		},
-		"additionalProperties": false
+		}
 	}
 };
 
