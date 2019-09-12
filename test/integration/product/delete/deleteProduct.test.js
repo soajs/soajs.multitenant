@@ -2,6 +2,10 @@
 const assert = require('assert');
 const requester = require('../../requester');
 
+let core = require('soajs').core;
+let validator = new core.validator.Validator();
+let deleteProductSchema = require("../schemas/deleteProduct.js");
+
 describe("Testing delete product API", () => {
 
     before(function (done) {
@@ -25,6 +29,9 @@ describe("Testing delete product API", () => {
             console.log("Something: ", JSON.stringify(body, null, 2));
             assert.ifError(error);
             assert.ok(body);
+            let check = validator.validate(body, deleteProductSchema);
+            assert.deepEqual(check.valid, true);
+            assert.deepEqual(check.errors, []);
             done();
         });
     });
@@ -47,7 +54,34 @@ describe("Testing delete product API", () => {
         requester('/product', 'delete', params, (error, body) => {
             assert.ifError(error);
             assert.ok(body);
+            assert.ok(body.data);
+            assert.deepEqual(body.data.ok, 1);
+            let check = validator.validate(body, deleteProductSchema);
+            assert.deepEqual(check.valid, true);
+            assert.deepEqual(check.errors, []);
             done();
+        });
+    });
+
+    it("Fails - will not delete - prod not found", (done) => {
+        let params = {
+            qs: {
+                id: "5512867be603d7e01ab1666d"
+            },
+            form: {
+                name: "NOTANAME"
+            }
+        };
+        requester('/product', 'delete', params, (error, body) => {
+            assert.ifError(error);
+            assert.ok(body);
+            assert.ok(body.errors);
+            assert.deepEqual(body.errors.codes[0], 460);
+            let check = validator.validate(body, deleteProductSchema);
+            assert.deepEqual(check.valid, true);
+            assert.deepEqual(check.errors, []);
+            done();
+
         });
     });
 
@@ -57,6 +91,9 @@ describe("Testing delete product API", () => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.errors.codes);
+            let check = validator.validate(body, deleteProductSchema);
+            assert.deepEqual(check.valid, true);
+            assert.deepEqual(check.errors, []);
             done();
         });
     });

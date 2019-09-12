@@ -193,21 +193,22 @@ describe("Unit test for: Model - product", () => {
             });
         });
 
-        it.skip("Success - deleteProduct - id", (done) => {
+        it("Success - deleteProduct - id", (done) => {
             let prods = [];
             model.listProducts(null, (err, records) => {
                 prods = records;
                 model.deleteProduct({
-                    id: prods[1]._id
+                    _id: prods[1]._id
                 }, (err, record) => {
                     assert.ifError(err);
                     assert.ok(record);
+                    assert.deepEqual(record.result.ok, 1);
                     done();
                 });
             });
         });
 
-        it.skip("Success - deleteProduct - code", (done) => {
+        it("Success - deleteProduct - code", (done) => {
             let prods = [];
             model.listProducts(null, (err, records) => {
                 prods = records;
@@ -216,12 +217,13 @@ describe("Unit test for: Model - product", () => {
                 }, (err, record) => {
                     assert.ifError(err);
                     assert.ok(record);
+                    assert.deepEqual(record.result.ok, 1);
                     done();
                 });
             });
         });
 
-        it.skip("Fails - deleteProduct - Null data", (done) => {
+        it("Fails - deleteProduct - Null data", (done) => {
             model.deleteProduct(null, (err, record) => {
                 assert.ok(err);
                 done();
@@ -468,34 +470,47 @@ describe("Unit test for: Model - product", () => {
             });
         });
 
-        it.skip("Success - deleteProduct code", (done) => {
+        it('Success - save - data', (done) => {
+            model.saveProduct({_id: "5d78cdea63c27118573c2975"}, (err, record) => {
+                assert.ok(record);
+                assert.deepEqual(record.result.ok, 1);
+                done();
+            });
+        });
+
+        it('Fails - save - null data', (done) => {
+            model.saveProduct(null, (err, record) => {
+                assert.ok(err);
+                assert.deepEqual(err, new Error("_id is required."));
+                done();
+            });
+        });
+
+        it("Success - deleteProduct code", (done) => {
+            model.deleteProduct({code: "CODE3"}, (err, record) => {
+                assert.ifError(err);
+                assert.ok(record);
+                assert.deepEqual(record.result.ok, 1);
+                done();
+            });
+        });
+
+        it("Success - deleteProduct id", (done) => {
             let prods = [];
             model.listProducts(null, (err, records) => {
                 prods = records;
 
-                model.deleteProduct({code: "CODE3"}, (err, record) => {
+                model.deleteProduct({_id: prods[2]._id}, (err, record) => {
                     assert.ifError(err);
                     assert.ok(record);
+                    assert.deepEqual(record.result.ok, 1);
                     done();
                 });
             });
         });
 
-        it.skip("Success - deleteProduct code", (done) => {
-            let prods = [];
-            model.listProducts(null, (err, records) => {
-                prods = records;
 
-                model.deleteProduct({id: prods[2]._id}, (err, record) => {
-                    assert.ifError(err);
-                    assert.ok(record);
-                    done();
-                });
-            });
-        });
-
-
-        it.skip("Fails - deleteProduct", (done) => {
+        it("Fails - deleteProduct", (done) => {
             model.deleteProduct(null, (err, record) => {
                 assert.ok(err);
                 done();
@@ -503,9 +518,8 @@ describe("Unit test for: Model - product", () => {
         });
 
         //TODO fix indexes
-        it.skip("Fails - getProduct empty", (done) => {
+        it("Fails - getProduct empty", (done) => {
             model.addProduct({}, (err, record) => {
-                console.log(err, record);
                 assert.ok(err);
                 done();
             });
