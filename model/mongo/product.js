@@ -109,7 +109,7 @@ Product.prototype.getProduct = function (data, cb) {
         }
 
         __self.mongoCore.findOne(colName, condition, null, null, (err, record) => {
-	        lib.unsanitize(record, callback);
+	        lib.unsanitize(record, cb);
         });
     }
 };
