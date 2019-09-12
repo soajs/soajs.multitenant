@@ -126,7 +126,7 @@ module.exports = {
                         "type": "string"
                     }
                 },
-                "code": {
+                "productCode": {
                     "source": ["query.productCode"],
                     "required": true,
                     "validation": {

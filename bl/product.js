@@ -289,7 +289,7 @@ let bl = {
         }
         let modelObj = bl.mp.getModel(soajs);
         let data = {};
-        data.code = inputmaskData.code;
+        data.code = inputmaskData.productCode;
 
         modelObj.getProduct(data, (err, record) => {
             bl.mp.closeModel(soajs, modelObj);
