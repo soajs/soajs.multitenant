@@ -53,6 +53,11 @@ service.init(() => {
                 return res.json(req.soajs.buildResponse(error, data));
             });
         });
+	    service.post("/product/package", (req, res) => {
+		    bl.product.addPackage(req.soajs, req.soajs.inputmaskData, (error, data) => {
+			    return res.json(req.soajs.buildResponse(error, data));
+		    });
+	    });
 
 
         //* DELETE
@@ -62,6 +67,12 @@ service.init(() => {
                 return res.json(req.soajs.buildResponse(error, data));
             });
         });
+	
+	    service.delete("/product/package", (req, res) => {
+		    bl.product.deletePackage(req.soajs, req.soajs.inputmaskData, (error, data) => {
+			    return res.json(req.soajs.buildResponse(error, data));
+		    });
+	    });
 
 
         //* PUT
@@ -80,6 +91,12 @@ service.init(() => {
 	
 	    service.put("/product/scope", (req, res) => {
 		    bl.product.updateScope(req.soajs, req.soajs.inputmaskData, (error, data) => {
+			    return res.json(req.soajs.buildResponse(error, data));
+		    });
+	    });
+	
+	    service.put("/product/package", (req, res) => {
+		    bl.product.updatePackage(req.soajs, req.soajs.inputmaskData, (error, data) => {
 			    return res.json(req.soajs.buildResponse(error, data));
 		    });
 	    });

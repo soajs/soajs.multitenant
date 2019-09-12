@@ -19,8 +19,8 @@ module.exports = {
     "errors": {
         400: "Business logic required data are missing.",
 
-        460: "Unable to find product.",
-        461: "Unable to find packages.",
+        460: "Unable to find product",
+        461: "Unable to find package",
         466: "You are not allowed to remove the product you are currently logged in with.",
 	    467: "Package already exists",
         468: "Product already exists.",
@@ -66,6 +66,7 @@ module.exports = {
                 }
             },
         },
+	    
         "get": {
             "/products": {
                 _apiInfo: {
@@ -87,14 +88,14 @@ module.exports = {
                     "group": "Product",
                     "groupMain": true
                 },
-                id: {
+                "id": {
                     "source": ['query.id'],
                     "required": false,
                     "validation": {
                         "type": "string"
                     }
                 },
-                code: {
+                "code": {
                     "source": ["query.code"],
                     "required": false,
                     "validation": {
@@ -134,6 +135,7 @@ module.exports = {
                 }
             }
         },
+	    
         "post": {
             "/product": {
                 _apiInfo: {
@@ -163,6 +165,7 @@ module.exports = {
 		            }
 	            }
             },
+	        
             "/product/package": {
                 _apiInfo: {
                     "l": "Add a package to a Product",
@@ -171,17 +174,31 @@ module.exports = {
                 "commonFields": ['id', 'name', 'description', '_TTL', 'acl'],
                 "code": {
                     "source": ["body.code"],
-                    "required": false,
+                    "required": true,
                     "validation": {
                         "type": "string",
                         "format": "alphanumeric",
                         "minLength": 4,
                         "maxLength": 5
                     }
-                }
+                },
+	            "tags": {
+		            "source": ['body.tags'],
+		            "required": false,
+		            "validation": {
+			            "type": "array",
+			            "items": {
+				            "required": false,
+				            "type": "string",
+				            "uniqueItems": true,
+				            "minItems": 1
+			            }
+		            }
+	            },
             },
 
         },
+	    
         "delete": {
             "/product": {
                 _apiInfo: {
@@ -203,9 +220,24 @@ module.exports = {
                         "type": "string"
                     }
                 }
-            }
+            },
+	        "/product/package": {
+		        _apiInfo: {
+			        "l": "Delete Product Package",
+			        "group": "Product"
+		        },
+		        "commonFields": ['id'],
+		        "packageCode": {
+			        "source": ['query.packageCode'],
+			        "required": true,
+			        "validation": {
+				        "type": "string"
+			        }
+		        }
+	        },
 
         },
+	    
         "put": {
             "/product/purge": {
                 _apiInfo: {
@@ -214,6 +246,7 @@ module.exports = {
                 },
                 "commonFields": ['id']
             },
+	        
 	        "/product": {
 		        _apiInfo: {
 			        "l": "Update Product Package",
@@ -221,6 +254,7 @@ module.exports = {
 		        },
 		        "commonFields": ['id', 'name', 'description']
 	        },
+	        
 	        "/product/scope": {
 		        _apiInfo: {
 			        "l": "Update Product Scope",
@@ -234,6 +268,52 @@ module.exports = {
 				        "type": "object",
 				        "properties": {
 					        "acl": scopeSchema
+				        }
+			        }
+		        }
+	        },
+	        
+	        "/product/package": {
+		        _apiInfo: {
+			        "l": "Update Product Package",
+			        "group": "Product"
+		        },
+		        "commonFields": ['id', 'description', 'acl'],
+		        "name": {
+			        "source": ["body.name"],
+			        "required": true,
+			        "validation": {
+				        "type": "string"
+			        }
+		        },
+		        "code": {
+			        "source": ["body.code"],
+			        "required": true,
+			        "validation": {
+				        "type": "string",
+				        "format": "alphanumeric",
+				        "minLength": 4,
+				        "maxLength": 5
+			        }
+		        },
+		        "_TTL": {
+			        "source": ['body._TTL'],
+			        "required": false,
+			        "validation": {
+				        "type": "string",
+				        "enum": ['6', '12', '24', '48', '72', '96', '120', '144', '168']
+			        }
+		        },
+		        "tags": {
+			        "source": ['body.tags'],
+			        "required": false,
+			        "validation": {
+				        "type": "array",
+				        "items": {
+					        "required": false,
+					        "type": "string",
+					        "uniqueItems": true,
+					        "minItems": 1
 				        }
 			        }
 		        }

@@ -49,7 +49,7 @@ let scope = {
 					"type": "object",
 					"required": false,
 					"patternProperties": {
-						"^[a-zA-Z0-9._]+$": { //version
+						"^[a-zA-Z0-9.]+$": { //version
 							"type": "object",
 							"required": false,
 							"properties": {

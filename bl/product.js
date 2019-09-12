@@ -97,6 +97,10 @@ let bl = {
 				bl.mp.closeModel(soajs, modelObj);
 				return cb(bl.handleError(soajs, 460, err), null);
 			}
+			if (!soajs.tenant.locked && record && record.locked) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 500, null));
+			}
 			record.scope = {
 				acl: {}
 			};
@@ -305,6 +309,174 @@ let bl = {
             return cb(null, (pck || {}));
         });
     },
+	
+	"addPackage": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {};
+		data.id = inputmaskData.id;
+		
+		modelObj.getProduct(data, (err, record) => {
+			bl.mp.closeModel(soajs, modelObj);
+			if (err) {
+				return cb(bl.handleError(soajs, 602, err), null);
+			}
+			if (!record) {
+				return cb(bl.handleError(soajs, 460, err), null);
+			}
+			if (!soajs.tenant.locked && record && record.locked) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 500, null));
+			}
+			if (!record.packages){
+				record.packages = [];
+			}
+			let prefix = record.code.toUpperCase() + '_';
+			let found = false;
+			if (inputmaskData.code) {
+				record.packages.forEach(pack => {
+					if (pack.code === prefix + inputmaskData.code.toUpperCase()) {
+						found = true;
+					}
+				});
+			}
+			if (found){
+				return cb(bl.handleError(soajs, 467, null));
+			}
+			let newPackage = {
+				"code": prefix + inputmaskData.code.toUpperCase(),
+				"name": inputmaskData.name,
+				"_TTL": inputmaskData._TTL * 3600 * 1000
+			};
+			
+			if (inputmaskData.description){
+				newPackage.description = inputmaskData.description;
+			}
+			if (inputmaskData.tags){
+				newPackage.tags = inputmaskData.tags;
+			}
+			newPackage.acl = inputmaskData.acl ? inputmaskData.acl : {};
+			record.packages.push(newPackage);
+			data._id = record._id;
+			data.packages = record.packages;
+			modelObj.updateProduct(record, (err, result) => {
+				bl.mp.closeModel(soajs, modelObj);
+				if (err) {
+					return cb(bl.handleError(soajs, 476, err), null);
+				}
+				return cb(null, newPackage.code);
+			});
+		});
+	},
+	
+	"updatePackage": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {};
+		data.id = inputmaskData.id;
+		
+		modelObj.getProduct(data, (err, record) => {
+			bl.mp.closeModel(soajs, modelObj);
+			if (err) {
+				return cb(bl.handleError(soajs, 602, err));
+			}
+			if (!record) {
+				return cb(bl.handleError(soajs, 460, err));
+			}
+			if (!soajs.tenant.locked && record && record.locked) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 500, null));
+			}
+			if (!record.packages){
+				record.packages = [];
+			}
+			let found = false;
+			let prefix = record.code.toUpperCase() + '_';
+			for (let i = 0; i < record.packages.length; i++) {
+				if (record.packages[i].code.toUpperCase() === prefix + inputmaskData.code) {
+					if (inputmaskData.name){
+						record.packages[i].name = inputmaskData.name;
+					}
+					if (inputmaskData.description){
+						record.packages[i].description = inputmaskData.description;
+					}
+					if (inputmaskData._TTL){
+						record.packages[i]._TTL = inputmaskData._TTL * 3600 * 1000;
+					}
+					if (inputmaskData.acl){
+						record.packages[i].acl = inputmaskData.acl;
+					}
+					if (inputmaskData.tags){
+						record.packages[i].tags = inputmaskData.tags;
+					}
+					found = true;
+					break;
+				}
+			}
+			if (!found){
+				return cb(bl.handleError(soajs, 461, null));
+			}
+			data._id = record._id;
+			data.packages = record.packages;
+			modelObj.updateProduct(record, (err, result) => {
+				bl.mp.closeModel(soajs, modelObj);
+				if (err) {
+					return cb(bl.handleError(soajs, 476, err));
+				}
+				return cb(null, `product package ${inputmaskData.code} update successful`);
+			});
+		});
+	},
+	
+	"deletePackage": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {};
+		data.id = inputmaskData.id;
+		
+		modelObj.getProduct(data, (err, record) => {
+			bl.mp.closeModel(soajs, modelObj);
+			if (err) {
+				return cb(bl.handleError(soajs, 602, err), null);
+			}
+			if (!record) {
+				return cb(bl.handleError(soajs, 460, err), null);
+			}
+			if (!soajs.tenant.locked && record && record.locked) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 500, null));
+			}
+			if (!record.packages){
+				record.packages = [];
+			}
+			let found = false;
+			for (let i = 0; i < record.packages.length; i++) {
+				if (record.packages[i].code.toUpperCase() === inputmaskData.packageCode) {
+					record.packages.splice(i, 1);
+					found = true;
+					break;
+				}
+			}
+			if (!found){
+				return cb(bl.handleError(soajs, 460, 461), null);
+			}
+			data._id = record._id;
+			data.packages = record.packages;
+			modelObj.updateProduct(record, (err, result) => {
+				bl.mp.closeModel(soajs, modelObj);
+				if (err) {
+					return cb(bl.handleError(soajs, 476, err), null);
+				}
+				return cb(null, `product package ${inputmaskData.packageCode} deleted successful`);
+			});
+		});
+	}
  
 };
 

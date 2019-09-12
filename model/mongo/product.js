@@ -206,6 +206,10 @@ Product.prototype.updateProduct = function (data, cb) {
 		fields['$set'].scope = data.scope;
 	}
 	
+	if (data.packages){
+		fields['$set'].packages = data.packages;
+	}
+	
 	if (Object.keys(fields['$set']).length === 0){
 		//nothing to update
 		return cb(null, 0);
