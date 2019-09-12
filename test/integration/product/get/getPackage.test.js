@@ -21,15 +21,15 @@ describe("Testing get Package API", () => {
     it("Success - will get a product package ", (done) => {
         let params = {
             qs: {
-                packageCode: 'DSBRD_GUEST',
-                productCode: 'DSBRD'
+                packageCode: 'TPROD_BASIC',
+                productCode: 'TPROD'
             }
         };
         requester('/product/package', 'get', params, (error, body) => {
             assert.ifError(error);
             assert.ok(body);
-            assert.deepEqual(body.data.code, "DSBRD_GUEST");
-            assert.deepEqual(body.data.name, 'Guest');
+            assert.deepEqual(body.data.code, "TPROD_BASIC");
+            assert.deepEqual(body.data.name, 'basic package');
             let check = validator.validate(body, getPackageSchema);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);

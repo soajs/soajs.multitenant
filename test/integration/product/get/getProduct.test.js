@@ -20,15 +20,15 @@ describe("Testing get product API", () => {
     it("Success - will return product record", (done) => {
         let params = {
             qs: {
-                code: 'DSBRD'
+                code: 'TPROD'
             }
         };
         requester('/product', 'get', params, (error, body) => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.data);
-            assert.deepEqual(body.data.name, 'Console UI Product');
-            assert.deepEqual(body.data.code, 'DSBRD');
+            assert.deepEqual(body.data.name, 'Test Product');
+            assert.deepEqual(body.data.code, 'TPROD');
             let check = validator.validate(body, getProductSchema);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);

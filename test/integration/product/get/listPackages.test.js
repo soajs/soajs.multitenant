@@ -19,6 +19,7 @@ describe("Testing List Packages API", () => {
     });
 
     let prods = [];
+    let selectedProd;
     it("Success - will return all product records", (done) => {
         let params = {};
         requester('/products', 'get', params, (error, body) => {
@@ -26,17 +27,19 @@ describe("Testing List Packages API", () => {
             assert.ok(body);
             assert.ok(body.data);
             prods = body.data;
+            prods.forEach(prod => {
+                if(prod.code === 'TEST2') {
+                    selectedProd = prod;
+                }
+            });
             assert.ok(body.data.length > 0);
-            let check = validator.validate(body, listProductsSchema);
-            assert.deepEqual(check.valid, true);
-            assert.deepEqual(check.errors, []);
             done();
         });
     });
     it("Success - will return all packages of product records ", (done) => {
         let params = {
             qs: {
-                id: prods[0]._id
+                id: selectedProd._id
             }
         };
         requester('/product/packages', 'get', params, (error, body) => {

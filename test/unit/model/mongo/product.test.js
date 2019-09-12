@@ -177,7 +177,7 @@ describe("Unit test for: Model - product", () => {
             let prods = [];
             model.listProducts(null, (err, records) => {
                 prods = records;
-                model.updateProduct({_id: prods[1]._id, name: "Somesome"}, (err, record) => {
+                model.updateProduct({_id: prods[1]._id, name: "Somesome", packages: [{name:"one"}]}, (err, record) => {
                     assert.ifError(err);
                     assert.ok(record);
                     assert.deepEqual(record, 1);
@@ -230,25 +230,8 @@ describe("Unit test for: Model - product", () => {
             });
         });
 
-        //TODO fix indexes
 
-        it.skip('Success - list Environments - console', (done) => {
-            model.listEnvironments({console: false}, (err, records) => {
-                assert.ifError(err);
-                assert.ok(records);
-                done();
-            });
-        });
-
-        it.skip('Fails - list Environments - null', (done) => {
-            model.listEnvironments(null, (err, records) => {
-                assert.ok(err);
-                done();
-            });
-        });
-
-
-        it.skip("Success - closeConnection", (done) => {
+        it("Success - closeConnection", (done) => {
             model.closeConnection();
             done();
         });

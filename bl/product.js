@@ -366,7 +366,7 @@ let bl = {
 			modelObj.updateProduct(record, (err, result) => {
 				bl.mp.closeModel(soajs, modelObj);
 				if (err) {
-					return cb(bl.handleError(soajs, 476, err), null);
+					return cb(bl.handleError(soajs, 602, err), null);
 				}
 				return cb(null, newPackage.code);
 			});
@@ -395,7 +395,8 @@ let bl = {
 				return cb(bl.handleError(soajs, 500, null));
 			}
 			if (!record.packages){
-				record.packages = [];
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 461, null));
 			}
 			let found = false;
 			let prefix = record.code.toUpperCase() + '_';
@@ -429,7 +430,7 @@ let bl = {
 			modelObj.updateProduct(record, (err, result) => {
 				bl.mp.closeModel(soajs, modelObj);
 				if (err) {
-					return cb(bl.handleError(soajs, 476, err));
+					return cb(bl.handleError(soajs, 602, err));
 				}
 				return cb(null, `product package ${inputmaskData.code} updated successfully`);
 			});
@@ -458,7 +459,8 @@ let bl = {
 				return cb(bl.handleError(soajs, 500, null));
 			}
 			if (!record.packages){
-				record.packages = [];
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 461, null));
 			}
 			let found = false;
 			for (let i = 0; i < record.packages.length; i++) {
@@ -470,14 +472,14 @@ let bl = {
 			}
 			if (!found){
 				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 460, 461), null);
+				return cb(bl.handleError(soajs, 461, null), null);
 			}
 			data._id = record._id;
 			data.packages = record.packages;
 			modelObj.updateProduct(record, (err, result) => {
 				bl.mp.closeModel(soajs, modelObj);
 				if (err) {
-					return cb(bl.handleError(soajs, 476, err), null);
+					return cb(bl.handleError(soajs, 602, err), null);
 				}
 				return cb(null, `product package ${inputmaskData.packageCode} deleted successfully`);
 			});

@@ -42,6 +42,7 @@ describe("Testing add product API", () => {
         requester('/product', 'post', params, (error, body) => {
             assert.ifError(error);
             assert.ok(body);
+            console.log("erroras", body.errors);
             done();
         });
     });

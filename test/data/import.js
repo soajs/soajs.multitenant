@@ -31,9 +31,12 @@ let lib = {
                         return cb();
                     });
             });
+        } else
+        {
+            mongoConnection.dropCollection(colName, () => {
+                return cb();
+            });
         }
-        else
-            return cb();
     },
     oauth: (dataPath, mongoConnection, cb) => {
         let records = [];
@@ -60,8 +63,7 @@ let lib = {
                         return cb();
                     });
             });
-        }
-        else
+        } else
             return cb();
     },
     users: (dataPath, profile, cb) => {
@@ -90,8 +92,7 @@ let lib = {
                 () => {
                     return cb();
                 });
-        }
-        else
+        } else
             return cb();
     },
     groups: (dataPath, profile, cb) => {
@@ -120,8 +121,7 @@ let lib = {
                 () => {
                     return cb();
                 });
-        }
-        else
+        } else
             return cb();
     }
 };
@@ -139,11 +139,6 @@ module.exports = (profilePath, dataPath, callback) => {
         //use soajs.core.modules to create a connection to core_provision database
         let mongoConnection = new Mongo(profile);
         async.series([
-		        function (cb) {
-			        //remove old data
-			        mongoConnection.dropDatabase('core.provision', cb);
-			        return cb(null);
-		        },
                 function (cb) {
                     //check for environment data
                     if (fs.existsSync(dataPath + "environment/")) {
@@ -153,8 +148,7 @@ module.exports = (profilePath, dataPath, callback) => {
                             "objId": "_id"
                         };
                         return lib.basic(config, dataPath + "environment/", mongoConnection, cb);
-                    }
-                    else
+                    } else
                         return cb(null);
                 },
                 function (cb) {
@@ -166,8 +160,7 @@ module.exports = (profilePath, dataPath, callback) => {
                             "objId": "_id"
                         };
                         return lib.basic(config, dataPath + "hosts/", mongoConnection, cb);
-                    }
-                    else
+                    } else
                         return cb(null);
                 },
                 function (cb) {
@@ -179,8 +172,7 @@ module.exports = (profilePath, dataPath, callback) => {
                             "objId": "_id"
                         };
                         return lib.basic(config, dataPath + "resources/", mongoConnection, cb);
-                    }
-                    else
+                    } else
                         return cb(null);
                 },
                 function (cb) {
@@ -192,8 +184,7 @@ module.exports = (profilePath, dataPath, callback) => {
                             "objId": "_id"
                         };
                         return lib.basic(config, dataPath + "services/", mongoConnection, cb);
-                    }
-                    else
+                    } else
                         return cb(null);
                 },
                 function (cb) {
@@ -205,8 +196,7 @@ module.exports = (profilePath, dataPath, callback) => {
                             "objId": "_id"
                         };
                         return lib.basic(config, dataPath + "products/", mongoConnection, cb);
-                    }
-                    else
+                    } else
                         return cb(null);
                 },
                 function (cb) {
@@ -218,32 +208,28 @@ module.exports = (profilePath, dataPath, callback) => {
                             "objId": "_id"
                         };
                         return lib.basic(config, dataPath + "tenants/", mongoConnection, cb);
-                    }
-                    else
+                    } else
                         return cb(null);
                 },
                 function (cb) {
                     //check for tenants data
                     if (fs.existsSync(dataPath + "oauth/")) {
                         return lib.oauth(dataPath + "oauth/", mongoConnection, cb);
-                    }
-                    else
+                    } else
                         return cb(null);
                 },
                 function (cb) {
                     //check for users data
                     if (fs.existsSync(dataPath + "urac/users/")) {
                         return lib.users(dataPath + "urac/users/", profile, cb);
-                    }
-                    else
+                    } else
                         return cb(null);
                 },
                 function (cb) {
                     //check for groups data
                     if (fs.existsSync(dataPath + "urac/groups/")) {
                         return lib.groups(dataPath + "urac/groups/", profile, cb);
-                    }
-                    else
+                    } else
                         return cb(null);
                 }
             ],

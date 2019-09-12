@@ -128,7 +128,7 @@ module.exports = function (grunt) {
 
 
         instrument: {
-            src: ['index.js', 'config.js', 'bl/*.js', 'model/mongo/*.js'],
+            src: ['index.js', 'config.js', 'bl/*.js', 'model/mongo/*.js', 'lib/*.js'],
             options: {
                 lazy: false,
                 basePath: 'test/coverage/instrument/'

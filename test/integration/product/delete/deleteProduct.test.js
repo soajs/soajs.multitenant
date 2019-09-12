@@ -36,10 +36,20 @@ describe("Testing delete product API", () => {
         });
     });
 
+    let selectedProd;
     it("Success - will return all product records", (done) => {
         let params = {};
         requester('/products', 'get', params, (error, body) => {
+            assert.ifError(error);
+            assert.ok(body);
+            assert.ok(body.data);
             prods = body.data;
+            prods.forEach(prod => {
+                if(prod.code === 'TPROD') {
+                    selectedProd = prod;
+                }
+            });
+            assert.ok(body.data.length > 0);
             done();
         });
     });
@@ -48,7 +58,7 @@ describe("Testing delete product API", () => {
 
         let params = {
             qs: {
-                id: prods[2]._id
+                id: selectedProd._id
             }
         };
         requester('/product', 'delete', params, (error, body) => {

@@ -2,7 +2,12 @@
 const assert = require('assert');
 const requester = require('../../requester');
 
-/*describe("Testing Update Package API", () => {
+let core = require('soajs').core;
+let validator = new core.validator.Validator();
+let updatePackagesSchema = require("../schemas/updatePackage.js");
+let listProductsSchema = require("../schemas/listProducts.js");
+
+describe("Testing Update Package API", () => {
 
 before(function (done) {
         done();
@@ -14,51 +19,47 @@ before(function (done) {
     });
 
     let prods = [];
+    let selectedProd;
     it("Success - will return all product records", (done) => {
         let params = {};
         requester('/products', 'get', params, (error, body) => {
             assert.ifError(error);
             assert.ok(body);
-            prods = body.data;
             assert.ok(body.data);
             prods = body.data;
+            prods.forEach(prod => {
+                if(prod.code === 'TEST2') {
+                    selectedProd = prod;
+                }
+            });
             assert.ok(body.data.length > 0);
+            let check = validator.validate(body, listProductsSchema);
+            assert.deepEqual(check.valid, true);
+            assert.deepEqual(check.errors, []);
             done();
         });
     });
     it("Success - will update product package", (done) => {
         let params = {
             qs: {
-                id: prods[0]._id,
-                code: "TPROD_PACK_NAME"
+                id: selectedProd._id,
             },
             form: {
+                code: "NEWS",
                 name: "PACK_NAME2",
                 description: "Pack Description after update",
-                _TTL: 86400000,
-                acl: {
-                    urac: {
-                        access: false,
-                        apis: {
-
-                        }
-                    },
-                    dashboard: {
-                        access: [
-                            "devop"
-                        ],
-                        apis: {
-
-                        }
-                    }
-                }
+                _TTL: 24,
+                acl: {} // TODO: edit after FINISHING acl schema
             }
         };
         requester('/product/package', 'put', params, (error, body) => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.data);
-            assert.ok(body.data.length > 0);
+            assert.deepEqual(body.data, "product package NEWS updated successfully");
+            let check = validator.validate(body, updatePackagesSchema);
+            assert.deepEqual(check.valid, true);
+            assert.deepEqual(check.errors, []);
             done();
         });
     });
@@ -69,7 +70,10 @@ before(function (done) {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.errors.codes);
+            let check = validator.validate(body, updatePackagesSchema);
+            assert.deepEqual(check.valid, true);
+            assert.deepEqual(check.errors, []);
             done();
         });
     });
-});*/
+});
