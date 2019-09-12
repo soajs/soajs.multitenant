@@ -963,7 +963,7 @@ describe("Unit test for: BL - product", () => {
 
     });
 
-    describe.skip("Testing purge Product", () => {
+    describe("Testing purge Product", () => {
         afterEach((done) => {
             BL.modelObj = null;
             done();
@@ -974,7 +974,7 @@ describe("Unit test for: BL - product", () => {
             description: "Pack Description after update",
         };
 
-        it("Success - purge product - null data", (done) => {
+        it("Success - purge product - data", (done) => {
             BL.modelObj = {
                 getProduct: (inputMask, cb) => {
                     return cb(null, {
@@ -1048,7 +1048,7 @@ describe("Unit test for: BL - product", () => {
                 });
             };
 
-            Product.prototype.updateProduct = (data, cb) => {
+            Product.prototype.saveProduct = (data, cb) => {
                 return cb(null, true);
             };
 
@@ -1056,28 +1056,85 @@ describe("Unit test for: BL - product", () => {
             };
             BL.model = Product;
 
-            BL.purgeProduct(soajsClient, inputMask, (err, record) => {
+            BL.purge(soajsClient, inputMask, (err, record) => {
                 assert.ok(record);
                 done();
             });
         });
 
-        it("Fails - purge product - null config", (done) => {
+        it("Fails - purge product - null data", (done) => {
             BL.modelObj = {
                 getProduct: (nullObject, cb) => {
                     return cb(true, null);
                 },
-                updateProduct: (data, cb) => {
+                saveProduct: (data, cb) => {
                     return cb(true, null);
                 }
             };
-            BL.purgeProduct(soajs, null, (err, records) => {
+            BL.purge(soajs, null, (err, records) => {
                 assert.ok(err);
                 assert.equal(records, null);
                 assert.deepEqual(err, {
-                    code: 473,
-                    msg: soajs.config.errors[473]
+                    code: 400,
+                    msg: soajs.config.errors[400]
                 });
+                done();
+            });
+        });
+
+        it("Fails - purge product - save product err", (done) => {
+            BL.modelObj = {
+                getProduct: (nullObject, cb) => {
+                    return cb(null, {
+                        packages: [
+                            {
+                                name: "totestonly"
+                            }
+                        ]
+                    });
+                },
+                saveProduct: (data, cb) => {
+                    return cb(true, null);
+                }
+            };
+            BL.purge(soajs, {}, (err, records) => {
+                assert.ok(err);
+                assert.equal(records, null);
+                assert.deepEqual(err.code, 602
+                );
+                done();
+            });
+        });
+
+        it("Fails - purge product - save product err", (done) => {
+            BL.modelObj = {
+                getProduct: (nullObject, cb) => {
+                    return cb(true, null);
+                }
+            };
+            BL.purge(soajs, {}, (err, records) => {
+                assert.ok(err);
+                assert.equal(records, null);
+                assert.deepEqual(err.code, 602
+                );
+                done();
+            });
+        });
+
+        it("Fails - purge product - no record err", (done) => {
+            BL.modelObj = {
+                getProduct: (nullObject, cb) => {
+                    return cb(null, null);
+                },
+                saveProduct: (data, cb) => {
+                    return cb(true, null);
+                }
+            };
+            BL.purge(soajs, {}, (err, records) => {
+                assert.ok(err);
+                assert.equal(records, null);
+                assert.deepEqual(err.code, 460
+                );
                 done();
             });
         });
@@ -1086,10 +1143,7 @@ describe("Unit test for: BL - product", () => {
             let soajsClient = {
                 config: {
                     "errors": {
-                        423: "An id must be provided",
-                        460: "Unable to find product",
-                        473: "Missing required fields",
-                        601: "Model not found"
+                        400: "Business logic required data are missing."
                     },
                 },
                 tenant: {
@@ -1110,18 +1164,18 @@ describe("Unit test for: BL - product", () => {
             Product.prototype.getProduct = (data, cb) => {
                 return cb(true, null);
             };
-            Product.prototype.updateProduct = (data, cb) => {
+            Product.prototype.saveProduct = (data, cb) => {
                 return cb(true, null);
             };
             Product.prototype.closeConnection = () => {
             };
             BL.model = Product;
-            BL.purgeProduct(soajsClient, null, (err, records) => {
+            BL.purge(soajsClient, null, (err, records) => {
                 assert.ok(err);
                 assert.equal(records, null);
                 assert.deepEqual(err, {
-                    code: 473,
-                    msg: soajsClient.config.errors[473]
+                    code: 400,
+                    msg: soajsClient.config.errors[400]
                 });
                 done();
             });
@@ -1129,15 +1183,169 @@ describe("Unit test for: BL - product", () => {
 
     });
 
-    describe.skip("Testing Update Scope Product", () => {
+    describe("Testing Update Scope Product", () => {
         afterEach((done) => {
             BL.modelObj = null;
             done();
         });
 
+        let inputMask = {
+            id: "DummyID",
+            scope: {
+                acl: {
+                    dashboard: {
+                        multitenant: {
+                            1: {
+                                access: false,
+                                get: [
+                                    {
+                                        "/product": {
+                                            access: false
+                                        },
+                                        group: 'Product'
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        it("Fails - update product scope - null data", (done) => {
+            BL.modelObj = {};
+            BL.updateScope(soajs, null, (err, records) => {
+                assert.ok(err);
+                assert.equal(records, null);
+                assert.deepEqual(err, {
+                    code: 400,
+                    msg: soajs.config.errors[400]
+                });
+                done();
+            });
+        });
+
+        it("Success - update product scope - data", (done) => {
+            BL.modelObj = {
+                getProduct: (inputMask, cb) => {
+                    return cb(null, {
+                        "code": "TPROD",
+                        "name": "Test Product",
+                        "description": "this is a description for test product",
+                        "packages": [
+                            {
+                                "code": "TPROD_BASIC",
+                                "name": "basic package",
+                                "description": "this is a description for test product basic package",
+                                "acl": {
+                                    "urac": {},
+                                    "multitenant": {}
+                                },
+                                "_TTL": 86400000 // 24 hours
+                            }
+                        ]
+                    });
+                },
+                updateProduct: (data, cb) => {
+                    return cb(null, true);
+                }
+            };
+            BL.updateScope(soajs, inputMask, (err, result) => {
+                assert.ok(result);
+                assert.deepEqual(result, true);
+                done();
+            });
+        });
+
+        it("Fails - update product scope - getProduct error", (done) => {
+            BL.modelObj = {
+                getProduct: (inputMask, cb) => {
+                    return cb(true, null);
+                }
+            };
+            BL.updateScope(soajs, {}, (err, records) => {
+                assert.ok(err);
+                assert.equal(records, null);
+                assert.deepEqual(err.code, 602);
+                done();
+            });
+        });
+
+        it("Fails - update product scope - no record error", (done) => {
+            BL.modelObj = {
+                getProduct: (inputMask, cb) => {
+                    return cb(null, null);
+                }
+            };
+            BL.updateScope(soajs, {}, (err, records) => {
+                assert.ok(err);
+                assert.equal(records, null);
+                assert.deepEqual(err, {
+                    code: 460,
+                    msg: soajs.config.errors[460]
+                });
+                done();
+            });
+        });
+
+        it("Fails - update product scope - locked record error", (done) => {
+            BL.modelObj = {
+                getProduct: (inputMask, cb) => {
+                    return cb(null, {
+                        locked: true,
+                        console: true
+                    });
+                }
+            };
+            BL.updateScope(soajs, {}, (err, records) => {
+                assert.ok(err);
+                assert.equal(records, null);
+                assert.deepEqual(err, {
+                    code: 500,
+                    msg: soajs.config.errors[500]
+                });
+                done();
+            });
+        });
+
+        it("Fails - update product scope - updateProduct error", (done) => {
+            BL.modelObj = {
+                getProduct: (inputMask, cb) => {
+                    return cb(null, {
+                        "code": "TPROD",
+                        "name": "Test Product",
+                        "description": "this is a description for test product",
+                        "packages": [
+                            {
+                                "code": "TPROD_BASIC",
+                                "name": "basic package",
+                                "description": "this is a description for test product basic package",
+                                "acl": {
+                                    "urac": {},
+                                    "multitenant": {}
+                                },
+                                "_TTL": 86400000 // 24 hours
+                            }
+                        ]
+                    });
+                },
+                updateProduct: (data, cb) => {
+                    return cb(true, null);
+                }
+            };
+            BL.updateScope(soajs, inputMask, (err, result) => {
+                assert.ok(err);
+                assert.deepEqual(err, {
+                    code: 470,
+                    msg: soajs.config.errors[470]
+                });
+                done();
+            });
+        });
+
     });
 
-    describe.skip("Testing Delete Product", () => {
+    describe("Testing Delete Product", () => {
         afterEach((done) => {
             BL.modelObj = null;
             done();
@@ -1161,6 +1369,7 @@ describe("Unit test for: BL - product", () => {
             };
             BL.delete(soajs, inputMask, (err, record) => {
                 assert.ok(record);
+                assert.deepEqual(record, true);
                 done();
             });
         });
@@ -1180,6 +1389,7 @@ describe("Unit test for: BL - product", () => {
             };
             BL.delete(soajs, inputMask, (err, record) => {
                 assert.ok(err);
+                assert.deepEqual(err.code, 602);
                 done();
             });
         });
@@ -1199,6 +1409,10 @@ describe("Unit test for: BL - product", () => {
             };
             BL.delete(soajs, inputMask, (err, record) => {
                 assert.ok(err);
+                assert.deepEqual(err, {
+                    code: 460,
+                    msg: soajs.config.errors[460]
+                });
                 done();
             });
         });
@@ -1214,7 +1428,10 @@ describe("Unit test for: BL - product", () => {
             };
             BL.delete(soajs, null, (err, record) => {
                 assert.ok(err);
-                assert.deepEqual(err.code, 474);
+                assert.deepEqual(err, {
+                    code: 400,
+                    msg: soajs.config.errors[400]
+                });
                 done();
             });
         });
@@ -1234,6 +1451,10 @@ describe("Unit test for: BL - product", () => {
             };
             BL.delete(soajs, inputMask, (err, record) => {
                 assert.ok(err);
+                assert.deepEqual(err, {
+                    code: 460,
+                    msg: soajs.config.errors[460]
+                });
                 done();
             });
         });
@@ -1290,11 +1511,17 @@ describe("Unit test for: BL - product", () => {
                     return cb(true, null);
                 },
                 getProduct: (inputMask, cb) => {
-                    return cb(null, {});
+                    return cb(null, {
+                        code: "DSBRD"
+                    });
                 }
             };
             BL.delete(soajs2, inputMask, (err, record) => {
                 assert.ok(err);
+                assert.deepEqual(err, {
+                    code: 466,
+                    msg: soajs.config.errors[466]
+                });
                 done();
             });
         });
@@ -1317,7 +1544,10 @@ describe("Unit test for: BL - product", () => {
             };
             BL.delete(soajs, inputMask, (err, record) => {
                 assert.ok(err);
-                assert.deepEqual(err.code, 500);
+                assert.deepEqual(err, {
+                    code: 500,
+                    msg: soajs.config.errors[500]
+                });
                 done();
             });
         });
@@ -1337,6 +1567,10 @@ describe("Unit test for: BL - product", () => {
             };
             BL.delete(soajs, inputMask, (err, record) => {
                 assert.ok(err);
+                assert.deepEqual(err, {
+                    code: 460,
+                    msg: soajs.config.errors[460]
+                });
                 done();
             });
         });
@@ -1354,9 +1588,31 @@ describe("Unit test for: BL - product", () => {
             };
             BL.delete(soajs, inputMask, (err, record) => {
                 assert.ok(err);
+                assert.deepEqual(err.code, 602);
                 done();
             });
         });
+
+        it("Fails - Delete product - delete product error", (done) => {
+            let inputMask = {
+                code: 'some'
+            };
+
+            BL.modelObj = {
+                deleteProduct: (inputMask, cb) => {
+                    return cb(true, null);
+                },
+                getProduct: (inputMask, cb) => {
+                    return cb(null, {});
+                }
+            };
+            BL.delete(soajs, inputMask, (err, record) => {
+                assert.ok(err);
+                assert.deepEqual(err.code, 602);
+                done();
+            });
+        });
+
     });
 
     describe("Testing list all packages inside Product", () => {
@@ -1793,7 +2049,7 @@ describe("Unit test for: BL - product", () => {
 
     });
 
-    describe.skip("Testing add package inside Product", () => {
+    describe("Testing add package inside Product", () => {
         afterEach((done) => {
             BL.modelObj = null;
             done();
@@ -1804,8 +2060,10 @@ describe("Unit test for: BL - product", () => {
             "id": "SomeProductID",
             "name": "PACK_NAME2",
             "description": "Pack Description new",
-            "_TTL": 86400000,
-            "acl": {}
+            "_TTL": 12,
+            "tags": [
+                "some", "to", "test"
+            ]
         };
 
         it("Success - add package - null data", (done) => {
@@ -1841,9 +2099,6 @@ describe("Unit test for: BL - product", () => {
                 },
                 updateProduct: (data, cb) => {
                     return cb(null, true);
-                },
-                listEnvironments: (data, cb) => {
-                    return cb(null, []);
                 }
             };
             BL.addPackage(soajs, inputMask, (err, result) => {
@@ -1856,8 +2111,7 @@ describe("Unit test for: BL - product", () => {
             let soajsClient = {
                 config: {
                     "errors": {
-                        460: "Unable to find product",
-                        601: "Model not found"
+                        400: "Business logic required data are missing."
                     },
                 },
                 tenant: {
@@ -1909,11 +2163,6 @@ describe("Unit test for: BL - product", () => {
                 return cb(null, true);
             };
 
-
-            Product.prototype.listEnvironments = (data, cb) => {
-                return cb(null, []);
-            };
-
             Product.prototype.closeConnection = () => {
             };
             BL.model = Product;
@@ -1924,7 +2173,7 @@ describe("Unit test for: BL - product", () => {
             });
         });
 
-        it("Fails - add package - null config", (done) => {
+        it("Fails - add package - null data", (done) => {
             BL.modelObj = {
                 getProduct: (nullObject, cb) => {
                     return cb(true, null);
@@ -1937,21 +2186,18 @@ describe("Unit test for: BL - product", () => {
                 assert.ok(err);
                 assert.equal(records, null);
                 assert.deepEqual(err, {
-                    code: 473,
-                    msg: soajs.config.errors[473]
+                    code: 400,
+                    msg: soajs.config.errors[400]
                 });
                 done();
             });
         });
 
-        it("Fails - delete package - error - client tenant", (done) => {
+        it("Fails - add package - error - client tenant", (done) => {
             let soajsClient = {
                 config: {
                     "errors": {
-                        423: "An id must be provided",
-                        460: "Unable to find product",
-                        473: "Missing required fields",
-                        601: "Model not found"
+                        400: "Business logic required data are missing."
                     },
                 },
                 tenant: {
@@ -1982,12 +2228,64 @@ describe("Unit test for: BL - product", () => {
                 assert.ok(err);
                 assert.equal(records, null);
                 assert.deepEqual(err, {
-                    code: 473,
-                    msg: soajsClient.config.errors[473]
+                    code: 400,
+                    msg: soajsClient.config.errors[400]
                 });
                 done();
             });
         });
+
+        it("Fails - add package - getProduct error", (done) => {
+            BL.modelObj = {
+                getProduct: (nullObject, cb) => {
+                    return cb(null, null);
+                }
+            };
+            BL.addPackage(soajs, {}, (err, records) => {
+                assert.ok(err);
+                assert.equal(records, null);
+                assert.deepEqual(err, {
+                    code: 460,
+                    msg: soajs.config.errors[460]
+                });
+                done();
+            });
+        });
+
+        it("Fails - add package - no record error", (done) => {
+            BL.modelObj = {
+                getProduct: (nullObject, cb) => {
+                    return cb(true, null);
+                }
+            };
+            BL.addPackage(soajs, {}, (err, records) => {
+                assert.ok(err);
+                assert.equal(records, null);
+                assert.deepEqual(err.code, 602);
+                done();
+            });
+        });
+
+        it("Fails - add package - locked record error", (done) => {
+            BL.modelObj = {
+                getProduct: (nullObject, cb) => {
+                    return cb(null, {
+                        locked: true,
+                        console: true
+                    });
+                }
+            };
+            BL.addPackage(soajs, {}, (err, records) => {
+                assert.ok(err);
+                assert.equal(records, null);
+                assert.deepEqual(err, {
+                    code: 500,
+                    msg: soajs.config.errors[500]
+                });
+                done();
+            });
+        });
+
 
     });
 
@@ -2039,9 +2337,6 @@ describe("Unit test for: BL - product", () => {
                 },
                 updateProduct: (data, cb) => {
                     return cb(null, true);
-                },
-                listEnvironments: (data, cb) => {
-                    return cb(null, []);
                 }
             };
             BL.updatePackage(soajs, inputMask, (err, result) => {
@@ -2105,10 +2400,6 @@ describe("Unit test for: BL - product", () => {
 
             Product.prototype.updateProduct = (data, cb) => {
                 return cb(null, true);
-            };
-
-            Product.prototype.listEnvironments = (data, cb) => {
-                return cb(null, []);
             };
 
             Product.prototype.closeConnection = () => {

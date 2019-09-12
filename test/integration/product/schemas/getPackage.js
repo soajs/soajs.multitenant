@@ -12,6 +12,14 @@ let getPackageSchema = {
             "_TTL": {"type": "number", "min": 1, "required": true},
             "acl": {"type": "object", "required": true}
         }
+    },
+    "errors": {
+        "type": "object",
+        "required": false,
+        "properties": {
+            "codes": "array",
+            "details": "array"
+        }
     }
 };
 

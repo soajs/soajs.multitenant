@@ -27,6 +27,8 @@ describe("Testing get product API", () => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.data);
+            assert.deepEqual(body.data.name, 'Console UI Product');
+            assert.deepEqual(body.data.code, 'DSBRD');
             let check = validator.validate(body, getProductSchema);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);
@@ -40,6 +42,9 @@ describe("Testing get product API", () => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.errors.codes);
+            let check = validator.validate(body, getProductSchema);
+            assert.deepEqual(check.valid, true);
+            assert.deepEqual(check.errors, []);
             done();
         });
     });

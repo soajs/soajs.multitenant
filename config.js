@@ -251,7 +251,7 @@ module.exports = {
 	        
 	        "/product": {
 		        _apiInfo: {
-			        "l": "Update Product Package",
+			        "l": "Update Product",
 			        "group": "Product"
 		        },
 		        "commonFields": ['id', 'name', 'description']

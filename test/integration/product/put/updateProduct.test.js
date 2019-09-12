@@ -2,6 +2,10 @@
 const assert = require('assert');
 const requester = require('../../requester');
 
+let core = require('soajs').core;
+let validator = new core.validator.Validator();
+let updateProductSchema = require("../schemas/updateProduct.js");
+
 describe("Testing update product API", () => {
 
     before(function (done) {
@@ -29,12 +33,43 @@ describe("Testing update product API", () => {
         let params = {
             qs: {
                 id: prods[1]._id
+            },
+            form: {
+                name: "SomeName"
             }
         };
         requester('/product', 'put', params, (error, body) => {
             assert.ifError(error);
             assert.ok(body);
+            assert.ok(body.data);
+            let check = validator.validate(body, updateProductSchema);
+            assert.deepEqual(check.valid, true);
+            assert.deepEqual(check.errors, []);
+            assert.deepEqual(body.data, 1);
             done();
+
+        });
+    });
+
+    it("Fails - will not update - prod not found", (done) => {
+        let params = {
+            qs: {
+                id: "5512867be603d7e01ab1666d"
+            },
+            form: {
+                name: "NOTANAME"
+            }
+        };
+        requester('/product', 'put', params, (error, body) => {
+            assert.ifError(error);
+            assert.ok(body);
+            assert.ok(body.errors);
+            assert.deepEqual(body.errors.codes[0], 460);
+            let check = validator.validate(body, updateProductSchema);
+            assert.deepEqual(check.valid, true);
+            assert.deepEqual(check.errors, []);
+            done();
+
         });
     });
 
@@ -44,6 +79,9 @@ describe("Testing update product API", () => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.errors.codes);
+            let check = validator.validate(body, updateProductSchema);
+            assert.deepEqual(check.valid, true);
+            assert.deepEqual(check.errors, []);
             done();
         });
     });

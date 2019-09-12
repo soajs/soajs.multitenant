@@ -37,6 +37,9 @@ describe("Testing list products API", () => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.errors.codes);
+            let check = validator.validate(body, listProductsSchema);
+            assert.deepEqual(check.valid, true);
+            assert.deepEqual(check.errors, []);
             done();
         });
     });
@@ -64,6 +67,9 @@ describe("Testing list console products API", () => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.errors.codes);
+            let check = validator.validate(body, listProductsSchema);
+            assert.deepEqual(check.valid, true);
+            assert.deepEqual(check.errors, []);
             done();
         });
     });

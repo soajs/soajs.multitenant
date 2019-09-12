@@ -55,6 +55,9 @@ describe("Testing List Packages API", () => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.errors.codes);
+            let check = validator.validate(body, getPackagesSchema);
+            assert.deepEqual(check.valid, true);
+            assert.deepEqual(check.errors, []);
             done();
         });
     });

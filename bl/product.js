@@ -95,7 +95,7 @@ let bl = {
 			}
 			if (!record) {
 				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 460, err), null);
+				return cb(bl.handleError(soajs, 460, null), null);
 			}
 			if (!soajs.tenant.locked && record && record.locked) {
 				bl.mp.closeModel(soajs, modelObj);
@@ -144,7 +144,7 @@ let bl = {
 			
 			if (count > 0) {
 				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 468, err));
+				return cb(bl.handleError(soajs, 468, null));
 			}
 			
 			modelObj.addProduct(data, (err, record) => {
@@ -277,7 +277,7 @@ let bl = {
                 return cb(bl.handleError(soajs, 602, err), null);
             }
             if (!record || !record.packages) {
-                return cb(bl.handleError(soajs, 461, err), null);
+                return cb(bl.handleError(soajs, 461, null), null);
             }
             return cb(null, record.packages);
         });
@@ -297,7 +297,7 @@ let bl = {
                 return cb(bl.handleError(soajs, 602, err), null);
             }
             if (!record || !record.packages) {
-                return cb(bl.handleError(soajs, 461, err), null);
+                return cb(bl.handleError(soajs, 461, null), null);
             }
             let pck = null;
             for (let i = 0; i < record.packages.length; i++) {
@@ -319,12 +319,13 @@ let bl = {
 		data.id = inputmaskData.id;
 		
 		modelObj.getProduct(data, (err, record) => {
-			bl.mp.closeModel(soajs, modelObj);
 			if (err) {
+				bl.mp.closeModel(soajs, modelObj);
 				return cb(bl.handleError(soajs, 602, err), null);
 			}
 			if (!record) {
-				return cb(bl.handleError(soajs, 460, err), null);
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 460, null), null);
 			}
 			if (!soajs.tenant.locked && record && record.locked) {
 				bl.mp.closeModel(soajs, modelObj);
@@ -343,6 +344,7 @@ let bl = {
 				});
 			}
 			if (found){
+				bl.mp.closeModel(soajs, modelObj);
 				return cb(bl.handleError(soajs, 467, null));
 			}
 			let newPackage = {
@@ -380,12 +382,13 @@ let bl = {
 		data.id = inputmaskData.id;
 		
 		modelObj.getProduct(data, (err, record) => {
-			bl.mp.closeModel(soajs, modelObj);
 			if (err) {
+				bl.mp.closeModel(soajs, modelObj);
 				return cb(bl.handleError(soajs, 602, err));
 			}
 			if (!record) {
-				return cb(bl.handleError(soajs, 460, err));
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 460, null));
 			}
 			if (!soajs.tenant.locked && record && record.locked) {
 				bl.mp.closeModel(soajs, modelObj);
@@ -418,6 +421,7 @@ let bl = {
 				}
 			}
 			if (!found){
+				bl.mp.closeModel(soajs, modelObj);
 				return cb(bl.handleError(soajs, 461, null));
 			}
 			data._id = record._id;
@@ -427,7 +431,7 @@ let bl = {
 				if (err) {
 					return cb(bl.handleError(soajs, 476, err));
 				}
-				return cb(null, `product package ${inputmaskData.code} update successful`);
+				return cb(null, `product package ${inputmaskData.code} updated successfully`);
 			});
 		});
 	},
@@ -441,12 +445,13 @@ let bl = {
 		data.id = inputmaskData.id;
 		
 		modelObj.getProduct(data, (err, record) => {
-			bl.mp.closeModel(soajs, modelObj);
 			if (err) {
+				bl.mp.closeModel(soajs, modelObj);
 				return cb(bl.handleError(soajs, 602, err), null);
 			}
 			if (!record) {
-				return cb(bl.handleError(soajs, 460, err), null);
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 460, null), null);
 			}
 			if (!soajs.tenant.locked && record && record.locked) {
 				bl.mp.closeModel(soajs, modelObj);
@@ -464,6 +469,7 @@ let bl = {
 				}
 			}
 			if (!found){
+				bl.mp.closeModel(soajs, modelObj);
 				return cb(bl.handleError(soajs, 460, 461), null);
 			}
 			data._id = record._id;
@@ -473,7 +479,7 @@ let bl = {
 				if (err) {
 					return cb(bl.handleError(soajs, 476, err), null);
 				}
-				return cb(null, `product package ${inputmaskData.packageCode} deleted successful`);
+				return cb(null, `product package ${inputmaskData.packageCode} deleted successfully`);
 			});
 		});
 	}

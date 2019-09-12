@@ -17,6 +17,14 @@ let getPackagesSchema = {
                 "acl": {"type": "object", "required": true}
             }
         }
+    },
+    "errors": {
+        "type": "object",
+        "required": false,
+        "properties": {
+            "codes": "array",
+            "details": "array"
+        }
     }
 };
 
