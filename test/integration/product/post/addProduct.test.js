@@ -22,7 +22,7 @@ describe("Testing add product API", () => {
                     acl: {
                         dashboard: {
                             multitenant: {
-                                1: {
+                                "1": {
                                     access: false,
                                     get: [
                                         {
@@ -30,6 +30,30 @@ describe("Testing add product API", () => {
                                                 access: false
                                             },
                                             group: 'Product'
+                                        }
+                                    ]
+                                },
+                                "2.1" : {
+                                    access: false,
+                                    get: [
+                                        {
+                                            "/product": {
+                                                access: false
+                                            },
+                                            group: 'Product'
+                                        }
+                                    ]
+                                }
+                            },
+                            urac: {
+                                "1.0": {
+                                    access: false,
+                                    get: [
+                                        {
+                                            "/user": {
+                                                access: false
+                                            },
+                                            group: 'Admin'
                                         }
                                     ]
                                 }
