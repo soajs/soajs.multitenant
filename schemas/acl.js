@@ -29,26 +29,20 @@ let acl = {
 				"required": false,
 				"patternProperties": {
 					"^[a-zA-Z0-9]+$": { //service
-						"type": "object",
+						"type": "array",
 						"required": false,
-						"patternProperties": {
-							"^[a-zA-Z0-9.]+$": { //version
-								"type": "object",
-								"required": false,
-								"properties": {
-									"access": accessSchema,
-									"apisPermission": {
-										"type": "string", "enum": ["restricted"], "required": false
-									},
-									"get": aclMethod,
-									"post": aclMethod,
-									"put": aclMethod,
-									"delete": aclMethod
-								},
-								"additionalProperties": false
-							}
-						},
-						"additionalProperties": false
+						"items": {
+							"type": "object",
+							"required": false,
+							"properties": {
+								"version": {"type": "string", "required": 1},
+								"get": aclMethod,
+								"post": aclMethod,
+								"put": aclMethod,
+								"delete": aclMethod
+							},
+							"additionalProperties": false
+						}
 					}
 				},
 				"additionalProperties": false

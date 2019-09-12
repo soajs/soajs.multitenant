@@ -1,6 +1,8 @@
 "use strict";
 const colName = "products";
 const core = require("soajs");
+const lib = require("../../lib/sanitize.js");
+const async = require("async");
 const Mongo = core.mongo;
 
 let indexing = {};
@@ -45,7 +47,9 @@ Product.prototype.listProducts = function (data, cb) {
     };
 
     __self.mongoCore.find(colName, condition, null, null, (err, records) => {
-        return cb(err, records);
+	    async.map(records, function (record, callback) {
+		    lib.unsanitize(record, callback);
+	    }, cb);
     });
 };
 
@@ -56,7 +60,9 @@ Product.prototype.listConsoleProducts = function (data, cb) {
         console: true
     };
     __self.mongoCore.find(colName, condition, null, null, (err, records) => {
-        return cb(err, records);
+	    async.map(records, function (record, callback) {
+		    lib.unsanitize(record, callback);
+	    }, cb);
     });
 };
 
@@ -78,13 +84,20 @@ Product.prototype.getProduct = function (data, cb) {
         return cb(error, null);
     }
 
-    let condition = {};
+    let condition = {
+    	'$and' : [{
+		    "$or": [
+			    {console: false},
+			    {console: null}
+		    ]
+	    }]
+    };
     if (data.id) {
         __self.validateId(data.id, (err, id) => {
             if (err) {
                 return cb(err, null);
             }
-            condition = {'_id': id};
+            condition["$and"].push({'_id': id});
 
             __self.mongoCore.findOne(colName, condition, null, null, (err, record) => {
                 return cb(err, record);
@@ -92,11 +105,11 @@ Product.prototype.getProduct = function (data, cb) {
         });
     } else {
         if (data.code) {
-            condition = {'code': data.code}; // TODO: ADD to documentation
+	        condition["$and"].push({'code': data.code}); // TODO: ADD to documentation
         }
 
         __self.mongoCore.findOne(colName, condition, null, null, (err, record) => {
-            return cb(err, record);
+	        lib.unsanitize(record, callback);
         });
     }
 };
@@ -219,6 +232,7 @@ Product.prototype.updateProduct = function (data, cb) {
 		return cb(err, result);
 	});
 };
+
 Product.prototype.closeConnection = function () {
     let __self = this;
     __self.mongoCore.closeDb();
