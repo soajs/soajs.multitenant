@@ -40,7 +40,6 @@ describe("Testing Add Package API", () => {
         });
     });
     it("Success - will add product package", (done) => {
-        console.log("SOMEPROD", JSON.stringify(prods[0], null, 2));
         let params = {
             qs: {
                 id: selectedProd._id
