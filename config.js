@@ -72,21 +72,21 @@ module.exports = {
         "get": {
             "/products": {
                 _apiInfo: {
-                    "l": "List Products",
+                    "l": "List products",
                     "group": "Product",
                     "groupMain": true
                 }
             },
             "/products/console": {
                 _apiInfo: {
-                    "l": "List Console Products",
+                    "l": "List console products",
                     "group": "Console product",
                     "groupMain": true
                 }
             },
             "/product": {
                 _apiInfo: {
-                    "l": "Get Product",
+                    "l": "Get product",
                     "group": "Product",
                     "groupMain": true
                 },
@@ -109,14 +109,14 @@ module.exports = {
             },
             "/product/packages": {
                 _apiInfo: {
-                    "l": "List Product Packages",
+                    "l": "List product packages",
                     "group": "Product"
                 },
                 "commonFields": ['id']
             },
             "/product/package": {
                 _apiInfo: {
-                    "l": "Get Product Package",
+                    "l": "Get product package",
                     "group": "Product"
                 },
                 "packageCode": {
@@ -141,7 +141,7 @@ module.exports = {
         "post": {
             "/product": {
                 _apiInfo: {
-                    "l": "Add a Product",
+                    "l": "Add product",
                     "group": "Product",
                     "groupMain": true
                 },
@@ -170,7 +170,7 @@ module.exports = {
 	        
             "/product/package": {
                 _apiInfo: {
-                    "l": "Add a package to a Product",
+                    "l": "Add package to product",
                     "group": "Product"
                 },
                 "commonFields": ['id', 'name', 'description', '_TTL', 'acl'],
@@ -204,7 +204,7 @@ module.exports = {
         "delete": {
             "/product": {
                 _apiInfo: {
-                    "l": "Delete a Product",
+                    "l": "Delete product",
                     "group": "Product",
                     "groupMain": true
                 },
@@ -225,7 +225,7 @@ module.exports = {
             },
 	        "/product/package": {
 		        _apiInfo: {
-			        "l": "Delete Product Package",
+			        "l": "Delete product package",
 			        "group": "Product"
 		        },
 		        "commonFields": ['id'],
@@ -251,7 +251,7 @@ module.exports = {
 	        
 	        "/product": {
 		        _apiInfo: {
-			        "l": "Update Product",
+			        "l": "Update product",
 			        "group": "Product"
 		        },
 		        "commonFields": ['id', 'name', 'description']
@@ -259,7 +259,7 @@ module.exports = {
 	        
 	        "/product/scope": {
 		        _apiInfo: {
-			        "l": "Update Product Scope",
+			        "l": "Update product ACL scope",
 			        "group": "Product"
 		        },
 		        "commonFields": ['id'],
@@ -277,7 +277,7 @@ module.exports = {
 	        
 	        "/product/package": {
 		        _apiInfo: {
-			        "l": "Update Product Package",
+			        "l": "Update product package",
 			        "group": "Product"
 		        },
 		        "commonFields": ['id', 'description', 'acl'],
