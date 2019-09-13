@@ -5,6 +5,31 @@ let lib = {
     "name" : "Test Product",
     "description" : "this is a description for test product",
     "console": false,
+    "scope": {
+        "acl": {
+           "dashboard": {
+               "multitenant": {
+                   "1": {
+                       "access": false,
+                       "get": [
+                           {
+                               "apis": {
+                                   "/product": {
+                                       "access": false
+                                   }
+                               },
+                               "group": "Product"
+                           }
+                       ]
+                   },
+                   "1.2": {
+                       "access": false,
+                       "apisPermission": "restricted"
+                   }
+               }
+           }
+        }
+    },
     "packages" : [
         {
             "code" : "TPROD_BASIC",
@@ -14,16 +39,9 @@ let lib = {
                 "dashboard": {
                     "oauth": [
                         {
-                            version: "1",
-                            get: [
+                            "version": "1",
+                            "get": [
                                 "Guest"
-                            ],
-                            post: [
-                                "Guest",
-                                "Tokenization"
-                            ],
-                            delete: [
-                                "Tokenization"
                             ]
                         }
                     ]
@@ -37,15 +55,11 @@ let lib = {
             "description" : "this is a description for test product example03 package",
             "acl" : {
                 "dashboard": {
-                    urac: [
+                    "oauth": [
                         {
-                            version: "2",
-                            post: [
-                                "Guest Password Settings"
-                            ],
-                            get: [
-                                "Guest Password Settings",
-                                "Guest Email Validation"
+                            "version": "1",
+                            "get": [
+                                "Guest"
                             ]
                         }
                     ]

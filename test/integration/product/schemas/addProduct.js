@@ -1,7 +1,8 @@
 "use strict";
 
 let scopeSchema = require('../../../../schemas/scope');
-let aclSchema = require('../../../../schemas/scope');
+let aclSchema = require('../../../../schemas/acl');
+
 aclSchema.required = true;
 let addProductSchema = {
     "type": "object",
@@ -9,7 +10,8 @@ let addProductSchema = {
     "additionalProperties": false,
     "properties": {
         "result": {
-            "type": "boolean"
+            "type": "boolean",
+            "required": true
         },
         "data": {
             "type": "object",

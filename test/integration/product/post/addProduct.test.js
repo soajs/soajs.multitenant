@@ -144,7 +144,7 @@ describe("Testing add product API", () => {
 
     it("Success - will add product no scope", (done) => {
         let params = {
-            form: {
+            body: {
                 name: 'SOME2',
                 code: 'SOME2',
                 description: 'Will add due test 2'
@@ -163,7 +163,7 @@ describe("Testing add product API", () => {
 
     it("Fail - will not add - wrong object", (done) => {
         let params = {
-            form: {
+            body: {
                 product: "{\n" +
                     "            code: 'CODET',\n" +
                     "            description: 'Will not add due to input error'\n" +
@@ -183,7 +183,7 @@ describe("Testing add product API", () => {
 
     it("Fail - will not add - no name", (done) => {
         let params = {
-            form: {
+            body: {
                 code: 'CODET',
                 description: 'Will not add due to non-existance of name'
             }

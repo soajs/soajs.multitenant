@@ -1,225 +1,224 @@
 'use strict';
 
 let lib = {
-	locked: true,
-	code: "DSBRD",
-	name: "Console UI Product",
-	description: "This is the main Console UI Product.",
-	console: true,
-	scope: {
-		acl: {
-			dashboard: {
-				urac: {
+	"code": "DSBRD",
+	"name": "Console UI Product",
+	"description": "This is the main Console UI Product.",
+	"console": true,
+	"scope": {
+		"acl": {
+			"dashboard": {
+				"urac": {
 					"2": {
-						access: true,
-						apisPermission: "restricted",
-						get: [
+						"access": true,
+						"apisPermission": "restricted",
+						"get": [
 							{
-								group: "Administration",
-								apis: {
+								"group": "Administration",
+								"apis": {
 									"/admin/all": {
-										access: true
+										"access": true
 									},
 									"/admin/listUsers": {
-										access: true
+										"access": true
 									},
 									"/admin/changeUserStatus": {
-										access: true
+										"access": true
 									},
 									"/admin/group/list": {
-										access: true
+										"access": true
 									}
 								}
 							},
 							{
-								group: "My Account",
-								apis: {
+								"group": "My Account",
+								"apis": {
 									"/account/getUser": {
-										access: true
+										"access": true
 									}
 								}
 							},
 							{
-								group: "Guest Password Settings",
-								apis: {
+								"group": "Guest Password Settings",
+								"apis": {
 									"/forgotPassword": {
-										access: false
+										"access": false
 									}
 								}
 							},
 							{
-								group: "Guest Email Validation",
-								apis: {
+								"group": "Guest Email Validation",
+								"apis": {
 									"/changeEmail/validate": {
-										access: true
+										"access": true
 									}
 								}
 							}
 						],
-						post: [
+						"post": [
 							{
-								group: "My Account",
-								apis: {
+								"group": "My Account",
+								"apis": {
 									"/account/changeEmail": {
-										access: true
+										"access": true
 									},
 									"/account/changePassword": {
-										access: true
+										"access": true
 									},
 									"/account/editProfile": {
-										access: true
+										"access": true
 									}
 								}
 							},
 							{
-								group: "Administration",
-								apis: {
+								"group": "Administration",
+								"apis": {
 									"/admin/addUser": {
-										access: true
+										"access": true
 									},
 									"/admin/editUser": {
-										access: true
+										"access": true
 									},
 									"/admin/group/add": {
-										access: true
+										"access": true
 									},
 									"/admin/group/edit": {
-										access: true
+										"access": true
 									}
 								}
 							},
 							{
-								group: "Guest Password Settings",
-								apis: {
+								"group": "Guest Password Settings",
+								"apis": {
 									"/resetPassword": {
-										access: false
+										"access": false
 									}
 								}
 							}
 						],
-						delete: [
+						"delete": [
 							{
-								group: "Administration",
-								apis: {
+								"group": "Administration",
+								"apis": {
 									"/admin/group/delete": {
-										access: true
+										"access": true
 									}
 								}
 							}
 						]
 					}
 				},
-				dashboard: {
+				"dashboard": {
 					"1": {
-						access: false,
-						post: [
+						"access": false,
+						"post": [
 							{
-								group: "Continuous Delivery Deployment",
-								apis: {
+								"group": "Continuous Delivery Deployment",
+								"apis": {
 									"/cd/deploy": {
-										access: false
+										"access": false
 									}
 								}
 							}
 						]
 					}
 				},
-				oauth: {
+				"oauth": {
 					"1": {
-						access: true,
-						apisPermission: "restricted",
-						delete: [
+						"access": true,
+						"apisPermission": "restricted",
+						"delete": [
 							{
-								group: "Tokenization",
-								apis: {
+								"group": "Tokenization",
+								"apis": {
 									"/refreshToken/:token": {
-										access: true
+										"access": true
 									},
 									"/accessToken/:token": {
-										access: true
+										"access": true
 									}
 								}
 							},
 							{
-								group: "User Tokenization",
-								apis: {
+								"group": "User Tokenization",
+								"apis": {
 									"/tokens/user/:userId": {
-										access: true
+										"access": true
 									}
 								}
 							},
 							{
-								group: "Cient Tokenization",
-								apis: {
+								"group": "Cient Tokenization",
+								"apis": {
 									"/tokens/tenant/:clientId": {
-										access: true
+										"access": true
 									}
 								}
 							}
 						],
-						post: [
+						"post": [
 							{
-								group: "Tokenization",
-								apis: {
+								"group": "Tokenization",
+								"apis": {
 									"/pin": {
-										access: true
+										"access": true
 									}
 								}
 							},
 							{
-								group: "Guest",
-								apis: {
+								"group": "Guest",
+								"apis": {
 									"/token": {
-										access: false
+										"access": false
 									}
 								}
 							}
 						],
-						get: [
+						"get": [
 							{
-								group: "Guest",
-								apis: {
+								"group": "Guest",
+								"apis": {
 									"/authorization": {
-										access: false
+										"access": false
 									}
 								}
 							}
 						]
 					}
 				},
-				multitenant: {
+				"multitenant": {
 					"1": {
-						access: false,
-						get: [
+						"access": false,
+						"get": [
 							{
-								group: "Product"
+								"group": "Product"
 							},
 							{
-								group: "Tenant"
-							},
-						],
-						post: [
-							{
-								group: "Product"
-							},
-							{
-								group: "Tenant"
+								"group": "Tenant"
 							},
 						],
-						put: [
+						"post": [
 							{
-								group: "Product"
+								"group": "Product"
 							},
 							{
-								group: "Tenant"
+								"group": "Tenant"
 							},
 						],
-						delete: [
+						"put": [
 							{
-								group: "Product"
+								"group": "Product"
 							},
 							{
-								group: "Tenant"
+								"group": "Tenant"
+							},
+						],
+						"delete": [
+							{
+								"group": "Product"
+							},
+							{
+								"group": "Tenant"
 							},
 						]
 					}
@@ -227,65 +226,64 @@ let lib = {
 			}
 		}
 	},
-	packages: [
+	"packages": [
 		{
-			code: "DSBRD_GUEST",
-			name: "Guest",
-			locked: true,
-			description: "This package is used to provide anyone access to login and forgot password. Once logged in the package linked to the user tenant will take over thus providing the right access to the logged in user.",
-			acl: {
-				dashboard: {
-					oauth: [
+			"code": "DSBRD_GUEST",
+			"name": "Guest",
+			"description": "This package is used to provide anyone access to login and forgot password. Once logged in the package linked to the user tenant will take over thus providing the right access to the logged in user.",
+			"acl": {
+				"dashboard": {
+					"oauth": [
 						{
-							version: "1",
-							get: [
+							"version": "1",
+							"get": [
 								"Guest"
 							],
-							post: [
+							"post": [
 								"Guest",
 								"Tokenization"
 							],
-							delete: [
+							"delete": [
 								"Tokenization"
 							]
 						}
 					],
-					urac: [
+					"urac": [
 						{
-							version: "2",
-							post: [
+							"version": "2",
+							"post": [
 								"Guest Password Settings"
 							],
-							get: [
+							"get": [
 								"Guest Password Settings",
 								"Guest Email Validation"
 							]
 						}
 					],
-					dashboard: [
+					"dashboard": [
 						{
-							version: "1",
-							post: [
+							"version": "1",
+							"post": [
 								"Private Tenant ACL"
 							]
 						}
 					],
-					multitenant: [
+					"multitenant": [
 						{
-							version: "1",
-							get: [
+							"version": "1",
+							"get": [
 								"Product",
 								"Tenant"
 							],
-							post: [
+							"post": [
 								"Product",
 								"Tenant"
 							],
-							delete: [
+							"delete": [
 								"Product",
 								"Tenant"
 							],
-							put:[
+							"put":[
 								"Product",
 								"Tenant"
 							]
@@ -293,56 +291,55 @@ let lib = {
 					]
 				}
 			},
-			_TTL: 604800000
+			"_TTL": 604800000
 		},
 		{
-			code: "DSBRD_OWNER",
-			name: "Owner",
-			description: "This package is used to provide owner level access. This means the user who has this package will have access to everything.",
-			locked: true,
-			acl: {
-				dashboard: {
-					oauth: [
+			"code": "DSBRD_OWNER",
+			"name": "Owner",
+			"description": "This package is used to provide owner level access. This means the user who has this package will have access to everything.",
+			"acl": {
+				"dashboard": {
+					"oauth": [
 						{
-							version: "1",
-							get: [
+							"version": "1",
+							"get": [
 								"Guest"
 							],
-							post: [
+							"post": [
 								"Guest",
 								"Tokenization"
 							],
-							delete: [
+							"delete": [
 								"Tokenization",
 								"User Tokenization",
 								"Cient Tokenization"
 							]
 						}
 					],
-					urac: [
+					"urac": [
 						{
-							version: "2",
-							get: [
+							"version": "2",
+							"get": [
 								"Guest Email Account Settings",
 								"Administration",
 								"My Account",
 								"Guest Password Settings",
 								"Guest Email Validation"
 							],
-							post: [
+							"post": [
 								"Administration",
 								"My Account",
 								"Guest Password Settings"
 							],
-							delete: [
+							"delete": [
 								"Administration"
 							]
 						}
 					],
-					dashboard: [
+					"dashboard": [
 						{
-							version: "1",
-							get: [
+							"version": "1",
+							"get": [
 								"Continuous Delivery",
 								"Environment",
 								"Templates",
@@ -369,7 +366,7 @@ let lib = {
 								"Git Accounts",
 								"Continuous Integration"
 							],
-							post: [
+							"post": [
 								"Continuous Delivery",
 								"Environment",
 								"Templates",
@@ -397,7 +394,7 @@ let lib = {
 								"Continuous Delivery Deployment",
 								"Private Tenant ACL"
 							],
-							put: [
+							"put": [
 								"Continuous Delivery",
 								"Environment",
 								"Environment Databases",
@@ -419,7 +416,7 @@ let lib = {
 								"Continuous Integration",
 								"Owner HA Cloud"
 							],
-							delete: [
+							"delete": [
 								"Environment",
 								"Templates",
 								"Environment Databases",
@@ -442,22 +439,22 @@ let lib = {
 							]
 						}
 					],
-					multitenant: [
+					"multitenant": [
 						{
-							version: "1",
-							get: [
+							"version": "1",
+							"get": [
 								"Product",
 								"Tenant"
 							],
-							post: [
+							"post": [
 								"Product",
 								"Tenant"
 							],
-							delete: [
+							"delete": [
 								"Product",
 								"Tenant"
 							],
-							put:[
+							"put":[
 								"Product",
 								"Tenant"
 							]
@@ -465,73 +462,72 @@ let lib = {
 					]
 				}
 			},
-			_TTL: 604800000
+			"_TTL": 604800000
 		},
 		{
-			code: "DSBRD_DEVOP",
-			name: "DevOps",
-			locked: true,
-			description: "This package has the right privileges a DevOps user will need to be able to configure, control, and monitor what is happening across the board.",
-			acl: {
-				dashboard: {
-					oauth: [
+			"code": "DSBRD_DEVOP",
+			"name": "DevOps",
+			"description": "This package has the right privileges a DevOps user will need to be able to configure, control, and monitor what is happening across the board.",
+			"acl": {
+				"dashboard": {
+					"oauth": [
 						{
-							version: "1",
-							delete: [
+							"version": "1",
+							"delete": [
 								"Tokenization",
 								"User Tokenization",
 								"Cient Tokenization"
 							],
-							post: [
+							"post": [
 								"Tokenization",
 								"Guest"
 							],
-							get: [
+							"get": [
 								"Guest"
 							]
 						}
 					],
-					urac: [
+					"urac": [
 						{
-							version: "2",
-							get: [
+							"version": "2",
+							"get": [
 								"Guest Email Account Settings",
 								"Tenant",
 								"My Account",
 								"Guest Password Settings",
 								"Guest Email Validation"
 							],
-							post: [
+							"post": [
 								"My Account",
 								"Guest Password Settings"
 							]
 						}
 					],
-					multitenant: [
+					"multitenant": [
 						{
-							version: "1",
-							get: [
+							"version": "1",
+							"get": [
 								"Product",
 								"Tenant"
 							],
-							post: [
+							"post": [
 								"Product",
 								"Tenant"
 							],
-							delete: [
+							"delete": [
 								"Product",
 								"Tenant"
 							],
-							put: [
+							"put": [
 								"Product",
 								"Tenant"
 							]
 						}
 					],
-					dashboard: [
+					"dashboard": [
 						{
-							version: "1",
-							get: [
+							"version": "1",
+							"get": [
 								"Continuous Delivery",
 								"Environment",
 								"Templates",
@@ -554,7 +550,7 @@ let lib = {
 								"Tenant oAuth",
 								"Tenant Application"
 							],
-							post: [
+							"post": [
 								"Continuous Delivery",
 								"Environment",
 								"Environment Databases",
@@ -579,7 +575,7 @@ let lib = {
 								"Continuous Delivery Deployment",
 								"Private Tenant ACL"
 							],
-							put: [
+							"put": [
 								"Continuous Delivery",
 								"Environment",
 								"Environment Databases",
@@ -597,7 +593,7 @@ let lib = {
 								"Tenant oAuth",
 								"Tenant Application"
 							],
-							delete: [
+							"delete": [
 								"Environment",
 								"Environment Databases",
 								"Resources",
@@ -618,52 +614,51 @@ let lib = {
 					]
 				}
 			},
-			_TTL: 604800000
+			"_TTL": 604800000
 		},
 		{
-			code: "DSBRD_DEVEL",
-			name: "Developer",
-			locked: true,
-			description: "This package is ideal for a developer. You are not giving much access but yet it is enough to sail and fast.",
-			acl: {
-				dashboard: {
-					oauth: [
+			"code": "DSBRD_DEVEL",
+			"name": "Developer",
+			"description": "This package is ideal for a developer. You are not giving much access but yet it is enough to sail and fast.",
+			"acl": {
+				"dashboard": {
+					"oauth": [
 						{
-							version: "1",
-							delete: [
+							"version": "1",
+							"delete": [
 								"Tokenization",
 								"User Tokenization",
 								"Cient Tokenization"
 							],
-							post: [
+							"post": [
 								"Tokenization",
 								"Guest"
 							],
-							get: [
+							"get": [
 								"Guest"
 							]
 						}
 					],
-					urac: [
+					"urac": [
 						{
-							version: "2",
-							get: [
+							"version": "2",
+							"get": [
 								"My Account",
 								"Tenant",
 								"Guest Email Account Settings",
 								"Guest Password Settings",
 								"Guest Email Validation"
 							],
-							post: [
+							"post": [
 								"My Account",
 								"Guest Password Settings"
 							]
 						}
 					],
-					dashboard: [
+					"dashboard": [
 						{
-							version: "1",
-							get: [
+							"version": "1",
+							"get": [
 								"Continuous Delivery",
 								"Environment",
 								"Templates",
@@ -681,7 +676,7 @@ let lib = {
 								"API Builder",
 								"Secrets"
 							],
-							post: [
+							"post": [
 								"Continuous Delivery",
 								"Environment",
 								"Templates",
@@ -702,7 +697,7 @@ let lib = {
 								"Simulate",
 								"swagger"
 							],
-							put: [
+							"put": [
 								"Continuous Delivery",
 								"Environment",
 								"Environment Databases",
@@ -716,7 +711,7 @@ let lib = {
 								"Git Accounts",
 								"API Builder"
 							],
-							delete: [
+							"delete": [
 								"Environment",
 								"Templates",
 								"Environment Databases",
@@ -732,22 +727,22 @@ let lib = {
 							]
 						}
 					],
-					multitenant: [
+					"multitenant": [
 						{
-							version: "1",
-							get: [
+							"version": "1",
+							"get": [
 								"Product",
 								"Tenant"
 							],
-							post: [
+							"post": [
 								"Product",
 								"Tenant"
 							],
-							delete: [
+							"delete": [
 								"Product",
 								"Tenant"
 							],
-							put:[
+							"put":[
 								"Product",
 								"Tenant"
 							]
@@ -755,7 +750,7 @@ let lib = {
 					]
 				}
 			},
-			_TTL: 21600000
+			"_TTL": 21600000
 		}
 	]
 };

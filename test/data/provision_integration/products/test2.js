@@ -5,6 +5,31 @@ let lib = {
     "name" : "Test 2 Product",
     "description" : "this is a description for test 2 product",
     "console": false,
+    "scope": {
+        "acl": {
+            "dashboard": {
+                "multitenant": {
+                    "1": {
+                        "access": false,
+                        "get": [
+                            {
+                                "apis": {
+                                    "/product": {
+                                        "access": false
+                                    }
+                                },
+                                "group": "Product"
+                            }
+                        ]
+                    },
+                    "1.2": {
+                        "access": false,
+                        "apisPermission": "restricted"
+                    }
+                }
+            }
+        }
+    },
     "packages" : [
         {
             "code" : "TEST2_NEWS",
@@ -12,18 +37,11 @@ let lib = {
             "description" : "this is a description for test 2 product news package",
             "acl" : {
                 "dashboard": {
-                    "oauth": [
+                    "urac": [
                         {
-                            version: "1",
-                            get: [
-                                "Guest"
-                            ],
-                            post: [
-                                "Guest",
-                                "Tokenization"
-                            ],
-                            delete: [
-                                "Tokenization"
+                            "version": "3",
+                            "get": [
+                                "Administrator"
                             ]
                         }
                     ]
@@ -37,13 +55,13 @@ let lib = {
             "description" : "this is a description for test 2 product new package",
             "acl" : {
                 "dashboard": {
-                    urac: [
+                    "urac": [
                         {
-                            version: "2",
-                            post: [
+                            "version": "2",
+                            "post": [
                                 "Guest Password Settings"
                             ],
-                            get: [
+                            "get": [
                                 "Guest Password Settings",
                                 "Guest Email Validation"
                             ]

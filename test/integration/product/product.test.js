@@ -13,7 +13,7 @@ describe("starting product integration tests", () => {
 
     it("loading product integration tests", (done) => {
         // GET
-        //require("./get/listProducts.test.js");
+        require("./get/listProducts.test.js");
        // require("./get/getProduct.test.js");
        // require("./get/listPackages.test.js");
       //  require("./get/getPackage.test.js");

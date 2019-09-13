@@ -35,7 +35,7 @@ let acl = {
 							"type": "object",
 							"required": false,
 							"properties": {
-								"version": {"type": "string", "required": 1},
+								"version": {"type": "string", "required": true},
 								"get": aclMethod,
 								"post": aclMethod,
 								"put": aclMethod,
