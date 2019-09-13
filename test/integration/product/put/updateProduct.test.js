@@ -35,7 +35,8 @@ describe("Testing update product API", () => {
                 id: prods[1]._id
             },
             body: {
-                name: "SomeName"
+                name: "SomeName",
+                description: "Product description to update product"
             }
         };
         requester('/product', 'put', params, (error, body) => {
@@ -51,13 +52,30 @@ describe("Testing update product API", () => {
         });
     });
 
+    it("Success - will return updated product record", (done) => {
+        let params = {
+            qs: {
+                id: prods[1]._id
+            }
+        };
+        requester('/product', 'get', params, (error, body) => {
+            assert.ifError(error);
+            assert.ok(body);
+            assert.ok(body.data);
+            assert.deepEqual(body.data.name, 'SomeName');
+            assert.deepEqual(body.data.description, 'Product description to update product');
+            done();
+        });
+    });
+
     it("Fails - will not update - prod not found", (done) => {
         let params = {
             qs: {
                 id: "5512867be603d7e01ab1666d"
             },
             body: {
-                name: "NOTANAME"
+                name: "NOTANAME",
+                description: "Another Product description to update product"
             }
         };
         requester('/product', 'put', params, (error, body) => {

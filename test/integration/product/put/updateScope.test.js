@@ -29,24 +29,24 @@ describe("Testing update product API", () => {
             done();
         });
     });
-    it.skip("Success - will update scope", (done) => {
+    it("Success - will update scope", (done) => {
         let params = {
             qs: {
                 id: prods[1]._id
             },
             body: {
-                scope: {
-                    acl: {
-                        dashboard: {
-                            multitenant: {
-                                1: {
-                                    access: false,
-                                    get: [
+                "scope": {
+                    "acl": {
+                        "dashboard": {
+                            "multitenant": {
+                                "1": {
+                                    "access": false,
+                                    "get": [
                                         {
                                             "/product": {
-                                                access: false
+                                                "access": false
                                             },
-                                            group: 'Product'
+                                            "group": 'Product'
                                         }
                                     ]
                                 }
@@ -59,34 +59,66 @@ describe("Testing update product API", () => {
         requester('/product/scope', 'put', params, (error, body) => {
             assert.ifError(error);
             assert.ok(body);
-            // assert.ok(body.data);
-            // let check = validator.validate(body, updateScopeSchema);
-            // assert.deepEqual(check.valid, true);
-            // assert.deepEqual(check.errors, []);
-            // assert.deepEqual(body.data, 1);
+            assert.ok(body.data);
+            let check = validator.validate(body, updateScopeSchema);
+            assert.deepEqual(check.valid, true);
+            assert.deepEqual(check.errors, []);
+            assert.deepEqual(body.data, 1);
             done();
 
         });
     });
 
-    it.skip("Fails - will not update scope - prod not found", (done) => {
+    it("Success - will return added product record", (done) => {
+        let params = {
+            qs: {
+                id: prods[1]._id
+            }
+        };
+        requester('/product', 'get', params, (error, body) => {
+            assert.ifError(error);
+            assert.ok(body);
+            assert.ok(body.data);
+            console.log("dita", JSON.stringify(body.data.scope, null, 2));
+            assert.deepEqual(body.data.scope, {
+                "dashboard": {
+                    "multitenant": {
+                        "1": {
+                            "access": false,
+                            "get": [
+                                {
+                                    "/product": {
+                                        "access": false
+                                    },
+                                    "group": "Product"
+                                }
+                            ]
+                        }
+                    }
+                }
+            });
+            done();
+        });
+    });
+
+    it("Fails - will not update scope - prod not found", (done) => {
         let params = {
             qs: {
                 id: "5512867be603d7e01ab1666d"
             },
             body: {
-                scope: {
-                    acl: {
-                        dashboard: {
-                            multitenant: {
-                                1: {
-                                    access: false,
-                                    get: [
+                "scope": {
+                    "acl": {
+                        "dashboard": {
+                            "multitenant": {
+                                "1": {
+                                    "access": false,
+                                    "get": [
                                         {
                                             "/product": {
-                                                access: false
+                                                "access": false
                                             },
-                                            group: 'Product'
+                                            "group": 'Product'
                                         }
                                     ]
                                 }
