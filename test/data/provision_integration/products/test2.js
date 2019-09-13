@@ -22,7 +22,71 @@ let lib = {
                             }
                         ]
                     }
-                }
+                },
+                "urac": {
+                    "2": {
+                        "access": true,
+                        "apisPermission": "restricted",
+                        "get": [
+                            {
+                                "group": "Administration",
+                                "apis": {
+                                    "/admin/all": {
+                                        "access": true
+                                    }
+                                }
+                            },
+                            {
+                                "group": "My Account",
+                                "apis": {
+                                    "/account/getUser": {
+                                        "access": true
+                                    }
+                                }
+                            },
+                            {
+                                "group": "Guest Password Settings",
+                                "apis": {
+                                    "/forgotPassword": {
+                                        "access": false
+                                    }
+                                }
+                            },
+                            {
+                                "group": "Guest Email Validation",
+                                "apis": {
+                                    "/changeEmail/validate": {
+                                        "access": true
+                                    }
+                                }
+                            }
+                        ],
+                        "post": [
+                            {
+                                "group": "My Account",
+                                "apis": {
+                                    "/account/changeEmail": {
+                                        "access": true
+                                    },
+                                    "/account/changePassword": {
+                                        "access": true
+                                    },
+                                    "/account/editProfile": {
+                                        "access": true
+                                    }
+                                }
+                            },
+                            {
+                                "group": "Guest Password Settings",
+                                "apis": {
+                                    "/resetPassword": {
+                                        "access": false
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                },
             }
         }
     },
