@@ -24,9 +24,9 @@ describe("starting product integration tests", () => {
 
         // PUT
         require("./put/purgeProduct.test.js");
-       require("./put/updateProduct.test.js");
-       require("./put/updateScope.test.js");
-       require("./put/updatePackage.test.js");
+        require("./put/updateProduct.test.js");
+        require("./put/updateScope.test.js");
+        require("./put/updatePackage.test.js");
 
         // DELETE
         require("./delete/deleteProduct.test.js");

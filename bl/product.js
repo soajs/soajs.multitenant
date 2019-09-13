@@ -432,7 +432,7 @@ let bl = {
 			}
 			data._id = record._id;
 			data.packages = record.packages;
-			modelObj.updateProduct(record, (err, result) => {
+			modelObj.updateProduct(data, (err, result) => {
 				bl.mp.closeModel(soajs, modelObj);
 				if (err) {
 					return cb(bl.handleError(soajs, 602, err));
@@ -481,7 +481,7 @@ let bl = {
 			}
 			data._id = record._id;
 			data.packages = record.packages;
-			modelObj.updateProduct(record, (err, result) => {
+			modelObj.updateProduct(data, (err, result) => {
 				bl.mp.closeModel(soajs, modelObj);
 				if (err) {
 					return cb(bl.handleError(soajs, 602, err), null);
