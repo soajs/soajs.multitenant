@@ -2,13 +2,10 @@
   "name": "soajs.multitenant",
   "description": "soajs multitenant service",
   "version": "1.0.0",
-  "author": {
-    "name": "soajs team",
-    "email": "team@soajs.org"
-  },
+  "author": "soajs team <team@soajs.org>",
   "repository": {
     "type": "git",
-    "url": "git@github.com:soajs/soajs.multitenant.git"
+    "url": "git+ssh://git@github.com/soajs/soajs.multitenant.git"
   },
   "license": "Apache-2.0",
   "engines": {
@@ -36,5 +33,18 @@
     "async": "^2.1.4",
     "soajs": "2.5.13",
     "soajs.core.libs": "1.2.0"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/soajs/soajs.multitenant/issues"
+  },
+  "homepage": "https://github.com/soajs/soajs.multitenant#readme",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "keywords": [
+    "soajs",
+    "multitenant"
+  ]
 }
