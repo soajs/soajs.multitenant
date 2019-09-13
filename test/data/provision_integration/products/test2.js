@@ -3,7 +3,7 @@
 let lib = {
     "code" : "TEST2",
     "name" : "Test 2 Product",
-    "description" : "this is a description for test 2 product",
+    "description" : "This is another product with multiple services and versions, version is sanitized",
     "console": false,
     "scope": {
         "acl": {
