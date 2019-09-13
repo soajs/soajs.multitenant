@@ -24,6 +24,9 @@ function requester(apiName, method, params, cb) {
     if (params.form) {
         options.form = params.form;
     }
+	if (params.body) {
+		options.body = params.body;
+	}
     if (params.qs) {
         options.qs = params.qs;
     }

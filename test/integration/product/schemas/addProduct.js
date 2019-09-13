@@ -1,7 +1,8 @@
 "use strict";
 
 let scopeSchema = require('../../../../schemas/scope');
-
+let aclSchema = require('../../../../schemas/scope');
+aclSchema.required = true;
 let addProductSchema = {
     "type": "object",
     "required": true,
@@ -30,14 +31,28 @@ let addProductSchema = {
                     "type": "string",
                     "required": false,
                 },
-                "scope": scopeSchema,
+	            "scope": {
+		            "type": "object",
+		            "required": true,
+		            "properties": {
+		            	"acl" : scopeSchema
+		            }
+	            },
                 "packages": {
-                    "type": "array",
-                    "required": false,
-                    "uniqueItems": true,
-                    "items": {
-                        "type": "object",
-                    }
+	                "type": "array",
+	                "required": true,
+	                "uniqueItems": true,
+	                "items": {
+		                "type": "object",
+		                "additionalProperties": false,
+		                "properties": {
+			                "code": {"type": "string", "required": true},
+			                "name": {"type": "string", "required": true},
+			                "description": {"type": "string", "required": false},
+			                "_TTL": {"type": "number", "min": 1, "required": true},
+			                "acl": aclSchema
+		                }
+	                }
                 }
             }
         },
@@ -45,8 +60,14 @@ let addProductSchema = {
             "type": "object",
             "required": false,
             "properties": {
-                "codes": "array",
-                "details": "array"
+                "codes": {
+	                "type": "array",
+	                "required": true
+                },
+                "details": {
+	                "type": "array",
+	                "required": true
+                }
             }
         }
     }

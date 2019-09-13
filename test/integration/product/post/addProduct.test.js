@@ -18,7 +18,7 @@ describe("Testing add product API", () => {
 
     it("Success - will add product ", (done) => {
         let params = {
-            form: {
+            body: {
                 name: 'SOME',
                 code: 'SOMEC',
                 description: 'Will add due test',
@@ -82,7 +82,7 @@ describe("Testing add product API", () => {
 
     it("Fails - will add product - wrong scope", (done) => {
         let params = {
-            form: {
+            body: {
                 name: 'PRODS',
                 code: 'SOMEQ',
                 description: 'Will add due test',
@@ -134,12 +134,10 @@ describe("Testing add product API", () => {
         requester('/product', 'post', params, (error, body) => {
             assert.ifError(error);
             assert.ok(body);
-            // assert.ok(body.errors);
+            assert.ok(body.errors);
             let check = validator.validate(body, addProductSchema);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);
-            console.log("Validation", JSON.stringify(check, null, 2));
-            console.log("errorsss", JSON.stringify(body, null, 2));
             done();
         });
     });
