@@ -25,6 +25,11 @@ describe("Starting Unit test", () => {
         done();
     });
 
+    it("Unit test for lib", (done) => {
+        require("./lib/sanitize.test.js");
+        done();
+    });
+
     after((done) => {
         done();
     });

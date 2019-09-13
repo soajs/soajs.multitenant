@@ -27,21 +27,21 @@ let lib = {
                        "get": [
                            {
                                "apis": {
-                                   "/product": {
+                                   "/tenant": {
                                        "access": false
                                    }
                                },
-                               "group": "Product"
+                               "group": "Tenant"
                            }
                        ],
                        "post": [
                            {
                                "apis": {
-                                   "/product": {
+                                   "/tenant": {
                                        "access": true
                                    }
                                },
-                               "group": "Product"
+                               "group": "Tenant"
                            }
                        ]
                    }
@@ -64,59 +64,30 @@ let lib = {
                    "2x5": {
                        "access": true,
                        "apisPermission": "restricted",
-                       "get": [
-                           {
-                               "apis": {
-                                   "/user": {
-                                       "access": false
-                                   },
-                                   "/group": {
-                                       "access": false
-                                   }
-                               },
-                               "group": "Administrator"
-                           }
-                       ],
                        "post": [
                            {
                                "apis": {
-                                   "/user": {
+                                   "/account/changeEmail": {
                                        "access": true
                                    },
-                                   "/group": {
+                                   "/account/changePassword": {
                                        "access": true
                                    },
+                                   "/account/editProfile": {
+                                       "access": true
+                                   }
                                },
-                               "group": "Product"
+                               "group": "My Account"
                            }
-                       ]
-                   },
-                   "3": {
-                       "access": false,
+                       ],
                        "get": [
                            {
                                "apis": {
-                                   "/user": {
-                                       "access": false
-                                   },
-                                   "/group": {
-                                       "access": false
-                                   }
-                               },
-                               "group": "Product"
-                           }
-                       ],
-                       "post": [
-                           {
-                               "apis": {
-                                   "/user": {
-                                       "access": false
-                                   },
-                                   "/group": {
+                                   "/account/getUser": {
                                        "access": true
                                    }
                                },
-                               "group": "Product"
+                               "group": "My Account"
                            }
                        ]
                    }
@@ -131,28 +102,29 @@ let lib = {
             "description" : "this is a description for test product basic package",
             "acl" : {
                 "dashboard": {
-                    "oauth": [
+                    "multitenant": [
                         {
                             "version": "1",
                             "get": [
-                                "Tokenization",
-                                "User Tokenization",
-                                "Cient Tokenization"
+                                "Product"
                             ]
-                        }
-                    ],
-                    "multitenant": [
+                        },
                         {
-                            "version": "1x2",
+                            "version": "1.2",
                             "get": [
-                                "Product",
                                 "Tenant"
                             ]
                         }
                     ],
                     "urac": [
                         {
-                            "version": "3x1",
+                            "version": "1",
+                            "get": [
+                                "Administrator",
+                            ]
+                        },
+                        {
+                            "version": "3",
                             "get": [
                                 "Administrator",
                                 "My Account",
@@ -171,7 +143,7 @@ let lib = {
                 "dashboard": {
                     "urac": [
                         {
-                            "version": "2x5",
+                            "version": "2.5",
                             "get": [
                                 "My Account",
                             ],
