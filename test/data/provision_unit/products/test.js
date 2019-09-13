@@ -7,121 +7,92 @@ let lib = {
     "console": false,
     "scope": {
         "acl": {
-           "dashboard": {
-               "multitenant": {
-                   "1": {
-                       "access": false,
-                       "get": [
-                           {
-                               "apis": {
-                                   "/product": {
-                                       "access": false
-                                   }
-                               },
-                               "group": "Product"
-                           }
-                       ]
-                   },
-                   "1x2": {
-                       "access": true,
-                       "get": [
-                           {
-                               "apis": {
-                                   "/product": {
-                                       "access": false
-                                   }
-                               },
-                               "group": "Product"
-                           }
-                       ],
-                       "post": [
-                           {
-                               "apis": {
-                                   "/product": {
-                                       "access": true
-                                   }
-                               },
-                               "group": "Product"
-                           }
-                       ]
-                   }
-               },
-               "urac": {
-                   "1": {
-                       "access": true,
-                       "apisPermission": "restricted",
-                       "get": [
-                           {
-                               "apis": {
-                                   "/user": {
-                                       "access": false
-                                   }
-                               },
-                               "group": "Administrator"
-                           }
-                       ]
-                   },
-                   "2x5": {
-                       "access": true,
-                       "apisPermission": "restricted",
-                       "get": [
-                           {
-                               "apis": {
-                                   "/user": {
-                                       "access": false
-                                   },
-                                   "/group": {
-                                       "access": false
-                                   }
-                               },
-                               "group": "Administrator"
-                           }
-                       ],
-                       "post": [
-                           {
-                               "apis": {
-                                   "/user": {
-                                       "access": true
-                                   },
-                                   "/group": {
-                                       "access": true
-                                   },
-                               },
-                               "group": "Product"
-                           }
-                       ]
-                   },
-                   "3": {
-                       "access": false,
-                       "get": [
-                           {
-                               "apis": {
-                                   "/user": {
-                                       "access": false
-                                   },
-                                   "/group": {
-                                       "access": false
-                                   }
-                               },
-                               "group": "Product"
-                           }
-                       ],
-                       "post": [
-                           {
-                               "apis": {
-                                   "/user": {
-                                       "access": false
-                                   },
-                                   "/group": {
-                                       "access": true
-                                   }
-                               },
-                               "group": "Product"
-                           }
-                       ]
-                   }
-               }
-           }
+            "dashboard": {
+                "multitenant": {
+                    "1": {
+                        "access": false,
+                        "get": [
+                            {
+                                "apis": {
+                                    "/product": {
+                                        "access": false
+                                    }
+                                },
+                                "group": "Product"
+                            }
+                        ]
+                    },
+                    "1x2": {
+                        "access": true,
+                        "get": [
+                            {
+                                "apis": {
+                                    "/tenant": {
+                                        "access": false
+                                    }
+                                },
+                                "group": "Tenant"
+                            }
+                        ],
+                        "post": [
+                            {
+                                "apis": {
+                                    "/tenant": {
+                                        "access": true
+                                    }
+                                },
+                                "group": "Tenant"
+                            }
+                        ]
+                    }
+                },
+                "urac": {
+                    "1": {
+                        "access": true,
+                        "apisPermission": "restricted",
+                        "get": [
+                            {
+                                "apis": {
+                                    "/user": {
+                                        "access": false
+                                    }
+                                },
+                                "group": "Administrator"
+                            }
+                        ]
+                    },
+                    "2x5": {
+                        "access": true,
+                        "apisPermission": "restricted",
+                        "post": [
+                            {
+                                "apis": {
+                                    "/account/changeEmail": {
+                                        "access": true
+                                    },
+                                    "/account/changePassword": {
+                                        "access": true
+                                    },
+                                    "/account/editProfile": {
+                                        "access": true
+                                    }
+                                },
+                                "group": "My Account"
+                            }
+                        ],
+                        "get": [
+                            {
+                                "apis": {
+                                    "/account/getUser": {
+                                        "access": true
+                                    }
+                                },
+                                "group": "My Account"
+                            }
+                        ]
+                    }
+                }
+            }
         }
     },
     "packages" : [
@@ -131,28 +102,29 @@ let lib = {
             "description" : "this is a description for test product basic package",
             "acl" : {
                 "dashboard": {
-                    "oauth": [
+                    "multitenant": [
                         {
                             "version": "1",
                             "get": [
-                                "Tokenization",
-                                "User Tokenization",
-                                "Cient Tokenization"
+                                "Product"
                             ]
-                        }
-                    ],
-                    "multitenant": [
+                        },
                         {
-                            "version": "1x2",
+                            "version": "1.2",
                             "get": [
-                                "Product",
                                 "Tenant"
                             ]
                         }
                     ],
                     "urac": [
                         {
-                            "version": "3x1",
+                            "version": "1",
+                            "get": [
+                                "Administrator",
+                            ]
+                        },
+                        {
+                            "version": "3",
                             "get": [
                                 "Administrator",
                                 "My Account",
@@ -171,7 +143,7 @@ let lib = {
                 "dashboard": {
                     "urac": [
                         {
-                            "version": "2x5",
+                            "version": "2.5",
                             "get": [
                                 "My Account",
                             ],
