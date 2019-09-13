@@ -6,6 +6,7 @@ let core = require('soajs').core;
 let validator = new core.validator.Validator();
 let deletePackagesSchema = require("../schemas/deletePackage.js");
 let listProductsSchema = require("../schemas/listProducts.js");
+let getProductsSchema = require("../schemas/getProduct.js");
 
 describe("Testing delete Package API", () => {
 
@@ -51,6 +52,32 @@ describe("Testing delete Package API", () => {
             assert.ok(body);
             assert.deepEqual(body.data, 'product package TEST2_NEWS deleted successfully');
             let check = validator.validate(body, deletePackagesSchema);
+            assert.deepEqual(check.valid, true);
+            assert.deepEqual(check.errors, []);
+            done();
+        });
+    });
+
+    it("Fails - will get product", (done) => {
+        let params = {
+            qs: {
+                id: selectedProd._id
+            }
+        };
+        requester('/product', 'get', params, (error, body) => {
+            assert.ifError(error);
+            assert.ok(body);
+            assert.ok(body.data);
+            let found  = false;
+            let packFound  =null;
+            body.data.packages.forEach((pack)=>{
+                if (pack.code === "TEST2_NEWS"){
+                    found = true;
+                    packFound = pack
+                }
+            });
+            assert.deepEqual(found, false);
+            let check = validator.validate(body, getProductsSchema);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);
             done();
