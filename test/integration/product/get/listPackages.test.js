@@ -51,7 +51,7 @@ describe("Testing List Packages API", () => {
         });
     });
 
-    it("Fail - will not will return all packages of product records - no params", (done) => {
+    it("Fail - will not return all packages of product records - no params", (done) => {
         let params = {};
         requester('/product', 'get', params, (error, body) => {
             assert.ifError(error);

@@ -5,7 +5,10 @@ let addPackageSchema = {
     "required": true,
     "additionalProperties": false,
     "properties": {
-        "result": "boolean",
+        "result": {
+            "type": "boolean",
+            "required": true
+        },
         "data": {
             "type": "string",
             "required": false
@@ -14,8 +17,14 @@ let addPackageSchema = {
             "type": "object",
             "required": false,
             "properties": {
-                "codes": "array",
-                "details": "array"
+                "codes": {
+                    "type": "array",
+                    "required": true
+                },
+                "details": {
+                    "type": "array",
+                    "required": true
+                }
             }
         }
     }

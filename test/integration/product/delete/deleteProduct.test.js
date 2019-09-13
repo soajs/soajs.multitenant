@@ -35,6 +35,22 @@ describe("Testing delete product API", () => {
         });
     });
 
+    it("Fails - will not delete - invalid", (done) => {
+        let params = {
+            qs: {
+                code: true
+            }
+        };
+        requester('/product', 'delete', params, (error, body) => {
+            assert.ifError(error);
+            assert.ok(body);
+            let check = validator.validate(body, deleteProductSchema);
+            assert.deepEqual(check.valid, true);
+            assert.deepEqual(check.errors, []);
+            done();
+        });
+    });
+
     let selectedProd;
     it("Success - will return all product records", (done) => {
         let params = {};
@@ -77,7 +93,7 @@ describe("Testing delete product API", () => {
             qs: {
                 id: "5512867be603d7e01ab1666d"
             },
-            form: {
+            body: {
                 name: "NOTANAME"
             }
         };

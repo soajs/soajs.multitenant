@@ -1,28 +1,40 @@
 "use strict";
 
+let aclSchema = require('../../../../schemas/acl');
+aclSchema.required = true;
+
 let getPackageSchema = {
     "type": "object",
     "required": true,
     "additionalProperties": false,
     "properties": {
-        "result": "boolean",
+        "result": {
+            "type": "boolean",
+            "required": true
+        },
         "data": {
             "type": "object",
-            "required": true,
+            "required": false,
             "properties": {
                 "code": {"type": "string", "required": true},
                 "name": {"type": "string", "required": true},
                 "description": {"type": "string", "required": false},
                 "_TTL": {"type": "number", "min": 1, "required": true},
-                "acl": {"type": "object", "required": true}
+                "acl": aclSchema
             }
         },
         "errors": {
             "type": "object",
             "required": false,
             "properties": {
-                "codes": "array",
-                "details": "array"
+                "codes": {
+                    "type": "array",
+                    "required": true
+                },
+                "details": {
+                    "type": "array",
+                    "required": true
+                }
             }
         }
     }

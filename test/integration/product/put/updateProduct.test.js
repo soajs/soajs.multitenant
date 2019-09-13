@@ -34,7 +34,7 @@ describe("Testing update product API", () => {
             qs: {
                 id: prods[1]._id
             },
-            form: {
+            body: {
                 name: "SomeName"
             }
         };
@@ -56,7 +56,7 @@ describe("Testing update product API", () => {
             qs: {
                 id: "5512867be603d7e01ab1666d"
             },
-            form: {
+            body: {
                 name: "NOTANAME"
             }
         };
@@ -65,6 +65,27 @@ describe("Testing update product API", () => {
             assert.ok(body);
             assert.ok(body.errors);
             assert.deepEqual(body.errors.codes[0], 460);
+            let check = validator.validate(body, updateProductSchema);
+            assert.deepEqual(check.valid, true);
+            assert.deepEqual(check.errors, []);
+            done();
+
+        });
+    });
+
+    it("Fails - will not update - invalid name type", (done) => {
+        let params = {
+            qs: {
+                id: prods[1]._id
+            },
+            body: {
+                name: true
+            }
+        };
+        requester('/product', 'put', params, (error, body) => {
+            assert.ifError(error);
+            assert.ok(body);
+            assert.ok(body.errors);
             let check = validator.validate(body, updateProductSchema);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);

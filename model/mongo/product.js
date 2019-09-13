@@ -239,12 +239,11 @@ Product.prototype.updateProduct = function (data, cb) {
 		});
 	}
 	else {
-		if (Object.keys(fields['$set']).length === 0){
+        if (Object.keys(fields['$set']).length === 0){
 			//nothing to update
 			return cb(null, 0);
 		}
-		
-		__self.mongoCore.update(colName, condition, fields, options, (err, result) => {
+        __self.mongoCore.update(colName, condition, fields, options, (err, result) => {
 			return cb(err, result);
 		});
 	}

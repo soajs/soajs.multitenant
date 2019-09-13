@@ -2,8 +2,8 @@
 
 let scopeSchema = require('../../../../schemas/scope');
 let aclSchema = require('../../../../schemas/acl');
-
 aclSchema.required = true;
+
 let addProductSchema = {
     "type": "object",
     "required": true,

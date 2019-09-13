@@ -21,10 +21,6 @@ let lib = {
                                 "group": "Product"
                             }
                         ]
-                    },
-                    "1.2": {
-                        "access": false,
-                        "apisPermission": "restricted"
                     }
                 }
             }

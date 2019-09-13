@@ -44,12 +44,12 @@ describe("Testing Add Package API", () => {
             qs: {
                 id: selectedProd._id
             },
-            form: {
+            body: {
                 name: "PACK_NAME",
                 code: "ELAS",
                 description: "Pack Description",
                 acl: {},
-                _TTL: 48
+                _TTL: "24"
             }
         };
         requester('/product/package', 'post', params, (error, body) => {

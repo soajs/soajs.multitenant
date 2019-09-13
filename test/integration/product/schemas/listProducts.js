@@ -15,6 +15,7 @@ let listProductsSchema = {
         },
         "data": {
             "type": "array",
+            "required": false,
             "items": {
                 "type": "object",
                 "required": true,

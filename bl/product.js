@@ -178,7 +178,12 @@ let bl = {
 				return cb(bl.handleError(soajs, 500, null));
 			}
 			data.name = inputmaskData.name;
-			data.description = inputmaskData.description;
+			if (inputmaskData.scope) {
+				data.scope = inputmaskData.scope;
+			}
+			if (inputmaskData.description) {
+				data.description = inputmaskData.description;
+			}
 			data._id = record._id;
 			modelObj.updateProduct(data, (err, result) => {
 				bl.mp.closeModel(soajs, modelObj);

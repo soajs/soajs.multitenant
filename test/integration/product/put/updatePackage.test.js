@@ -44,11 +44,11 @@ before(function (done) {
             qs: {
                 id: selectedProd._id,
             },
-            form: {
+            body: {
                 code: "NEWS",
                 name: "PACK_NAME2",
                 description: "Pack Description after update",
-                _TTL: 24,
+                _TTL: "24",
                 acl: {} // TODO: edit after FINISHING acl schema
             }
         };

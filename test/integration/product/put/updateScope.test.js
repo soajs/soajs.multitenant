@@ -34,7 +34,7 @@ describe("Testing update product API", () => {
             qs: {
                 id: prods[1]._id
             },
-            form: {
+            body: {
                 scope: {
                     acl: {
                         dashboard: {
@@ -74,7 +74,7 @@ describe("Testing update product API", () => {
             qs: {
                 id: "5512867be603d7e01ab1666d"
             },
-            form: {
+            body: {
                 scope: {
                     acl: {
                         dashboard: {

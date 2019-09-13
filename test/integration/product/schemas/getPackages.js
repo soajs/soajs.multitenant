@@ -1,14 +1,20 @@
 "use strict";
 
+let aclSchema = require('../../../../schemas/acl');
+aclSchema.required = true;
+
 let getPackagesSchema = {
     "type": "object",
     "required": true,
     "additionalProperties": false,
     "properties": {
-        "result": "boolean",
+        "result": {
+            "type": "boolean",
+            "required": true
+        },
         "data": {
             "type": "array",
-            "required": true,
+            "required": false,
             "uniqueItems": true,
             "items": {
                 "type": "object",
@@ -18,7 +24,7 @@ let getPackagesSchema = {
                     "name": {"type": "string", "required": true},
                     "description": {"type": "string", "required": false},
                     "_TTL": {"type": "number", "min": 1, "required": true},
-                    "acl": {"type": "object", "required": true}
+                    "acl": aclSchema
                 }
             }
         },
@@ -26,8 +32,14 @@ let getPackagesSchema = {
             "type": "object",
             "required": false,
             "properties": {
-                "codes": "array",
-                "details": "array"
+                "codes": {
+                    "type": "array",
+                    "required": true
+                },
+                "details": {
+                    "type": "array",
+                    "required": true
+                }
             }
         }
     }

@@ -5,21 +5,36 @@ let deleteProductSchema = {
     "required": true,
     "additionalProperties": false,
     "properties": {
-        "result": "boolean",
+        "result": {
+            "type": "boolean",
+            "required": true
+        },
         "data": {
             "type": "object",
             "required": false,
             "properties": {
-                "n": "integer",
-                "ok": "integer"
+                "n": {
+                    "type": "integer",
+                    "required": true
+                },
+                "ok": {
+                    "type": "integer",
+                    "required": true
+                }
             }
         },
         "errors": {
             "type": "object",
             "required": false,
             "properties": {
-                "codes": "array",
-                "details": "array"
+                "codes": {
+                    "type": "array",
+                    "required": true
+                },
+                "details": {
+                    "type": "array",
+                    "required": true
+                }
             }
         }
     }
