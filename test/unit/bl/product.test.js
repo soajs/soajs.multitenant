@@ -593,7 +593,6 @@ describe("Unit test for: BL - product", () => {
             };
             BL.add(soajs, inputMask, (err, record) => {
                 assert.ok(record);
-                console.log("recordsss", record);
                 assert.deepEqual(record, true);
                 done();
             });

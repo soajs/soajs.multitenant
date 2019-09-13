@@ -13,7 +13,7 @@ let listProductsSchema = {
             "properties": {
                 "_id": {"type": "string", "required": true},
                 "code": {"type": "string", "required": true},
-                "name": {"type": "string", "required": true},
+                "name": {"type": "boolean", "required": true},
                 "description": {"type": "string", "required": false},
                 "console": {"type": "boolean", "required": false},
                 "scope": scopeSchema,

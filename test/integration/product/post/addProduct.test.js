@@ -2,6 +2,10 @@
 const assert = require('assert');
 const requester = require('../../requester');
 
+let core = require('soajs').core;
+let validator = new core.validator.Validator();
+let addProductSchema = require("../schemas/addProduct.js");
+
 describe("Testing add product API", () => {
     before(function (done) {
         done();
@@ -66,7 +70,76 @@ describe("Testing add product API", () => {
         requester('/product', 'post', params, (error, body) => {
             assert.ifError(error);
             assert.ok(body);
-            console.log("erroras", body.errors);
+            assert.deepEqual(body.data.name, 'SOME');
+            assert.deepEqual(body.data.code, 'SOMEC');
+            assert.deepEqual(typeof body.data.scope.acl, "object");
+            let check = validator.validate(body, addProductSchema);
+            assert.deepEqual(check.valid, true);
+            assert.deepEqual(check.errors, []);
+            done();
+        });
+    });
+
+    it("Fails - will add product - wrong scope", (done) => {
+        let params = {
+            form: {
+                name: 'PRODS',
+                code: 'SOMEQ',
+                description: 'Will add due test',
+                scope: {
+                    acl: {
+                        dashboard: {
+                            multitenant: {
+                                "1": {
+                                    access: false,
+                                    get: [
+                                        {
+                                            "/product": {
+                                                access: {}
+                                            },
+                                            group: 'Product'
+                                        }
+                                    ]
+                                },
+                                "2-1" : {
+                                    access: false,
+                                    get: [
+                                        {
+                                            "/product": {
+                                                access: false
+                                            },
+                                            group: 'Product'
+                                        }
+                                    ]
+                                }
+                            },
+                            urac: {
+                                "1.0": {
+                                    access: {},
+                                    get: [
+                                        {
+                                            "/user": {
+                                                access: false
+                                            },
+                                            group: 'Admin'
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        };
+        requester('/product', 'post', params, (error, body) => {
+            assert.ifError(error);
+            assert.ok(body);
+            // assert.ok(body.errors);
+            let check = validator.validate(body, addProductSchema);
+            assert.deepEqual(check.valid, true);
+            assert.deepEqual(check.errors, []);
+            console.log("Validation", JSON.stringify(check, null, 2));
+            console.log("errorsss", JSON.stringify(body, null, 2));
             done();
         });
     });
@@ -83,6 +156,9 @@ describe("Testing add product API", () => {
             assert.ifError(error);
             assert.ok(body);
             assert.deepEqual(body.data.scope, {acl: {}});
+            let check = validator.validate(body, addProductSchema);
+            assert.deepEqual(check.valid, true);
+            assert.deepEqual(check.errors, []);
             done();
         });
     });
@@ -100,6 +176,9 @@ describe("Testing add product API", () => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.errors.codes);
+            let check = validator.validate(body, addProductSchema);
+            assert.deepEqual(check.valid, true);
+            assert.deepEqual(check.errors, []);
             done();
         });
     });
@@ -115,6 +194,9 @@ describe("Testing add product API", () => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.errors.codes);
+            let check = validator.validate(body, addProductSchema);
+            assert.deepEqual(check.valid, true);
+            assert.deepEqual(check.errors, []);
             done();
         });
     });
@@ -125,6 +207,9 @@ describe("Testing add product API", () => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.errors.codes);
+            let check = validator.validate(body, addProductSchema);
+            assert.deepEqual(check.valid, true);
+            assert.deepEqual(check.errors, []);
             done();
         });
     });

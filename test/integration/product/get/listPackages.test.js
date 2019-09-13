@@ -5,7 +5,6 @@ const requester = require('../../requester');
 let core = require('soajs').core;
 let validator = new core.validator.Validator();
 let getPackagesSchema = require("../schemas/getPackages.js");
-let listProductsSchema = require("../schemas/listProducts.js");
 
 describe("Testing List Packages API", () => {
 

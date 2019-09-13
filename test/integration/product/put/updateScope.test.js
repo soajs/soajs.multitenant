@@ -59,7 +59,6 @@ describe("Testing update product API", () => {
         requester('/product/scope', 'put', params, (error, body) => {
             assert.ifError(error);
             assert.ok(body);
-            console.log("scope update", body);
             // assert.ok(body.data);
             // let check = validator.validate(body, updateScopeSchema);
             // assert.deepEqual(check.valid, true);

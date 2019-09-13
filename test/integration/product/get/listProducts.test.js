@@ -27,6 +27,7 @@ describe("Testing list products API", () => {
             let check = validator.validate(body, listProductsSchema);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);
+            process.exit();
             done();
         });
     });

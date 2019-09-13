@@ -26,7 +26,6 @@ describe("Testing delete product API", () => {
             }
         };
         requester('/product', 'delete', params, (error, body) => {
-            console.log("Something: ", JSON.stringify(body, null, 2));
             assert.ifError(error);
             assert.ok(body);
             let check = validator.validate(body, deleteProductSchema);
