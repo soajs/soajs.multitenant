@@ -5,6 +5,7 @@ const requester = require('../../requester');
 let core = require('soajs').core;
 let validator = new core.validator.Validator();
 let purgeProductSchema = require("../schemas/purgeProduct.js");
+let getProductSchema = require("../schemas/getProduct.js");
 
 describe("Testing purge product API", () => {
 
@@ -52,6 +53,27 @@ describe("Testing purge product API", () => {
             done();
         });
     });
+    
+	it("Success - will get purged product", (done) => {
+		let params = {
+			qs: {
+				id: selectedProd._id,
+			}
+		};
+		requester('/product/', 'get', params, (error, body) => {
+			assert.ifError(error);
+			assert.ok(body);
+			assert.ok(body.data);
+			assert.deepEqual(body.data.scope, {acl :{}})
+			body.data.packages.forEach((pack)=>{
+				assert.deepEqual(pack.acl, {});
+			});
+			let check = validator.validate(body, getProductSchema);
+			assert.deepEqual(check.valid, true);
+			assert.deepEqual(check.errors, []);
+			done();
+		});
+	});
 
     it("Fails - will not purge product - invalid id", (done) => {
         let params = {

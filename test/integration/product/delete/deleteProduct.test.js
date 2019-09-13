@@ -86,8 +86,34 @@ describe("Testing delete product API", () => {
             assert.deepEqual(check.errors, []);
             done();
         });
+        
     });
-
+	it("Success - will not return deleted product record", (done) => {
+		let params = {
+			qs: {
+				id: selectedProd._id
+			}
+		};
+		requester('/product', 'get', params, (error, body) => {
+			assert.ifError(error);
+			assert.ok(body);
+			assert.deepEqual(body, {
+				"result": false,
+				"errors": {
+					"codes": [
+						460
+					],
+					"details": [
+						{
+							"code": 460,
+							"message": "Unable to find product"
+						}
+					]
+				}
+			});
+			done();
+		});
+	});
     it("Fails - will not delete - prod not found", (done) => {
         let params = {
             qs: {
