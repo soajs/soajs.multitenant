@@ -42,7 +42,7 @@ describe("Testing list console products API", () => {
             assert.ok(body.data);
             assert.ok(body.data.length > 0);
             let check = validator.validate(body, listProductsSchema);
-            // assert.deepEqual(check.valid, true);
+            assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);
             done();
         });

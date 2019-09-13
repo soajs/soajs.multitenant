@@ -6,6 +6,7 @@ let core = require('soajs').core;
 let validator = new core.validator.Validator();
 let addPackagesSchema = require("../schemas/addPackage.js");
 let listProductsSchema = require("../schemas/listProducts.js");
+let getProductsSchema = require("../schemas/getProduct.js");
 
 describe("Testing Add Package API", () => {
 
@@ -34,6 +35,7 @@ describe("Testing Add Package API", () => {
             });
             assert.ok(body.data.length > 0);
             let check = validator.validate(body, listProductsSchema);
+	        assert.equal(selectedProd.packages.length, 2);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);
             done();
@@ -63,6 +65,40 @@ describe("Testing Add Package API", () => {
             done();
         });
     });
+    
+	it("Success - will get product", (done) => {
+		let params = {
+			qs: {
+				id: selectedProd._id
+			}
+		};
+		requester('/product', 'get', params, (error, body) => {
+			assert.ifError(error);
+			assert.ok(body);
+			assert.ok(body.data);
+			assert.equal(body.data.packages.length, 3);
+			let found  = false;
+			let packFound  =null;
+			body.data.packages.forEach((pack)=>{
+				if (pack.code === "TEST2_ELAS"){
+					found = true;
+					packFound = pack
+				}
+			});
+			assert.ok(found);
+			assert.deepEqual(packFound, {
+				name: "PACK_NAME",
+				code: "TEST2_ELAS",
+				description: "Pack Description",
+				acl: {},
+				_TTL: 24 * 3600 * 1000
+			});
+			let check = validator.validate(body, getProductsSchema);
+			assert.deepEqual(check.valid, true);
+			assert.deepEqual(check.errors, []);
+			done();
+		});
+	});
 
     it("Fail - will not add package to product - no params", (done) => {
         let params = {};
