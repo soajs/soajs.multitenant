@@ -145,7 +145,7 @@ let record = {
                     ],
                     "multitenant": [
                         {
-                            "version": "1x2",
+                            "version": "1.2",
                             "get": [
                                 "Product",
                                 "Tenant"
@@ -154,7 +154,7 @@ let record = {
                     ],
                     "urac": [
                         {
-                            "version": "3x1",
+                            "version": "3.1",
                             "get": [
                                 "Administrator",
                                 "My Account",
@@ -173,7 +173,7 @@ let record = {
                 "dashboard": {
                     "urac": [
                         {
-                            "version": "2x5",
+                            "version": "2.5",
                             "get": [
                                 "My Account",
                             ],
@@ -338,7 +338,7 @@ let unsanitizedRecord = {
                     ],
                     "multitenant": [
                         {
-                            "version": "1x2",
+                            "version": "1.2",
                             "get": [
                                 "Product",
                                 "Tenant"
@@ -347,7 +347,7 @@ let unsanitizedRecord = {
                     ],
                     "urac": [
                         {
-                            "version": "3x1",
+                            "version": "3.1",
                             "get": [
                                 "Administrator",
                                 "My Account"
@@ -366,7 +366,7 @@ let unsanitizedRecord = {
                 "dashboard": {
                     "urac": [
                         {
-                            "version": "2x5",
+                            "version": "2.5",
                             "get": [
                                 "My Account"
                             ],
