@@ -6,3 +6,6 @@ This is the soajs multi tenant service
 ENV Variable | Description | Default | Example
 --- | ----- | :---: | ---
 SOAJS_SERVICE_MODEL | The model | mongo | other models can be implemented aka oracle, postgresql
+
+### Complete Documentation
+More information is available on SOAJS website under the section for [Multitenant](https://soajsorg.atlassian.net/wiki/spaces/MUL).
