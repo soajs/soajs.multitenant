@@ -14,7 +14,7 @@ describe("starting tenant integration tests", () => {
     it("loading product integration tests", (done) => {
         // GET
         require("./get/listTenants.test.js");
-        // require("./get/getTenant.test.js");
+        require("./get/getTenant.test.js");
 
         // POST
 
