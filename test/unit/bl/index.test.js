@@ -4,13 +4,13 @@ const helper = require("../../helper.js");
 const BL = helper.requireModule('bl/index.js');
 
 
-describe("Unit test for: BL - product", () => {
+describe("Unit test for: BLs", () => {
 
     let soajs = {
         config: {
             "errors": {
                 400: "Business logic required data are missing.",
-
+                450: "Unable to find tenant",
                 460: "Unable to find product.",
                 461: "Unable to find packages.",
                 466: "You are not allowed to remove the product you are currently logged in with.",

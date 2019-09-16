@@ -54,7 +54,7 @@ let bl = {
                 return cb(bl.handleError(soajs, 602, err), null);
             }
             if (!record) {
-                return cb(bl.handleError(soajs, 460, err), null);
+                return cb(bl.handleError(soajs, 450, err), null);
             }
             return cb(null, record);
         });
@@ -68,13 +68,13 @@ let bl = {
 		let data = {};
 		data.type = inputmaskData.type;
 		
-		modelObj.ListTenants(data, (err, record) => {
+		modelObj.listTenants(data, (err, record) => {
 			bl.mp.closeModel(soajs, modelObj);
 			if (err) {
 				return cb(bl.handleError(soajs, 602, err), null);
 			}
 			if (!record) {
-				return cb(bl.handleError(soajs, 460, err), null);
+				return cb(bl.handleError(soajs, 450, err), null);
 			}
 			return cb(null, record);
 		});

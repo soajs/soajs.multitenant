@@ -16,12 +16,18 @@ describe("Starting Unit test", () => {
 
     it("Unit test for BL", (done) => {
         require("./bl/index.test.js");
+        require("./bl/tenant.test.js");
         require("./bl/product.test.js");
         done();
     });
 
     it("Unit test for Model", (done) => {
+        // Product
         require("./model/mongo/product.test.js");
+        require("./model/mongo/product.indexes.test.js");
+
+        //Tenant
+        require("./model/mongo/tenant.test.js");
         done();
     });
 

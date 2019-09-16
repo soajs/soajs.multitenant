@@ -30,6 +30,12 @@ function Product(service, options, mongoCore) {
         __self.mongoCore.createIndex(colName, {'code': 1}, {unique: true}, (err, result) => {
         });
 
+        __self.mongoCore.createIndex(colName, {'packages.code': 1}, {}, (err, result) => {
+        });
+
+        __self.mongoCore.createIndex(colName, {'code': 1, 'packages.code': 1}, {}, (err, result) => {
+        });
+
         service.log.debug("Product: Indexes for " + index + " Updated!");
     }
 }

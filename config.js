@@ -20,6 +20,7 @@ module.exports = {
 
     "errors": {
         400: "Business logic required data are missing.",
+        450: "Unable to find tenant",
 
         460: "Unable to find product",
         461: "Unable to find package",
@@ -220,7 +221,7 @@ module.exports = {
                 },
 	            "tags": {
 		            "source": ['body.tags'],
-		            "required": false,
+		            // "required": false,
 		            "validation": {
 			            "type": "array",
 			            "items": {

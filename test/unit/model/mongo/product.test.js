@@ -230,7 +230,6 @@ describe("Unit test for: Model - product", () => {
             });
         });
 
-
         it("Success - closeConnection", (done) => {
             model.closeConnection();
             done();

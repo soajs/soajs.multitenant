@@ -74,15 +74,17 @@ Tenant.prototype.getTenant = function (data, cb) {
 		});
 	} else {
 		if (data.code) {
-			condition["$and"].push({'code': data.code}); // TODO: ADD to documentation
+			condition["$and"].push({'code': data.code});
 		}
 		
 		__self.mongoCore.findOne(colName, condition, null, null, cb);
 	}
 };
 
-Tenant.prototype.ListTenants = function (data, cb) {
+Tenant.prototype.listTenants = function (data, cb) {
 	let __self = this;
+
+	//TODO: assert null input
 	
 	let condition = {
 		'$and' : [{

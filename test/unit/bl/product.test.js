@@ -4,8 +4,6 @@ const helper = require("../../helper.js");
 const BL = helper.requireModule('bl/product.js');
 const assert = require('assert');
 
-let products;
-
 describe("Unit test for: BL - product", () => {
 
     let soajs = {
