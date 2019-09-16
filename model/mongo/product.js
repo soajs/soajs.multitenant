@@ -29,8 +29,6 @@ function Product(service, options, mongoCore) {
         indexing[index] = true;
         __self.mongoCore.createIndex(colName, {'code': 1}, {unique: true}, (err, result) => {
         });
-        __self.mongoCore.createIndex(colName, {'tenant.id': 1}, {}, (err, result) => {
-        });
 
         service.log.debug("Product: Indexes for " + index + " Updated!");
     }

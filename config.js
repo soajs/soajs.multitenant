@@ -135,7 +135,41 @@ module.exports = {
                         "maxLength": 6
                     }
                 }
-            }
+            },
+	        "/tenant" :{
+		        _apiInfo: {
+			        "l": "Get tenant",
+			        "group": "Tenant"
+		        },
+		        "id": {
+			        "source": ['query.id'],
+			        "required": false,
+			        "validation": {
+				        "type": "string"
+			        }
+		        },
+		        "code": {
+			        "source": ["query.code"],
+			        "required": false,
+			        "validation": {
+				        "type": "string"
+			        }
+		        }
+	        },
+	        "/tenants" :{
+		        _apiInfo: {
+			        "l": "List tenants",
+			        "group": "Tenant"
+		        },
+		        "type": {
+			        "source": ['query.type'],
+			        "required": false,
+			        "validation": {
+				        "type": "string",
+				        "enum": ["product", "client"]
+			        }
+		        }
+	        }
         },
 	    
         "post": {

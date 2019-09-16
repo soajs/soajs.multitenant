@@ -100,7 +100,22 @@ service.init(() => {
 			    return res.json(req.soajs.buildResponse(error, data));
 		    });
 	    });
-
+	
+	    //*** tenant routes
+	
+	    //* GET
+	
+	    service.get("/tenant", (req, res) => {
+		    bl.tenant.get(req.soajs, req.soajs.inputmaskData, (error, data) => {
+			    return res.json(req.soajs.buildResponse(error, data));
+		    });
+	    });
+	
+	    service.get("/tenants", (req, res) => {
+		    bl.tenant.list(req.soajs, req.soajs.inputmaskData, (error, data) => {
+			    return res.json(req.soajs.buildResponse(error, data));
+		    });
+	    });
 
         service.start();
     });
