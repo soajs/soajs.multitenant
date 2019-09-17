@@ -16,6 +16,10 @@ let lib = {
                                 "apis": {
                                     "/product": {
                                         "access": false
+                                    },
+                                    "/products/console": {
+                                        "access": false
+
                                     }
                                 },
                                 "group": "Product"
@@ -124,6 +128,27 @@ let lib = {
                             "get": [
                                 "Guest Password Settings",
                                 "Guest Email Validation"
+                            ]
+                        }
+                    ],
+                    "multitenant": [
+                        {
+                            "version": "1",
+                            "get": [
+                                "Product",
+                                "Tenant"
+                            ],
+                            "post": [
+                                "Product",
+                                "Tenant"
+                            ],
+                            "delete": [
+                                "Product",
+                                "Tenant"
+                            ],
+                            "put":[
+                                "Product",
+                                "Tenant"
                             ]
                         }
                     ]

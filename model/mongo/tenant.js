@@ -101,6 +101,26 @@ Tenant.prototype.listTenants = function (data, cb) {
 	__self.mongoCore.find(colName, condition, null, null, cb);
 };
 
+Tenant.prototype.deleteTenant = function (data, cb) {
+	let __self = this;
+
+	if (!data || !(data._id || data.code)) {
+		let error = new Error("id or code is required.");
+		return cb(error, null);
+	}
+
+	let condition = {};
+
+	if (data._id) {
+		condition._id = data._id;
+	} else {
+		condition.code = data.code;
+	}
+	__self.mongoCore.remove(colName, condition, (err, count) => {
+		return cb(err, count);
+	});
+};
+
 Tenant.prototype.closeConnection = function () {
     let __self = this;
     __self.mongoCore.closeDb();

@@ -131,9 +131,9 @@ describe("Unit test for: Model - tenant", () => {
             let selectedTenant;
             model.listTenants({}, (err, records) => {
                 records.forEach(record => {
-                   if (record.code === 'test') {
-                       selectedTenant = record;
-                   }
+                    if (record.code === 'test') {
+                        selectedTenant = record;
+                    }
                 });
                 model.getTenant({id: selectedTenant._id}, (err, record) => {
                     assert.ifError(err);
@@ -158,6 +158,52 @@ describe("Unit test for: Model - tenant", () => {
             model.getTenant({}, (err, record) => {
                 assert.ok(err);
                 assert.deepEqual(err, new Error("id or code is required."));
+                done();
+            });
+        });
+
+
+        //TODO: Continue
+        it.skip("Success - addTenant - data", (done) => {
+            let inputmaskData = {}; //todo: fill
+            model.addTenant(inputmaskData, (err, record) => {
+                assert.ok(record);
+                done();
+            });
+            done();
+        });
+
+        it.skip("Success - addTenant - null", (done) => {
+            model.addTenant(null, (err, record) => {
+                assert.ok(err);
+                done();
+            });
+            done();
+        });
+
+        it.skip("Success - deleteTenant - id", (done) => {
+            let inputmaskData = {}; //todo: fill
+            model.deleteTenant(inputmaskData, (err, record) => {
+                assert.ok(record);
+                done();
+            });
+            done();
+        });
+
+        it.skip("Success - deleteTenant - code", (done) => {
+            let inputmaskData = {
+                code: 'test'
+            };
+            model.deleteTenant(inputmaskData, (err, record) => {
+                console.log("recorda", record);
+                assert.ok(record);
+                done();
+            });
+        });
+
+        it("Success - deleteTenant - null", (done) => {
+            model.deleteTenant(null, (err, record) => {
+                assert.ok(err);
                 done();
             });
         });

@@ -10,25 +10,38 @@ let lib = {
            "dashboard": {
                "multitenant": {
                    "1": {
-                       "access": false,
+                       "access": true,
+                       "apisPermission": "restricted",
                        "get": [
                            {
                                "apis": {
                                    "/product": {
-                                       "access": false
+                                       "access": true
+                                   },
+                                   "/products/console": {
+                                       "access": true
                                    }
                                },
                                "group": "Product"
+                           },
+                           {
+                               "apis": {
+                                   "/tenants/console": {
+                                       "access": true
+                                   }
+                               },
+                               "group": "Tenant"
                            }
                        ]
                    },
                    "1x2": {
                        "access": true,
+                       "apisPermission": "restricted",
                        "get": [
                            {
                                "apis": {
                                    "/tenant": {
-                                       "access": false
+                                       "access": true
                                    }
                                },
                                "group": "Tenant"
@@ -155,6 +168,27 @@ let lib = {
                             ],
                             "post": [
                                 "My Account",
+                            ]
+                        }
+                    ],
+                    "multitenant": [
+                        {
+                            "version": "1",
+                            "get": [
+                                "Product",
+                                "Tenant"
+                            ],
+                            "post": [
+                                "Product",
+                                "Tenant"
+                            ],
+                            "delete": [
+                                "Product",
+                                "Tenant"
+                            ],
+                            "put":[
+                                "Product",
+                                "Tenant"
                             ]
                         }
                     ]

@@ -78,7 +78,44 @@ let bl = {
 			}
 			return cb(null, record);
 		});
-	}
+	},
+
+    "delete": (soajs, inputmaskData, cb) => {
+        if (!inputmaskData) {
+            return cb(bl.handleError(soajs, 400, null));
+        }
+        let modelObj = bl.mp.getModel(soajs);
+        let data = {};
+        data.code = inputmaskData.code;
+        data.id = inputmaskData.id;
+
+        modelObj.getTenant(data, (err, record) => {
+            if (err) {
+                bl.mp.closeModel(soajs, modelObj);
+                return cb(bl.handleError(soajs, 602, err));
+            }
+            if (!record) {
+                bl.mp.closeModel(soajs, modelObj);
+                return cb(bl.handleError(soajs, 450, null));
+            }
+            if (record._id && record._id.toString() === soajs.tenant.id) {
+                bl.mp.closeModel(soajs, modelObj);
+                return cb(bl.handleError(soajs, 462, null));
+            }
+            if (!soajs.tenant.locked && record && record.locked) {
+                bl.mp.closeModel(soajs, modelObj);
+                return cb(bl.handleError(soajs, 500, null));
+            }
+            data._id = record._id;
+            modelObj.deleteTenant(data, (err, result) => {
+                bl.mp.closeModel(soajs, modelObj);
+                if (err) {
+                    return cb(bl.handleError(soajs, 602, err));
+                }
+                return cb(null, result);
+            });
+        });
+    }
 };
 
 module.exports = bl;
