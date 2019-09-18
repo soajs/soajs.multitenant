@@ -162,46 +162,76 @@ describe("Unit test for: Model - tenant", () => {
             });
         });
 
+        it("Success - listAllTenants - null data", (done) => {
+            model.listAllTenants(null, (err, records) => {
+                assert.ok(records);
+                assert.ok(records.length > 0);
+                done();
+            });
+        });
+
+        it("Fails - countTenants - null data", (done) => {
+            model.countTenants(null, (err, count) => {
+                assert.ok(err);
+                assert.deepEqual(err, new Error("name is required."));
+                done();
+            });
+        });
+
+        it("Success - countTenants - data", (done) => {
+            model.countTenants({name: 'Console Tenant', code: 'DBTN'}, (err, count) => {
+                assert.ok(count);
+                assert.deepEqual(count, 1);
+                done();
+            });
+        });
+
+        let addedRecord;
 
         //TODO: Continue
-        it.skip("Success - addTenant - data", (done) => {
-            let inputmaskData = {}; //todo: fill
+        it("Success - addTenant - data", (done) => {
+            let inputmaskData = {
+                name: 'test2',
+                code: 'test2'
+            };
             model.addTenant(inputmaskData, (err, record) => {
                 assert.ok(record);
+                addedRecord = record;
                 done();
             });
-            done();
         });
 
-        it.skip("Success - addTenant - null", (done) => {
+        it("Success - addTenant - null", (done) => {
             model.addTenant(null, (err, record) => {
                 assert.ok(err);
+                assert.deepEqual(err, new Error("name and code are required."));
                 done();
             });
-            done();
         });
 
-        it.skip("Success - deleteTenant - id", (done) => {
-            let inputmaskData = {}; //todo: fill
-            model.deleteTenant(inputmaskData, (err, record) => {
-                assert.ok(record);
+        it("Success - deleteTenant - id", (done) => {
+            let inputmaskData = {
+                _id: addedRecord._id
+            };
+            model.deleteTenant(inputmaskData, (err, result) => {
+                assert.ok(result);
+                assert.deepEqual(result.result, { n: 1, ok: 1 });
                 done();
             });
-            done();
         });
 
-        it.skip("Success - deleteTenant - code", (done) => {
+        it("Success - deleteTenant - code", (done) => {
             let inputmaskData = {
                 code: 'test'
             };
-            model.deleteTenant(inputmaskData, (err, record) => {
-                console.log("recorda", record);
-                assert.ok(record);
+            model.deleteTenant(inputmaskData, (err, result) => {
+                assert.ok(result);
+                assert.deepEqual(result.result, { n: 1, ok: 1 });
                 done();
             });
         });
 
-        it("Success - deleteTenant - null", (done) => {
+        it("Fails - deleteTenant - null", (done) => {
             model.deleteTenant(null, (err, record) => {
                 assert.ok(err);
                 done();

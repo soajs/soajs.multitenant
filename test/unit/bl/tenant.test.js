@@ -76,20 +76,6 @@ describe("Unit test for: BL - tenant", () => {
             });
         });
 
-        it("Fails - List tenants - no records", (done) => {
-            BL.modelObj = {
-                listTenants: (nullObject, cb) => {
-                    return cb(null, null);
-                }
-            };
-            BL.list(soajs, {}, (err, records) => {
-                assert.ok(err);
-                assert.equal(records, null);
-                assert.deepEqual(err, {code: 450, msg: soajs.config.errors[450]});
-                done();
-            });
-        });
-
         it("Fails - List tenants - listTenants error", (done) => {
             BL.modelObj = {
                 listTenants: (nullObject, cb) => {
