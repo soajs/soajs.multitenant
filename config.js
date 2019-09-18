@@ -35,6 +35,7 @@ module.exports = {
 		
 		460: "Unable to find product",
 		461: "Unable to find package",
+		462: "You are not allowed to remove the tenant you are currently logged in with.",
 		466: "You are not allowed to remove the product you are currently logged in with.",
 		467: "Package already exists",
 		468: "Product already exists.",

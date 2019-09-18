@@ -60,7 +60,7 @@ service.init(() => {
 	    });
 	
 	    service.post("/tenant", (req, res) => {
-		    bl.tenant.add(req.soajs, req.soajs.inputmaskData, (error, data) => {
+		    bl.tenant.add(req.soajs, req.soajs.inputmaskData, soajs, (error, data) => {
 			    return res.json(req.soajs.buildResponse(error, data));
 		    });
 	    });

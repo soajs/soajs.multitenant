@@ -1,6 +1,5 @@
 'use strict';
 const async = require('async');
-const core = require('soajs');
 let bl = {
 	"modelObj": null,
 	"model": null,
@@ -113,7 +112,7 @@ let bl = {
 			});
 		});
 	},
-	"add": (soajs, inputmaskData, cb) => {
+	"add": (soajs, inputmaskData, core, cb) => {
 		const provision = core.provision;
 		const soajsCore = core.core;
 		if (!inputmaskData) {
@@ -123,7 +122,6 @@ let bl = {
 		let record = {
 			"_id": modelObj.generateId(),
 			"type": inputmaskData.type,
-			"code": inputmaskData.code,
 			"name": inputmaskData.name,
 			"description": inputmaskData.description,
 			"oauth": {
@@ -149,7 +147,6 @@ let bl = {
 		if (inputmaskData.tag) {
 			record.tag = inputmaskData.tag;
 		}
-		
 		async.series({
 			checkIfExist: checkIfExist,
 			checkSubTenant: checkSubTenant,
@@ -158,10 +155,8 @@ let bl = {
 			createExternalKey: createExternalKey,
 			insertRecord: insertRecord,
 		}, (err, result) => {
+			//err is handled and returned in each function above
 			bl.mp.closeModel(soajs, modelObj);
-			if (err) {
-				return cb(bl.handleError(soajs, 602, err));
-			}
 			return cb(null, result.insertRecord);
 		});
 		
@@ -206,7 +201,7 @@ let bl = {
 							code: mainTenant.code,
 						};
 						//inherit form main tenant if oauth was not provided
-						if (!record.oauth && mainTenant.oauth) {
+						if (!inputmaskData.oauth && mainTenant.oauth) {
 							record.oauth = mainTenant.oauth;
 						}
 						return callback(null);
@@ -227,7 +222,7 @@ let bl = {
 					bl.mp.closeModel(soajs, modelObj);
 					return cb(bl.handleError(soajs, 602, err));
 				}
-				if (tenants && tenants.length === 0) {
+				if (tenants && tenants.length !== 0) {
 					tenants.forEach((oneTenant) => {
 						tenantCodes.push(oneTenant.code);
 					});
@@ -278,15 +273,11 @@ let bl = {
 					newApplication.keys.push(oneKey);
 					record.applications.push(newApplication);
 					createExternalKey((error, extKey) => {
-						if (error) {
-							return cb(bl.handleError(soajs, 602, null));
-						}
 						if (extKey) {
 							record.applications[0].keys[0].extKeys.push(extKey);
 						}
 						return callback(null);
 					});
-					
 				});
 			}
 		}
@@ -300,7 +291,7 @@ let bl = {
 		}
 		
 		function createExternalKey(callback) {
-			if (inputmaskData.application.appKey.extKey) {
+			if (inputmaskData.application && inputmaskData.application.appKey && inputmaskData.application.appKey.extKey) {
 				soajsCore.registry.loadByEnv({envCode: inputmaskData.application.appKey.extKey.env}, (err, envRecord) => {
 					if (err) {
 						bl.mp.closeModel(soajs, modelObj);
@@ -342,12 +333,9 @@ let bl = {
 		function insertRecord(callback) {
 			modelObj.addTenant(record, (err, response) => {
 				if (err) {
-					if (err.message.indexOf("code_1 dup key") !== -1 && !inputmaskData.code) {
+					if (err.message && err.message.indexOf("code_1 dup key") !== -1 && !inputmaskData.code) {
 						record.code = calculateCode(tenantCodes, bl.localConfig.tenant.generatedCodeLength);
 						createExternalKey((err, extKey) => {
-							if (err) {
-								return cb(bl.handleError(soajs, 602, err));
-							}
 							if (extKey) {
 								record.applications[0].keys[0].extKeys = [extKey];
 							}
@@ -358,7 +346,10 @@ let bl = {
 						return cb(bl.handleError(soajs, 602, err), null);
 					}
 				}
-				return callback(null, response);
+				else {
+					return callback(null, response);
+				}
+				
 			});
 		}
 	}
