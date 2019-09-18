@@ -112,6 +112,7 @@ let bl = {
 			});
 		});
 	},
+	
 	"add": (soajs, inputmaskData, core, cb) => {
 		const provision = core.provision;
 		const soajsCore = core.core;
@@ -326,7 +327,7 @@ let bl = {
 					});
 				});
 			} else {
-				return callback(null, record);
+				return callback(null, null);
 			}
 		}
 		

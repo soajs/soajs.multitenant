@@ -34,7 +34,6 @@ function requester(apiName, method, params, cb) {
         options.qs = params.qs;
     }
 
-    console.log("options", JSON.stringify(options, null, 2));
     if (method === 'delete') {
         request.del(options, function (error, response, body) {
             assert.ifError(error);

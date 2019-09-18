@@ -17,23 +17,34 @@ describe("Testing add tenant API", () => {
         console.log("=======================================");
         done();
     });
-
-    it("Success - will add tenant record - tenant only ", (done) => {
+	let product;
+    it("Success - will add product tenant record - tenant only ", (done) => {
         let params = {
             body: {
-                "name": "tenant only",
+                "name": "tenant product only",
                 "code": "ttoc",
-                "description": "3221",
+                "description": "tenant product only",
                 "type": "product",
                 "profile": {},
-                "tag": "tag"
+                "tag": "tag",
+	            "oauth": {
+		            "secret": "this is a secret test",
+		            "redirectURI": "http://domain.com",
+		            "grants": [
+			            "password",
+			            "refresh_token"
+		            ],
+		            "disabled": 0,
+		            "type": 1,
+		            "loginMode": "urac"
+	            }
             }
         };
         requester('/tenant', 'post', params, (error, body) => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.data);
-            assert.ok(body.data.length > 0);
+	        product = body.data;
             let check = validator.validate(body, addTenantSchema);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);
@@ -51,15 +62,15 @@ describe("Testing add tenant API", () => {
             assert.ok(body);
             assert.ok(body.data);
             assert.deepEqual(body.data.oauth, {
-                "secret": "this is a secret",
-                "redirectURI": "http://domain.com",
-                "grants": [
-                    "password",
-                    "refresh_token"
-                ],
-                "disabled": 1,
-                "type": 2,
-                "loginMode": "urac"
+	            "secret": "this is a secret test",
+	            "redirectURI": "http://domain.com",
+	            "grants": [
+		            "password",
+		            "refresh_token"
+	            ],
+	            "disabled": 0,
+	            "type": 1,
+	            "loginMode": "urac"
             });
             let check = validator.validate(body, getTenantsSchema);
             assert.deepEqual(check.valid, true);
@@ -67,9 +78,111 @@ describe("Testing add tenant API", () => {
             done();
         });
     });
-
-
-    it("Fails - will not add tenant record - no input", (done) => {
+	
+	it("Success - will add client tenant record - tenant only ", (done) => {
+		let params = {
+			body: {
+				"name": "tenant client only",
+				"description": "tenant client only",
+				"mainTenant": product._id.toString(),
+				"type": "client"
+			}
+		};
+		requester('/tenant', 'post', params, (error, body) => {
+			assert.ifError(error);
+			assert.ok(body);
+			assert.ok(body.data);
+			let check = validator.validate(body, addTenantSchema);
+			assert.deepEqual(check.valid, true);
+			assert.deepEqual(check.errors, []);
+			done();
+		});
+	});
+	
+	it("Success - will add client tenant record - with application ", (done) => {
+		let params = {
+			body: {
+				"name": "tenant product with application",
+				"description": "tenant product with application",
+				"type": "product",
+				"application": {
+					"productCode": "tyrv",
+					"packageCode": "packageCode",
+					"description" : "123",
+					"_TTL": "6",
+				}
+			}
+		};
+		requester('/tenant', 'post', params, (error, body) => {
+			assert.ifError(error);
+			assert.ok(body);
+			assert.ok(body.data);
+			let check = validator.validate(body, addTenantSchema);
+			assert.deepEqual(check.valid, true);
+			assert.deepEqual(check.errors, []);
+			done();
+		});
+	});
+	
+	it("Success - will add client tenant record - with application and app key", (done) => {
+		let params = {
+			body: {
+				"name": "tenant product with application with key",
+				"description": "tenant product with application with key",
+				"type": "product",
+				"application": {
+					"productCode": "tyrv",
+					"packageCode": "packageCode",
+					"description" : "123",
+					"_TTL": "6",
+					"appKey": {
+					}
+				}
+			}
+		};
+		requester('/tenant', 'post', params, (error, body) => {
+			assert.ifError(error);
+			assert.ok(body);
+			assert.ok(body.data);
+			let check = validator.validate(body, addTenantSchema);
+			assert.deepEqual(check.valid, true);
+			assert.deepEqual(check.errors, []);
+			done();
+		});
+	});
+	
+	it("Success - will add client tenant record - with application and app key and ext key", (done) => {
+		let params = {
+			body: {
+				"name": "tenant product with application with ext key",
+				"description": "tenant product with application with ext",
+				"type": "product",
+				"application": {
+					"productCode": "tyrv",
+					"packageCode": "packageCode",
+					"description" : "123",
+					"_TTL": "6",
+					"appKey": {
+						"extKey" :{
+							"label": "ttestkeylabel",
+							"env": "dashbaord"
+						}
+					}
+				}
+			}
+		};
+		requester('/tenant', 'post', params, (error, body) => {
+			assert.ifError(error);
+			assert.ok(body);
+			assert.ok(body.data);
+			let check = validator.validate(body, addTenantSchema);
+			assert.deepEqual(check.valid, true);
+			assert.deepEqual(check.errors, []);
+			done();
+		});
+	});
+	
+    it.skip("Fails - will not add tenant record - no input", (done) => {
         let params = {};
 
         requester('/tenant', 'post', params, (error, body) => {
