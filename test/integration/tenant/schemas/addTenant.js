@@ -72,6 +72,14 @@ let addTenantsSchema = {
                         }
                     }
                 },
+                "tenant": {
+                    "type": "object",
+                    "required": false,
+                    "properties": {
+                        "id": {"type": "string", "required": true},
+                        "code": {"type": "string", "required": true},
+                    }
+                }
             }
         },
         "errors": {
