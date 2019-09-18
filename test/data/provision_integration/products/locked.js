@@ -9,187 +9,35 @@ let lib = {
 	"scope": {
 		"acl": {
 			"dashboard": {
-				"urac": {
-					"2": {
-						"access": true,
-						"apisPermission": "restricted",
-						"get": [
-							{
-								"group": "Administration",
-								"apis": {
-									"/admin/all": {
-										"access": true
-									},
-									"/admin/listUsers": {
-										"access": true
-									},
-									"/admin/changeUserStatus": {
-										"access": true
-									},
-									"/admin/group/list": {
-										"access": true
-									}
-								}
-							},
-							{
-								"group": "My Account",
-								"apis": {
-									"/account/getUser": {
-										"access": true
-									}
-								}
-							},
-							{
-								"group": "Guest Password Settings",
-								"apis": {
-									"/forgotPassword": {
-										"access": false
-									}
-								}
-							},
-							{
-								"group": "Guest Email Validation",
-								"apis": {
-									"/changeEmail/validate": {
-										"access": true
-									}
-								}
-							}
-						],
-						"post": [
-							{
-								"group": "My Account",
-								"apis": {
-									"/account/changeEmail": {
-										"access": true
-									},
-									"/account/changePassword": {
-										"access": true
-									},
-									"/account/editProfile": {
-										"access": true
-									}
-								}
-							},
-							{
-								"group": "Administration",
-								"apis": {
-									"/admin/addUser": {
-										"access": true
-									},
-									"/admin/editUser": {
-										"access": true
-									},
-									"/admin/group/add": {
-										"access": true
-									},
-									"/admin/group/edit": {
-										"access": true
-									}
-								}
-							},
-							{
-								"group": "Guest Password Settings",
-								"apis": {
-									"/resetPassword": {
-										"access": false
-									}
-								}
-							}
-						],
-						"delete": [
-							{
-								"group": "Administration",
-								"apis": {
-									"/admin/group/delete": {
-										"access": true
-									}
-								}
-							}
-						]
-					}
-				},
-				"dashboard": {
-					"1": {
-						"access": false,
-						"post": [
-							{
-								"group": "Continuous Delivery Deployment",
-								"apis": {
-									"/cd/deploy": {
-										"access": false
-									}
-								}
-							}
-						]
-					}
-				},
-				"oauth": {
-					"1": {
-						"access": true,
-						"apisPermission": "restricted",
-						"delete": [
-							{
-								"group": "Tokenization",
-								"apis": {
-									"/refreshToken/:token": {
-										"access": true
-									},
-									"/accessToken/:token": {
-										"access": true
-									}
-								}
-							},
-							{
-								"group": "User Tokenization",
-								"apis": {
-									"/tokens/user/:userId": {
-										"access": true
-									}
-								}
-							},
-							{
-								"group": "Cient Tokenization",
-								"apis": {
-									"/tokens/tenant/:clientId": {
-										"access": true
-									}
-								}
-							}
-						],
-						"post": [
-							{
-								"group": "Tokenization",
-								"apis": {
-									"/pin": {
-										"access": true
-									}
-								}
-							},
-							{
-								"group": "Guest",
-								"apis": {
-									"/token": {
-										"access": false
-									}
-								}
-							}
-						],
-						"get": [
-							{
-								"group": "Guest",
-								"apis": {
-									"/authorization": {
-										"access": false
-									}
-								}
-							}
-						]
-					}
-				},
 				"multitenant": {
-					"1": {
-					}
+					"access": true,
+					"apisPermission": "restricted",
+					"get": [
+						{
+							"apis": {
+								"/product": {
+									"access": true
+								}
+							},
+							"group": "Product"
+						},
+						{
+							"apis": {
+								"/tenants/console": {
+									"access": true
+								}
+							},
+							"group": "Tenant"
+						},
+						{
+							"apis": {
+								"/products/console": {
+									"access": true
+								}
+							},
+							"group": "Console product"
+						}
+					]
 				},
 			}
 		}
@@ -201,41 +49,6 @@ let lib = {
 			"description": "This package is used to provide anyone access to login and forgot password. Once logged in the package linked to the user tenant will take over thus providing the right access to the logged in user.",
 			"acl": {
 				"dashboard": {
-					"oauth": [
-						{
-							"version": "1",
-							"get": [
-								"Guest"
-							],
-							"post": [
-								"Guest",
-								"Tokenization"
-							],
-							"delete": [
-								"Tokenization"
-							]
-						}
-					],
-					"urac": [
-						{
-							"version": "2",
-							"post": [
-								"Guest Password Settings"
-							],
-							"get": [
-								"Guest Password Settings",
-								"Guest Email Validation"
-							]
-						}
-					],
-					"dashboard": [
-						{
-							"version": "1",
-							"post": [
-								"Private Tenant ACL"
-							]
-						}
-					],
 					"multitenant": [
 						{
 							"version": "1",
@@ -268,149 +81,26 @@ let lib = {
 			"description": "This package is used to provide owner level access. This means the user who has this package will have access to everything.",
 			"acl": {
 				"dashboard": {
-					"oauth": [
-						{
-							"version": "1",
-							"get": [
-								"Guest"
-							],
-							"post": [
-								"Guest",
-								"Tokenization"
-							],
-							"delete": [
-								"Tokenization",
-								"User Tokenization",
-								"Cient Tokenization"
-							]
-						}
-					],
-					"urac": [
-						{
-							"version": "2",
-							"get": [
-								"Guest Email Account Settings",
-								"Administration",
-								"My Account",
-								"Guest Password Settings",
-								"Guest Email Validation"
-							],
-							"post": [
-								"Administration",
-								"My Account",
-								"Guest Password Settings"
-							],
-							"delete": [
-								"Administration"
-							]
-						}
-					],
-					"dashboard": [
-						{
-							"version": "1",
-							"get": [
-								"Continuous Delivery",
-								"Environment",
-								"Templates",
-								"Environment Databases",
-								"Resources",
-								"Custom Registry",
-								"Environment Platforms",
-								"Product",
-								"Console Product",
-								"Tenant",
-								"Console Tenant",
-								"Tenant oAuth",
-								"Tenant Application",
-								"Dashboard Tenants",
-								"Tenant Settings",
-								"Services",
-								"Daemons",
-								"Hosts",
-								"HA Cloud",
-								"Catalog",
-								"Infra Providers",
-								"API Builder",
-								"Secrets",
-								"Git Accounts",
-								"Continuous Integration"
-							],
-							"post": [
-								"Continuous Delivery",
-								"Environment",
-								"Templates",
-								"Environment Databases",
-								"Resources",
-								"Custom Registry",
-								"Environment Platforms",
-								"Product",
-								"Tenant",
-								"Tenant oAuth",
-								"Tenant Application",
-								"Tenant Settings",
-								"Services",
-								"Daemons",
-								"Hosts",
-								"HA Cloud",
-								"Catalog",
-								"Infra Providers",
-								"API Builder",
-								"Secrets",
-								"Git Accounts",
-								"Continuous Integration",
-								"swagger",
-								"Simulate",
-								"Continuous Delivery Deployment",
-								"Private Tenant ACL"
-							],
-							"put": [
-								"Continuous Delivery",
-								"Environment",
-								"Environment Databases",
-								"Resources",
-								"Custom Registry",
-								"Environment Platforms",
-								"Product",
-								"Tenant",
-								"Tenant oAuth",
-								"Tenant Application",
-								"Tenant Settings",
-								"Services",
-								"Daemons",
-								"HA Cloud",
-								"Catalog",
-								"Infra Providers",
-								"API Builder",
-								"Git Accounts",
-								"Continuous Integration",
-								"Owner HA Cloud"
-							],
-							"delete": [
-								"Environment",
-								"Templates",
-								"Environment Databases",
-								"Resources",
-								"Custom Registry",
-								"Environment Platforms",
-								"Product",
-								"Tenant",
-								"Tenant oAuth",
-								"Tenant Application",
-								"Tenant Settings",
-								"Daemons",
-								"HA Cloud",
-								"Catalog",
-								"Infra Providers",
-								"API Builder",
-								"Secrets",
-								"Git Accounts",
-								"Continuous Integration"
-							]
-						}
-					],
 					"multitenant": [
 						{
-							"version": "1"
+							"version": "1",
+							"get": [
+								"Product",
+								"Console product",
+								"Tenant"
+							],
+							"post": [
+								"Product",
+								"Tenant"
+							],
+							"delete": [
+								"Product",
+								"Tenant"
+							],
+							"put":[
+								"Product",
+								"Tenant"
+							]
 						}
 					]
 				}

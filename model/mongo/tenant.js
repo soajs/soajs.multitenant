@@ -151,7 +151,6 @@ Tenant.prototype.addTenant = function (data, cb) {
 	});
 };
 
-
 Tenant.prototype.deleteTenant = function (data, cb) {
 	let __self = this;
 	
