@@ -56,7 +56,7 @@ let listTenantsSchema = {
                                         "type": "object",
                                         "required": true,
                                         "properties": {
-                                            "key": {"type": "string", "required": true},
+                                            "key": {"type": "string", "required": false},
                                             "extKeys": {
                                                 "type": "array",
                                                 "required": true,
