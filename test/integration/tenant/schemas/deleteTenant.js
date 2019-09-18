@@ -8,8 +8,18 @@ let deleteTenantsSchema = {
             "required": true
         },
         "data": {
-            "type": "boolean",
+            "type": "object",
             "required": false,
+            "properties": {
+                "n": {
+                    "type": "integer",
+                    "required": true
+                },
+                "ok": {
+                    "type": "integer",
+                    "required": true
+                }
+            }
         },
         "errors": {
             "type": "object",

@@ -23,7 +23,7 @@ describe("starting tenant integration tests", () => {
 
 
         // DELETE
-
+        require("./delete/deleteTenant.test.js");
 
         done();
     });

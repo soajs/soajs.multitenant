@@ -13,8 +13,8 @@ let lib = {
 		type: 2.0,
 		loginMode: "urac"
 	},
-	"code": "test",
-	"name": "Test Tenant",
+	"code": "test2",
+	"name": "Test 2 Tenant",
 	"description": "this is a description for test tenant",
 	"applications": [
 		{

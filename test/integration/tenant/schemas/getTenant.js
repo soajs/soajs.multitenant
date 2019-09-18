@@ -18,8 +18,15 @@ let getTenantsSchema = {
                 "description": {"type": "string", "required": false},
                 "type": {"type": "string", "required": false},
                 "tag": {"type": "string", "required": false},
-                "oauth": {"type": "object", "required": false}, // TODO: Change when oauth schema created
-                "applications": {"type": "array", "required": false}, // TODO: Change when applications schema created
+                "console": {"type": "boolean", "required": false},
+                "oauth": {
+                    "type": "object",
+                    "required": false
+                },
+                "applications": {
+                    "type": "array",
+                    "required": false
+                },
             }
         },
         "errors": {

@@ -170,6 +170,18 @@ describe("Unit test for: Model - tenant", () => {
             });
         });
 
+        it("Success - listAllTenants - data", (done) => {
+            model.listAllTenants({
+                fields: [
+                    'code'
+                ]
+            }, (err, records) => {
+                assert.ok(records);
+                assert.ok(records.length > 0);
+                done();
+            });
+        });
+
         it("Fails - countTenants - null data", (done) => {
             model.countTenants(null, (err, count) => {
                 assert.ok(err);
@@ -186,9 +198,14 @@ describe("Unit test for: Model - tenant", () => {
             });
         });
 
+        it("Success - generateId", (done) => {
+            let id = model.generateId(() => {});
+            assert.ok(id);
+            done();
+        });
+
         let addedRecord;
 
-        //TODO: Continue
         it("Success - addTenant - data", (done) => {
             let inputmaskData = {
                 name: 'test2',
