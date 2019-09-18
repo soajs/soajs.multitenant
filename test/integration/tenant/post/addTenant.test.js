@@ -18,8 +18,17 @@ describe("Testing add tenant API", () => {
         done();
     });
 
-    it("Success - will add tenant record - input", (done) => {
-        let params = {};
+    it("Success - will add tenant record - tenant only ", (done) => {
+        let params = {
+            body: {
+                "name": "tenant only",
+                "code": "ttoc",
+                "description": "3221",
+                "type": "product",
+                "profile": {},
+                "tag": "tag"
+            }
+        };
         requester('/tenant', 'post', params, (error, body) => {
             assert.ifError(error);
             assert.ok(body);
@@ -32,14 +41,26 @@ describe("Testing add tenant API", () => {
         });
     });
 
-    it("Success - will return product record - code", (done) => {
+    it("Success - will return tenant record - code", (done) => {
         let params = {
             qs: {
-                code: ''
+                code: 'ttoc'
             }
         };
         requester('/tenant', 'get', params, (error, body) => {
             assert.ok(body);
+            assert.ok(body.data);
+            assert.deepEqual(body.data.oauth, {
+                "secret": "this is a secret",
+                "redirectURI": "http://domain.com",
+                "grants": [
+                    "password",
+                    "refresh_token"
+                ],
+                "disabled": 1,
+                "type": 2,
+                "loginMode": "urac"
+            });
             let check = validator.validate(body, getTenantsSchema);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);
