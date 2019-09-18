@@ -116,13 +116,12 @@ let bl = {
 	"add": (soajs, inputmaskData, cb) => {
 		const provision = core.provision;
 		const soajsCore = core.core;
-		console.log("---------inputmaskData----------")
-		console.log(JSON.stringify(inputmaskData, null, 2))
 		if (!inputmaskData) {
 			return cb(bl.handleError(soajs, 400, null));
 		}
 		let modelObj = bl.mp.getModel(soajs);
 		let record = {
+			"_id": modelObj.generateId(),
 			"type": inputmaskData.type,
 			"code": inputmaskData.code,
 			"name": inputmaskData.name,
@@ -156,6 +155,7 @@ let bl = {
 			checkSubTenant: checkSubTenant,
 			checkApplication: checkApplication,
 			checkCode: checkCode,
+			createExternalKey: createExternalKey,
 			insertRecord: insertRecord,
 		}, (err, result) => {
 			bl.mp.closeModel(soajs, modelObj);
@@ -234,7 +234,6 @@ let bl = {
 				}
 				
 				record.code = calculateCode(tenantCodes, bl.localConfig.tenant.generatedCodeLength);
-				console.log("code ", record.code)
 				return callback(null);
 			});
 		}
@@ -253,42 +252,39 @@ let bl = {
 		
 		function checkApplication(callback) {
 			if (!inputmaskData.application) {
-				console.log("no application found")
 				return callback(null);
 			} else {
 				let newApplication = {
-					"product": inputmaskData.productCode,
-					"package": inputmaskData.productCode + '_' + inputmaskData.packageCode,
-					"appId": modelObj.generateId(soajs),
-					"description": inputmaskData.description || '',
-					"_TTL": inputmaskData._TTL * 3600 * 1000, // 24 hours
+					"product": inputmaskData.application.productCode,
+					"package": inputmaskData.application.productCode + '_' + inputmaskData.application.packageCode,
+					"appId": modelObj.generateId(),
+					"description": inputmaskData.application.description || '',
+					"_TTL": inputmaskData.application._TTL * 3600 * 1000, // 24 hours
 					"keys": []
 				};
 				
 				let oneKey = {};
 				createOrUseKey(function (error, internalKey) {
 					if (error) {
-						return cb(bl.handleError(soajs, 602, null));
+						return cb(bl.handleError(soajs, 602, error));
 					}
 					if (!internalKey) {
 						record.applications.push(newApplication);
 						return callback(null);
 					}
-					
-					
 					oneKey.key = internalKey;
-					if (oneKey.application.config) {
-						oneKey.config = oneKey.application.config;
-					}
-					oneKey.application.extKeys = [];
-					createExternalKey(internalKey, function (error, extKey) {
+					oneKey.config = inputmaskData.application.appKey.config ? inputmaskData.application.appKey.config : {};
+					oneKey.extKeys = [];
+					newApplication.keys.push(oneKey);
+					record.applications.push(newApplication);
+					createExternalKey((error, extKey) => {
 						if (error) {
 							return cb(bl.handleError(soajs, 602, null));
 						}
 						if (extKey) {
-							oneKey.application.extKeys.push(extKey);
+							record.applications[0].keys[0].extKeys.push(extKey);
 						}
-						record.applications.push(newApplication);
+						return callback(null);
 					});
 					
 				});
@@ -303,9 +299,9 @@ let bl = {
 			}
 		}
 		
-		function createExternalKey(internalKey, callback) {
+		function createExternalKey(callback) {
 			if (inputmaskData.application.appKey.extKey) {
-				core.registry.loadByEnv({envCode: inputmaskData.application.appKey.extKey.env}, (err, envRecord) => {
+				soajsCore.registry.loadByEnv({envCode: inputmaskData.application.appKey.extKey.env}, (err, envRecord) => {
 					if (err) {
 						bl.mp.closeModel(soajs, modelObj);
 						return cb(bl.handleError(soajs, 602, err));
@@ -316,43 +312,39 @@ let bl = {
 					}
 					soajsCore.key.generateExternalKey(record.applications[0].keys[0].key, {
 						id: record._id,
-						code: record.code,
-						locked: false
+						"code": record.code,
+						"locked": false
 					}, {
-						product: record.applications[0].product,
-						package: record.applications[0].package,
-						appId: record.applications[0].appId.toString(),
-					}, envRecord.services.config.key, function (error, extKeyValue) {
+						"product": inputmaskData.application.productCode,
+						"package": inputmaskData.application.productCode + '_' + inputmaskData.application.packageCode,
+						"appId": record.applications[0].appId.toString(),
+					}, envRecord.serviceConfig.key, function (error, extKeyValue) {
 						if (error) {
 							bl.mp.closeModel(soajs, modelObj);
 							return cb(bl.handleError(soajs, 501, error));
 						}
 						let newExtKey = {
 							"extKey": extKeyValue,
-							"device": inputmaskData.application.extKey.device ? inputmaskData.application.extKey.device : null,
-							"geo": inputmaskData.application.extKey.geo ? inputmaskData.application.extKey.geo : null,
-							"env": envRecord.code.toUpperCase(),
-							"dashboardAccess": false,
-							"label": inputmaskData.application.extKey.label,
-							"expDate": (inputmaskData.application.extKey.expDate) ? new Date(inputmaskData.application.extKey.expDate).getTime() + bl.localConfig.tenant.expDateTTL : null
+							"device": inputmaskData.application.appKey.extKey.device ? inputmaskData.application.appKey.extKey.device : null,
+							"geo": inputmaskData.application.appKey.extKey.geo ? inputmaskData.application.appKey.extKey.geo : null,
+							"env": inputmaskData.application.appKey.extKey.env.toUpperCase(),
+							"label": inputmaskData.application.appKey.extKey.label,
+							"expDate": (inputmaskData.application.appKey.extKey.expDate) ? new Date(inputmaskData.application.appKey.extKey.expDate).getTime() + bl.localConfig.tenant.expDateTTL : null
 						};
 						return callback(null, newExtKey);
 					});
 				});
-				
-				
 			} else {
-				return callback(null);
+				return callback(null, record);
 			}
 		}
 		
 		function insertRecord(callback) {
-			console.log("insert Record")
 			modelObj.addTenant(record, (err, response) => {
 				if (err) {
 					if (err.indexOf("code_1 dup key") !== -1 && !inputmaskData.code) {
 						record.code = calculateCode(tenantCodes, bl.localConfig.tenant.generatedCodeLength);
-						insertRecord(callback);
+						createExternalKey(insertRecord(callback))
 					} else {
 						bl.mp.closeModel(soajs, modelObj);
 						return cb(bl.handleError(soajs, 602, err), null);

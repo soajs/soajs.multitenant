@@ -132,8 +132,9 @@ Tenant.prototype.countTenants = function (data, cb) {
 	__self.mongoCore.count(colName, condition, cb);
 };
 
-Tenant.prototype.generateId = function (soajs) {
-	return new soajs.mongoDb.ObjectId();
+Tenant.prototype.generateId = function () {
+	let __self = this;
+	return __self.mongoCore.ObjectId();
 };
 
 Tenant.prototype.addTenant = function (data, cb) {

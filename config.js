@@ -352,7 +352,7 @@ module.exports = {
 								"type": "string",
 								"required": true
 							},
-							"productPackage": {
+							"packageCode": {
 								"type": "string",
 								"required": true
 							},
