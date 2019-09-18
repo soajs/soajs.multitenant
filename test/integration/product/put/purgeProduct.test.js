@@ -64,7 +64,7 @@ describe("Testing purge product API", () => {
 			assert.ifError(error);
 			assert.ok(body);
 			assert.ok(body.data);
-			assert.deepEqual(body.data.scope, {acl :{}})
+			assert.deepEqual(body.data.scope, {acl :{}});
 			body.data.packages.forEach((pack)=>{
 				assert.deepEqual(pack.acl, {});
 			});

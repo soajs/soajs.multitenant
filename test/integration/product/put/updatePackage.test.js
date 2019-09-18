@@ -82,7 +82,7 @@ before(function (done) {
             body.data.packages.forEach((pack)=>{
                 if (pack.code === "TEST2_NEWS"){
                     found = true;
-                    packFound = pack
+                    packFound = pack;
                 }
             });
             assert.ok(found);

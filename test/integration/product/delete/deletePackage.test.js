@@ -73,7 +73,7 @@ describe("Testing delete Package API", () => {
             body.data.packages.forEach((pack)=>{
                 if (pack.code === "TEST2_NEWS"){
                     found = true;
-                    packFound = pack
+                    packFound = pack;
                 }
             });
             assert.deepEqual(found, false);

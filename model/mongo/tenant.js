@@ -127,7 +127,7 @@ Tenant.prototype.countTenants = function (data, cb) {
 	};
 	
 	if (data.code){
-		condition.code = data.code
+		condition.code = data.code;
 	}
 	__self.mongoCore.count(colName, condition, cb);
 };

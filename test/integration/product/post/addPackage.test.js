@@ -82,7 +82,7 @@ describe("Testing Add Package API", () => {
 			body.data.packages.forEach((pack)=>{
 				if (pack.code === "TEST2_ELAS"){
 					found = true;
-					packFound = pack
+					packFound = pack;
 				}
 			});
 			assert.ok(found);

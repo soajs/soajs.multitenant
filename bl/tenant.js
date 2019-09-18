@@ -339,7 +339,7 @@ let bl = {
 							if (extKey) {
 								record.applications[0].keys[0].extKeys = [extKey];
 							}
-							insertRecord(callback)
+							insertRecord(callback);
 						});
 					} else {
 						bl.mp.closeModel(soajs, modelObj);

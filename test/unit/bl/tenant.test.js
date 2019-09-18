@@ -852,7 +852,7 @@ describe("Unit test for: BL - tenant", () => {
 						}
 					},
 					key: {
-						generateExternalKey: (key, {}, {}, {}, cb) => {
+						generateExternalKey: (key, opt, opt1, opt2, cb) => {
 							return cb(null, "2313131312312");
 						}
 					}
@@ -1015,18 +1015,18 @@ describe("Unit test for: BL - tenant", () => {
 				core: {
 					registry: {
 						loadByEnv: (env, cb) => {
-							return cb(null, {code: "KUBE", serviceConfig: {key: "test"}})
+							return cb(null, {code: "KUBE", serviceConfig: {key: "test"}});
 						}
 					},
 					key: {
-						generateExternalKey: (key, {}, {}, {}, cb) => {
+						generateExternalKey: (key, opt, opt1, opt2, cb) => {
 							return cb(null, "2313131312312");
 						}
 					}
 				},
 				provision: {
 					generateInternalKey: (cb) => {
-						return cb(null, "232423423423432")
+						return cb(null, "232423423423432");
 					}
 				}
 			};
@@ -1192,18 +1192,18 @@ describe("Unit test for: BL - tenant", () => {
 				core: {
 					registry: {
 						loadByEnv: (env, cb) => {
-							return cb(null, {code: "KUBE", serviceConfig: {key: "test"}})
+							return cb(null, {code: "KUBE", serviceConfig: {key: "test"}});
 						}
 					},
 					key: {
-						generateExternalKey: (key, {}, {}, {}, cb) => {
+						generateExternalKey: (key, opt, opt1, opt2, cb) => {
 							return cb(null, "2313131312312");
 						}
 					}
 				},
 				provision: {
 					generateInternalKey: (cb) => {
-						return cb(null, "232423423423432")
+						return cb(null, "232423423423432");
 					}
 				}
 			};
@@ -1766,18 +1766,18 @@ describe("Unit test for: BL - tenant", () => {
 				core: {
 					registry: {
 						loadByEnv: (env, cb) => {
-							return cb(null, {code: "KUBE", serviceConfig: {key: "test"}})
+							return cb(null, {code: "KUBE", serviceConfig: {key: "test"}});
 						}
 					},
 					key: {
-						generateExternalKey: (key, {}, {}, {}, cb) => {
+						generateExternalKey: (key, opt, opt1, opt2, cb) => {
 							return cb(null, "2313131312312");
 						}
 					}
 				},
 				provision: {
 					generateInternalKey: (cb) => {
-						return cb(null, "232423423423432")
+						return cb(null, "232423423423432");
 					}
 				}
 			};
@@ -1885,18 +1885,18 @@ describe("Unit test for: BL - tenant", () => {
 				core: {
 					registry: {
 						loadByEnv: (env, cb) => {
-							return cb(null, {code: "KUBE", serviceConfig: {key: "test"}})
+							return cb(null, {code: "KUBE", serviceConfig: {key: "test"}});
 						}
 					},
 					key: {
-						generateExternalKey: (key, {}, {}, {}, cb) => {
+						generateExternalKey: (key, opt, opt1, opt2, cb) => {
 							return cb(null, "2313131312312");
 						}
 					}
 				},
 				provision: {
 					generateInternalKey: (cb) => {
-						return cb(true, "232423423423432")
+						return cb(true, "232423423423432");
 					}
 				}
 			};
@@ -2004,18 +2004,18 @@ describe("Unit test for: BL - tenant", () => {
 				core: {
 					registry: {
 						loadByEnv: (env, cb) => {
-							return cb(null, {code: "KUBE", serviceConfig: {key: "test"}})
+							return cb(null, {code: "KUBE", serviceConfig: {key: "test"}});
 						}
 					},
 					key: {
-						generateExternalKey: (key, {}, {}, {}, cb) => {
+						generateExternalKey: (key, opt, opt1, opt2, cb) => {
 							return cb(true, "2313131312312");
 						}
 					}
 				},
 				provision: {
 					generateInternalKey: (cb) => {
-						return cb(null, "232423423423432")
+						return cb(null, "232423423423432");
 					}
 				}
 			};
@@ -2123,18 +2123,18 @@ describe("Unit test for: BL - tenant", () => {
 				core: {
 					registry: {
 						loadByEnv: (env, cb) => {
-							return cb(true, {code: "KUBE", serviceConfig: {key: "test"}})
+							return cb(true, {code: "KUBE", serviceConfig: {key: "test"}});
 						}
 					},
 					key: {
-						generateExternalKey: (key, {}, {}, {}, cb) => {
+						generateExternalKey: (key, opt, opt1, opt2, cb) => {
 							return cb(null, "2313131312312");
 						}
 					}
 				},
 				provision: {
 					generateInternalKey: (cb) => {
-						return cb(null, "232423423423432")
+						return cb(null, "232423423423432");
 					}
 				}
 			};
@@ -2246,14 +2246,14 @@ describe("Unit test for: BL - tenant", () => {
 						}
 					},
 					key: {
-						generateExternalKey: (key, {}, {}, {}, cb) => {
+						generateExternalKey: (key, opt, opt1, opt2, cb) => {
 							return cb(null, "2313131312312");
 						}
 					}
 				},
 				provision: {
 					generateInternalKey: (cb) => {
-						return cb(null, "232423423423432")
+						return cb(null, "232423423423432");
 					}
 				}
 			};
@@ -2402,18 +2402,18 @@ describe("Unit test for: BL - tenant", () => {
 				core: {
 					registry: {
 						loadByEnv: (env, cb) => {
-							return cb(null, {code: "KUBE", serviceConfig: {key: "test"}})
+							return cb(null, {code: "KUBE", serviceConfig: {key: "test"}});
 						}
 					},
 					key: {
-						generateExternalKey: (key, {}, {}, {}, cb) => {
+						generateExternalKey: (key, opt, opt1, opt2, cb) => {
 							return cb(null, "2313131312312");
 						}
 					}
 				},
 				provision: {
 					generateInternalKey: (cb) => {
-						return cb(null, "232423423423432")
+						return cb(null, "232423423423432");
 					}
 				}
 			};
@@ -2602,7 +2602,6 @@ describe("Unit test for: BL - tenant", () => {
 				},
 			};
 			BL.delete(soajs, {}, (err, record) => {
-				console.log(JSON.stringify(err, null, 2))
 				assert.ok(err);
 				assert.deepEqual(err, {
 					code: 462,
