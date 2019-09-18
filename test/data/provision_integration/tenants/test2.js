@@ -11,7 +11,12 @@ let lib = {
 		],
 		disabled: 0,
 		type: 2.0,
-		loginMode: "urac"
+		loginMode: "urac",
+		pin: {
+			DSBRD: {
+				enabled: false
+			}
+		},
 	},
 	"code": "test2",
 	"name": "Test 2 Tenant",

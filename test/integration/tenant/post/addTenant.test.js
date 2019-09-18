@@ -33,7 +33,6 @@ describe("Testing add tenant API", () => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.data);
-            assert.ok(body.data.length > 0);
             let check = validator.validate(body, addTenantSchema);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);
@@ -73,8 +72,9 @@ describe("Testing add tenant API", () => {
         let params = {};
 
         requester('/tenant', 'post', params, (error, body) => {
-            assert.ok(error);
-
+            assert.ok(body);
+            assert.ok(body.errors);
+            assert.deepEqual(body.errors.details, [ { code: 172, message: 'Missing required field: name' } ]);
             let check = validator.validate(body, addTenantSchema);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);

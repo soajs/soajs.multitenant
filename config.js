@@ -335,6 +335,10 @@ module.exports = {
 								"type": "string",
 								"required": true,
 								"enum": ["urac", "oauth"]
+							},
+							"pin": {
+								"type": "object",
+								"required": false,
 							}
 						}
 					}
