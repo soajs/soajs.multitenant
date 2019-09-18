@@ -122,6 +122,14 @@ service.init(() => {
 		    });
 	    });
 
+        //* DELETE
+
+        service.delete("/tenants", (req, res) => {
+            bl.tenant.delete(req.soajs, req.soajs.inputmaskData, (error, data) => {
+                return res.json(req.soajs.buildResponse(error, data));
+            });
+        });
+
         service.start();
     });
 });

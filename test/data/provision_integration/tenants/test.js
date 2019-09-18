@@ -24,7 +24,8 @@ let lib = {
 			"acl": {
 				"urac": {},
 				"oauth": {},
-				"dashboard": {}
+				"dashboard": {},
+				"multitenant": {}
 			},
 			"_TTL": 7 * 24 * 3600 * 1000, // 7 days hours
 			"keys": [
@@ -150,7 +151,8 @@ let lib = {
 			"acl": {
 				"urac": {},
 				"oauth": {},
-				"dashboard": {}
+				"dashboard": {},
+				"multitenant": {}
 			},
 			"keys": [
 				{
@@ -179,7 +181,8 @@ let lib = {
 				}
 			]
 		}
-	]
+	],
+	console: false
 };
 
 module.exports = lib;

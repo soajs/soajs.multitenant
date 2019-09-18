@@ -12,6 +12,8 @@ describe("Unit test for: BL - tenant", () => {
 
                 450: "Unable to find tenant",
                 461: "Unable to find packages.",
+                462: "You are not allowed to remove the tenant you are currently logged in with",
+
                 466: "You are not allowed to remove the product you are currently logged in with.",
                 467: "Package already exists",
                 468: "Product already exists.",
@@ -28,6 +30,7 @@ describe("Unit test for: BL - tenant", () => {
             },
         },
         tenant: {
+            id: "5c0e74ba9acc3c5a84a51259",
             application: {
                 product: "TPROD",
                 package: "TPROD_TEST",
@@ -54,7 +57,6 @@ describe("Unit test for: BL - tenant", () => {
             };
             BL.list(soajs, {}, (err, records) => {
                 assert.ok(records);
-                console.log("recordas", records);
                 assert(Array.isArray(records));
                 done();
             });
@@ -432,4 +434,208 @@ describe("Unit test for: BL - tenant", () => {
         });
     });
 
+    describe.skip("Testing Add tenant", () => {
+        afterEach((done) => {
+            BL.modelObj = null;
+            done();
+        });
+
+        it("Success - add tenant - data", (done) => {
+            let inputMask = {
+            };
+
+            BL.modelObj = {
+                //TODO: ADD needed Model Functions
+            };
+
+            BL.add(soajs, inputMask, (err, record) => {
+                assert.ok(record);
+                done();
+            });
+        });
+
+        it("Fails - add tenant - null data", (done) => {
+            BL.modelObj = {
+                //TODO: ADD needed Model Functions
+            };
+
+            BL.add(soajs, null, (err, record) => {
+                assert.ok(err);
+                done();
+            });
+        });
+
+        it("Fails - add tenant - empty data", (done) => {
+            BL.modelObj = {
+                //TODO: ADD needed Model Functions
+            };
+
+            BL.add(soajs, {}, (err, record) => {
+                assert.ok(err);
+                done();
+            });
+        });
+
+        it("Fails - add tenant - tenant exist", (done) => {
+            BL.modelObj = {
+                //TODO: ADD needed Model Functions
+            };
+
+            BL.add(soajs, {}, (err, record) => {
+                assert.ok(err);
+                done();
+            });
+        });
+    });
+
+    describe("Testing  Delete tenant", () => {
+        afterEach((done) => {
+            BL.modelObj = null;
+            done();
+        });
+
+        it("Success - delete tenant - data", (done) => {
+            let inputMask = {
+                "id": "SomeID",
+                "code": "test",
+            };
+
+            BL.modelObj = {
+                getTenant: (inputMask, cb) => {
+                    return cb(null, {
+                        "id": "SomeID",
+                        "code": "test",
+                        "name": "Test Tenant",
+                        "description": "this is a description for test tenant",
+                    });
+                },
+                deleteTenant: (inputMask, cb) => {
+                    return cb(null, true);
+                }
+            };
+
+            BL.delete(soajs, inputMask, (err, record) => {
+                assert.ok(record);
+                assert.deepEqual(record, true);
+                done();
+            });
+        });
+
+        it("Fails - delete tenant - null data", (done) => {
+            BL.modelObj = {
+            };
+
+            BL.delete(soajs, null, (err, record) => {
+                assert.ok(err);
+                assert.deepEqual(err, {
+                    code: 400,
+                    msg: soajs.config.errors[400]
+                });
+                done();
+            });
+        });
+
+        it("Fails - delete tenant - getTenant Error", (done) => {
+            BL.modelObj = {
+                getTenant: (inputMask, cb) => {
+                    return cb(true, null);
+                },
+                deleteTenant: (inputMask, cb) => {
+                    return cb(null, null);
+                }
+            };
+
+            BL.delete(soajs, {}, (err, record) => {
+                assert.ok(err);
+                assert.deepEqual(err.code, 602);
+                done();
+            });
+        });
+
+        it("Fails - delete tenant - deleteTenant Error", (done) => {
+            BL.modelObj = {
+                getTenant: (inputMask, cb) => {
+                    return cb(null, {
+                        "code": "test",
+                        "name": "Test Tenant",
+                        "description": "this is a description for test tenant",
+                    });
+                },
+                deleteTenant: (inputMask, cb) => {
+                    return cb(true, null);
+                }
+            };
+
+            BL.delete(soajs, {}, (err, record) => {
+                assert.ok(err);
+                assert.deepEqual(err.code, 602);
+                done();
+            });
+        });
+
+        it("Fails - delete tenant - no record", (done) => {
+            BL.modelObj = {
+                getTenant: (inputMask, cb) => {
+                    return cb(null, null);
+                },
+                deleteTenant: (inputMask, cb) => {
+                    return cb(null, true);
+                }
+            };
+
+            BL.delete(soajs, {}, (err, record) => {
+                assert.ok(err);
+                assert.deepEqual(err, {
+                    code: 450,
+                    msg: soajs.config.errors[450]
+                });
+                done();
+            });
+        });
+
+        it("Fails - delete tenant - locked record", (done) => {
+            BL.modelObj = {
+                getTenant: (inputMask, cb) => {
+                    return cb(null, {
+                        locked: true,
+                        console: true
+                    });
+                },
+                deleteTenant: (inputMask, cb) => {
+                    return cb(null, true);
+                }
+            };
+
+            BL.delete(soajs, {}, (err, record) => {
+                assert.ok(err);
+                assert.deepEqual(err, {
+                    code: 500,
+                    msg: soajs.config.errors[500]
+                });
+                done();
+            });
+        });
+
+        it("Fails - delete tenant - tenant logged in with", (done) => {
+            BL.modelObj = {
+                getTenant: (inputMask, cb) => {
+                    return cb(null, {
+                        _id: "5c0e74ba9acc3c5a84a51259"
+                    });
+                },
+                deleteTenant: (inputMask, cb) => {
+                    return cb(null, true);
+                }
+            };
+
+            BL.delete(soajs, {}, (err, record) => {
+                assert.ok(err);
+                assert.deepEqual(err, {
+                    code: 462,
+                    msg: soajs.config.errors[462]
+                });
+                done();
+            });
+        });
+    });
 });

@@ -444,7 +444,26 @@ module.exports = {
 					}
 				}
 			},
-			
+			"/tenant": {
+				_apiInfo: {
+					"l": "Delete Tenant",
+					"group": "Tenant"
+				},
+				"id": {
+					"source": ['query.id'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"code": {
+					"source": ['query.code'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				}
+			}
 		},
 		
 		"put": {

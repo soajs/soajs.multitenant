@@ -1,11 +1,17 @@
 'use strict';
 let lib = {
+	_id: '5c0e74ba9acc3c5a84a51259',
 	type: "product",
 	code: "DBTN",
 	name: "Console Tenant",
 	description: "This is the tenant that holds the access rights and configuration for the console users with DSBRD_GUEST as Guest default package",
 	oauth: {
 		secret: "this is a secret",
+		pin: {
+			DSBRD: {
+				enabled: false
+			}
+		},
 		disabled: 0,
 		type: 2,
 		loginMode: "urac"
@@ -86,7 +92,8 @@ let lib = {
 			]
 		}
 	],
-	tag: "Console"
+	tag: "Console",
+	console: true
 };
 
 module.exports = lib;

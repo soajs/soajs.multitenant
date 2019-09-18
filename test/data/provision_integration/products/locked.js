@@ -1,6 +1,7 @@
 'use strict';
 
 let lib = {
+	"_id": "5512867be603d7e01ab1688d",
 	"code": "DSBRD",
 	"name": "Console UI Product",
 	"description": "This is the main Console UI Product.",
@@ -188,39 +189,6 @@ let lib = {
 				},
 				"multitenant": {
 					"1": {
-						"access": false,
-						"get": [
-							{
-								"group": "Product"
-							},
-							{
-								"group": "Tenant"
-							},
-						],
-						"post": [
-							{
-								"group": "Product"
-							},
-							{
-								"group": "Tenant"
-							},
-						],
-						"put": [
-							{
-								"group": "Product"
-							},
-							{
-								"group": "Tenant"
-							},
-						],
-						"delete": [
-							{
-								"group": "Product"
-							},
-							{
-								"group": "Tenant"
-							},
-						]
 					}
 				},
 			}
@@ -273,6 +241,7 @@ let lib = {
 							"version": "1",
 							"get": [
 								"Product",
+								"Console product",
 								"Tenant"
 							],
 							"post": [
@@ -441,23 +410,7 @@ let lib = {
 					],
 					"multitenant": [
 						{
-							"version": "1",
-							"get": [
-								"Product",
-								"Tenant"
-							],
-							"post": [
-								"Product",
-								"Tenant"
-							],
-							"delete": [
-								"Product",
-								"Tenant"
-							],
-							"put":[
-								"Product",
-								"Tenant"
-							]
+							"version": "1"
 						}
 					]
 				}
@@ -508,6 +461,7 @@ let lib = {
 							"version": "1",
 							"get": [
 								"Product",
+								"Console product",
 								"Tenant"
 							],
 							"post": [
@@ -518,7 +472,7 @@ let lib = {
 								"Product",
 								"Tenant"
 							],
-							"put": [
+							"put":[
 								"Product",
 								"Tenant"
 							]
@@ -732,6 +686,7 @@ let lib = {
 							"version": "1",
 							"get": [
 								"Product",
+								"Console product",
 								"Tenant"
 							],
 							"post": [

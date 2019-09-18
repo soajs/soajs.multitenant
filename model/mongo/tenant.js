@@ -1,6 +1,5 @@
 "use strict";
 const colName = "tenants";
-const envColName = "tenants";
 const core = require("soajs");
 const Mongo = core.mongo;
 
@@ -137,20 +136,6 @@ Tenant.prototype.generateId = function (soajs) {
 	return new soajs.mongoDb.ObjectId();
 };
 
-Tenant.prototype.getEnvironment = function (data, cb) {
-	let __self = this;
-	if (!data || !(data.code)) {
-		let error = new Error("code is required.");
-		return cb(error, null);
-	}
-	
-	let opt = {
-		code : data.code
-	};
-	
-	__self.mongoCore.find(envColName, opt, null, null, cb);
-};
-
 Tenant.prototype.addTenant = function (data, cb) {
 	let __self = this;
 	
@@ -165,6 +150,26 @@ Tenant.prototype.addTenant = function (data, cb) {
 	});
 };
 
+
+Tenant.prototype.deleteTenant = function (data, cb) {
+	let __self = this;
+	
+	if (!data || !(data._id || data.code)) {
+		let error = new Error("id or code is required.");
+		return cb(error, null);
+	}
+	
+	let condition = {};
+	
+	if (data._id) {
+		condition._id = data._id;
+	} else {
+		condition.code = data.code;
+	}
+	__self.mongoCore.remove(colName, condition, (err, count) => {
+		return cb(err, count);
+	});
+};
 Tenant.prototype.closeConnection = function () {
 	let __self = this;
 	__self.mongoCore.closeDb();
