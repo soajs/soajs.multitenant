@@ -342,9 +342,17 @@ let bl = {
 		function insertRecord(callback) {
 			modelObj.addTenant(record, (err, response) => {
 				if (err) {
-					if (err.indexOf("code_1 dup key") !== -1 && !inputmaskData.code) {
+					if (err.message.indexOf("code_1 dup key") !== -1 && !inputmaskData.code) {
 						record.code = calculateCode(tenantCodes, bl.localConfig.tenant.generatedCodeLength);
-						createExternalKey(insertRecord(callback))
+						createExternalKey((err, extKey) => {
+							if (err) {
+								return cb(bl.handleError(soajs, 602, err));
+							}
+							if (extKey) {
+								record.applications[0].keys[0].extKeys = [extKey];
+							}
+							insertRecord(callback)
+						});
 					} else {
 						bl.mp.closeModel(soajs, modelObj);
 						return cb(bl.handleError(soajs, 602, err), null);
