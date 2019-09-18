@@ -20,7 +20,7 @@ describe("starting integration tests", () => {
                 multitenant = helper.requireModule('./index');
                 setTimeout(function () {
                     done();
-                }, 1500);
+                }, 5000);
             }, 1000);
         });
     });
