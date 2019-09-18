@@ -53,8 +53,7 @@ let addTenantsSchema = {
                                     "type": "object",
                                     "required": true,
                                     "properties": {
-                                        "key": {"type": "string", "required": true},
-                                        "extKeys": {
+                                        "key": {"type": "string", "required": false},                                        "extKeys": {
                                             "type": "array",
                                             "required": true,
                                             "items": {
