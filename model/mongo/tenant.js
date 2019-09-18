@@ -1,35 +1,36 @@
 "use strict";
 const colName = "tenants";
+const envColName = "tenants";
 const core = require("soajs");
 const Mongo = core.mongo;
 
 let indexing = {};
 
 function Tenant(service, options, mongoCore) {
-    let __self = this;
-
-    if (mongoCore) {
-        __self.mongoCore = mongoCore;
-    }
-    if (!__self.mongoCore) {
-        if (options && options.dbConfig) {
-            __self.mongoCore = new Mongo(options.dbConfig);
-        } else {
-            let registry = service.registry.get();
-            __self.mongoCore = new Mongo(registry.coreDB.provision);
-        }
-    }
-    let index = "default";
-    if (options && options.index) {
-        index = options.index;
-    }
-    if (indexing && !indexing[index]) {
-        indexing[index] = true;
-        __self.mongoCore.createIndex(colName, {'code': 1}, {unique: true}, (err, result) => {
-        });
-
-        service.log.debug("Tenant: Indexes for " + index + " Updated!");
-    }
+	let __self = this;
+	
+	if (mongoCore) {
+		__self.mongoCore = mongoCore;
+	}
+	if (!__self.mongoCore) {
+		if (options && options.dbConfig) {
+			__self.mongoCore = new Mongo(options.dbConfig);
+		} else {
+			let registry = service.registry.get();
+			__self.mongoCore = new Mongo(registry.coreDB.provision);
+		}
+	}
+	let index = "default";
+	if (options && options.index) {
+		index = options.index;
+	}
+	if (indexing && !indexing[index]) {
+		indexing[index] = true;
+		__self.mongoCore.createIndex(colName, {'code': 1}, {unique: true}, (err, result) => {
+		});
+		
+		service.log.debug("Tenant: Indexes for " + index + " Updated!");
+	}
 }
 
 Tenant.prototype.validateId = function (id, cb) {
@@ -56,7 +57,7 @@ Tenant.prototype.getTenant = function (data, cb) {
 	}
 	
 	let condition = {
-		'$and' : [{
+		'$and': [{
 			"$or": [
 				{console: false},
 				{console: null}
@@ -83,11 +84,9 @@ Tenant.prototype.getTenant = function (data, cb) {
 
 Tenant.prototype.listTenants = function (data, cb) {
 	let __self = this;
-
-	//TODO: assert null input
 	
 	let condition = {
-		'$and' : [{
+		'$and': [{
 			"$or": [
 				{console: false},
 				{console: null}
@@ -95,15 +94,80 @@ Tenant.prototype.listTenants = function (data, cb) {
 		}]
 	};
 	
-	if (data.type){
+	if (data && data.type) {
 		condition["$and"].push({'type': data.type});
 	}
 	__self.mongoCore.find(colName, condition, null, null, cb);
 };
 
+Tenant.prototype.listAllTenants = function (data, cb) {
+	let __self = this;
+	
+	let fields = null;
+	if (data) {
+		if (data.fields && Array.isArray(data.fields) && data.fields.length > 0) {
+			fields = {};
+			data.fields.forEach((oneField) => {
+				fields[oneField] = 1;
+			});
+		}
+	}
+	
+	__self.mongoCore.find(colName, {}, fields, null, cb);
+};
+
+Tenant.prototype.countTenants = function (data, cb) {
+	let __self = this;
+	if (!data || !(data.name)) {
+		let error = new Error("name is required.");
+		return cb(error, null);
+	}
+	
+	let condition = {
+		name : data.name
+	};
+	
+	if (data.code){
+		condition.code = data.code
+	}
+	__self.mongoCore.count(colName, condition, cb);
+};
+
+Tenant.prototype.generateId = function (soajs) {
+	return new soajs.mongoDb.ObjectId();
+};
+
+Tenant.prototype.getEnvironment = function (data, cb) {
+	let __self = this;
+	if (!data || !(data.code)) {
+		let error = new Error("code is required.");
+		return cb(error, null);
+	}
+	
+	let opt = {
+		code : data.code
+	};
+	
+	__self.mongoCore.find(envColName, opt, null, null, cb);
+};
+
+Tenant.prototype.addTenant = function (data, cb) {
+	let __self = this;
+	
+	if (!data || !data.code || !data.name) {
+		let error = new Error("name and code are required.");
+		return cb(error, null);
+	}
+	__self.mongoCore.insert(colName, data, (err, record) => {
+		if (record && Array.isArray(record))
+			record = record [0];
+		return cb(err, record);
+	});
+};
+
 Tenant.prototype.closeConnection = function () {
-    let __self = this;
-    __self.mongoCore.closeDb();
+	let __self = this;
+	__self.mongoCore.closeDb();
 };
 
 module.exports = Tenant;
