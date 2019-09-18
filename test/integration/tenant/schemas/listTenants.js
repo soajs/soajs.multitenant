@@ -21,14 +21,60 @@ let listTenantsSchema = {
                     "description": {"type": "string", "required": false},
                     "type": {"type": "string", "required": false},
                     "tag": {"type": "string", "required": false},
+                    "profile": {"type": "object", "required": false},
                     "console": {"type": "boolean", "required": false},
                     "oauth": {
                         "type": "object",
-                        "required": false
+                        "required": true,
+                        "additionalProperties": false,
+                        "properties": {
+                            "secret": {"type": "string", "required": true},
+                            "redirectURI": {"type": "string", "required": true},
+                            "grants": {"type": "array", "required": true},
+                            "pin": {"type": "object", "required": false},
+                            "disabled": {"type": "integer", "required": true},
+                            "type": {"type": "integer", "required": true},
+                            "loginMode": {"type": "string", "required": true},
+                        }
                     },
                     "applications": {
                         "type": "array",
-                        "required": false
+                        "required": false,
+                        "items": {
+                            "type": "object",
+                            "required": false,
+                            "properties": {
+                                "product": {"type": "string", "required": true},
+                                "package": {"type": "string", "required": true},
+                                "description": {"type": "string", "required": false},
+                                "appId": {"type": "string", "required": true},
+                                "_TTL": {"type": "integer", "required": false},
+                                "keys": {
+                                    "type": "array",
+                                    "required": true,
+                                    "items": {
+                                        "type": "object",
+                                        "required": true,
+                                        "properties": {
+                                            "key": {"type": "string", "required": true},
+                                            "extKeys": {
+                                                "type": "array",
+                                                "required": true,
+                                                "items": {
+                                                    "extKey": {"type": "string", "required": true},
+                                                    "device": {"type": "string", "required": false},
+                                                    "geo": {"type": "string", "required": false},
+                                                    "env": {"type": "string", "required": true},
+                                                    "dashboardAccess": {"type": "boolean", "required": true},
+                                                    "expDate": {"type": "string", "required": false},
+                                                }
+                                            },
+                                            "config": {"type": "object", "required": false}
+                                        }
+                                    }
+                                },
+                            }
+                        }
                     },
                 }
             }

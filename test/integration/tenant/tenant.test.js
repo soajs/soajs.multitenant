@@ -17,7 +17,7 @@ describe("starting tenant integration tests", () => {
         require("./get/getTenant.test.js");
 
         // POST
-
+        require("./post/addTenant.test.js");
 
         // PUT
 
