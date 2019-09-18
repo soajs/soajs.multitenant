@@ -158,14 +158,14 @@ describe("Testing add tenant API", () => {
 				"description": "tenant product with application with ext",
 				"type": "product",
 				"application": {
-					"productCode": "tyrv",
-					"packageCode": "packageCode",
+					"productCode": "prod",
+					"packageCode": "pack",
 					"description" : "123",
 					"_TTL": "6",
 					"appKey": {
 						"extKey" :{
 							"label": "ttestkeylabel",
-							"env": "dashbaord"
+							"env": "DEV"
 						}
 					}
 				}

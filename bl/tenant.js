@@ -293,7 +293,7 @@ let bl = {
 		
 		function createExternalKey(callback) {
 			if (inputmaskData.application && inputmaskData.application.appKey && inputmaskData.application.appKey.extKey) {
-				soajsCore.registry.loadByEnv({envCode: inputmaskData.application.appKey.extKey.env}, (err, envRecord) => {
+				soajsCore.registry.loadByEnv({envCode: inputmaskData.application.appKey.extKey.env.toUpperCase()}, (err, envRecord) => {
 					if (err) {
 						bl.mp.closeModel(soajs, modelObj);
 						return cb(bl.handleError(soajs, 602, err));
