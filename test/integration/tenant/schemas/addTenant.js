@@ -58,8 +58,8 @@ let addTenantsSchema = {
                                             "required": true,
                                             "items": {
                                                 "extKey": {"type": "string", "required": true},
-                                                "device": {"type": "string", "required": false},
-                                                "geo": {"type": "string", "required": false},
+                                                "device": {"type": "object", "required": false},
+                                                "geo": {"type": "object", "required": false},
                                                 "env": {"type": "string", "required": true},
                                                 "dashboardAccess": {"type": "boolean", "required": true},
                                                 "expDate": {"type": "string", "required": false},
