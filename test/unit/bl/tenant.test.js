@@ -1218,6 +1218,10 @@ describe("Unit test for: BL - tenant", () => {
 			
 			BL.add(soajs, null, {}, (err, record) => {
 				assert.ok(err);
+				assert.deepEqual(err, {
+					code: 400,
+					msg: soajs.config.errors[400]
+				});
 				done();
 			});
 		});
@@ -1307,6 +1311,7 @@ describe("Unit test for: BL - tenant", () => {
 			};
 			BL.add(soajsClient, inputMask, {}, (err, record) => {
 				assert.ok(err);
+				assert.deepEqual(err.code, 602);
 				done();
 			});
 		});
@@ -1395,6 +1400,7 @@ describe("Unit test for: BL - tenant", () => {
 			};
 			BL.add(soajsClient, inputMask, {}, (err, record) => {
 				assert.ok(err);
+				assert.deepEqual(err.code, 451);
 				done();
 			});
 		});
@@ -1482,6 +1488,7 @@ describe("Unit test for: BL - tenant", () => {
 			};
 			BL.add(soajsClient, inputMask, {}, (err, record) => {
 				assert.ok(err);
+				assert.deepEqual(err.code, 452);
 				done();
 			});
 		});
@@ -1573,6 +1580,7 @@ describe("Unit test for: BL - tenant", () => {
 			};
 			BL.add(soajsClient, inputMask, {}, (err, record) => {
 				assert.ok(err);
+				assert.deepEqual(err.code, 602);
 				done();
 			});
 		});
@@ -1664,6 +1672,7 @@ describe("Unit test for: BL - tenant", () => {
 			};
 			BL.add(soajsClient, inputMask, {}, (err, record) => {
 				assert.ok(err);
+				assert.deepEqual(err.code, 453);
 				done();
 			});
 		});
@@ -1783,6 +1792,7 @@ describe("Unit test for: BL - tenant", () => {
 			};
 			BL.add(soajsClient, inputMask, soajs, (err, record) => {
 				assert.ok(err);
+				assert.deepEqual(err.code, 602);
 				done();
 			});
 		});
@@ -1902,6 +1912,7 @@ describe("Unit test for: BL - tenant", () => {
 			};
 			BL.add(soajsClient, inputMask, soajs, (err, record) => {
 				assert.ok(err);
+				assert.deepEqual(err.code, 602);
 				done();
 			});
 		});
@@ -2021,6 +2032,7 @@ describe("Unit test for: BL - tenant", () => {
 			};
 			BL.add(soajsClient, inputMask, soajs, (err, record) => {
 				assert.ok(err);
+				assert.deepEqual(err.code, 501);
 				done();
 			});
 		});
@@ -2140,6 +2152,7 @@ describe("Unit test for: BL - tenant", () => {
 			};
 			BL.add(soajsClient, inputMask, soajs, (err, record) => {
 				assert.ok(err);
+				assert.deepEqual(err.code, 602);
 				done();
 			});
 		});
@@ -2259,6 +2272,7 @@ describe("Unit test for: BL - tenant", () => {
 			};
 			BL.add(soajsClient, inputMask, soajs, (err, record) => {
 				assert.ok(err);
+				assert.deepEqual(err.code, 501);
 				done();
 			});
 		});
@@ -2419,6 +2433,7 @@ describe("Unit test for: BL - tenant", () => {
 			};
 			BL.add(soajsClient, inputMask, soajs, (err, record) => {
 				assert.ok(err);
+				assert.deepEqual(err.code, 602);
 				done();
 			});
 		});
