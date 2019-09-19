@@ -9,19 +9,29 @@ describe("Unit test for: BL - product", () => {
     let soajs = {
         config: {
             "errors": {
-                400: "Business logic required data are missing.",
+                400: "Business logic required data are missing",
+                450: "Unable to find tenant",
+                451: "Tenant already exists",
+                452: "Main Tenant id is required!",
+                453: "Main Tenant is not found!",
+                454: "Unable to add tenant application",
+                455: "Unable to add a new key to the tenant application",
+                456: "Unable to add the tenant application ext Key",
 
-                460: "Unable to find product.",
-                461: "Unable to find packages.",
-                466: "You are not allowed to remove the product you are currently logged in with.",
+                460: "Unable to find product",
+                461: "Unable to find package",
+                462: "You are not allowed to remove the tenant you are currently logged in with",
+                466: "You are not allowed to remove the product you are currently logged in with",
                 467: "Package already exists",
-                468: "Product already exists.",
+                468: "Product already exists",
 
-                470: "Unable to update product.",
+                470: "Unable to update product",
+                471: "Unable to update tenant",
 
-                500: "You cannot modify or delete a locked record.",
+                500: "You cannot modify or delete a locked record",
+                501: "Environment record not found!",
 
-                601: "Model not found.",
+                601: "Model not found",
                 602: "Model error: ",
             },
             "console": {
@@ -372,7 +382,7 @@ describe("Unit test for: BL - product", () => {
             let soajsClient = {
                 config: {
                     "errors": {
-                        400: "Business logic required data are missing."
+                        400: "Business logic required data are missing"
                     },
                 },
                 tenant: {
@@ -417,7 +427,7 @@ describe("Unit test for: BL - product", () => {
             let soajsClient = {
                 config: {
                     "errors": {
-                        400: "Business logic required data are missing."
+                        400: "Business logic required data are missing"
                     },
                 },
                 tenant: {
@@ -1160,7 +1170,7 @@ describe("Unit test for: BL - product", () => {
             let soajsClient = {
                 config: {
                     "errors": {
-                        400: "Business logic required data are missing."
+                        400: "Business logic required data are missing"
                     },
                 },
                 tenant: {
@@ -1479,25 +1489,28 @@ describe("Unit test for: BL - product", () => {
         let soajs2 = {
             config: {
                 "errors": {
-                    421: "Unable to update the tenant record",
-                    423: "An id must be provided",
-                    426: 'Invalid Product ID provided',
-                    430: "Tenant not found for this user",
-                    436: "Unable to find tenants",
-                    437: "Unable to get the environment records",
-                    460: "Unable to find products",
+                    400: "Business logic required data are missing",
+                    450: "Unable to find tenant",
+                    451: "Tenant already exists",
+                    452: "Main Tenant id is required!",
+                    453: "Main Tenant is not found!",
+                    454: "Unable to add tenant application",
+                    455: "Unable to add a new key to the tenant application",
+                    456: "Unable to add the tenant application ext Key",
+
+                    460: "Unable to find product",
                     461: "Unable to find package",
-                    464: "You are not allowed to remove the key you are currently logged in with",
+                    462: "You are not allowed to remove the tenant you are currently logged in with",
                     466: "You are not allowed to remove the product you are currently logged in with",
                     467: "Package already exists",
                     468: "Product already exists",
-                    469: "Unable to add the product record",
-                    473: "Missing required fields",
-                    474: "Missing required field: either id or code",
-                    475: "Unable to remove product record",
-                    476: "Unable to update product record",
-                    477: "Invalid product code provided",
-                    500: "This record is locked. You cannot modify or delete it",
+
+                    470: "Unable to update product",
+                    471: "Unable to update tenant",
+
+                    500: "You cannot modify or delete a locked record",
+                    501: "Environment record not found!",
+
                     601: "Model not found",
                     602: "Model error: ",
                 },
@@ -2004,7 +2017,7 @@ describe("Unit test for: BL - product", () => {
             let soajsClient = {
                 config: {
                     "errors": {
-                        400: "Business logic required data are missing.",
+                        400: "Business logic required data are missing",
                     },
                 },
                 tenant: {
@@ -2149,7 +2162,7 @@ describe("Unit test for: BL - product", () => {
             let soajsClient = {
                 config: {
                     "errors": {
-                        400: "Business logic required data are missing."
+                        400: "Business logic required data are missing"
                     },
                 },
                 tenant: {
@@ -2236,7 +2249,7 @@ describe("Unit test for: BL - product", () => {
             let soajsClient = {
                 config: {
                     "errors": {
-                        400: "Business logic required data are missing."
+                        400: "Business logic required data are missing"
                     },
                 },
                 tenant: {
@@ -2598,7 +2611,7 @@ describe("Unit test for: BL - product", () => {
             let soajsClient = {
                 config: {
                     "errors": {
-                        400: "Business logic required data are missing."
+                        400: "Business logic required data are missing"
                     },
                 },
                 tenant: {
@@ -2931,7 +2944,7 @@ describe("Unit test for: BL - product", () => {
             let soajsClient = {
                 config: {
                     "errors": {
-                        400: "Business logic required data are missing."
+                        400: "Business logic required data are missing"
                     },
                 },
                 tenant: {

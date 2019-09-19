@@ -8,21 +8,29 @@ describe("Unit test for: BL - tenant", () => {
 	let soajs = {
 		config: {
 			"errors": {
-				400: "Business logic required data are missing.",
-				
+				400: "Business logic required data are missing",
 				450: "Unable to find tenant",
-				461: "Unable to find packages.",
-				462: "You are not allowed to remove the tenant you are currently logged in with.",
-				
-				466: "You are not allowed to remove the product you are currently logged in with.",
+				451: "Tenant already exists",
+				452: "Main Tenant id is required!",
+				453: "Main Tenant is not found!",
+				454: "Unable to add tenant application",
+				455: "Unable to add a new key to the tenant application",
+				456: "Unable to add the tenant application ext Key",
+
+				460: "Unable to find product",
+				461: "Unable to find package",
+				462: "You are not allowed to remove the tenant you are currently logged in with",
+				466: "You are not allowed to remove the product you are currently logged in with",
 				467: "Package already exists",
-				468: "Product already exists.",
-				
-				470: "Unable to update product.",
-				
-				500: "You cannot modify or delete a locked record.",
-				
-				601: "Model not found.",
+				468: "Product already exists",
+
+				470: "Unable to update product",
+				471: "Unable to update tenant",
+
+				500: "You cannot modify or delete a locked record",
+				501: "Environment record not found!",
+
+				601: "Model not found",
 				602: "Model error: ",
 			},
 			"console": {
@@ -126,7 +134,7 @@ describe("Unit test for: BL - tenant", () => {
 			let soajsClient = {
 				config: {
 					"errors": {
-						400: "Business logic required data are missing."
+						400: "Business logic required data are missing"
 					},
 				},
 				tenant: {
@@ -264,7 +272,7 @@ describe("Unit test for: BL - tenant", () => {
 			let soajsClient = {
 				config: {
 					"errors": {
-						400: "Business logic required data are missing."
+						400: "Business logic required data are missing"
 					},
 				},
 				tenant: {
@@ -309,7 +317,7 @@ describe("Unit test for: BL - tenant", () => {
 			let soajsClient = {
 				config: {
 					"errors": {
-						400: "Business logic required data are missing."
+						400: "Business logic required data are missing"
 					},
 				},
 				tenant: {
@@ -438,7 +446,7 @@ describe("Unit test for: BL - tenant", () => {
 			let soajsClient = {
 				config: {
 					"errors": {
-						400: "Business logic required data are missing.",
+						400: "Business logic required data are missing",
 						450: "Unable to find tenant",
 						451: "Tenant already exists",
 						452: "Main Tenant id is required!",
@@ -526,7 +534,7 @@ describe("Unit test for: BL - tenant", () => {
 					"expDateTTL": 86400000
 				},
 				"errors": {
-					400: "Business logic required data are missing.",
+					400: "Business logic required data are missing",
 					450: "Unable to find tenant",
 					451: "Tenant already exists",
 					452: "Main Tenant id is required!",
@@ -574,7 +582,7 @@ describe("Unit test for: BL - tenant", () => {
 			let soajsClient = {
 				config: {
 					"errors": {
-						400: "Business logic required data are missing.",
+						400: "Business logic required data are missing",
 						450: "Unable to find tenant",
 						451: "Tenant already exists",
 						452: "Main Tenant id is required!",
@@ -673,7 +681,7 @@ describe("Unit test for: BL - tenant", () => {
 					"expDateTTL": 86400000
 				},
 				"errors": {
-					400: "Business logic required data are missing.",
+					400: "Business logic required data are missing",
 					450: "Unable to find tenant",
 					451: "Tenant already exists",
 					452: "Main Tenant id is required!",
@@ -732,7 +740,7 @@ describe("Unit test for: BL - tenant", () => {
 			let soajsClient = {
 				config: {
 					"errors": {
-						400: "Business logic required data are missing.",
+						400: "Business logic required data are missing",
 						450: "Unable to find tenant",
 						451: "Tenant already exists",
 						452: "Main Tenant id is required!",
@@ -820,7 +828,7 @@ describe("Unit test for: BL - tenant", () => {
 					"expDateTTL": 86400000
 				},
 				"errors": {
-					400: "Business logic required data are missing.",
+					400: "Business logic required data are missing",
 					450: "Unable to find tenant",
 					451: "Tenant already exists",
 					452: "Main Tenant id is required!",
@@ -902,7 +910,7 @@ describe("Unit test for: BL - tenant", () => {
 			let soajsClient = {
 				config: {
 					"errors": {
-						400: "Business logic required data are missing.",
+						400: "Business logic required data are missing",
 						450: "Unable to find tenant",
 						451: "Tenant already exists",
 						452: "Main Tenant id is required!",
@@ -987,7 +995,7 @@ describe("Unit test for: BL - tenant", () => {
 					"expDateTTL": 86400000
 				},
 				"errors": {
-					400: "Business logic required data are missing.",
+					400: "Business logic required data are missing",
 					450: "Unable to find tenant",
 					451: "Tenant already exists",
 					452: "Main Tenant id is required!",
@@ -1069,7 +1077,7 @@ describe("Unit test for: BL - tenant", () => {
 			let soajsClient = {
 				config: {
 					"errors": {
-						400: "Business logic required data are missing.",
+						400: "Business logic required data are missing",
 						450: "Unable to find tenant",
 						451: "Tenant already exists",
 						452: "Main Tenant id is required!",
@@ -1164,7 +1172,7 @@ describe("Unit test for: BL - tenant", () => {
 					"expDateTTL": 86400000
 				},
 				"errors": {
-					400: "Business logic required data are missing.",
+					400: "Business logic required data are missing",
 					450: "Unable to find tenant",
 					451: "Tenant already exists",
 					452: "Main Tenant id is required!",
@@ -1275,7 +1283,7 @@ describe("Unit test for: BL - tenant", () => {
 			let soajsClient = {
 				config: {
 					"errors": {
-						400: "Business logic required data are missing.",
+						400: "Business logic required data are missing",
 						450: "Unable to find tenant",
 						451: "Tenant already exists",
 						452: "Main Tenant id is required!",
@@ -1283,20 +1291,23 @@ describe("Unit test for: BL - tenant", () => {
 						454: "Unable to add tenant application",
 						455: "Unable to add a new key to the tenant application",
 						456: "Unable to add the tenant application ext Key",
-						
+
 						460: "Unable to find product",
 						461: "Unable to find package",
-						466: "You are not allowed to remove the product you are currently logged in with.",
+						462: "You are not allowed to remove the tenant you are currently logged in with",
+						466: "You are not allowed to remove the product you are currently logged in with",
 						467: "Package already exists",
-						468: "Product already exists.",
-						
-						470: "Unable to update product.",
-						
-						500: "You cannot modify or delete a locked record.",
+						468: "Product already exists",
+
+						470: "Unable to update product",
+						471: "Unable to update tenant",
+
+						500: "You cannot modify or delete a locked record",
 						501: "Environment record not found!",
-						
-						601: "Model not found.",
-						602: "Model error: "
+
+						601: "Model not found",
+						602: "Model error: ",
+
 					},
 				},
 				tenant: {
@@ -1364,7 +1375,7 @@ describe("Unit test for: BL - tenant", () => {
 			let soajsClient = {
 				config: {
 					"errors": {
-						400: "Business logic required data are missing.",
+						400: "Business logic required data are missing",
 						450: "Unable to find tenant",
 						451: "Tenant already exists",
 						452: "Main Tenant id is required!",
@@ -1372,20 +1383,23 @@ describe("Unit test for: BL - tenant", () => {
 						454: "Unable to add tenant application",
 						455: "Unable to add a new key to the tenant application",
 						456: "Unable to add the tenant application ext Key",
-						
+
 						460: "Unable to find product",
 						461: "Unable to find package",
-						466: "You are not allowed to remove the product you are currently logged in with.",
+						462: "You are not allowed to remove the tenant you are currently logged in with",
+						466: "You are not allowed to remove the product you are currently logged in with",
 						467: "Package already exists",
-						468: "Product already exists.",
-						
-						470: "Unable to update product.",
-						
-						500: "You cannot modify or delete a locked record.",
+						468: "Product already exists",
+
+						470: "Unable to update product",
+						471: "Unable to update tenant",
+
+						500: "You cannot modify or delete a locked record",
 						501: "Environment record not found!",
-						
-						601: "Model not found.",
-						602: "Model error: "
+
+						601: "Model not found",
+						602: "Model error: ",
+
 					},
 				},
 				tenant: {
@@ -1452,7 +1466,7 @@ describe("Unit test for: BL - tenant", () => {
 			let soajsClient = {
 				config: {
 					"errors": {
-						400: "Business logic required data are missing.",
+						400: "Business logic required data are missing",
 						450: "Unable to find tenant",
 						451: "Tenant already exists",
 						452: "Main Tenant id is required!",
@@ -1460,20 +1474,23 @@ describe("Unit test for: BL - tenant", () => {
 						454: "Unable to add tenant application",
 						455: "Unable to add a new key to the tenant application",
 						456: "Unable to add the tenant application ext Key",
-						
+
 						460: "Unable to find product",
 						461: "Unable to find package",
-						466: "You are not allowed to remove the product you are currently logged in with.",
+						462: "You are not allowed to remove the tenant you are currently logged in with",
+						466: "You are not allowed to remove the product you are currently logged in with",
 						467: "Package already exists",
-						468: "Product already exists.",
-						
-						470: "Unable to update product.",
-						
-						500: "You cannot modify or delete a locked record.",
+						468: "Product already exists",
+
+						470: "Unable to update product",
+						471: "Unable to update tenant",
+
+						500: "You cannot modify or delete a locked record",
 						501: "Environment record not found!",
-						
-						601: "Model not found.",
-						602: "Model error: "
+
+						601: "Model not found",
+						602: "Model error: ",
+
 					},
 				},
 				tenant: {
@@ -1544,7 +1561,7 @@ describe("Unit test for: BL - tenant", () => {
 			let soajsClient = {
 				config: {
 					"errors": {
-						400: "Business logic required data are missing.",
+						400: "Business logic required data are missing",
 						450: "Unable to find tenant",
 						451: "Tenant already exists",
 						452: "Main Tenant id is required!",
@@ -1552,20 +1569,23 @@ describe("Unit test for: BL - tenant", () => {
 						454: "Unable to add tenant application",
 						455: "Unable to add a new key to the tenant application",
 						456: "Unable to add the tenant application ext Key",
-						
+
 						460: "Unable to find product",
 						461: "Unable to find package",
-						466: "You are not allowed to remove the product you are currently logged in with.",
+						462: "You are not allowed to remove the tenant you are currently logged in with",
+						466: "You are not allowed to remove the product you are currently logged in with",
 						467: "Package already exists",
-						468: "Product already exists.",
-						
-						470: "Unable to update product.",
-						
-						500: "You cannot modify or delete a locked record.",
+						468: "Product already exists",
+
+						470: "Unable to update product",
+						471: "Unable to update tenant",
+
+						500: "You cannot modify or delete a locked record",
 						501: "Environment record not found!",
-						
-						601: "Model not found.",
-						602: "Model error: "
+
+						601: "Model not found",
+						602: "Model error: ",
+
 					},
 				},
 				tenant: {
@@ -1636,7 +1656,7 @@ describe("Unit test for: BL - tenant", () => {
 			let soajsClient = {
 				config: {
 					"errors": {
-						400: "Business logic required data are missing.",
+						400: "Business logic required data are missing",
 						450: "Unable to find tenant",
 						451: "Tenant already exists",
 						452: "Main Tenant id is required!",
@@ -1644,20 +1664,23 @@ describe("Unit test for: BL - tenant", () => {
 						454: "Unable to add tenant application",
 						455: "Unable to add a new key to the tenant application",
 						456: "Unable to add the tenant application ext Key",
-						
+
 						460: "Unable to find product",
 						461: "Unable to find package",
-						466: "You are not allowed to remove the product you are currently logged in with.",
+						462: "You are not allowed to remove the tenant you are currently logged in with",
+						466: "You are not allowed to remove the product you are currently logged in with",
 						467: "Package already exists",
-						468: "Product already exists.",
-						
-						470: "Unable to update product.",
-						
-						500: "You cannot modify or delete a locked record.",
+						468: "Product already exists",
+
+						470: "Unable to update product",
+						471: "Unable to update tenant",
+
+						500: "You cannot modify or delete a locked record",
 						501: "Environment record not found!",
-						
-						601: "Model not found.",
-						602: "Model error: "
+
+						601: "Model not found",
+						602: "Model error: ",
+
 					},
 				},
 				tenant: {
@@ -1737,7 +1760,7 @@ describe("Unit test for: BL - tenant", () => {
 			let soajsClient = {
 				config: {
 					"errors": {
-						400: "Business logic required data are missing.",
+						400: "Business logic required data are missing",
 						450: "Unable to find tenant",
 						451: "Tenant already exists",
 						452: "Main Tenant id is required!",
@@ -1745,20 +1768,23 @@ describe("Unit test for: BL - tenant", () => {
 						454: "Unable to add tenant application",
 						455: "Unable to add a new key to the tenant application",
 						456: "Unable to add the tenant application ext Key",
-						
+
 						460: "Unable to find product",
 						461: "Unable to find package",
-						466: "You are not allowed to remove the product you are currently logged in with.",
+						462: "You are not allowed to remove the tenant you are currently logged in with",
+						466: "You are not allowed to remove the product you are currently logged in with",
 						467: "Package already exists",
-						468: "Product already exists.",
-						
-						470: "Unable to update product.",
-						
-						500: "You cannot modify or delete a locked record.",
+						468: "Product already exists",
+
+						470: "Unable to update product",
+						471: "Unable to update tenant",
+
+						500: "You cannot modify or delete a locked record",
 						501: "Environment record not found!",
-						
-						601: "Model not found.",
-						602: "Model error: "
+
+						601: "Model not found",
+						602: "Model error: ",
+
 					},
 				},
 				tenant: {
@@ -1857,7 +1883,7 @@ describe("Unit test for: BL - tenant", () => {
 			let soajsClient = {
 				config: {
 					"errors": {
-						400: "Business logic required data are missing.",
+						400: "Business logic required data are missing",
 						450: "Unable to find tenant",
 						451: "Tenant already exists",
 						452: "Main Tenant id is required!",
@@ -1865,20 +1891,23 @@ describe("Unit test for: BL - tenant", () => {
 						454: "Unable to add tenant application",
 						455: "Unable to add a new key to the tenant application",
 						456: "Unable to add the tenant application ext Key",
-						
+
 						460: "Unable to find product",
 						461: "Unable to find package",
-						466: "You are not allowed to remove the product you are currently logged in with.",
+						462: "You are not allowed to remove the tenant you are currently logged in with",
+						466: "You are not allowed to remove the product you are currently logged in with",
 						467: "Package already exists",
-						468: "Product already exists.",
-						
-						470: "Unable to update product.",
-						
-						500: "You cannot modify or delete a locked record.",
+						468: "Product already exists",
+
+						470: "Unable to update product",
+						471: "Unable to update tenant",
+
+						500: "You cannot modify or delete a locked record",
 						501: "Environment record not found!",
-						
-						601: "Model not found.",
-						602: "Model error: "
+
+						601: "Model not found",
+						602: "Model error: ",
+
 					},
 				},
 				tenant: {
@@ -1977,7 +2006,7 @@ describe("Unit test for: BL - tenant", () => {
 			let soajsClient = {
 				config: {
 					"errors": {
-						400: "Business logic required data are missing.",
+						400: "Business logic required data are missing",
 						450: "Unable to find tenant",
 						451: "Tenant already exists",
 						452: "Main Tenant id is required!",
@@ -1985,20 +2014,23 @@ describe("Unit test for: BL - tenant", () => {
 						454: "Unable to add tenant application",
 						455: "Unable to add a new key to the tenant application",
 						456: "Unable to add the tenant application ext Key",
-						
+
 						460: "Unable to find product",
 						461: "Unable to find package",
-						466: "You are not allowed to remove the product you are currently logged in with.",
+						462: "You are not allowed to remove the tenant you are currently logged in with",
+						466: "You are not allowed to remove the product you are currently logged in with",
 						467: "Package already exists",
-						468: "Product already exists.",
-						
-						470: "Unable to update product.",
-						
-						500: "You cannot modify or delete a locked record.",
+						468: "Product already exists",
+
+						470: "Unable to update product",
+						471: "Unable to update tenant",
+
+						500: "You cannot modify or delete a locked record",
 						501: "Environment record not found!",
-						
-						601: "Model not found.",
-						602: "Model error: "
+
+						601: "Model not found",
+						602: "Model error: ",
+
 					},
 				},
 				tenant: {
@@ -2097,7 +2129,7 @@ describe("Unit test for: BL - tenant", () => {
 			let soajsClient = {
 				config: {
 					"errors": {
-						400: "Business logic required data are missing.",
+						400: "Business logic required data are missing",
 						450: "Unable to find tenant",
 						451: "Tenant already exists",
 						452: "Main Tenant id is required!",
@@ -2105,20 +2137,23 @@ describe("Unit test for: BL - tenant", () => {
 						454: "Unable to add tenant application",
 						455: "Unable to add a new key to the tenant application",
 						456: "Unable to add the tenant application ext Key",
-						
+
 						460: "Unable to find product",
 						461: "Unable to find package",
-						466: "You are not allowed to remove the product you are currently logged in with.",
+						462: "You are not allowed to remove the tenant you are currently logged in with",
+						466: "You are not allowed to remove the product you are currently logged in with",
 						467: "Package already exists",
-						468: "Product already exists.",
-						
-						470: "Unable to update product.",
-						
-						500: "You cannot modify or delete a locked record.",
+						468: "Product already exists",
+
+						470: "Unable to update product",
+						471: "Unable to update tenant",
+
+						500: "You cannot modify or delete a locked record",
 						501: "Environment record not found!",
-						
-						601: "Model not found.",
-						602: "Model error: "
+
+						601: "Model not found",
+						602: "Model error: ",
+
 					},
 				},
 				tenant: {
@@ -2217,7 +2252,7 @@ describe("Unit test for: BL - tenant", () => {
 			let soajsClient = {
 				config: {
 					"errors": {
-						400: "Business logic required data are missing.",
+						400: "Business logic required data are missing",
 						450: "Unable to find tenant",
 						451: "Tenant already exists",
 						452: "Main Tenant id is required!",
@@ -2225,20 +2260,23 @@ describe("Unit test for: BL - tenant", () => {
 						454: "Unable to add tenant application",
 						455: "Unable to add a new key to the tenant application",
 						456: "Unable to add the tenant application ext Key",
-						
+
 						460: "Unable to find product",
 						461: "Unable to find package",
-						466: "You are not allowed to remove the product you are currently logged in with.",
+						462: "You are not allowed to remove the tenant you are currently logged in with",
+						466: "You are not allowed to remove the product you are currently logged in with",
 						467: "Package already exists",
-						468: "Product already exists.",
-						
-						470: "Unable to update product.",
-						
-						500: "You cannot modify or delete a locked record.",
+						468: "Product already exists",
+
+						470: "Unable to update product",
+						471: "Unable to update tenant",
+
+						500: "You cannot modify or delete a locked record",
 						501: "Environment record not found!",
-						
-						601: "Model not found.",
-						602: "Model error: "
+
+						601: "Model not found",
+						602: "Model error: ",
+
 					},
 				},
 				tenant: {
@@ -2310,7 +2348,7 @@ describe("Unit test for: BL - tenant", () => {
 			let soajsClient = {
 				config: {
 					"errors": {
-						400: "Business logic required data are missing.",
+						400: "Business logic required data are missing",
 						450: "Unable to find tenant",
 						451: "Tenant already exists",
 						452: "Main Tenant id is required!",
@@ -2318,20 +2356,22 @@ describe("Unit test for: BL - tenant", () => {
 						454: "Unable to add tenant application",
 						455: "Unable to add a new key to the tenant application",
 						456: "Unable to add the tenant application ext Key",
-						
+
 						460: "Unable to find product",
 						461: "Unable to find package",
-						466: "You are not allowed to remove the product you are currently logged in with.",
+						462: "You are not allowed to remove the tenant you are currently logged in with",
+						466: "You are not allowed to remove the product you are currently logged in with",
 						467: "Package already exists",
-						468: "Product already exists.",
-						
-						470: "Unable to update product.",
-						
-						500: "You cannot modify or delete a locked record.",
+						468: "Product already exists",
+
+						470: "Unable to update product",
+						471: "Unable to update tenant",
+
+						500: "You cannot modify or delete a locked record",
 						501: "Environment record not found!",
-						
-						601: "Model not found.",
-						602: "Model error: "
+
+						601: "Model not found",
+						602: "Model error: ",
 					},
 				},
 				tenant: {
@@ -2388,7 +2428,7 @@ describe("Unit test for: BL - tenant", () => {
 					"expDateTTL": 86400000
 				},
 				"errors": {
-					400: "Business logic required data are missing.",
+					400: "Business logic required data are missing",
 					450: "Unable to find tenant",
 					451: "Tenant already exists",
 					452: "Main Tenant id is required!",
@@ -2396,20 +2436,22 @@ describe("Unit test for: BL - tenant", () => {
 					454: "Unable to add tenant application",
 					455: "Unable to add a new key to the tenant application",
 					456: "Unable to add the tenant application ext Key",
-					
+
 					460: "Unable to find product",
 					461: "Unable to find package",
-					466: "You are not allowed to remove the product you are currently logged in with.",
+					462: "You are not allowed to remove the tenant you are currently logged in with",
+					466: "You are not allowed to remove the product you are currently logged in with",
 					467: "Package already exists",
-					468: "Product already exists.",
-					
-					470: "Unable to update product.",
-					
-					500: "You cannot modify or delete a locked record.",
+					468: "Product already exists",
+
+					470: "Unable to update product",
+					471: "Unable to update tenant",
+
+					500: "You cannot modify or delete a locked record",
 					501: "Environment record not found!",
-					
-					601: "Model not found.",
-					602: "Model error: "
+
+					601: "Model not found",
+					602: "Model error: ",
 				},
 			};
 			let soajs = {
@@ -2438,7 +2480,319 @@ describe("Unit test for: BL - tenant", () => {
 			});
 		});
 	});
-	
+
+	describe("Testing  Update tenant profile", () => {
+		afterEach((done) => {
+			BL.modelObj = null;
+			done();
+		});
+
+		it("Success - Update tenant profile - data - id", (done) => {
+			let inputMask = {
+				"id": "SomeID",
+			};
+
+			BL.modelObj = {
+				getTenant: (inputMask, cb) => {
+					return cb(null, {
+						"id": "SomeID",
+						"code": "test",
+						"name": "Test Tenant",
+						"description": "this is a description for test tenant",
+					});
+				},
+				updateTenant: (inputMask, cb) => {
+					return cb(null, true);
+				}
+			};
+
+			BL.updateProfile(soajs, inputMask, (err, record) => {
+				assert.ok(record);
+				assert.deepEqual(record, true);
+				done();
+			});
+		});
+
+		it("Success - Update tenant profile - data - code", (done) => {
+			let inputMask = {
+				"code": "twr2",
+				"profile": {
+					"fadi": "lebanon"
+				}
+			};
+
+			BL.modelObj = {
+				getTenant: (inputMask, cb) => {
+					return cb(null, {
+						"id": "SomeID",
+						"code": "twr2",
+						"name": "twr2 Tenant",
+						"description": "this is a description for twr2 tenant",
+					});
+				},
+				updateTenant: (inputMask, cb) => {
+					return cb(null, true);
+				}
+			};
+
+			BL.updateProfile(soajs, inputMask, (err, record) => {
+				assert.ok(record);
+				assert.deepEqual(record, true);
+				done();
+			});
+		});
+
+		it("Fails - Update tenant profile - null data", (done) => {
+			BL.modelObj = {};
+
+			BL.updateProfile(soajs, null, (err, record) => {
+				assert.ok(err);
+				assert.deepEqual(err, {
+					code: 400,
+					msg: soajs.config.errors[400]
+				});
+				done();
+			});
+		});
+
+		it("Fails - Update tenant profile - getTenant Error", (done) => {
+			BL.modelObj = {
+				getTenant: (inputMask, cb) => {
+					return cb(true, null);
+				}
+			};
+
+			BL.updateProfile(soajs, {}, (err, record) => {
+				assert.ok(err);
+				assert.deepEqual(err.code, 602);
+				done();
+			});
+		});
+
+		it("Fails - Update tenant profile - updateTenant Error", (done) => {
+			BL.modelObj = {
+				getTenant: (inputMask, cb) => {
+					return cb(null, {
+						"code": "test",
+						"name": "Test Tenant",
+						"description": "this is a description for test tenant",
+					});
+				},
+				updateTenant: (inputMask, cb) => {
+					return cb(true, null);
+				}
+			};
+
+			BL.updateProfile(soajs, {}, (err, record) => {
+				assert.ok(err);
+				assert.deepEqual(err, {
+					code: 471,
+					msg: soajs.config.errors[471]
+				});
+				done();
+			});
+		});
+
+		it("Fails - Update tenant profile - no record", (done) => {
+			BL.modelObj = {
+				getTenant: (inputMask, cb) => {
+					return cb(null, null);
+				},
+				updateTenant: (inputMask, cb) => {
+					return cb(null, true);
+				}
+			};
+
+			BL.updateProfile(soajs, {}, (err, record) => {
+				assert.ok(err);
+				assert.deepEqual(err, {
+					code: 450,
+					msg: soajs.config.errors[450]
+				});
+				done();
+			});
+		});
+
+		it("Fails - Update tenant profile - locked record", (done) => {
+			BL.modelObj = {
+				getTenant: (inputMask, cb) => {
+					return cb(null, {
+						locked: true,
+						console: true
+					});
+				},
+				updateTenant: (inputMask, cb) => {
+					return cb(null, true);
+				}
+			};
+
+			BL.updateProfile(soajs, {}, (err, record) => {
+				assert.ok(err);
+				assert.deepEqual(err, {
+					code: 500,
+					msg: soajs.config.errors[500]
+				});
+				done();
+			});
+		});
+	});
+
+	describe.skip("Testing  Update tenant", () => {
+		afterEach((done) => {
+			BL.modelObj = null;
+			done();
+		});
+
+		it("Success - Update tenant profile - data - id", (done) => {
+			let inputMask = {
+				"id": "SomeID",
+			};
+
+			BL.modelObj = {
+				getTenant: (inputMask, cb) => {
+					return cb(null, {
+						"id": "SomeID",
+						"code": "test",
+						"name": "Test Tenant",
+						"description": "this is a description for test tenant",
+					});
+				},
+				updateTenant: (inputMask, cb) => {
+					return cb(null, true);
+				}
+			};
+
+			BL.updateProfile(soajs, inputMask, (err, record) => {
+				assert.ok(record);
+				assert.deepEqual(record, true);
+				done();
+			});
+		});
+
+		it("Success - Update tenant profile - data - code", (done) => {
+			let inputMask = {
+				"code": "twr2",
+				"profile": {
+					"fadi": "lebanon"
+				}
+			};
+
+			BL.modelObj = {
+				getTenant: (inputMask, cb) => {
+					return cb(null, {
+						"id": "SomeID",
+						"code": "twr2",
+						"name": "twr2 Tenant",
+						"description": "this is a description for twr2 tenant",
+					});
+				},
+				updateTenant: (inputMask, cb) => {
+					return cb(null, true);
+				}
+			};
+
+			BL.updateProfile(soajs, inputMask, (err, record) => {
+				assert.ok(record);
+				assert.deepEqual(record, true);
+				done();
+			});
+		});
+
+		it("Fails - Update tenant profile - null data", (done) => {
+			BL.modelObj = {};
+
+			BL.updateProfile(soajs, null, (err, record) => {
+				assert.ok(err);
+				assert.deepEqual(err, {
+					code: 400,
+					msg: soajs.config.errors[400]
+				});
+				done();
+			});
+		});
+
+		it("Fails - Update tenant profile - getTenant Error", (done) => {
+			BL.modelObj = {
+				getTenant: (inputMask, cb) => {
+					return cb(true, null);
+				}
+			};
+
+			BL.updateProfile(soajs, {}, (err, record) => {
+				assert.ok(err);
+				assert.deepEqual(err.code, 602);
+				done();
+			});
+		});
+
+		it("Fails - Update tenant profile - updateTenant Error", (done) => {
+			BL.modelObj = {
+				getTenant: (inputMask, cb) => {
+					return cb(null, {
+						"code": "test",
+						"name": "Test Tenant",
+						"description": "this is a description for test tenant",
+					});
+				},
+				updateTenant: (inputMask, cb) => {
+					return cb(true, null);
+				}
+			};
+
+			BL.updateProfile(soajs, {}, (err, record) => {
+				assert.ok(err);
+				assert.deepEqual(err, {
+					code: 471,
+					msg: soajs.config.errors[471]
+				});
+				done();
+			});
+		});
+
+		it("Fails - Update tenant profile - no record", (done) => {
+			BL.modelObj = {
+				getTenant: (inputMask, cb) => {
+					return cb(null, null);
+				},
+				updateTenant: (inputMask, cb) => {
+					return cb(null, true);
+				}
+			};
+
+			BL.updateProfile(soajs, {}, (err, record) => {
+				assert.ok(err);
+				assert.deepEqual(err, {
+					code: 450,
+					msg: soajs.config.errors[450]
+				});
+				done();
+			});
+		});
+
+		it("Fails - Update tenant profile - locked record", (done) => {
+			BL.modelObj = {
+				getTenant: (inputMask, cb) => {
+					return cb(null, {
+						locked: true,
+						console: true
+					});
+				},
+				updateTenant: (inputMask, cb) => {
+					return cb(null, true);
+				}
+			};
+
+			BL.updateProfile(soajs, {}, (err, record) => {
+				assert.ok(err);
+				assert.deepEqual(err, {
+					code: 500,
+					msg: soajs.config.errors[500]
+				});
+				done();
+			});
+		});
+	});
+
 	describe("Testing  Delete tenant", () => {
 		afterEach((done) => {
 			BL.modelObj = null;
@@ -2591,7 +2945,7 @@ describe("Unit test for: BL - tenant", () => {
 					"expDateTTL": 86400000
 				},
 				"errors": {
-					400: "Business logic required data are missing.",
+					400: "Business logic required data are missing",
 					450: "Unable to find tenant",
 					451: "Tenant already exists",
 					452: "Main Tenant id is required!",
@@ -2599,21 +2953,22 @@ describe("Unit test for: BL - tenant", () => {
 					454: "Unable to add tenant application",
 					455: "Unable to add a new key to the tenant application",
 					456: "Unable to add the tenant application ext Key",
-					
+
 					460: "Unable to find product",
 					461: "Unable to find package",
-					462: "You are not allowed to remove the tenant you are currently logged in with.",
-					466: "You are not allowed to remove the product you are currently logged in with.",
+					462: "You are not allowed to remove the tenant you are currently logged in with",
+					466: "You are not allowed to remove the product you are currently logged in with",
 					467: "Package already exists",
-					468: "Product already exists.",
-					
-					470: "Unable to update product.",
-					
-					500: "You cannot modify or delete a locked record.",
+					468: "Product already exists",
+
+					470: "Unable to update product",
+					471: "Unable to update tenant",
+
+					500: "You cannot modify or delete a locked record",
 					501: "Environment record not found!",
-					
-					601: "Model not found.",
-					602: "Model error: "
+
+					601: "Model not found",
+					602: "Model error: ",
 				},
 			};
 			BL.delete(soajs, {}, (err, record) => {
@@ -2626,4 +2981,5 @@ describe("Unit test for: BL - tenant", () => {
 			});
 		});
 	});
+
 });
