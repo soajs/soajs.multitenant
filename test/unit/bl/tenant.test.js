@@ -2866,15 +2866,18 @@ describe("Unit test for: BL - tenant", () => {
 		});
 	});
 
-	describe.skip("Testing  Update tenant", () => {
+	describe("Testing  Update tenant", () => {
 		afterEach((done) => {
 			BL.modelObj = null;
 			done();
 		});
 
-		it("Success - Update tenant profile - data - id", (done) => {
+		it("Success - Update tenant - data - id", (done) => {
 			let inputMask = {
 				"id": "SomeID",
+				"name": "Test Tenant",
+				"description": "this is an updated description for test tenant",
+				"tag": "sometag",
 			};
 
 			BL.modelObj = {
@@ -2891,19 +2894,19 @@ describe("Unit test for: BL - tenant", () => {
 				}
 			};
 
-			BL.updateProfile(soajs, inputMask, (err, record) => {
+			BL.updateTenant(soajs, inputMask, (err, record) => {
 				assert.ok(record);
 				assert.deepEqual(record, true);
 				done();
 			});
 		});
 
-		it("Success - Update tenant profile - data - code", (done) => {
+		it("Success - Update tenant - data - code", (done) => {
 			let inputMask = {
 				"code": "twr2",
-				"profile": {
-					"fadi": "lebanon"
-				}
+				"name": "Test Tenant",
+				"description": "this is an updated description for twr2 tenant",
+				"tag": "sometag",
 			};
 
 			BL.modelObj = {
@@ -2920,17 +2923,45 @@ describe("Unit test for: BL - tenant", () => {
 				}
 			};
 
-			BL.updateProfile(soajs, inputMask, (err, record) => {
+			BL.updateTenant(soajs, inputMask, (err, record) => {
 				assert.ok(record);
 				assert.deepEqual(record, true);
 				done();
 			});
 		});
 
-		it("Fails - Update tenant profile - null data", (done) => {
+		it("Success - Update tenant - no data - no code", (done) => {
+			let inputMask = {
+				"name": "Test Tenant",
+				"description": "this is an updated description for twr2 tenant",
+				"tag": "sometag",
+			};
+
+			BL.modelObj = {
+				getTenant: (inputMask, cb) => {
+					return cb(null, {
+						"id": "MAINTENANT",
+						"code": "MAIN",
+						"name": "MAIN Tenant",
+						"description": "this is a description for MAIN tenant",
+					});
+				},
+				updateTenant: (inputMask, cb) => {
+					return cb(null, true);
+				}
+			};
+
+			BL.updateTenant(soajs, inputMask, (err, record) => {
+				assert.ok(record);
+				assert.deepEqual(record, true);
+				done();
+			});
+		});
+
+		it("Fails - Update tenant - null data", (done) => {
 			BL.modelObj = {};
 
-			BL.updateProfile(soajs, null, (err, record) => {
+			BL.updateTenant(soajs, null, (err, record) => {
 				assert.ok(err);
 				assert.deepEqual(err, {
 					code: 400,
@@ -2940,21 +2971,21 @@ describe("Unit test for: BL - tenant", () => {
 			});
 		});
 
-		it("Fails - Update tenant profile - getTenant Error", (done) => {
+		it("Fails - Update tenant - getTenant Error", (done) => {
 			BL.modelObj = {
 				getTenant: (inputMask, cb) => {
 					return cb(true, null);
 				}
 			};
 
-			BL.updateProfile(soajs, {}, (err, record) => {
+			BL.updateTenant(soajs, {}, (err, record) => {
 				assert.ok(err);
 				assert.deepEqual(err.code, 602);
 				done();
 			});
 		});
 
-		it("Fails - Update tenant profile - updateTenant Error", (done) => {
+		it("Fails - Update tenant - updateTenant Error", (done) => {
 			BL.modelObj = {
 				getTenant: (inputMask, cb) => {
 					return cb(null, {
@@ -2968,7 +2999,7 @@ describe("Unit test for: BL - tenant", () => {
 				}
 			};
 
-			BL.updateProfile(soajs, {}, (err, record) => {
+			BL.updateTenant(soajs, {}, (err, record) => {
 				assert.ok(err);
 				assert.deepEqual(err, {
 					code: 471,
@@ -2978,7 +3009,7 @@ describe("Unit test for: BL - tenant", () => {
 			});
 		});
 
-		it("Fails - Update tenant profile - no record", (done) => {
+		it("Fails - Update tenant - no record", (done) => {
 			BL.modelObj = {
 				getTenant: (inputMask, cb) => {
 					return cb(null, null);
@@ -2988,7 +3019,7 @@ describe("Unit test for: BL - tenant", () => {
 				}
 			};
 
-			BL.updateProfile(soajs, {}, (err, record) => {
+			BL.updateTenant(soajs, {}, (err, record) => {
 				assert.ok(err);
 				assert.deepEqual(err, {
 					code: 450,
@@ -2998,7 +3029,7 @@ describe("Unit test for: BL - tenant", () => {
 			});
 		});
 
-		it("Fails - Update tenant profile - locked record", (done) => {
+		it("Fails - Update tenant - locked record", (done) => {
 			BL.modelObj = {
 				getTenant: (inputMask, cb) => {
 					return cb(null, {
@@ -3011,7 +3042,7 @@ describe("Unit test for: BL - tenant", () => {
 				}
 			};
 
-			BL.updateProfile(soajs, {}, (err, record) => {
+			BL.updateTenant(soajs, {}, (err, record) => {
 				assert.ok(err);
 				assert.deepEqual(err, {
 					code: 500,

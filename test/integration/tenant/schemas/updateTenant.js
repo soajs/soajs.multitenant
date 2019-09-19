@@ -1,4 +1,4 @@
-let updateProfileSchema = {
+let updateTenantsSchema = {
     "type": "object",
     "required": true,
     "additionalProperties": false,
@@ -28,5 +28,5 @@ let updateProfileSchema = {
     }
 };
 
-module.exports = updateProfileSchema;
+module.exports = updateTenantsSchema;
 

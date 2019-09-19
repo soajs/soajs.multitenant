@@ -218,6 +218,48 @@ describe("Unit test for: Model - tenant", () => {
             });
         });
 
+        it("Success - updateTenant - data", (done) => {
+            let inputmaskData = {
+                _id: addedRecord._id,
+                name: 'test2 updated',
+                code: 'test2',
+                description: "Updated Description",
+                tag: "Updated Tag"
+            };
+            model.updateTenant(inputmaskData, (err, record) => {
+                assert.ok(record);
+                assert.deepEqual(record, 1);
+                done();
+            });
+        });
+
+        it("Success - updateTenant - profile", (done) => {
+            let inputmaskData = {
+                _id: addedRecord._id,
+                profile: {
+                    "test": "update"
+                }
+            };
+            model.updateTenant(inputmaskData, (err, record) => {
+                assert.ok(record);
+                assert.deepEqual(record, 1);
+                done();
+            });
+        });
+
+        it("Fails - updateTenant - profile no id", (done) => {
+            let inputmaskData = {
+                profile: {
+                    "test": "update"
+                }
+            };
+            model.updateTenant(inputmaskData, (err, record) => {
+                assert.ok(err);
+                assert.deepEqual(err, new Error("_id is required."));
+                done();
+            });
+        });
+
         it("Success - addTenant - null", (done) => {
             model.addTenant(null, (err, record) => {
                 assert.ok(err);
