@@ -41,6 +41,7 @@ module.exports = {
 		468: "Product already exists.",
 		
 		470: "Unable to update product.",
+		471: "Unable to update tenant.",
 		
 		500: "You cannot modify or delete a locked record.",
 		501: "Environment record not found!",
@@ -550,6 +551,70 @@ module.exports = {
 						}
 					}
 				}
+			},
+			
+			"/tenant": {
+				_apiInfo: {
+					"l": "Update tenant",
+					"group": "Tenant"
+				},
+				"commonFields": ['description'],
+				"code": {
+					'source': ['body.code', 'query.code'],
+					'required': false,
+					'validation': {
+						"type": "string"
+					}
+				},
+				"id": {
+					"source": ['query.id'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"tag": {
+					"source": ['body.tag'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"name": {
+					"source": ['body.name'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+			},
+			
+			"/tenant/profile": {
+				_apiInfo: {
+					"l": "Update profile",
+					"group": "Tenant"
+				},
+				"code": {
+					'source': ['body.code', 'query.code'],
+					'required': false,
+					'validation': {
+						"type": "string"
+					}
+				},
+				"id": {
+					"source": ['query.id'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"profile": {
+					"source": ['body.profile'],
+					"required": true,
+					"validation": {
+						"type": "object"
+					}
+				},
 			},
 		}
 	}

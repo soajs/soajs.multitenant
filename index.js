@@ -58,12 +58,6 @@ service.init(() => {
 			    return res.json(req.soajs.buildResponse(error, data));
 		    });
 	    });
-	
-	    service.post("/tenant", (req, res) => {
-		    bl.tenant.add(req.soajs, req.soajs.inputmaskData, soajs, (error, data) => {
-			    return res.json(req.soajs.buildResponse(error, data));
-		    });
-	    });
 
         //* DELETE
 
@@ -122,6 +116,28 @@ service.init(() => {
 		    });
 	    });
 
+	    //* Post
+	
+	    service.post("/tenant", (req, res) => {
+		    bl.tenant.add(req.soajs, req.soajs.inputmaskData, soajs, (error, data) => {
+			    return res.json(req.soajs.buildResponse(error, data));
+		    });
+	    });
+	    
+	    //* PUT
+	    
+	    service.put("/tenant", (req, res) => {
+		    bl.tenant.updateTenant(req.soajs, req.soajs.inputmaskData, (error, data) => {
+			    return res.json(req.soajs.buildResponse(error, data));
+		    });
+	    });
+	    
+	    service.put("/tenant/profile", (req, res) => {
+		    bl.tenant.updateProfile(req.soajs, req.soajs.inputmaskData, (error, data) => {
+			    return res.json(req.soajs.buildResponse(error, data));
+		    });
+	    });
+	    
         //* DELETE
 
         service.delete("/tenant", (req, res) => {

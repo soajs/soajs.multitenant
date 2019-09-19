@@ -76,6 +76,7 @@ let bl = {
 			return cb(null, record ? record : []);
 		});
 	},
+	
 	"delete": (soajs, inputmaskData, cb) => {
 		if (!inputmaskData) {
 			return cb(bl.handleError(soajs, 400, null));
@@ -346,13 +347,94 @@ let bl = {
 						bl.mp.closeModel(soajs, modelObj);
 						return cb(bl.handleError(soajs, 602, err), null);
 					}
-				}
-				else {
+				} else {
 					return callback(null, response);
 				}
 				
 			});
 		}
+	},
+	
+	"updateTenant": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {};
+		data.id = inputmaskData.id;
+		data.code = inputmaskData.code;
+		
+		modelObj.getTenant(data, (err, record) => {
+			if (err) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 602, err));
+			}
+			if (!record) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 450, null));
+			}
+			if (!soajs.tenant.locked && record && record.locked) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 500, null));
+			}
+			data = {
+				_id: record._id
+			};
+			if (inputmaskData.tag){
+				data.tag = inputmaskData.tag;
+			}
+			if (inputmaskData.name){
+				data.name = inputmaskData.name;
+			}
+			if (inputmaskData.description){
+				data.description = inputmaskData.description;
+			}
+			modelObj.updateTenant(data, (err, response) => {
+				bl.mp.closeModel(soajs, modelObj);
+				if (err) {
+					return cb(bl.handleError(soajs, 471, err));
+				}
+				return cb(null, response);
+			});
+		});
+	},
+	
+	"updateProfile": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {};
+		data.id = inputmaskData.id;
+		data.code = inputmaskData.code;
+		
+		modelObj.getTenant(data, (err, record) => {
+			if (err) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 602, err));
+			}
+			if (!record) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 450, null));
+			}
+			if (!soajs.tenant.locked && record && record.locked) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 500, null));
+			}
+			data = {
+				_id: record._id,
+				profile: inputmaskData.profile
+			};
+			modelObj.updateTenant(data, (err, response) => {
+				bl.mp.closeModel(soajs, modelObj);
+				if (err) {
+					return cb(bl.handleError(soajs, 471, err));
+				}
+				return cb(null, response);
+			});
+		});
 	}
 };
 

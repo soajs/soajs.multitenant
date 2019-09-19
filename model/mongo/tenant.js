@@ -123,10 +123,10 @@ Tenant.prototype.countTenants = function (data, cb) {
 	}
 	
 	let condition = {
-		name : data.name
+		name: data.name
 	};
 	
-	if (data.code){
+	if (data.code) {
 		condition.code = data.code;
 	}
 	__self.mongoCore.count(colName, condition, cb);
@@ -169,6 +169,43 @@ Tenant.prototype.deleteTenant = function (data, cb) {
 	__self.mongoCore.remove(colName, condition, (err, count) => {
 		return cb(err, count);
 	});
+};
+
+Tenant.prototype.updateTenant = function (data, cb) {
+	let __self = this;
+	if (!data || !data._id) {
+		let error = new Error("_id is required.");
+		return cb(error, null);
+	}
+	
+	let condition = {'_id': data._id};
+	let options = {'upsert': false, 'safe': true};
+	let fields = {
+		'$set': {}
+	};
+	if (data.description) {
+		fields['$set'].description = data.description;
+	}
+	
+	if (data.name) {
+		fields['$set'].name = data.name;
+	}
+	
+	if (data.tag) {
+		fields['$set'].tag = data.tag;
+	}
+	
+	if (data.profile) {
+		fields['$set'].profile = data.profile;
+	}
+	if (Object.keys(fields['$set']).length === 0) {
+		//nothing to update
+		return cb(null, 0);
+	}
+	__self.mongoCore.update(colName, condition, fields, options, (err, result) => {
+		return cb(err, result);
+	});
+	
 };
 Tenant.prototype.closeConnection = function () {
 	let __self = this;
