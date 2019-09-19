@@ -25,7 +25,6 @@ describe("Testing list tenants API", () => {
             assert.ok(body.data);
             assert.ok(body.data.length > 0);
             let check = validator.validate(body, listTenantsSchema);
-            console.log("chika", check);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);
             done();
