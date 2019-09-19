@@ -48,6 +48,9 @@ let bl = {
 		data.id = inputmaskData.id;
 		data.code = inputmaskData.code;
 		
+		if (!data.code && !data.id) {
+			data.id = soajs.tenant.id;
+		}
 		modelObj.getTenant(data, (err, record) => {
 			bl.mp.closeModel(soajs, modelObj);
 			if (err) {
@@ -185,30 +188,33 @@ let bl = {
 			if (inputmaskData.type === "product") {
 				return callback(null);
 			} else {
-				if (!inputmaskData.mainTenant) {
-					return cb(bl.handleError(soajs, 452, null));
+				let opt = {};
+				if (inputmaskData.mainTenant) {
+					opt.id = inputmaskData.mainTenant;
 				} else {
-					let opt = {
-						id: inputmaskData.mainTenant
-					};
-					modelObj.getTenant(opt, (err, mainTenant) => {
-						if (err) {
-							return cb(bl.handleError(soajs, 602, err));
-						}
-						if (!mainTenant || !mainTenant.code) {
-							return cb(bl.handleError(soajs, 453, null));
-						}
-						record.tenant = {
-							id: mainTenant._id.toString(),
-							code: mainTenant.code,
-						};
-						//inherit form main tenant if oauth was not provided
-						if (!inputmaskData.oauth && mainTenant.oauth) {
-							record.oauth = mainTenant.oauth;
-						}
-						return callback(null);
-					});
+					if (soajs.tenant.type === "client") {
+						opt.id = soajs.tenant.main.id
+					} else {
+						opt.id = soajs.tenant.id
+					}
 				}
+				modelObj.getTenant(opt, (err, mainTenant) => {
+					if (err) {
+						return cb(bl.handleError(soajs, 602, err));
+					}
+					if (!mainTenant || !mainTenant.code) {
+						return cb(bl.handleError(soajs, 453, null));
+					}
+					record.tenant = {
+						id: mainTenant._id.toString(),
+						code: mainTenant.code,
+					};
+					//inherit form main tenant if oauth was not provided
+					if (!inputmaskData.oauth && mainTenant.oauth) {
+						record.oauth = mainTenant.oauth;
+					}
+					return callback(null);
+				});
 			}
 		}
 		
@@ -364,7 +370,9 @@ let bl = {
 		let data = {};
 		data.id = inputmaskData.id;
 		data.code = inputmaskData.code;
-		
+		if (!data.code && !data.id) {
+			data.id = soajs.tenant.id;
+		}
 		modelObj.getTenant(data, (err, record) => {
 			if (err) {
 				bl.mp.closeModel(soajs, modelObj);
@@ -381,13 +389,13 @@ let bl = {
 			data = {
 				_id: record._id
 			};
-			if (inputmaskData.tag){
+			if (inputmaskData.tag) {
 				data.tag = inputmaskData.tag;
 			}
-			if (inputmaskData.name){
+			if (inputmaskData.name) {
 				data.name = inputmaskData.name;
 			}
-			if (inputmaskData.description){
+			if (inputmaskData.description) {
 				data.description = inputmaskData.description;
 			}
 			modelObj.updateTenant(data, (err, response) => {
@@ -410,6 +418,9 @@ let bl = {
 		data.id = inputmaskData.id;
 		data.code = inputmaskData.code;
 		
+		if (!data.code && !data.id) {
+			data.id = soajs.tenant.id;
+		}
 		modelObj.getTenant(data, (err, record) => {
 			if (err) {
 				bl.mp.closeModel(soajs, modelObj);
