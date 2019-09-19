@@ -39,6 +39,9 @@ describe("Unit test for: BL - tenant", () => {
 		},
 		tenant: {
 			id: "5c0e74ba9acc3c5a84a51259",
+            main: {
+			    id: "5d8387fd1873f9079b863da0"
+            },
 			application: {
 				product: "TPROD",
 				package: "TPROD_TEST",
@@ -182,6 +185,27 @@ describe("Unit test for: BL - tenant", () => {
 			BL.modelObj = {
 				getTenant: (inputMask, cb) => {
 					return cb(null, {
+						"code": "test",
+						"name": "Test Tenant",
+						"description": "this is a description for test tenant",
+					});
+				}
+			};
+			BL.get(soajs, inputMask, (err, record) => {
+				assert.ok(record);
+				assert.deepEqual(record.name, "Test Tenant");
+				done();
+			});
+		});
+
+		it("Success - Get tenant - no code no id", (done) => {
+			let inputMask = {
+			};
+
+			BL.modelObj = {
+				getTenant: (inputMask, cb) => {
+					return cb(null, {
+						"id": "5c0e74ba9acc3c5a84a51259",
 						"code": "test",
 						"name": "Test Tenant",
 						"description": "this is a description for test tenant",
@@ -1220,7 +1244,275 @@ describe("Unit test for: BL - tenant", () => {
 				done();
 			});
 		});
-		
+
+        it("Success - add tenant - client no maintenant", (done) => {
+            let inputMask = {
+                "name": "tenant only name",
+                "description": "3221",
+                "type": "client",
+                "profile": {},
+                "tag": "tag"
+            };
+            let soajsClient = {
+                config: {
+                    "errors": {
+                        400: "Business logic required data are missing",
+                        450: "Unable to find tenant",
+                        451: "Tenant already exists",
+                        452: "Main Tenant id is required!",
+                        453: "Main Tenant is not found!",
+                        454: "Unable to add tenant application",
+                        455: "Unable to add a new key to the tenant application",
+                        456: "Unable to add the tenant application ext Key",
+
+                        460: "Unable to find product",
+                        461: "Unable to find package",
+                        466: "You are not allowed to remove the product you are currently logged in with.",
+                        467: "Package already exists",
+                        468: "Product already exists.",
+
+                        470: "Unable to update product.",
+
+                        500: "You cannot modify or delete a locked record.",
+                        501: "Environment record not found!",
+
+                        601: "Model not found.",
+                        602: "Model error: "
+                    },
+                },
+                tenant: {
+                    type: "client",
+                    dbConfig: {},
+					id: "5c0e74ba9acc3c5a84a51259",
+					main: {
+						id: "5d8387fd1873f9079b863da0"
+					},
+                },
+                log: {
+                    error: () => {
+                        console.log();
+                    }
+                }
+            };
+
+            function Tenant() {
+                console.log("Tenant");
+            }
+
+            Tenant.prototype.countTenants = (data, cb) => {
+                return cb(null, 0);
+            };
+            Tenant.prototype.getTenant = (data, cb) => {
+                return cb(null, {
+                    code: "mainTenant",
+                    _id: "1231231231"
+                });
+            };
+            Tenant.prototype.listAllTenants = (data, cb) => {
+                return cb(null, [{
+                    code: "mainTenant",
+                    _id: "5d8387fd1873f9079b863da0"
+                }]);
+            };
+            Tenant.prototype.closeConnection = () => {
+            };
+            Tenant.prototype.generateId = () => {
+                return "idgenerated";
+            };
+            Tenant.prototype.addTenant = (data, cb) => {
+                return cb(null, {
+                    "_id": "5d823afc89ace01605cd0e14",
+                    "type": "product",
+                    "code": "twr2",
+                    "name": "tenant only name",
+                    "description": "3221",
+                    "oauth": {
+                        "secret": "this is a secret",
+                        "redirectURI": "http://domain.com",
+                        "grants": [
+                            "password",
+                            "refresh_token"
+                        ],
+                        "disabled": 1,
+                        "type": 2,
+                        "loginMode": "urac"
+                    }
+                });
+            };
+
+            BL.model = Tenant;
+            BL.localConfig = {
+                "tenant": {
+                    "id": "5c0e74ba9acc3c5a84a51259",
+                    "main": {
+                        "id": "5d8387fd1873f9079b863da0"
+                    },
+                },
+                "errors": {
+                    400: "Business logic required data are missing",
+                    450: "Unable to find tenant",
+                    451: "Tenant already exists",
+                    452: "Main Tenant id is required!",
+                    453: "Main Tenant is not found!",
+                    454: "Unable to add tenant application",
+                    455: "Unable to add a new key to the tenant application",
+                    456: "Unable to add the tenant application ext Key",
+
+                    460: "Unable to find product",
+                    461: "Unable to find package",
+                    466: "You are not allowed to remove the product you are currently logged in with.",
+                    467: "Package already exists",
+                    468: "Product already exists.",
+
+                    470: "Unable to update product.",
+
+                    500: "You cannot modify or delete a locked record.",
+                    501: "Environment record not found!",
+
+                    601: "Model not found.",
+                    602: "Model error: "
+                },
+            };
+            BL.add(soajsClient, inputMask, {}, (err, record) => {
+                assert.ok(record);
+                done();
+            });
+        });
+
+		it("Success - add tenant - product no maintenant", (done) => {
+			let inputMask = {
+				"name": "tenant only name",
+				"description": "3221",
+				"type": "product",
+				"profile": {},
+				"tag": "tag"
+			};
+			let soajsClient = {
+				config: {
+					"errors": {
+						400: "Business logic required data are missing",
+						450: "Unable to find tenant",
+						451: "Tenant already exists",
+						452: "Main Tenant id is required!",
+						453: "Main Tenant is not found!",
+						454: "Unable to add tenant application",
+						455: "Unable to add a new key to the tenant application",
+						456: "Unable to add the tenant application ext Key",
+
+						460: "Unable to find product",
+						461: "Unable to find package",
+						466: "You are not allowed to remove the product you are currently logged in with.",
+						467: "Package already exists",
+						468: "Product already exists.",
+
+						470: "Unable to update product.",
+
+						500: "You cannot modify or delete a locked record.",
+						501: "Environment record not found!",
+
+						601: "Model not found.",
+						602: "Model error: "
+					},
+				},
+				tenant: {
+					type: "client",
+					dbConfig: {},
+					id: "5c0e74ba9acc3c5a84a51259",
+					main: {
+						id: "5d8387fd1873f9079b863da0"
+					},
+				},
+				log: {
+					error: () => {
+						console.log();
+					}
+				}
+			};
+
+			function Tenant() {
+				console.log("Tenant");
+			}
+
+			Tenant.prototype.countTenants = (data, cb) => {
+				return cb(null, 0);
+			};
+			Tenant.prototype.getTenant = (data, cb) => {
+				return cb(null, {
+					code: "mainTenant",
+					_id: "1231231231"
+				});
+			};
+			Tenant.prototype.listAllTenants = (data, cb) => {
+				return cb(null, [{
+					code: "mainTenant",
+					_id: "5c0e74ba9acc3c5a84a51259"
+				}]);
+			};
+			Tenant.prototype.closeConnection = () => {
+			};
+			Tenant.prototype.generateId = () => {
+				return "idgenerated";
+			};
+			Tenant.prototype.addTenant = (data, cb) => {
+				return cb(null, {
+					"_id": "5d823afc89ace01605cd0e14",
+					"type": "product",
+					"code": "twr2",
+					"name": "tenant only name",
+					"description": "3221",
+					"oauth": {
+						"secret": "this is a secret",
+						"redirectURI": "http://domain.com",
+						"grants": [
+							"password",
+							"refresh_token"
+						],
+						"disabled": 1,
+						"type": 2,
+						"loginMode": "urac"
+					}
+				});
+			};
+
+			BL.model = Tenant;
+			BL.localConfig = {
+				"tenant": {
+					"id": "5c0e74ba9acc3c5a84a51259",
+					"main": {
+						"id": "5d8387fd1873f9079b863da0"
+					},
+				},
+				"errors": {
+					400: "Business logic required data are missing",
+					450: "Unable to find tenant",
+					451: "Tenant already exists",
+					452: "Main Tenant id is required!",
+					453: "Main Tenant is not found!",
+					454: "Unable to add tenant application",
+					455: "Unable to add a new key to the tenant application",
+					456: "Unable to add the tenant application ext Key",
+
+					460: "Unable to find product",
+					461: "Unable to find package",
+					466: "You are not allowed to remove the product you are currently logged in with.",
+					467: "Package already exists",
+					468: "Product already exists.",
+
+					470: "Unable to update product.",
+
+					500: "You cannot modify or delete a locked record.",
+					501: "Environment record not found!",
+
+					601: "Model not found.",
+					602: "Model error: "
+				},
+			};
+			BL.add(soajsClient, inputMask, {}, (err, record) => {
+				assert.ok(record);
+				done();
+			});
+		});
+
 		it("Fails - add tenant - empty data", (done) => {
 			BL.modelObj = {};
 			
@@ -1415,97 +1707,6 @@ describe("Unit test for: BL - tenant", () => {
 			BL.add(soajsClient, inputMask, {}, (err, record) => {
 				assert.ok(err);
 				assert.deepEqual(err.code, 451);
-				done();
-			});
-		});
-		
-		it("Fails - add tenant - tenant type client no main tenant ", (done) => {
-			BL.modelObj = {};
-			let inputMask = {
-				"name": "tenant only name",
-				"description": "3221",
-				"type": "client",
-				"oauth": {
-					"secret": "this is a secret test",
-					"redirectURI": "http://domain.com",
-					"grants": [
-						"password",
-						"refresh_token"
-					],
-					"disabled": 0,
-					"type": 1,
-					"loginMode": "ouath"
-				},
-				"application": {
-					"productCode": "tyrv",
-					"packageCode": "sdfw",
-					"description": "123",
-					"_TTL": "6",
-					"appKey": {
-						"extKey": {
-							"label": "ttestkeylabel",
-							"env": "KUBE"
-						}
-					}
-				}
-			};
-			
-			function Tenant() {
-				console.log("Tenant");
-			}
-			
-			Tenant.prototype.closeConnection = () => {
-			};
-			Tenant.prototype.generateId = () => {
-				return "idgenerated";
-			};
-			Tenant.prototype.countTenants = (data, cb) => {
-				return cb(null, 0);
-			};
-			BL.model = Tenant;
-			let soajsClient = {
-				config: {
-					"errors": {
-						400: "Business logic required data are missing",
-						450: "Unable to find tenant",
-						451: "Tenant already exists",
-						452: "Main Tenant id is required!",
-						453: "Main Tenant is not found!",
-						454: "Unable to add tenant application",
-						455: "Unable to add a new key to the tenant application",
-						456: "Unable to add the tenant application ext Key",
-
-						460: "Unable to find product",
-						461: "Unable to find package",
-						462: "You are not allowed to remove the tenant you are currently logged in with",
-						466: "You are not allowed to remove the product you are currently logged in with",
-						467: "Package already exists",
-						468: "Product already exists",
-
-						470: "Unable to update product",
-						471: "Unable to update tenant",
-
-						500: "You cannot modify or delete a locked record",
-						501: "Environment record not found!",
-
-						601: "Model not found",
-						602: "Model error: ",
-
-					},
-				},
-				tenant: {
-					type: "client",
-					dbConfig: {}
-				},
-				log: {
-					error: () => {
-						console.log();
-					}
-				}
-			};
-			BL.add(soajsClient, inputMask, {}, (err, record) => {
-				assert.ok(err);
-				assert.deepEqual(err.code, 452);
 				done();
 			});
 		});
@@ -2527,6 +2728,34 @@ describe("Unit test for: BL - tenant", () => {
 						"id": "SomeID",
 						"code": "twr2",
 						"name": "twr2 Tenant",
+						"description": "this is a description for twr2 tenant",
+					});
+				},
+				updateTenant: (inputMask, cb) => {
+					return cb(null, true);
+				}
+			};
+
+			BL.updateProfile(soajs, inputMask, (err, record) => {
+				assert.ok(record);
+				assert.deepEqual(record, true);
+				done();
+			});
+		});
+
+		it("Success - Update tenant profile - no code no id", (done) => {
+			let inputMask = {
+				"profile": {
+					"fadi": "lebanon"
+				}
+			};
+
+			BL.modelObj = {
+				getTenant: (inputMask, cb) => {
+					return cb(null, {
+						"id": "maintenantID",
+						"code": "DBTN",
+						"name": "Main Tenant",
 						"description": "this is a description for twr2 tenant",
 					});
 				},

@@ -33,7 +33,7 @@ function requester(apiName, method, params, cb) {
     if (params.qs) {
         options.qs = params.qs;
     }
-
+    console.log(JSON.stringify(options, null, 2));
     if (method === 'delete') {
         request.del(options, function (error, response, body) {
             assert.ifError(error);

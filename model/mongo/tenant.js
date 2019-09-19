@@ -69,7 +69,6 @@ Tenant.prototype.getTenant = function (data, cb) {
 				return cb(err, null);
 			}
 			condition["$and"].push({'_id': id});
-			
 			__self.mongoCore.findOne(colName, condition, null, null, cb);
 		});
 	} else {

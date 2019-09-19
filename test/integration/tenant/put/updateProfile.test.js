@@ -111,6 +111,31 @@ describe("Testing update tenant profile API", () => {
         });
     });
 
+    it("Success - will update tenant profile - no code no id", (done) => {
+        let params = {
+            qs: {
+            },
+            headers: {
+                key: "aa39b5490c4a4ed0e56d7ec1232a428f771e8bb83cfcee16de14f735d0f5da587d5968ec4f785e38570902fd24e0b522b46cb171872d1ea038e88328e7d973ff47d9392f72b2d49566209eb88eb60aed8534a965cf30072c39565bd8d72f68ac"
+            },
+            body: {
+                profile: {
+                    "test2": "profile no code no id"
+                }
+            }
+        };
+        requester('/tenant/profile', 'put', params, (error, body) => {
+            assert.ifError(error);
+            assert.ok(body);
+            assert.ok(body.data);
+            assert.deepEqual(body.data, 1);
+            let check = validator.validate(body, updateProfileSchema);
+            assert.deepEqual(check.valid, true);
+            assert.deepEqual(check.errors, []);
+            done();
+        });
+    });
+
     it("Success - will return product record - id", (done) => {
         let params = {
             qs: {

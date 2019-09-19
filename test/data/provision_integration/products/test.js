@@ -26,7 +26,30 @@ let lib = {
                            },
                            {
                                "apis": {
-                                   "/tenants/console": {
+                                   "/tenants": {
+                                       "access": true
+                                   },
+                                   "/tenant": {
+                                       "access": true
+                                   },
+                               },
+                               "group": "Tenant"
+                           }
+                       ],
+                       "post": [
+                           {
+                               "apis": {
+                                   "/tenant": {
+                                       "access": true
+                                   },
+                               },
+                               "group": "Tenant"
+                           }
+                       ],
+                       "put": [
+                           {
+                               "apis": {
+                                   "/tenant/profile": {
                                        "access": true
                                    }
                                },
@@ -119,7 +142,20 @@ let lib = {
                         {
                             "version": "1",
                             "get": [
-                                "Product"
+                                "Product",
+                                "Tenant"
+                            ],
+                            "post": [
+                                "Product",
+                                "Tenant"
+                            ],
+                            "delete": [
+                                "Product",
+                                "Tenant"
+                            ],
+                            "put":[
+                                "Product",
+                                "Tenant"
                             ]
                         },
                         {
