@@ -51,7 +51,10 @@ let lib = {
                                "apis": {
                                    "/tenant/profile": {
                                        "access": true
-                                   }
+                                   },
+	                               "/tenant": {
+		                               "access": true
+	                               }
                                },
                                "group": "Tenant"
                            }

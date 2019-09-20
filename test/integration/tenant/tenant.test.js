@@ -21,8 +21,8 @@ describe("starting tenant integration tests", () => {
 
         // PUT
         require("./put/updateProfile.test.js");
-
-
+        require("./put/updateTenant.test.js");
+        
         // DELETE
         require("./delete/deleteTenant.test.js");
 

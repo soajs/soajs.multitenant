@@ -193,9 +193,9 @@ let bl = {
 					opt.id = inputmaskData.mainTenant;
 				} else {
 					if (soajs.tenant.type === "client") {
-						opt.id = soajs.tenant.main.id
+						opt.id = soajs.tenant.main.id;
 					} else {
-						opt.id = soajs.tenant.id
+						opt.id = soajs.tenant.id;
 					}
 				}
 				modelObj.getTenant(opt, (err, mainTenant) => {

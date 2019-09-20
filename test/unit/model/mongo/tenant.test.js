@@ -259,8 +259,15 @@ describe("Unit test for: Model - tenant", () => {
                 done();
             });
         });
+	
+	    it("Success - updateTenant - nothing to update", (done) => {
+		    model.updateTenant({ _id: addedRecord._id}, (err, record) => {
+			    assert.deepEqual(record, 0);
+			    done();
+		    });
+	    });
 
-        it("Success - addTenant - null", (done) => {
+        it("fail - addTenant - null", (done) => {
             model.addTenant(null, (err, record) => {
                 assert.ok(err);
                 assert.deepEqual(err, new Error("name and code are required."));

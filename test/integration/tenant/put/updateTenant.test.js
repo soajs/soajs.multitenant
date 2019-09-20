@@ -77,7 +77,7 @@ describe("Testing update tenant API", () => {
             assert.ok(body);
             assert.ok(body.data);
             assert.deepEqual(body.data.name, 'test2 updated');
-            assert.deepEqual(body.data.code, 'test2');
+            assert.deepEqual(body.data.code, 'test');
             assert.deepEqual(body.data.description, "Updated Description");
             let check = validator.validate(body, getTenantSchema);
             assert.deepEqual(check.valid, true);
@@ -93,7 +93,6 @@ describe("Testing update tenant API", () => {
             },
             body: {
                 name: 'test3 updated',
-                code: 'test3',
                 description: "Updated Description 2",
                 tag: "Updated Tag 2"
             }
@@ -119,7 +118,6 @@ describe("Testing update tenant API", () => {
             },
             body: {
                 name: 'main updated',
-                code: 'main',
                 description: "main Description 2",
                 tag: "main Tag 2"
             }
@@ -146,9 +144,10 @@ describe("Testing update tenant API", () => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.data);
-            assert.deepEqual(body.data.name, 'test3 updated');
-            assert.deepEqual(body.data.code, 'test3');
-            assert.deepEqual(body.data.description, "Updated Description 2");
+            assert.deepEqual(body.data.name, 'main updated');
+            assert.deepEqual(body.data.code, 'test');
+            assert.deepEqual(body.data.description, "main Description 2");
+            assert.deepEqual(body.data.tag, "main Tag 2");
             let check = validator.validate(body, getTenantSchema);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);
