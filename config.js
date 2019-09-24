@@ -210,14 +210,7 @@ module.exports = {
 				},
 				"id": {
 					"source": ['query.id'],
-					"required": false,
-					"validation": {
-						"type": "string"
-					}
-				},
-				"code": {
-					"source": ["query.code"],
-					"required": false,
+					"required": true,
 					"validation": {
 						"type": "string"
 					}
@@ -633,16 +626,9 @@ module.exports = {
 					"group": "Admin Tenant"
 				},
 				"commonFields": ['description'],
-				"code": {
-					'source': ['body.code', 'query.code'],
-					'required': false,
-					'validation': {
-						"type": "string"
-					}
-				},
 				"id": {
 					"source": ['query.id'],
-					"required": false,
+					"required": true,
 					"validation": {
 						"type": "string"
 					}
@@ -668,20 +654,6 @@ module.exports = {
 					"l": "Update profile",
 					"group": "Tenant"
 				},
-				"code": {
-					'source': ['body.code', 'query.code'],
-					'required': false,
-					'validation': {
-						"type": "string"
-					}
-				},
-				"id": {
-					"source": ['query.id'],
-					"required": false,
-					"validation": {
-						"type": "string"
-					}
-				},
 				"profile": {
 					"source": ['body.profile'],
 					"required": true,
@@ -701,6 +673,13 @@ module.exports = {
 					"required": true,
 					"validation": {
 						"type": "object"
+					}
+				},
+				"id": {
+					"source": ['query.id'],
+					"required": true,
+					"validation": {
+						"type": "string"
 					}
 				},
 			},
@@ -733,15 +712,8 @@ module.exports = {
 					"group": "Admin Tenant"
 				},
 				"commonFields": ['description'],
-				"code": {
-					'source': ['body.code', 'query.code'],
-					'required': false,
-					'validation': {
-						"type": "string"
-					}
-				},
 				"id": {
-					"source": ['query.id'],
+					"source": ['query.true'],
 					"required": false,
 					"validation": {
 						"type": "string"
@@ -784,15 +756,8 @@ module.exports = {
 					"group": "Admin Tenant"
 				},
 				"commonFields" : ["appId", "key"],
-				"code": {
-					'source': ['body.code', 'query.code'],
-					'required': false,
-					'validation': {
-						"type": "string"
-					}
-				},
 				"id": {
-					"source": ['query.id'],
+					"source": ['query.true'],
 					"required": false,
 					"validation": {
 						"type": "string"
@@ -835,15 +800,8 @@ module.exports = {
 					"group": "Admin Tenant"
 				},
 				"commonFields": ['appId', 'key', 'extKey', 'expDate', 'device', 'geo'],
-				"code": {
-					'source': ['body.code', 'query.code'],
-					'required': false,
-					'validation': {
-						"type": "string"
-					}
-				},
 				"id": {
-					"source": ['query.id'],
+					"source": ['query.true'],
 					"required": false,
 					"validation": {
 						"type": "string"
@@ -864,6 +822,108 @@ module.exports = {
 					}
 				}
 			},
+			"/tenant/applications/delete": {
+				_apiInfo: {
+					"l": "Delete Tenant",
+					"group": "Tenant"
+				},
+				"id": {
+					"source": ['query.id'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"code": {
+					"source": ['query.code'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"appId": {
+					"source": ['query.appId'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				}
+			},
+			"/tenant/application/key/delete": {
+				_apiInfo: {
+					"l": "Delete Tenant",
+					"group": "Tenant"
+				},
+				"id": {
+					"source": ['query.id'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"code": {
+					"source": ['query.code'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"appId": {
+					"source": ['query.appId'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"key": {
+					"source": ['query.key'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				}
+			},
+			"/tenant/application/key/ext/delete": {
+				_apiInfo: {
+					"l": "Delete Tenant",
+					"group": "Tenant"
+				},
+				"id": {
+					"source": ['query.id'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"code": {
+					"source": ['query.code'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"appId": {
+					"source": ['query.appId'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"key": {
+					"source": ['query.key'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"extKey": {
+					"source": ['query.key'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				}
+			}
 		}
 	}
 };
