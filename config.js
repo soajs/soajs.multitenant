@@ -713,8 +713,8 @@ module.exports = {
 				},
 				"commonFields": ['description'],
 				"id": {
-					"source": ['query.true'],
-					"required": false,
+					"source": ['query.id'],
+					"required": true,
 					"validation": {
 						"type": "string"
 					}
@@ -757,8 +757,8 @@ module.exports = {
 				},
 				"commonFields" : ["appId", "key"],
 				"id": {
-					"source": ['query.true'],
-					"required": false,
+					"source": ['query.id'],
+					"required": true,
 					"validation": {
 						"type": "string"
 					}
@@ -801,8 +801,8 @@ module.exports = {
 				},
 				"commonFields": ['appId', 'key', 'extKey', 'expDate', 'device', 'geo'],
 				"id": {
-					"source": ['query.true'],
-					"required": false,
+					"source": ['query.id'],
+					"required": true,
 					"validation": {
 						"type": "string"
 					}
