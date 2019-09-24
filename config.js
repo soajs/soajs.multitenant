@@ -36,13 +36,16 @@ module.exports = {
 		460: "Unable to find product",
 		461: "Unable to find package",
 		462: "You are not allowed to remove the tenant you are currently logged in with",
+		463: "Invalid product code or package code provided",
+		
 		466: "You are not allowed to remove the product you are currently logged in with",
 		467: "Package already exists",
 		468: "Product already exists",
 		
 		470: "Unable to update product",
 		471: "Unable to update tenant",
-		
+		472: "Unable to get the tenant application",
+		473: "Unable to get the tenant application key",
 		500: "You cannot modify or delete a locked record",
 		501: "Environment record not found!",
 		
@@ -80,6 +83,49 @@ module.exports = {
 				"validation": {
 					"type": "string",
 					"enum": ['6', '12', '24', '48', '72', '96', '120', '144', '168']
+				}
+			},
+			"key": {
+				"source": ['body.key'],
+				"required": true,
+				"validation": {
+					"type": "string"
+				}
+			},
+			"extKey": {
+				"source": ['body.extKey'],
+				"required": true,
+				"validation": {
+					"type": "string"
+				}
+			},
+			"appId": {
+				"source": ['body.appId'],
+				"required": true,
+				"validation": {
+					"type": "string"
+				}
+			},
+			'expDate': {
+				"source": ['body.expDate'],
+				"required": false,
+				"validation": {
+					"type": "string",
+					"format": "date-time"
+				}
+			},
+			'device': {
+				"source": ['body.device'],
+				"required": false,
+				"validation": {
+					"type": "object"
+				}
+			},
+			'geo': {
+				"source": ['body.geo'],
+				"required": false,
+				"validation": {
+					"type": "object"
 				}
 			},
 		},
@@ -155,6 +201,12 @@ module.exports = {
 				_apiInfo: {
 					"l": "Get tenant",
 					"group": "Tenant"
+				}
+			},
+			"/admin/tenant": {
+				_apiInfo: {
+					"l": "Get tenant",
+					"group": "Admin Tenant"
 				},
 				"id": {
 					"source": ['query.id'],
@@ -411,7 +463,7 @@ module.exports = {
 						"additionalProperties": false
 					}
 				}
-			},
+			}
 		},
 		
 		"delete": {
@@ -559,6 +611,28 @@ module.exports = {
 					"group": "Tenant"
 				},
 				"commonFields": ['description'],
+				"tag": {
+					"source": ['body.tag'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"name": {
+					"source": ['body.name'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+			},
+			
+			"/admin/tenant": {
+				_apiInfo: {
+					"l": "Update tenant",
+					"group": "Admin Tenant"
+				},
+				"commonFields": ['description'],
 				"code": {
 					'source': ['body.code', 'query.code'],
 					'required': false,
@@ -615,6 +689,180 @@ module.exports = {
 						"type": "object"
 					}
 				},
+			},
+			
+			"/admin/tenant/profile": {
+				_apiInfo: {
+					"l": "Update profile",
+					"group": "Admin Tenant"
+				},
+				"profile": {
+					"source": ['body.profile'],
+					"required": true,
+					"validation": {
+						"type": "object"
+					}
+				},
+			},
+			
+			"/tenant/application": {
+				_apiInfo: {
+					"l": "Update tenant application",
+					"group": "Tenant"
+				},
+				"commonFields": ['description'],
+				"appId": {
+					"source": ['body.appId'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"_TTL": {
+					"source": ['body._TTL'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				}
+			},
+			
+			"/admin/tenant/application": {
+				_apiInfo: {
+					"l": "Update tenant application",
+					"group": "Admin Tenant"
+				},
+				"commonFields": ['description'],
+				"code": {
+					'source': ['body.code', 'query.code'],
+					'required': false,
+					'validation': {
+						"type": "string"
+					}
+				},
+				"id": {
+					"source": ['query.id'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"appId": {
+					"source": ['body.appId'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"_TTL": {
+					"source": ['body._TTL'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				}
+			},
+			
+			"/tenant/application/key": {
+				_apiInfo: {
+					"l": "Update key information for a tenant application",
+					"group": "Tenant"
+				},
+				"commonFields" : ["appId", "key"],
+				"config": {
+					"source": ['body.config'],
+					"required": true,
+					"validation": {
+						"type": "object"
+					}
+				}
+			},
+			
+			"/admin/tenant/application/key": {
+				_apiInfo: {
+					"l": "Update key information for a tenant application",
+					"group": "Admin Tenant"
+				},
+				"commonFields" : ["appId", "key"],
+				"code": {
+					'source': ['body.code', 'query.code'],
+					'required': false,
+					'validation': {
+						"type": "string"
+					}
+				},
+				"id": {
+					"source": ['query.id'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"config": {
+					"source": ['body.config'],
+					"required": true,
+					"validation": {
+						"type": "object"
+					}
+				}
+			},
+			
+			"/tenant/application/key/extKey": {
+				_apiInfo: {
+					"l": "Update key information for a tenant application",
+					"group": "Tenant"
+				},
+				"commonFields": ['appId', 'key', 'extKey', 'expDate', 'device', 'geo'],
+				"label": {
+					"source": ['body.label'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"extKeyEnv": {
+					"source": ['body.extKeyEnv'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				}
+			},
+			
+			"/admin/tenant/application/key/extKey": {
+				_apiInfo: {
+					"l": "Update key information for a tenant application",
+					"group": "Admin Tenant"
+				},
+				"commonFields": ['appId', 'key', 'extKey', 'expDate', 'device', 'geo'],
+				"code": {
+					'source': ['body.code', 'query.code'],
+					'required': false,
+					'validation': {
+						"type": "string"
+					}
+				},
+				"id": {
+					"source": ['query.id'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"label": {
+					"source": ['body.label'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"extKeyEnv": {
+					"source": ['body.extKeyEnv'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				}
 			},
 		}
 	}

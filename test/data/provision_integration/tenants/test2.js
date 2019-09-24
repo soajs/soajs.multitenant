@@ -27,12 +27,6 @@ let lib = {
 			"package": "TPROD_BASIC",
 			"appId": "30d2cb5fc04ce51e06000002",
 			"description": "this is a description for app for test tenant for test product and basic package, and with example03 in acl",
-			"acl": {
-				"oauth": {},
-				"dashboard": {},
-				"urac": {},
-				"example03": {}
-			},
 			"_TTL": 86400000, // 24 hours
 			"keys": [
 				{
@@ -71,12 +65,6 @@ let lib = {
 			"appId": "30d2cb5fc04ce51e06000003",
 			"description": "this is a description for app for test tenant for test product and example03 package",
 			"_TTL": 86400000, // 24 hours
-			"acl": {
-				"urac": {},
-				"oauth": {},
-				"dashboard": {},
-				"multitenant": {}
-			},
 			"keys": [
 				{
 					"key": "ff7b65bb252201121f1be95adc08f44a",

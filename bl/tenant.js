@@ -446,6 +446,196 @@ let bl = {
 				return cb(null, response);
 			});
 		});
+	},
+	
+	"updateApplication": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {
+			id: inputmaskData.id,
+			code: inputmaskData.code
+		};
+		if (!data.code && !data.id) {
+			data.id = soajs.tenant.id;
+		}
+		modelObj.getTenant(data, (err, tenantRecord) => {
+			if (err) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 602, err), null);
+			}
+			if (!tenantRecord) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 450, err), null);
+			}
+			if (!soajs.tenant.locked && tenantRecord && tenantRecord.locked) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 500, null));
+			}
+			let found = false;
+			
+			for (let i = 0; i < tenantRecord.applications.length; i++) {
+				if (tenantRecord.applications[i].appId.toString() === inputmaskData.appId) {
+					if (inputmaskData.description) {
+						tenantRecord.applications[i].description = inputmaskData.description;
+					}
+					if (inputmaskData._TTL) {
+						tenantRecord.applications[i]._TTL = inputmaskData._TTL * 3600 * 1000;
+					}
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 472, null));
+			}
+			data = {
+				_id: tenantRecord._id,
+				applications: tenantRecord.applications
+			};
+			modelObj.updateTenant(data, (err, response) => {
+				bl.mp.closeModel(soajs, modelObj);
+				if (err) {
+					return cb(bl.handleError(soajs, 471, err));
+				}
+				return cb(null, response);
+			});
+		});
+	},
+	
+	"updateApplicationKey": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {
+			id: inputmaskData.id,
+			code: inputmaskData.code
+		};
+		
+		if (!data.code && !data.id) {
+			data.id = soajs.tenant.id;
+		}
+		modelObj.getTenant(data, (err, tenantRecord) => {
+			if (err) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 602, err), null);
+			}
+			if (!tenantRecord) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 450, err), null);
+			}
+			if (!soajs.tenant.locked && tenantRecord && tenantRecord.locked) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 500, null));
+			}
+			let found = false;
+			
+			for (let i = 0; i < tenantRecord.applications.length; i++) {
+				if (tenantRecord.applications[i].appId.toString() === inputmaskData.appId) {
+					for (let j = 0; j < tenantRecord.applications[i].keys.length; j++) {
+						if (tenantRecord.applications[i].keys[j].key === inputmaskData.key) {
+							tenantRecord.applications[i].keys[j].config = inputmaskData.config;
+							found = true;
+							break;
+						}
+					}
+				}
+			}
+			if (!found) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 473, null));
+			}
+			data = {
+				_id: tenantRecord._id,
+				applications: tenantRecord.applications
+			};
+			modelObj.updateTenant(data, (err, response) => {
+				bl.mp.closeModel(soajs, modelObj);
+				if (err) {
+					return cb(bl.handleError(soajs, 471, err));
+				}
+				return cb(null, response);
+			});
+		});
+	},
+	
+	"updateApplicationExternalKey": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {
+			id: inputmaskData.id,
+			code: inputmaskData.code
+		};
+		
+		if (!data.code && !data.id) {
+			data.id = soajs.tenant.id;
+		}
+		modelObj.getTenant(data, (err, tenantRecord) => {
+			if (err) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 602, err), null);
+			}
+			if (!tenantRecord) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 450, err), null);
+			}
+			if (!soajs.tenant.locked && tenantRecord && tenantRecord.locked) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 500, null));
+			}
+			let found = false;
+			
+			for (let i = 0; i < tenantRecord.applications.length; i++) {
+				if (tenantRecord.applications[i].appId.toString() === inputmaskData.appId) {
+					for (let j = 0; j < tenantRecord.applications[i].keys.length; j++) {
+						if (tenantRecord.applications[i].keys[j].key === inputmaskData.key) {
+							for (let x = 0; x < tenantRecord.applications[i].keys[j].extKeys.length; x++) {
+								if (tenantRecord.applications[i].keys[j].extKeys[x].extKey === inputmaskData.extKey) {
+									if (inputmaskData.device) {
+										tenantRecord.applications[i].keys[j].extKeys[x].device = inputmaskData.device;
+									}
+									if (inputmaskData.geo) {
+										tenantRecord.applications[i].keys[j].extKeys[x].geo = inputmaskData.geo;
+									}
+									if (inputmaskData.expDate) {
+										tenantRecord.applications[i].keys[j].extKeys[x].expDate = inputmaskData.expDate;
+									}
+									if (inputmaskData.extKeyEnv) {
+										tenantRecord.applications[i].keys[j].extKeys[x].env = inputmaskData.extKeyEnv.toUpperCase();
+									}
+									if (inputmaskData.label) {
+										tenantRecord.applications[i].keys[j].extKeys[x].label = inputmaskData.label;
+									}
+									tenantRecord.applications[i].keys[j].config = inputmaskData.config;
+									found = true;
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+			if (!found) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 473, null));
+			}
+			data = {
+				_id: tenantRecord._id,
+				applications: tenantRecord.applications
+			};
+			modelObj.updateTenant(data, (err, response) => {
+				bl.mp.closeModel(soajs, modelObj);
+				if (err) {
+					return cb(bl.handleError(soajs, 471, err));
+				}
+				return cb(null, response);
+			});
+		});
 	}
 };
 

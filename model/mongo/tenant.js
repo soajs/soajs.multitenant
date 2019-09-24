@@ -197,6 +197,10 @@ Tenant.prototype.updateTenant = function (data, cb) {
 	if (data.profile) {
 		fields['$set'].profile = data.profile;
 	}
+	if (data.applications) {
+		fields['$set'].applications = data.applications;
+	}
+	
 	if (Object.keys(fields['$set']).length === 0) {
 		//nothing to update
 		return cb(null, 0);

@@ -110,6 +110,12 @@ service.init(() => {
 		    });
 	    });
 	
+	    service.get("/admin/tenant", (req, res) => {
+		    bl.tenant.get(req.soajs, req.soajs.inputmaskData, (error, data) => {
+			    return res.json(req.soajs.buildResponse(error, data));
+		    });
+	    });
+	
 	    service.get("/tenants", (req, res) => {
 		    bl.tenant.list(req.soajs, req.soajs.inputmaskData, (error, data) => {
 			    return res.json(req.soajs.buildResponse(error, data));
@@ -132,8 +138,57 @@ service.init(() => {
 		    });
 	    });
 	    
+	    service.put("/admin/tenant", (req, res) => {
+		    bl.tenant.updateTenant(req.soajs, req.soajs.inputmaskData, (error, data) => {
+			    return res.json(req.soajs.buildResponse(error, data));
+		    });
+	    });
+	    
 	    service.put("/tenant/profile", (req, res) => {
 		    bl.tenant.updateProfile(req.soajs, req.soajs.inputmaskData, (error, data) => {
+			    return res.json(req.soajs.buildResponse(error, data));
+		    });
+	    });
+	    
+	    service.put("/admin/tenant/profile", (req, res) => {
+		    bl.tenant.updateProfile(req.soajs, req.soajs.inputmaskData, (error, data) => {
+			    return res.json(req.soajs.buildResponse(error, data));
+		    });
+	    });
+	    
+	    service.put("/tenant/application", (req, res) => {
+		    bl.tenant.updateApplication(req.soajs, req.soajs.inputmaskData, (error, data) => {
+			    return res.json(req.soajs.buildResponse(error, data));
+		    });
+	    });
+	    
+	    service.put("/admin/tenant/application", (req, res) => {
+		    bl.tenant.updateApplication(req.soajs, req.soajs.inputmaskData, (error, data) => {
+			    return res.json(req.soajs.buildResponse(error, data));
+		    });
+	    });
+	    
+	
+	    service.put("/tenant/application/key", (req, res) => {
+		    bl.tenant.updateApplicationKey(req.soajs, req.soajs.inputmaskData, (error, data) => {
+			    return res.json(req.soajs.buildResponse(error, data));
+		    });
+	    });
+	
+	    service.put("/admin/tenant/application/key", (req, res) => {
+		    bl.tenant.updateApplicationKey(req.soajs, req.soajs.inputmaskData, (error, data) => {
+			    return res.json(req.soajs.buildResponse(error, data));
+		    });
+	    });
+	
+	    service.put("/tenant/application/key/extKey", (req, res) => {
+		    bl.tenant.updateApplicationExternalKey(req.soajs, req.soajs.inputmaskData, (error, data) => {
+			    return res.json(req.soajs.buildResponse(error, data));
+		    });
+	    });
+	
+	    service.put("/admin/tenant/application/key/extKey", (req, res) => {
+		    bl.tenant.updateApplicationExternalKey(req.soajs, req.soajs.inputmaskData, (error, data) => {
 			    return res.json(req.soajs.buildResponse(error, data));
 		    });
 	    });
