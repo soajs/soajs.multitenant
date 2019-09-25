@@ -821,6 +821,7 @@ module.exports = {
 						"type": "string"
 					}
 				}
+				//todo: add config
 			},
 			"/tenant/applications/delete": {
 				_apiInfo: {

@@ -562,7 +562,6 @@ let bl = {
 									if (inputmaskData.label) {
 										tenantRecord.applications[i].keys[j].extKeys[x].label = inputmaskData.label;
 									}
-									tenantRecord.applications[i].keys[j].config = inputmaskData.config;
 									found = true;
 									break;
 								}

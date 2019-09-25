@@ -3384,7 +3384,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.updateApplication(soajs, inputMask, (err, record) => {
+            BL.updateApplicationKey(soajs, inputMask, (err, record) => {
                 assert.ok(record);
                 assert.deepEqual(record, 1);
                 done();
@@ -3649,10 +3649,305 @@ describe("Unit test for: BL - tenant", () => {
         });
     });
 
-    describe.skip("Testing Update application external key of tenant", () => {
+    describe("Testing Update application external key of tenant", () => {
         afterEach((done) => {
             BL.modelObj = null;
             done();
+        });
+
+        it("Success - Update application external key - data - id (admin)", (done) => {
+            let inputMask = {
+                id: 'tenantID',
+                appId: 'appID',
+                key: "KEY1",
+                extKey: "extkey1",
+                expDate: new Date().getTime() + 172800000,
+                device: {},
+                geo: {},
+                label: "labelUdate",
+                extKeyEnv: "DASHBOARD",
+            };
+
+            BL.modelObj = {
+                getTenant: (inputMask, cb) => {
+                    return cb(null, {
+                        "_id": "tenantID",
+                        "code": "test",
+                        "name": "Test Tenant",
+                        "description": "this is a description for test tenant",
+                        "applications": [
+                            {
+                                product: "TEND",
+                                package: "TEND_GUEST",
+                                description: "TEN application for TEND_GUEST package",
+                                appId: "appID",
+                                _TTL: 604800000,
+                                keys: [
+                                    {
+                                        key: "KEY1",
+                                        extKeys: [
+                                            {
+                                                extKey: "extKey1",
+                                                device: null,
+                                                geo: null,
+                                                env: "DASHBOARD",
+                                                dashboardAccess: true,
+                                                expDate: null
+                                            }
+                                        ],
+                                        config: {}
+                                    }
+                                ]
+                            }
+                        ],
+                    });
+                },
+                updateTenant: (inputMask, cb) => {
+                    return cb(null, 1);
+                }
+            };
+
+            BL.updateApplication(soajs, inputMask, (err, record) => {
+                assert.ok(record);
+                assert.deepEqual(record, 1);
+                done();
+            });
+        });
+
+        it("Success - Update application external key - data - no id", (done) => {
+            let inputMask = {
+                appId: 'appID',
+                key: "KEY1",
+                extKey: "extKey1",
+                expDate: new Date().getTime() + 172800000,
+                device: {},
+                geo: {},
+                label: "labelUdate",
+                extKeyEnv: "DEV",
+            };
+
+            BL.modelObj = {
+                getTenant: (inputMask, cb) => {
+                    return cb(null, {
+                        "_id": "tenantID",
+                        "name": "Test Tenant",
+                        "description": "this is a description for test tenant",
+                        "applications": [
+                            {
+                                product: "TEND",
+                                package: "TEND_GUEST",
+                                description: "TEN application for TEND_GUEST package",
+                                appId: "appID",
+                                _TTL: 604800000,
+                                keys: [
+                                    {
+                                        key: "KEY1",
+                                        extKeys: [
+                                            {
+                                                extKey: "extKey1",
+                                                device: null,
+                                                geo: null,
+                                                env: "DASHBOARD",
+                                                dashboardAccess: true,
+                                                expDate: null
+                                            }
+                                        ],
+                                        config: {}
+                                    }
+                                ]
+                            }
+                        ],
+                    });
+                },
+                updateTenant: (inputMask, cb) => {
+                    return cb(null, 1);
+                }
+            };
+
+            BL.updateApplicationExternalKey(soajs, inputMask, (err, record) => {
+                assert.ok(record);
+                assert.deepEqual(record, 1);
+                done();
+            });
+        });
+
+        it("Fails - Update application external key - null data", (done) => {
+            BL.modelObj = {};
+
+            BL.updateApplicationExternalKey(soajs, null, (err, record) => {
+                assert.ok(err);
+                assert.deepEqual(err, {
+                    code: 400,
+                    msg: soajs.config.errors[400]
+                });
+                done();
+            });
+        });
+
+        it("Fails - Update application external key - get tenant error", (done) => {
+
+            BL.modelObj = {
+                getTenant: (inputMask, cb) => {
+                    return cb(true, null);
+                }
+            };
+
+            BL.updateApplicationExternalKey(soajs, {}, (err) => {
+                assert.ok(err);
+                assert.deepEqual(err.code, 602);
+                done();
+            });
+        });
+
+        it("Fails - Update application external key - update tenants error", (done) => {
+            let inputMask = {
+                id: 'tenantID',
+                appId: 'appID',
+                key: "KEY1",
+                extKey: "extkey1",
+                expDate: new Date().getTime() + 172800000,
+                device: {},
+                geo: {},
+                label: "labelUdate",
+                extKeyEnv: "DASHBOARD",
+            };
+
+            BL.modelObj = {
+                getTenant: (inputMask, cb) => {
+                    return cb(null, {
+                        "_id": "tenantID",
+                        "code": "test",
+                        "name": "Test Tenant",
+                        "description": "this is a description for test tenant",
+                        "applications": [
+                            {
+                                product: "TEND",
+                                package: "TEND_GUEST",
+                                description: "TEN application for TEND_GUEST package",
+                                appId: "appID",
+                                _TTL: 604800000,
+                                keys: [
+                                    {
+                                        key: "KEY1",
+                                        extKeys: [
+                                            {
+                                                extKey: "extkey1",
+                                                device: null,
+                                                geo: null,
+                                                env: "DASHBOARD",
+                                                dashboardAccess: true,
+                                                expDate: null
+                                            }
+                                        ],
+                                        config: {}
+                                    }
+                                ]
+                            }
+                        ]
+                    });
+                },
+                updateTenant: (inputMask, cb) => {
+                    return cb(true, null)
+                }
+            };
+
+            BL.updateApplicationExternalKey(soajs, inputMask, (err) => {
+                assert.ok(err);
+                console.log(err);
+                assert.deepEqual(err, {
+                    code: 471,
+                    msg: soajs.config.errors[471]
+                });
+                done();
+            });
+        });
+
+        it.skip("Fails - Update application external key - app key not found error", (done) => {
+            BL.modelObj = {
+                getTenant: (inputMask, cb) => {
+                    return cb(null, {
+                        "_id": "tenantID",
+                        "code": "test",
+                        "name": "Test Tenant",
+                        "description": "this is a description for test tenant",
+                        "applications": [
+                            {
+                                product: "TEND",
+                                package: "TEND_GUEST",
+                                description: "TEN application for TEND_GUEST package",
+                                appId: "appID",
+                                _TTL: 604800000,
+                                keys: [
+                                    {
+                                        key: "KEY1",
+                                        extKeys: [
+                                            {
+                                                extKey: "extkey1",
+                                                device: null,
+                                                geo: null,
+                                                env: "DASHBOARD",
+                                                dashboardAccess: true,
+                                                expDate: null
+                                            }
+                                        ],
+                                        config: {}
+                                    }
+                                ]
+                            }
+                        ]
+                    });
+                },
+                updateTenant: (inputMask, cb) => {
+                    return cb(true, null)
+                }
+            };
+
+            BL.updateApplicationExternalKey(soajs, {key: 'notFound', id: 'tenantID'}, (err) => {
+                assert.ok(err);
+                assert.deepEqual(err, {
+                    code: 473,
+                    msg: soajs.config.errors[473]
+                });
+                done();
+            });
+        });
+
+        it("Fails - Update application external key - get tenant null record", (done) => {
+
+            BL.modelObj = {
+                getTenant: (inputMask, cb) => {
+                    return cb(null, null);
+                }
+            };
+
+            BL.updateApplicationExternalKey(soajs, {}, (err) => {
+                assert.ok(err);
+                assert.deepEqual(err, {
+                    code: 450,
+                    msg: soajs.config.errors[450]
+                });
+                done();
+            });
+        });
+
+        it("Fails - Update application external key - get tenant locked record", (done) => {
+
+            BL.modelObj = {
+                getTenant: (inputMask, cb) => {
+                    return cb(null, {
+                        locked: true
+                    });
+                }
+            };
+
+            BL.updateApplicationExternalKey(soajs, {}, (err) => {
+                assert.ok(err);
+                assert.deepEqual(err, {
+                    code: 500,
+                    msg: soajs.config.errors[500]
+                });
+                done();
+            });
         });
     });
 
