@@ -63,7 +63,6 @@ describe("Testing update app external key of tenant API", () => {
         requester('/admin/tenant/application/key/extKey', 'put', params, (error, body) => {
             assert.ifError(error);
             assert.ok(body);
-            console.log(body.data, body.errors, "erora");
             assert.ok(body.data);
             assert.deepEqual(body.data, 1);
             let check = validator.validate(body, updateAppExtKeySchema);

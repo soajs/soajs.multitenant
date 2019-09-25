@@ -79,7 +79,6 @@ describe("Testing update product API", () => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.data);
-            console.log("dita", JSON.stringify(body.data.scope, null, 2));
             assert.deepEqual(body.data.scope, {
                 "dashboard": {
                     "multitenant": {

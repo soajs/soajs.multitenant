@@ -3267,7 +3267,6 @@ describe("Unit test for: BL - tenant", () => {
 
             BL.updateApplication(soajs, {}, (err) => {
                 assert.ok(err);
-                console.log("update app err", err);
                 assert.deepEqual(err, {
                     code: 472,
                     msg: soajs.config.errors[472]
