@@ -424,7 +424,7 @@ let bl = {
 			}
 			if (!tenantRecord) {
 				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 450, err), null);
+				return cb(bl.handleError(soajs, 450, null), null);
 			}
 			if (!soajs.tenant.locked && tenantRecord && tenantRecord.locked) {
 				bl.mp.closeModel(soajs, modelObj);

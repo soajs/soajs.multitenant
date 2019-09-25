@@ -21,13 +21,16 @@ describe("Unit test for: BLs", () => {
                 460: "Unable to find product",
                 461: "Unable to find package",
                 462: "You are not allowed to remove the tenant you are currently logged in with",
+                463: "Invalid product code or package code provided",
+
                 466: "You are not allowed to remove the product you are currently logged in with",
                 467: "Package already exists",
                 468: "Product already exists",
 
                 470: "Unable to update product",
                 471: "Unable to update tenant",
-
+                472: "Unable to get the tenant application",
+                473: "Unable to get the tenant application key",
                 500: "You cannot modify or delete a locked record",
                 501: "Environment record not found!",
 

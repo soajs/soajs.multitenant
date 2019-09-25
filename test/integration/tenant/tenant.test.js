@@ -20,9 +20,12 @@ describe("starting tenant integration tests", () => {
         require("./post/addTenant.test.js");
 
         // PUT
-        require("./put/updateProfile.test.js");
-        require("./put/updateTenant.test.js");
-        
+        require("./put/updateProfile.test");
+        require("./put/updateTenant.test");
+        require('./put/updateAppExtKey.test');
+        require('./put/updateAppKey.test');
+        require('./put/updateApplication.test');
+
         // DELETE
         require("./delete/deleteTenant.test.js");
 

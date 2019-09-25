@@ -53,7 +53,7 @@ describe("Testing update tenant profile API", () => {
 				}
 			}
 		};
-		requester('/tenant/profile', 'put', params, (error, body) => {
+		requester('/admin/tenant/profile', 'put', params, (error, body) => {
 			assert.ifError(error);
 			assert.ok(body);
 			assert.ok(body.data);
@@ -71,7 +71,7 @@ describe("Testing update tenant profile API", () => {
 				id: selectedTenant._id
 			}
 		};
-		requester('/tenant', 'get', params, (error, body) => {
+		requester('/admin/tenant', 'get', params, (error, body) => {
 			assert.ifError(error);
 			assert.ok(body);
 			assert.ok(body.data);
@@ -82,29 +82,6 @@ describe("Testing update tenant profile API", () => {
 				"test": "profile"
 			});
 			let check = validator.validate(body, getTenantSchema);
-			assert.deepEqual(check.valid, true);
-			assert.deepEqual(check.errors, []);
-			done();
-		});
-	});
-	
-	it("Success - will update tenant profile - code", (done) => {
-		let params = {
-			qs: {
-				code: 'test'
-			},
-			body: {
-				profile: {
-					"test": "profile with code"
-				}
-			}
-		};
-		requester('/tenant/profile', 'put', params, (error, body) => {
-			assert.ifError(error);
-			assert.ok(body);
-			assert.ok(body.data);
-			assert.deepEqual(body.data, 1);
-			let check = validator.validate(body, updateProfileSchema);
 			assert.deepEqual(check.valid, true);
 			assert.deepEqual(check.errors, []);
 			done();
@@ -142,7 +119,7 @@ describe("Testing update tenant profile API", () => {
 			}
 		};
 		setTimeout(() => {
-			requester('/tenant', 'get', params, (error, body) => {
+			requester('/admin/tenant', 'get', params, (error, body) => {
 				assert.ifError(error);
 				assert.ok(body);
 				assert.ok(body.data);

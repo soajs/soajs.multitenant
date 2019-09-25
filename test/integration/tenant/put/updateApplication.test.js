@@ -4,11 +4,11 @@ const requester = require('../../requester');
 
 let core = require('soajs').core;
 let validator = new core.validator.Validator();
-let updateTenantSchema = require("../schemas/updateTenant.js");
+let updateAppSchema = require("../schemas/updateApplication.js");
 let listTenantsSchema = require("../schemas/listTenants.js");
 let getTenantSchema = require("../schemas/getTenant");
 
-describe("Testing update tenant API", () => {
+describe("Testing update app of tenant API", () => {
 
     before(function (done) {
         done();
@@ -42,23 +42,23 @@ describe("Testing update tenant API", () => {
         });
     });
 
-    it("Success - will update tenant - id", (done) => {
+    it("Success - will update tenant application - id", (done) => {
         let params = {
             qs: {
                 id: selectedTenant._id
             },
             body: {
-                name: 'test2 updated',
-                description: "Updated Description",
-                tag: "Updated Tag"
+                appId: '30d2cb5fc04ce51e06000003',
+                description: 'Updated one',
+                _TTL: '12'
             }
         };
-        requester('/admin/tenant', 'put', params, (error, body) => {
+        requester('/admin/tenant/application', 'put', params, (error, body) => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.data);
             assert.deepEqual(body.data, 1);
-            let check = validator.validate(body, updateTenantSchema);
+            let check = validator.validate(body, updateAppSchema);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);
             done();
@@ -75,9 +75,11 @@ describe("Testing update tenant API", () => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.data);
-            assert.deepEqual(body.data.name, 'test2 updated');
-            assert.deepEqual(body.data.code, 'test');
-            assert.deepEqual(body.data.description, "Updated Description");
+            body.data.applications.forEach(app => {
+                if (app.appId === '30d2cb5fc04ce51e06000003') {
+                    assert.deepEqual(app.description, 'Updated one');
+                }
+            });
             let check = validator.validate(body, getTenantSchema);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);
@@ -85,13 +87,42 @@ describe("Testing update tenant API", () => {
         });
     });
 
-    it("Fail - will not return tenant record - no params", (done) => {
+    it.skip("Success - will return tenant record - no id (admin)", (done) => {
+        let params = {
+        };
+
+        requester('/tenant', 'get', params, (error, body) => {
+            assert.ifError(error);
+            assert.ok(body);
+            console.log(body, body.data, body.errors);
+            assert.ok(body.data);
+            let check = validator.validate(body, getTenantSchema);
+            assert.deepEqual(check.valid, true);
+            assert.deepEqual(check.errors, []);
+            done();
+        });
+    });
+
+    it("Fail - will not update tenant application  - no params - admin", (done) => {
         let params = {};
-        requester('/tenant', 'put', params, (error, body) => {
+        requester('/admin/tenant/application', 'put', params, (error, body) => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.errors.codes);
-            let check = validator.validate(body, updateTenantSchema);
+            let check = validator.validate(body, updateAppSchema);
+            assert.deepEqual(check.valid, true);
+            assert.deepEqual(check.errors, []);
+            done();
+        });
+    });
+
+    it("Fail - will not update tenant application record - no params", (done) => {
+        let params = {};
+        requester('/tenant/application', 'put', params, (error, body) => {
+            assert.ifError(error);
+            assert.ok(body);
+            assert.ok(body.errors.codes);
+            let check = validator.validate(body, updateAppSchema);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);
             done();

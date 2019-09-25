@@ -54,13 +54,13 @@ describe("Testing add tenant API", () => {
         });
     });
 
-    it("Success - will return product tenant record - code", (done) => {
+    it("Success - will return product tenant record - id", (done) => {
         let params = {
             qs: {
-                code: 'ttoc'
+                id: product._id
             }
         };
-        requester('/tenant', 'get', params, (error, body) => {
+        requester('/admin/tenant', 'get', params, (error, body) => {
             assert.ok(body);
             assert.ok(body.data);
             assert.deepEqual(body.data.oauth, {
