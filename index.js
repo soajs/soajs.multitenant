@@ -121,6 +121,42 @@ service.init(() => {
 			    return res.json(req.soajs.buildResponse(error, data));
 		    });
 	    });
+	
+	    service.get("/tenant/application", (req, res) => {
+		    bl.tenant.getApplication(req.soajs, req.soajs.inputmaskData, (error, data) => {
+			    return res.json(req.soajs.buildResponse(error, data));
+		    });
+	    });
+	
+	    service.get("/admin/tenant/application", (req, res) => {
+		    bl.tenant.getApplication(req.soajs, req.soajs.inputmaskData, (error, data) => {
+			    return res.json(req.soajs.buildResponse(error, data));
+		    });
+	    });
+	
+	    service.get("/tenant/applications", (req, res) => {
+		    bl.tenant.listApplications(req.soajs, req.soajs.inputmaskData, (error, data) => {
+			    return res.json(req.soajs.buildResponse(error, data));
+		    });
+	    });
+	
+	    service.get("/admin/tenant/applications", (req, res) => {
+		    bl.tenant.listApplications(req.soajs, req.soajs.inputmaskData, (error, data) => {
+			    return res.json(req.soajs.buildResponse(error, data));
+		    });
+	    });
+	
+	    service.get("/tenant/application/key/ext", (req, res) => {
+		    bl.tenant.listApplicationExtKeys(req.soajs, req.soajs.inputmaskData, (error, data) => {
+			    return res.json(req.soajs.buildResponse(error, data));
+		    });
+	    });
+	
+	    service.get("/admin/tenant/application/key/ext", (req, res) => {
+		    bl.tenant.listApplicationExtKeys(req.soajs, req.soajs.inputmaskData, (error, data) => {
+			    return res.json(req.soajs.buildResponse(error, data));
+		    });
+	    });
 
 	    //* Post
 	
@@ -181,13 +217,13 @@ service.init(() => {
 		    });
 	    });
 	
-	    service.put("/tenant/application/key/extKey", (req, res) => {
+	    service.put("/tenant/application/key/ext", (req, res) => {
 		    bl.tenant.updateApplicationExternalKey(req.soajs, req.soajs.inputmaskData, (error, data) => {
 			    return res.json(req.soajs.buildResponse(error, data));
 		    });
 	    });
 	
-	    service.put("/admin/tenant/application/key/extKey", (req, res) => {
+	    service.put("/admin/tenant/application/key/ext", (req, res) => {
 		    bl.tenant.updateApplicationExternalKey(req.soajs, req.soajs.inputmaskData, (error, data) => {
 			    return res.json(req.soajs.buildResponse(error, data));
 		    });
@@ -213,7 +249,7 @@ service.init(() => {
 		    });
 	    });
 	
-	    service.delete("/tenant/application/key/extKey", (req, res) => {
+	    service.delete("/tenant/application/key/ext", (req, res) => {
 		    bl.tenant.deleteApplicationExternalKey(req.soajs, req.soajs.inputmaskData, (error, data) => {
 			    return res.json(req.soajs.buildResponse(error, data));
 		    });

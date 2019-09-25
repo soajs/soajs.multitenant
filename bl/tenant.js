@@ -53,10 +53,10 @@ let bl = {
 		modelObj.getTenant(data, (err, record) => {
 			bl.mp.closeModel(soajs, modelObj);
 			if (err) {
-				return cb(bl.handleError(soajs, 602, err), null);
+				return cb(bl.handleError(soajs, 602, err));
 			}
 			if (!record) {
-				return cb(bl.handleError(soajs, 450, err), null);
+				return cb(bl.handleError(soajs, 450, null));
 			}
 			return cb(null, record);
 		});
@@ -76,6 +76,112 @@ let bl = {
 				return cb(bl.handleError(soajs, 602, err), null);
 			}
 			return cb(null, record ? record : []);
+		});
+	},
+	
+	"getApplication": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {};
+		data.id = inputmaskData.id;
+		
+		if (!data.id) {
+			data.id = soajs.tenant.id;
+		}
+		modelObj.getTenant(data, (err, tenantRecord) => {
+			bl.mp.closeModel(soajs, modelObj);
+			if (err) {
+				return cb(bl.handleError(soajs, 602, err));
+			}
+			if (!tenantRecord) {
+				return cb(bl.handleError(soajs, 450, null));
+			}
+			if (!tenantRecord.applications) {
+				return cb(bl.handleError(soajs, 457, null));
+			}
+			let application;
+			for (let i = 0; i < tenantRecord.applications.length; i++) {
+				if (!tenantRecord.applications[i] || !tenantRecord.applications[i].appId) {
+					continue;
+				}
+				if (tenantRecord.applications[i].appId.toString() === inputmaskData.appId) {
+					application = tenantRecord.applications[i];
+					break;
+				}
+			}
+			if (application) {
+				return cb(null, application);
+			} else {
+				return cb(bl.handleError(soajs, 457, null));
+			}
+		});
+	},
+	
+	"listApplications": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {};
+		data.id = inputmaskData.id;
+		
+		if (!data.id) {
+			data.id = soajs.tenant.id;
+		}
+		modelObj.getTenant(data, (err, record) => {
+			bl.mp.closeModel(soajs, modelObj);
+			if (err) {
+				return cb(bl.handleError(soajs, 602, err), null);
+			}
+			if (!record) {
+				return cb(bl.handleError(soajs, 450, err), null);
+			}
+			return cb(null, record.applications ? record.applications : []);
+		});
+	},
+	
+	"listApplicationExtKeys": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {};
+		data.id = inputmaskData.id;
+		
+		if (!data.id) {
+			data.id = soajs.tenant.id;
+		}
+		modelObj.getTenant(data, (err, tenantRecord) => {
+			bl.mp.closeModel(soajs, modelObj);
+			if (err) {
+				return cb(bl.handleError(soajs, 602, err), null);
+			}
+			if (!tenantRecord) {
+				return cb(bl.handleError(soajs, 450, err), null);
+			}
+			if (!tenantRecord.applications) {
+				return cb(null, []);
+			}
+			let extKeys = [];
+			for (let i = 0; i < tenantRecord.applications.length; i++) {
+				if (!tenantRecord.applications[i] || !tenantRecord.applications[i].appId || !tenantRecord.applications[i].keys) {
+					continue;
+				}
+				if (tenantRecord.applications[i].appId.toString() === inputmaskData.appId) {
+					for (let j = 0; j < tenantRecord.applications[i].keys.length; j++) {
+						if (tenantRecord.applications[i].keys[j].key === inputmaskData.key) {
+							if (!tenantRecord.applications[i].keys[j].extKeys) {
+								continue;
+							}
+							extKeys = tenantRecord.applications[i].keys[j].extKeys;
+							break;
+						}
+					}
+				}
+			}
+			return cb(null, extKeys);
 		});
 	},
 	
@@ -436,7 +542,7 @@ let bl = {
 			}
 			for (let i = 0; i < tenantRecord.applications.length; i++) {
 				if (!tenantRecord.applications[i] || !tenantRecord.applications[i].appId) {
-					break;
+					continue;
 				}
 				if (tenantRecord.applications[i].appId.toString() === inputmaskData.appId) {
 					if (inputmaskData.description) {
@@ -497,7 +603,7 @@ let bl = {
 			
 			for (let i = 0; i < tenantRecord.applications.length; i++) {
 				if (!tenantRecord.applications[i] || !tenantRecord.applications[i].appId || !tenantRecord.applications[i].keys) {
-					break;
+					continue;
 				}
 				if (tenantRecord.applications[i].appId.toString() === inputmaskData.appId) {
 					for (let j = 0; j < tenantRecord.applications[i].keys.length; j++) {
@@ -556,17 +662,17 @@ let bl = {
 			}
 			for (let i = 0; i < tenantRecord.applications.length; i++) {
 				if (!tenantRecord.applications[i] || !tenantRecord.applications[i].appId || !tenantRecord.applications[i].keys) {
-					break;
+					continue;
 				}
 				if (tenantRecord.applications[i].appId.toString() === inputmaskData.appId) {
 					for (let j = 0; j < tenantRecord.applications[i].keys.length; j++) {
 						if (tenantRecord.applications[i].keys[j].key === inputmaskData.key) {
 							if (!tenantRecord.applications[i].keys[j].extKeys) {
-								break;
+								continue;
 							}
 							for (let x = 0; x < tenantRecord.applications[i].keys[j].extKeys.length; x++) {
 								if (!tenantRecord.applications[i].keys[j].extKeys[x]) {
-									break;
+									continue;
 								}
 								if (tenantRecord.applications[i].keys[j].extKeys[x].extKey === inputmaskData.extKey) {
 									if (inputmaskData.device) {
@@ -758,10 +864,19 @@ let bl = {
 				return cb(null, found);
 			}
 			for (let i = 0; i < tenantRecord.applications.length; i++) {
+				if (!tenantRecord.applications[i] || !tenantRecord.applications[i].appId || !tenantRecord.applications[i].keys) {
+					continue;
+				}
 				if (tenantRecord.applications[i].appId.toString() === inputmaskData.appId) {
 					for (let j = 0; j < tenantRecord.applications[i].keys.length; j++) {
 						if (tenantRecord.applications[i].keys[j].key === inputmaskData.key) {
+							if (!tenantRecord.applications[i].keys[j].extKeys) {
+								continue;
+							}
 							for (let x = 0; x < tenantRecord.applications[i].keys[j].extKeys.length; x++) {
+								if (!tenantRecord.applications[i].keys[j].extKeys[x]) {
+									continue;
+								}
 								if (tenantRecord.applications[i].keys[j].extKeys[x].extKey === inputmaskData.extKey) {
 									tenantRecord.applications[i].keys[j].extKeys.splice(x, 1);
 									found = 1;

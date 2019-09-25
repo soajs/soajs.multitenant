@@ -32,6 +32,7 @@ module.exports = {
 		454: "Unable to add tenant application",
 		455: "Unable to add a new key to the tenant application",
 		456: "Unable to add the tenant application ext Key",
+		457: "Unable to find application",
 		
 		460: "Unable to find product",
 		461: "Unable to find package",
@@ -216,17 +217,103 @@ module.exports = {
 					}
 				}
 			},
-			"/tenants": {
+			"/tenant/application": {
 				_apiInfo: {
-					"l": "List tenants",
+					"l": "Get tenant application",
 					"group": "Tenant"
 				},
-				"type": {
-					"source": ['query.type'],
-					"required": false,
+				"appId": {
+					"source": ['query.appId'],
+					"required": true,
 					"validation": {
-						"type": "string",
-						"enum": ["product", "client"]
+						"type": "string"
+					}
+				}
+				
+			},
+			"/admin/tenant/application": {
+				_apiInfo: {
+					"l": "Get tenant application",
+					"group": "Tenant"
+				},
+				"id": {
+					"source": ['query.id'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"appId": {
+					"source": ['query.appId'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				}
+			},
+			"/tenant/applications": {
+				_apiInfo: {
+					"l": "Get tenant applications",
+					"group": "Tenant"
+				},
+			},
+			"/admin/tenant/applications": {
+				_apiInfo: {
+					"l": "Get tenant applications",
+					"group": "Tenant"
+				},
+				"id": {
+					"source": ['query.id'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				}
+			},
+			"/tenant/application/key/ext": {
+				_apiInfo: {
+					"l": "Get tenant application keys",
+					"group": "Tenant"
+				},
+				"appId": {
+					"source": ['query.appId'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"key": {
+					"source": ['query.key'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				}
+			},
+			"/admin/tenant/application/key/ext": {
+				_apiInfo: {
+					"l": "Get tenant application keys",
+					"group": "Tenant"
+				},
+				"id": {
+					"source": ['query.id'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"appId": {
+					"source": ['query.appId'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"key": {
+					"source": ['query.key'],
+					"required": true,
+					"validation": {
+						"type": "string"
 					}
 				}
 			}
@@ -517,7 +604,7 @@ module.exports = {
 			},
 			"/tenant/application": {
 				_apiInfo: {
-					"l": "Delete Tenant",
+					"l": "Delete tenant application",
 					"group": "Tenant"
 				},
 				"id": {
@@ -544,7 +631,7 @@ module.exports = {
 			},
 			"/tenant/application/key": {
 				_apiInfo: {
-					"l": "Delete Tenant",
+					"l": "Delete tenant application key",
 					"group": "Tenant"
 				},
 				"id": {
@@ -576,10 +663,10 @@ module.exports = {
 					}
 				}
 			},
-			"/tenant/application/key/extKey": {
+			"/tenant/application/key/ext": {
 				_apiInfo: {
-					"l": "Delete Tenant",
-					"group": "Tenant"
+					"l": "Delete tenant application external key",
+					"group": "Tenant Access"
 				},
 				"id": {
 					"source": ['query.id'],
@@ -874,10 +961,10 @@ module.exports = {
 				}
 			},
 			
-			"/tenant/application/key/extKey": {
+			"/tenant/application/key/ext": {
 				_apiInfo: {
 					"l": "Update key information for a tenant application",
-					"group": "Tenant"
+					"group": "Tenant Access"
 				},
 				"commonFields": ['appId', 'key', 'extKey', 'expDate', 'device', 'geo'],
 				"label": {
@@ -896,7 +983,7 @@ module.exports = {
 				}
 			},
 			
-			"/admin/tenant/application/key/extKey": {
+			"/admin/tenant/application/key/ext": {
 				_apiInfo: {
 					"l": "Update key information for a tenant application",
 					"group": "Admin Tenant"
