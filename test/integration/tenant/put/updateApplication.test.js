@@ -8,6 +8,8 @@ let updateAppSchema = require("../schemas/updateApplication.js");
 let listTenantsSchema = require("../schemas/listTenants.js");
 let getTenantSchema = require("../schemas/getTenant");
 
+let extKeyTest = 'aa39b5490c4a4ed0e56d7ec1232a428f1c5b5dcabc0788ce563402e233386738fc3eb18234a486ce1667cf70bd0e8b08890a86126cf1aa8d38f84606d8a6346359a61678428343e01319e0b784bc7e2ca267bbaafccffcb6174206e8c83f2a25';
+
 describe("Testing update app of tenant API", () => {
 
     before(function (done) {
@@ -87,15 +89,44 @@ describe("Testing update app of tenant API", () => {
         });
     });
 
-    it.skip("Success - will return tenant record - no id (admin)", (done) => {
+    it("Success - will update tenant application - no id", (done) => {
         let params = {
+            headers: {
+                key: extKeyTest
+            },
+            body: {
+                appId: '30d2cb5fc04ce51e06000003',
+                description: 'Updated two',
+                _TTL: '24'
+            }
         };
+        requester('/tenant/application', 'put', params, (error, body) => {
+            assert.ifError(error);
+            assert.ok(body);
+            assert.ok(body.data);
+            assert.deepEqual(body.data, 1);
+            let check = validator.validate(body, updateAppSchema);
+            assert.deepEqual(check.valid, true);
+            assert.deepEqual(check.errors, []);
+            done();
+        });
+    });
 
+    it("Success - will return tenant record - id", (done) => {
+        let params = {
+            headers: {
+                key: extKeyTest
+            }
+        };
         requester('/tenant', 'get', params, (error, body) => {
             assert.ifError(error);
             assert.ok(body);
-            console.log(body, body.data, body.errors);
             assert.ok(body.data);
+            body.data.applications.forEach(app => {
+                if (app.appId === '30d2cb5fc04ce51e06000003') {
+                    assert.deepEqual(app.description, 'Updated two');
+                }
+            });
             let check = validator.validate(body, getTenantSchema);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);

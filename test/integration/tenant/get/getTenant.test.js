@@ -41,7 +41,7 @@ describe("Testing get tenant API", () => {
         });
     });
 
-    it("Success - will return tenant record - id", (done) => {
+    it("Success - will return tenant record - id (admin)", (done) => {
         let params = {
             qs: {
                 id: selectedTenant._id
@@ -61,7 +61,7 @@ describe("Testing get tenant API", () => {
         });
     });
 
-    it("Success - will return tenant record - no id no code", (done) => {
+    it("Success - will return tenant record - no id", (done) => {
         let params = {
             qs: {
             },

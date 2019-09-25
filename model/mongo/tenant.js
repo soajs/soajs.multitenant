@@ -63,6 +63,7 @@ Tenant.prototype.getTenant = function (data, cb) {
 			]
 		}]
 	};
+
 	if (data.id) {
 		__self.validateId(data.id, (err, id) => {
 			if (err) {

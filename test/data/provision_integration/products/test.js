@@ -54,7 +54,16 @@ let lib = {
                                    },
 	                               "/tenant": {
 		                               "access": true
-	                               }
+	                               },
+                                   "/tenant/application/key/extKey": {
+                                       "access": true
+                                   },
+                                   "/tenant/application/key": {
+                                       "access": true
+                                   },
+                                   "/tenant/application": {
+                                       "access": true
+                                   }
                                },
                                "group": "Tenant"
                            }
