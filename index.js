@@ -200,6 +200,24 @@ service.init(() => {
                 return res.json(req.soajs.buildResponse(error, data));
             });
         });
+	
+	    service.delete("/tenant/application", (req, res) => {
+		    bl.tenant.deleteApplication(req.soajs, req.soajs.inputmaskData, (error, data) => {
+			    return res.json(req.soajs.buildResponse(error, data));
+		    });
+	    });
+	    
+	    service.delete("/tenant/application/key", (req, res) => {
+		    bl.tenant.deleteApplicationKey(req.soajs, req.soajs.inputmaskData, (error, data) => {
+			    return res.json(req.soajs.buildResponse(error, data));
+		    });
+	    });
+	
+	    service.delete("/tenant/application/key/extKey", (req, res) => {
+		    bl.tenant.deleteApplicationExternalKey(req.soajs, req.soajs.inputmaskData, (error, data) => {
+			    return res.json(req.soajs.buildResponse(error, data));
+		    });
+	    });
 
         service.start();
     });

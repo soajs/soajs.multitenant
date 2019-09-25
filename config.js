@@ -514,6 +514,108 @@ module.exports = {
 						"type": "string"
 					}
 				}
+			},
+			"/tenant/application": {
+				_apiInfo: {
+					"l": "Delete Tenant",
+					"group": "Tenant"
+				},
+				"id": {
+					"source": ['query.id'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"code": {
+					"source": ['query.code'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"appId": {
+					"source": ['query.appId'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				}
+			},
+			"/tenant/application/key": {
+				_apiInfo: {
+					"l": "Delete Tenant",
+					"group": "Tenant"
+				},
+				"id": {
+					"source": ['query.id'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"code": {
+					"source": ['query.code'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"appId": {
+					"source": ['query.appId'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"key": {
+					"source": ['query.key'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				}
+			},
+			"/tenant/application/key/extKey": {
+				_apiInfo: {
+					"l": "Delete Tenant",
+					"group": "Tenant"
+				},
+				"id": {
+					"source": ['query.id'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"code": {
+					"source": ['query.code'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"appId": {
+					"source": ['query.appId'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"key": {
+					"source": ['query.key'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"extKey": {
+					"source": ['query.extKey'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				}
 			}
 		},
 		
@@ -822,108 +924,6 @@ module.exports = {
 					}
 				}
 				//todo: add config
-			},
-			"/tenant/applications/delete": {
-				_apiInfo: {
-					"l": "Delete Tenant",
-					"group": "Tenant"
-				},
-				"id": {
-					"source": ['query.id'],
-					"required": false,
-					"validation": {
-						"type": "string"
-					}
-				},
-				"code": {
-					"source": ['query.code'],
-					"required": false,
-					"validation": {
-						"type": "string"
-					}
-				},
-				"appId": {
-					"source": ['query.appId'],
-					"required": true,
-					"validation": {
-						"type": "string"
-					}
-				}
-			},
-			"/tenant/application/key/delete": {
-				_apiInfo: {
-					"l": "Delete Tenant",
-					"group": "Tenant"
-				},
-				"id": {
-					"source": ['query.id'],
-					"required": false,
-					"validation": {
-						"type": "string"
-					}
-				},
-				"code": {
-					"source": ['query.code'],
-					"required": false,
-					"validation": {
-						"type": "string"
-					}
-				},
-				"appId": {
-					"source": ['query.appId'],
-					"required": true,
-					"validation": {
-						"type": "string"
-					}
-				},
-				"key": {
-					"source": ['query.key'],
-					"required": true,
-					"validation": {
-						"type": "string"
-					}
-				}
-			},
-			"/tenant/application/key/ext/delete": {
-				_apiInfo: {
-					"l": "Delete Tenant",
-					"group": "Tenant"
-				},
-				"id": {
-					"source": ['query.id'],
-					"required": false,
-					"validation": {
-						"type": "string"
-					}
-				},
-				"code": {
-					"source": ['query.code'],
-					"required": false,
-					"validation": {
-						"type": "string"
-					}
-				},
-				"appId": {
-					"source": ['query.appId'],
-					"required": true,
-					"validation": {
-						"type": "string"
-					}
-				},
-				"key": {
-					"source": ['query.key'],
-					"required": true,
-					"validation": {
-						"type": "string"
-					}
-				},
-				"extKey": {
-					"source": ['query.key'],
-					"required": true,
-					"validation": {
-						"type": "string"
-					}
-				}
 			}
 		}
 	}

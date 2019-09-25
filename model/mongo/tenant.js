@@ -63,7 +63,7 @@ Tenant.prototype.getTenant = function (data, cb) {
 			]
 		}]
 	};
-
+	
 	if (data.id) {
 		__self.validateId(data.id, (err, id) => {
 			if (err) {
@@ -211,6 +211,72 @@ Tenant.prototype.updateTenant = function (data, cb) {
 	});
 	
 };
+
+Tenant.prototype.removeApplication = function (data, cb) {
+	let __self = this;
+	if (!data || !data._id || !data.appId) {
+		let error = new Error("_id and appId are required.");
+		return cb(error, null);
+	}
+	
+	let condition = {'_id': data._id};
+	let options = {'upsert': false, 'safe': true};
+	
+	try {
+		data.appId = __self.mongoCore.ObjectId(data.appId);
+	}
+	catch (e) {
+		return cb(e);
+	}
+	let fields = {
+		'$pull': {
+			'applications': {
+				"appId": __self.mongoCore.ObjectId(data.appId)
+			}
+		}
+	};
+	__self.mongoCore.update(colName, condition, fields, options, (err, result) => {
+		return cb(err, result);
+	});
+};
+
+Tenant.prototype.removeApplicationKey = function (data, cb) {
+	let __self = this;
+	if (!data || !data._id || !data.appId || !data.key) {
+		let error = new Error("_id, appId, and key are required.");
+		return cb(error, null);
+	}
+	try {
+		data.appId = __self.mongoCore.ObjectId(data.appId);
+	}
+	catch (e) {
+		return cb(e);
+	}
+	let condition = {
+		'_id': data._id,
+		'applications.appId': data.appId
+	};
+	let options = {'upsert': false, 'safe': true};
+	
+	try {
+		data.appId = __self.mongoCore.ObjectId(data.appId);
+	}
+	catch (e) {
+		return cb(e);
+	}
+	let fields = {
+		'$pull': {
+			'applications.$.keys': {
+				"key": data.key
+			}
+		}
+	};
+	__self.mongoCore.update(colName, condition, fields, options, (err, result) => {
+		return cb(err, result);
+	});
+};
+
+
 Tenant.prototype.closeConnection = function () {
 	let __self = this;
 	__self.mongoCore.closeDb();
