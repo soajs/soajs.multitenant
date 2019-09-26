@@ -5089,7 +5089,6 @@ describe("Unit test for: BL - tenant", () => {
             };
 
             BL.deleteApplication(soajs, inputMask, (err, record) => {
-                console.log(record);
                 assert.ok(record);
                 done();
             });
@@ -5306,6 +5305,303 @@ describe("Unit test for: BL - tenant", () => {
             };
 
             BL.deleteApplication(soa, inputMask, (err, record) => {
+                assert.ok(err);
+                done();
+            });
+        });
+
+    });
+
+    describe("Testing delete application key", () => {
+        afterEach((done) => {
+            BL.modelObj = null;
+            done();
+        });
+
+        it("Success - delete application key - data", (done) => {
+            let inputMask = {
+                id: 'TenantID',
+                key: "KEY1",
+                appId: 'AppID'
+            };
+
+            BL.modelObj = {
+                getTenant: (inputMask, cb) => {
+                    return cb(null, {
+                        "type": "product",
+                        "oauth": {
+                            secret: "this is a secret",
+                            redirectURI: "http://domain.com",
+                            grants: [
+                                "password",
+                                "refresh_token"
+                            ],
+                            disabled: 0,
+                            type: 2.0,
+                            loginMode: "urac",
+                            pin: {
+                                DSBRD: {
+                                    enabled: false
+                                }
+                            },
+                        },
+                        "code": "test",
+                        "name": "Test Tenant",
+                        "description": "this is a description for test tenant",
+                        "applications": [
+                            {
+                                "product": "PROD",
+                                "package": "PROD_TEST",
+                                "appId": "AppID",
+                                "description": "this is a description",
+                                "_TTL": 86400000, // 24 hours
+                                "keys": [
+                                    {
+                                        "key": "KEY1",
+                                        "extKeys": [
+                                            {
+                                                "expDate": new Date().getTime() + 86400000,
+                                                "extKey": "EXTKEY1",
+                                                "device": {},
+                                                "geo": {}
+                                            }
+                                        ],
+                                        "config": {
+                                            "dev": {
+                                                "commonFields": {},
+                                                "oauth": {
+                                                    "loginMode": 'urac'
+                                                }
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    });
+                },
+                removeApplicationKey: (inputmask, cb) => {
+                    return cb(null, 1);
+                }
+            };
+
+            BL.deleteApplicationKey(soajs, inputMask, (err, record) => {
+                assert.ok(record);
+                done();
+            });
+        });
+
+        it("Fails - delete application key - null data", (done) => {
+            BL.modelObj = {};
+
+            BL.deleteApplicationKey(soajs, null, (err, record) => {
+                assert.ok(err);
+                assert.deepEqual(err, {
+                    code: 400,
+                    msg: soajs.config.errors[400]
+                });
+                done();
+            });
+        });
+
+        it("Fails - delete application key - getTenant Error", (done) => {
+            BL.modelObj = {
+                getTenant: (inputMask, cb) => {
+                    return cb(true, null);
+                }
+            };
+
+            BL.deleteApplicationKey(soajs, {}, (err, record) => {
+                assert.ok(err);
+                assert.deepEqual(err.code, 602);
+                done();
+            });
+        });
+
+        it("Fails - delete application key - removeApplication error", (done) => {
+            let inputMask = {
+                id: 'TenantID',
+                appId: 'AppID'
+            };
+
+            BL.modelObj = {
+                getTenant: (inputMask, cb) => {
+                    return cb(null, {
+                        "type": "product",
+                        "oauth": {
+                            secret: "this is a secret",
+                            redirectURI: "http://domain.com",
+                            grants: [
+                                "password",
+                                "refresh_token"
+                            ],
+                            disabled: 0,
+                            type: 2.0,
+                            loginMode: "urac",
+                            pin: {
+                                DSBRD: {
+                                    enabled: false
+                                }
+                            },
+                        },
+                        "code": "test",
+                        "name": "Test Tenant",
+                        "description": "this is a description for test tenant",
+                        "applications": [
+                            {
+                                "product": "PROD",
+                                "package": "PROD_TEST",
+                                "appId": "AppID",
+                                "description": "this is a description",
+                                "_TTL": 86400000, // 24 hours
+                                "keys": [
+                                    {
+                                        "key": "KEY1",
+                                        "extKeys": [
+                                            {
+                                                "expDate": new Date().getTime() + 86400000,
+                                                "extKey": "EXTKEY1",
+                                                "device": {},
+                                                "geo": {}
+                                            }
+                                        ],
+                                        "config": {
+                                            "dev": {
+                                                "commonFields": {},
+                                                "oauth": {
+                                                    "loginMode": 'urac'
+                                                }
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    });
+                },
+                removeApplicationKey: (inputmask, cb) => {
+                    return cb(true, null);
+                }
+            };
+
+            BL.deleteApplicationKey(soajs, inputMask, (err, record) => {
+                assert.ok(err);
+                assert.deepEqual(err, {
+                    code: 471,
+                    msg: soajs.config.errors[471]
+                });
+                done();
+            });
+        });
+
+        it("Fails - delete application key - data", (done) => {
+            let inputMask = {
+                id: 'TenantID',
+                appId: 'AppID'
+            };
+
+            BL.modelObj = {
+                getTenant: (inputMask, cb) => {
+                    return cb(null, {locked: true});
+                }
+            };
+
+            BL.deleteApplicationKey(soajs, inputMask, (err, record) => {
+                assert.ok(err);
+                assert.deepEqual(err, {
+                    code: 500,
+                    msg: soajs.config.errors[500]
+                });
+                done();
+            });
+        });
+
+        it("Fails - delete application key - no record", (done) => {
+            BL.modelObj = {
+                getTenant: (inputMask, cb) => {
+                    return cb(null, null);
+                }
+            };
+
+            BL.deleteApplicationKey(soajs, {}, (err, record) => {
+                assert.ok(err);
+                assert.deepEqual(err, {
+                    code: 450,
+                    msg: soajs.config.errors[450]
+                });
+                done();
+            });
+        });
+
+        it("Fails - delete application key - tenant.id", (done) => {
+            let inputMask = {
+                id: '5c0e74ba9acc3c5a84a51259',
+                appId: 'AppID'
+            };
+
+            let soa = {
+                config: {
+                    "errors": {
+                        400: "Business logic required data are missing",
+                        450: "Unable to find tenant",
+                        451: "Tenant already exists",
+                        452: "Main Tenant id is required!",
+                        453: "Main Tenant is not found!",
+                        454: "Unable to add tenant application",
+                        455: "Unable to add a new key to the tenant application",
+                        456: "Unable to add the tenant application ext Key",
+                        457: "Unable to find application",
+
+                        460: "Unable to find product",
+                        461: "Unable to find package",
+                        462: "You are not allowed to remove the tenant you are currently logged in with",
+                        463: "Invalid product code or package code provided",
+
+                        466: "You are not allowed to remove the product you are currently logged in with",
+                        467: "Package already exists",
+                        468: "Product already exists",
+
+                        470: "Unable to update product",
+                        471: "Unable to update tenant",
+                        472: "Unable to get the tenant application",
+                        473: "Unable to get the tenant application key",
+                        500: "You cannot modify or delete a locked record",
+                        501: "Environment record not found!",
+
+                        601: "Model not found",
+                        602: "Model error: ",
+                    },
+                    "console": {
+                        "product": "DSBRD"
+                    },
+                },
+                tenant: {
+                    id: "5c0e74ba9acc3c5a84a51259",
+                    main: {
+                        id: "5d8387fd1873f9079b863da0"
+                    },
+                    application: {
+                        product: "TPROD",
+                        package: "TPROD_TEST",
+                    }
+                },
+                log: {
+                    error: () => {
+                        console.log();
+                    }
+                }
+            };
+
+            BL.modelObj = {
+                getTenant: (inputMask, cb) => {
+                    return cb(null, {
+                        "type": "product",
+                        "_id": '5c0e74ba9acc3c5a84a51259'
+                    });
+                }
+            };
+
+            BL.deleteApplicationKey(soa, inputMask, (err, record) => {
                 assert.ok(err);
                 done();
             });

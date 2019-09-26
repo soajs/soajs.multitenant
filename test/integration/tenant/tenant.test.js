@@ -30,6 +30,7 @@ describe("starting tenant integration tests", () => {
         require('./put/updateApplication.test');
 
         // DELETE
+        require("./delete/deleteAppKey.test.js");
         require("./delete/deleteApplication.test.js");
         require("./delete/deleteTenant.test.js");
 

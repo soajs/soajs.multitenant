@@ -4,7 +4,7 @@ const requester = require('../../requester');
 
 let core = require('soajs').core;
 let validator = new core.validator.Validator();
-let deleteApplicationSchema = require("../schemas/deleteApplication.js");
+let deleteAppKeySchema = require("../schemas/deleteAppKey.js");
 let getTenantsSchema = require("../schemas/getTenant.js");
 let listTenantsSchema = require("../schemas/listTenants.js");
 
@@ -43,15 +43,16 @@ describe("Testing delete tenant API", () => {
         let params = {
             qs: {
                 id: selectedTenant._id,
-                appId: '30d2cb5fc04ce51e06000003'
+                appId: '30d2cb5fc04ce51e06000003',
+                key: "ff7b65bb252201121f1be95adc08f44a"
             }
         };
-        requester('/tenant/application', 'delete', params, (error, body) => {
+        requester('/tenant/application/key', 'delete', params, (error, body) => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.data);
             assert.deepEqual(body.data, 1);
-            let check = validator.validate(body, deleteApplicationSchema);
+            let check = validator.validate(body, deleteAppKeySchema);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);
             done();
@@ -62,15 +63,16 @@ describe("Testing delete tenant API", () => {
         let params = {
             qs: {
                 code: selectedTenant.code,
-                appId: '30d2cb5fc04ce51e06000002'
+                appId: '30d2cb5fc04ce51e06000002',
+                key: '695d3456de70fddc9e1e60a6d85b97d3'
             }
         };
-        requester('/tenant/application', 'delete', params, (error, body) => {
+        requester('/tenant/application/key', 'delete', params, (error, body) => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.data);
             assert.deepEqual(body.data, 1);
-            let check = validator.validate(body, deleteApplicationSchema);
+            let check = validator.validate(body, deleteAppKeySchema);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);
             done();
@@ -87,7 +89,8 @@ describe("Testing delete tenant API", () => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.data);
-            assert.deepEqual(body.data.applications.length, 1);
+            assert.deepEqual(body.data.applications[1].keys.length, 0);
+            assert.deepEqual(body.data.applications[2].keys.length, 0);
             let check = validator.validate(body, getTenantsSchema);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);
@@ -101,7 +104,7 @@ describe("Testing delete tenant API", () => {
         requester('/tenant/application', 'delete', params, (error, body) => {
             assert.ifError(error);
             assert.ok(body);
-            let check = validator.validate(body, deleteApplicationSchema);
+            let check = validator.validate(body, deleteAppKeySchema);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);
             done();

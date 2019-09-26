@@ -285,7 +285,7 @@ describe("Unit test for: Model - tenant", () => {
             });
         });
 
-        it.skip("Success - removeApplicationKey - id", (done) => {
+        it("Success - removeApplicationKey - id", (done) => {
             let inputmaskData = {
                 _id: tenantTest._id,
                 appId: '30d2cb5fc04ce51e06000003',
@@ -293,6 +293,7 @@ describe("Unit test for: Model - tenant", () => {
             };
             model.removeApplicationKey(inputmaskData, (err, result) => {
                 assert.ok(result);
+                assert.deepEqual(result, 1);
                 done();
             });
         });
