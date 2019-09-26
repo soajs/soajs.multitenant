@@ -34,6 +34,9 @@ let lib = {
                                    },
                                    "/tenant/application": {
                                        "access": true
+                                   },
+                                   "/tenant/applications": {
+                                       "access": true
                                    }
                                },
                                "group": "Tenant"
@@ -43,6 +46,9 @@ let lib = {
                                    "/admin/tenant/application": {
                                        "access": true
                                    },
+                                   "/admin/tenant/applications": {
+                                       "access": true
+                                   }
                                },
                                "group": "Admin Tenant"
                            }
