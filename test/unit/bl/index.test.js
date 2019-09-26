@@ -17,6 +17,7 @@ describe("Unit test for: BLs", () => {
                 454: "Unable to add tenant application",
                 455: "Unable to add a new key to the tenant application",
                 456: "Unable to add the tenant application ext Key",
+                457: "Unable to find application",
 
                 460: "Unable to find product",
                 461: "Unable to find package",

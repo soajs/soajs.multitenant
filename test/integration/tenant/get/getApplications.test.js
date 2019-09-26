@@ -4,10 +4,10 @@ const requester = require('../../requester');
 
 let core = require('soajs').core;
 let validator = new core.validator.Validator();
-let getTenantsSchema = require("../schemas/getTenant.js");
+let getApplicationsSchema = require("../schemas/getApplications.js");
 let listTenantsSchema = require("../schemas/listTenants.js");
 
-describe("Testing get tenant API", () => {
+describe("Testing get applications API", () => {
 
     before(function (done) {
         done();
@@ -41,52 +41,57 @@ describe("Testing get tenant API", () => {
         });
     });
 
-    it("Success - will return tenant record - id (admin)", (done) => {
+    it("Success - will return tenant application - id (admin)", (done) => {
         let params = {
             qs: {
-                id: selectedTenant._id
+                id: selectedTenant._id,
+                appId: '30d2cb5fc04ce51e06000003'
             }
         };
-        requester('/admin/tenant', 'get', params, (error, body) => {
+        requester('/admin/tenant/application', 'get', params, (error, body) => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.data);
-            assert.deepEqual(body.data.name, 'Test Tenant');
-            assert.deepEqual(body.data.code, 'test');
-            assert.deepEqual(body.data.description, 'this is a description for test tenant');
-            let check = validator.validate(body, getTenantsSchema);
+            assert.deepEqual(body.data.product, 'TPROD');
+            assert.deepEqual(body.data.package, 'TPROD_EXAMPLE03');
+            assert.deepEqual(body.data.appId, '30d2cb5fc04ce51e06000003');
+            let check = validator.validate(body, getApplicationsSchema);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);
             done();
         });
     });
 
-    it("Success - will return tenant record - no id", (done) => {
+    it("Success - will return tenant application - no id", (done) => {
         let params = {
             qs: {
+                appId: '30d2cb5fc04ce51e06000003'
             },
             headers: {
                 key: "aa39b5490c4a4ed0e56d7ec1232a428f771e8bb83cfcee16de14f735d0f5da587d5968ec4f785e38570902fd24e0b522b46cb171872d1ea038e88328e7d973ff47d9392f72b2d49566209eb88eb60aed8534a965cf30072c39565bd8d72f68ac"
             }
         };
-        requester('/tenant', 'get', params, (error, body) => {
+        requester('/tenant/application', 'get', params, (error, body) => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.data);
-            let check = validator.validate(body, getTenantsSchema);
+            assert.deepEqual(body.data.product, 'TPROD');
+            assert.deepEqual(body.data.package, 'TPROD_EXAMPLE03');
+            assert.deepEqual(body.data.appId, '30d2cb5fc04ce51e06000003');
+            let check = validator.validate(body, getApplicationsSchema);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);
             done();
         });
     });
 
-    it("Fail - will not return tenant record - no params", (done) => {
+    it("Fail - will not return tenant application - no params", (done) => {
         let params = {};
-        requester('/tenant', 'get', params, (error, body) => {
+        requester('/tenant/application', 'get', params, (error, body) => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.errors.codes);
-            let check = validator.validate(body, getTenantsSchema);
+            let check = validator.validate(body, getApplicationsSchema);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);
             done();

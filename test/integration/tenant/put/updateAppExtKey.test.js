@@ -60,7 +60,7 @@ describe("Testing update app external key of tenant API", () => {
                 extKeyEnv: "DASHBOARD",
             }
         };
-        requester('/admin/tenant/application/key/extKey', 'put', params, (error, body) => {
+        requester('/admin/tenant/application/key/ext', 'put', params, (error, body) => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.data);
@@ -116,7 +116,7 @@ describe("Testing update app external key of tenant API", () => {
                 extKeyEnv: "dev",
             }
         };
-        requester('/tenant/application/key/extKey', 'put', params, (error, body) => {
+        requester('/tenant/application/key/ext', 'put', params, (error, body) => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.data);
@@ -158,7 +158,7 @@ describe("Testing update app external key of tenant API", () => {
 
     it("Fail - will not update tenant application external key - no params - admin", (done) => {
         let params = {};
-        requester('/admin/tenant/application/key/extKey', 'put', params, (error, body) => {
+        requester('/admin/tenant/application/key/ext', 'put', params, (error, body) => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.errors.codes);
@@ -171,7 +171,7 @@ describe("Testing update app external key of tenant API", () => {
 
     it("Fail - will not update tenant application external key - no params", (done) => {
         let params = {};
-        requester('/tenant/application/key/extKey', 'put', params, (error, body) => {
+        requester('/tenant/application/key/ext', 'put', params, (error, body) => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.errors.codes);

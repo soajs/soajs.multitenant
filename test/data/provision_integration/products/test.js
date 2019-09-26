@@ -32,8 +32,19 @@ let lib = {
                                    "/tenant": {
                                        "access": true
                                    },
+                                   "/tenant/application": {
+                                       "access": true
+                                   }
                                },
                                "group": "Tenant"
+                           },
+                           {
+                               "apis": {
+                                   "/admin/tenant/application": {
+                                       "access": true
+                                   },
+                               },
+                               "group": "Admin Tenant"
                            }
                        ],
                        "post": [
@@ -63,9 +74,23 @@ let lib = {
                                    },
                                    "/tenant/application": {
                                        "access": true
+                                   },
+                                   "/tenant/application/key/ext": {
+                                       "access": true
                                    }
                                },
                                "group": "Tenant"
+                           },
+                           {
+                               "apis": {
+                                   "/admin/tenant/application": {
+                                       "access": true
+                                   },
+                                   "/admin/tenant/application/key/ext": {
+                                       "access": true
+                                   }
+                               },
+                               "group": "Admin Tenant"
                            }
                        ]
                    },
