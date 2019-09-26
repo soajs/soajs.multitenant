@@ -198,6 +198,20 @@ module.exports = {
 					}
 				}
 			},
+			"/tenants": {
+				_apiInfo: {
+					"l": "List tenants",
+					"group": "Tenant"
+				},
+				"type": {
+					"source": ['query.type'],
+					"required": false,
+					"validation": {
+						"type": "string",
+						"enum": ["product", "client"]
+					}
+				}
+			},
 			"/tenant": {
 				_apiInfo: {
 					"l": "Get tenant",
