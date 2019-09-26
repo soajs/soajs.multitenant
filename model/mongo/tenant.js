@@ -34,7 +34,7 @@ function Tenant(service, options, mongoCore) {
 
 Tenant.prototype.validateId = function (id, cb) {
 	let __self = this;
-	
+
 	if (!id) {
 		let error = new Error("id is required.");
 		return cb(error, null);
@@ -235,6 +235,7 @@ Tenant.prototype.removeApplication = function (data, cb) {
 			}
 		}
 	};
+
 	__self.mongoCore.update(colName, condition, fields, options, (err, result) => {
 		return cb(err, result);
 	});
@@ -257,13 +258,7 @@ Tenant.prototype.removeApplicationKey = function (data, cb) {
 		'applications.appId': data.appId
 	};
 	let options = {'upsert': false, 'safe': true};
-	
-	try {
-		data.appId = __self.mongoCore.ObjectId(data.appId);
-	}
-	catch (e) {
-		return cb(e);
-	}
+
 	let fields = {
 		'$pull': {
 			'applications.$.keys': {
@@ -271,6 +266,7 @@ Tenant.prototype.removeApplicationKey = function (data, cb) {
 			}
 		}
 	};
+
 	__self.mongoCore.update(colName, condition, fields, options, (err, result) => {
 		return cb(err, result);
 	});

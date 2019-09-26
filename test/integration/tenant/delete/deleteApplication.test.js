@@ -4,7 +4,7 @@ const requester = require('../../requester');
 
 let core = require('soajs').core;
 let validator = new core.validator.Validator();
-let deleteTenantSchema = require("../schemas/deleteTenant.js");
+let deleteApplicationSchema = require("../schemas/deleteApplication.js");
 let getTenantsSchema = require("../schemas/getTenant.js");
 let listTenantsSchema = require("../schemas/listTenants.js");
 
@@ -28,7 +28,7 @@ describe("Testing delete tenant API", () => {
             assert.ok(body);
             assert.ok(body.data);
             body.data.forEach(tenant => {
-                if (tenant.code === 'test2') {
+                if (tenant.code === 'test') {
                     selectedTenant = tenant;
                 }
             });
@@ -39,34 +39,56 @@ describe("Testing delete tenant API", () => {
         });
     });
 
-    it("Success - will delete tenant record - input", (done) => {
+    it("Success - will delete application record - input", (done) => {
         let params = {
             qs: {
-                id: selectedTenant._id
+                id: selectedTenant._id,
+                appId: '30d2cb5fc04ce51e06000003'
             }
         };
-        requester('/tenant', 'delete', params, (error, body) => {
+        requester('/tenant/application', 'delete', params, (error, body) => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.data);
-            let check = validator.validate(body, deleteTenantSchema);
+            assert.deepEqual(body.data, 1);
+            let check = validator.validate(body, deleteApplicationSchema);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);
             done();
         });
     });
 
-    it("Success - will delete tenant record - input", (done) => {
+    it("Success - will delete application record - input", (done) => {
         let params = {
             qs: {
-                code: 'test'
+                code: selectedTenant.code,
+                appId: '30d2cb5fc04ce51e06000002'
             }
         };
-        requester('/tenant', 'delete', params, (error, body) => {
+        requester('/tenant/application', 'delete', params, (error, body) => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.data);
-            let check = validator.validate(body, deleteTenantSchema);
+            assert.deepEqual(body.data, 1);
+            let check = validator.validate(body, deleteApplicationSchema);
+            assert.deepEqual(check.valid, true);
+            assert.deepEqual(check.errors, []);
+            done();
+        });
+    });
+
+    it("Success - will return record - id", (done) => {
+        let params = {
+            qs: {
+                id: selectedTenant._id
+            }
+        };
+        requester('/admin/tenant', 'get', params, (error, body) => {
+            assert.ifError(error);
+            assert.ok(body);
+            assert.ok(body.data);
+            assert.deepEqual(body.data.applications.length, 1)
+            let check = validator.validate(body, getTenantsSchema);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);
             done();
@@ -76,11 +98,10 @@ describe("Testing delete tenant API", () => {
     it("Fails - will not delete tenant record - no input", (done) => {
         let params = {};
 
-        requester('/tenant', 'delete', params, (error, body) => {
+        requester('/tenant/application', 'delete', params, (error, body) => {
             assert.ifError(error);
             assert.ok(body);
-            assert.deepEqual(body.errors.codes, [602]);
-            let check = validator.validate(body, deleteTenantSchema);
+            let check = validator.validate(body, deleteApplicationSchema);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);
             done();

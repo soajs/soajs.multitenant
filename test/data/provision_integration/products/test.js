@@ -37,6 +37,9 @@ let lib = {
                                    },
                                    "/tenant/applications": {
                                        "access": true
+                                   },
+                                   "/tenant/application/key/ext": {
+                                       "access": true
                                    }
                                },
                                "group": "Tenant"
@@ -47,6 +50,9 @@ let lib = {
                                        "access": true
                                    },
                                    "/admin/tenant/applications": {
+                                       "access": true
+                                   },
+                                   "/admin/tenant/application/key/ext": {
                                        "access": true
                                    }
                                },
@@ -97,6 +103,16 @@ let lib = {
                                    }
                                },
                                "group": "Admin Tenant"
+                           }
+                       ],
+                       "delete": [
+                           {
+                               "apis": {
+                                   "/tenant/application": {
+                                       "access": true
+                                   }
+                               },
+                               "group": "Tenant"
                            }
                        ]
                    },

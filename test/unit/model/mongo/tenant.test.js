@@ -6,6 +6,7 @@ const assert = require('assert');
 
 describe("Unit test for: Model - tenant", () => {
     let model;
+    let tenantTest;
     let service = {
         config: {
             "errors": {},
@@ -121,6 +122,7 @@ describe("Unit test for: Model - tenant", () => {
             model.getTenant({code: "test"}, (err, record) => {
                 assert.ifError(err);
                 assert.ok(record);
+                tenantTest = record;
                 assert.deepEqual(record.name, 'Test Tenant');
                 assert.deepEqual(record.description, 'this is a description for test tenant');
                 done();
@@ -271,6 +273,46 @@ describe("Unit test for: Model - tenant", () => {
             model.addTenant(null, (err, record) => {
                 assert.ok(err);
                 assert.deepEqual(err, new Error("name and code are required."));
+                done();
+            });
+        });
+
+        it("Fails - removeApplicationKey - null", (done) => {
+            model.removeApplicationKey(null, (err, record) => {
+                assert.ok(err);
+                assert.deepEqual(err, new Error("_id, appId, and key are required."));
+                done();
+            });
+        });
+
+        it.skip("Success - removeApplicationKey - id", (done) => {
+            let inputmaskData = {
+                _id: tenantTest._id,
+                appId: '30d2cb5fc04ce51e06000003',
+                key: 'ff7b65bb252201121f1be95adc08f44a'
+            };
+            model.removeApplicationKey(inputmaskData, (err, result) => {
+                assert.ok(result);
+                done();
+            });
+        });
+
+        it("Fails - removeApplication - null", (done) => {
+            model.removeApplication(null, (err, record) => {
+                assert.ok(err);
+                assert.deepEqual(err, new Error("_id and appId are required."));
+                done();
+            });
+        });
+
+        it("Success - removeApplication - id", (done) => {
+            let inputmaskData = {
+                _id: tenantTest._id,
+                appId: '30d2cb5fc04ce51e06000003',
+            };
+            model.removeApplication(inputmaskData, (err, result) => {
+                assert.ok(result);
+                assert.deepEqual(result, 1);
                 done();
             });
         });
