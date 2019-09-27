@@ -165,6 +165,42 @@ service.init(() => {
 			    return res.json(req.soajs.buildResponse(error, data));
 		    });
 	    });
+	
+	    service.post("/tenant/application", (req, res) => {
+		    bl.tenant.addApplication(req.soajs, req.soajs.inputmaskData, soajs, (error, data) => {
+			    return res.json(req.soajs.buildResponse(error, data));
+		    });
+	    });
+	
+	    service.post("/admin/tenant/application", (req, res) => {
+		    bl.tenant.addApplication(req.soajs, req.soajs.inputmaskData, soajs, (error, data) => {
+			    return res.json(req.soajs.buildResponse(error, data));
+		    });
+	    });
+	
+	    service.post("/tenant/application/key", (req, res) => {
+		    bl.tenant.addApplicationKey(req.soajs, req.soajs.inputmaskData, soajs, (error, data) => {
+			    return res.json(req.soajs.buildResponse(error, data));
+		    });
+	    });
+	
+	    service.post("/admin/tenant/application/key", (req, res) => {
+		    bl.tenant.addApplicationKey(req.soajs, req.soajs.inputmaskData, soajs, (error, data) => {
+			    return res.json(req.soajs.buildResponse(error, data));
+		    });
+	    });
+	
+	    service.post("/tenant/application/key/ext", (req, res) => {
+		    bl.tenant.addApplicationExtKey(req.soajs, req.soajs.inputmaskData, soajs, (error, data) => {
+			    return res.json(req.soajs.buildResponse(error, data));
+		    });
+	    });
+	
+	    service.post("/admin/tenant/application/key/ext", (req, res) => {
+		    bl.tenant.addApplicationExtKey(req.soajs, req.soajs.inputmaskData, soajs, (error, data) => {
+			    return res.json(req.soajs.buildResponse(error, data));
+		    });
+	    });
 	    
 	    //* PUT
 	    

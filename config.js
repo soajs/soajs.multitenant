@@ -396,7 +396,7 @@ module.exports = {
 			
 			"/tenant": {
 				_apiInfo: {
-					"l": "Add Tenant",
+					"l": "Add tenant with optional application, key, and ext key",
 					"group": "Tenant"
 				},
 				"commonFields": ['name', 'description'],
@@ -406,7 +406,7 @@ module.exports = {
 					"validation": {
 						"type": "string",
 						"format": "alphanumeric",
-						"maxLength": 4
+						"maxLength": 5
 					}
 				},
 				"type": {
@@ -502,19 +502,19 @@ module.exports = {
 							},
 							"productCode": {
 								"type": "string",
-								"required": true
+								"required": true,
+								"format": "alphanumeric",
+								"maxLength": 5
 							},
 							"packageCode": {
 								"type": "string",
-								"required": true
+								"required": true,
+								"format": "alphanumeric",
+								"maxLength": 5
 							},
 							"_TTL": {
-								"source": ['body._TTL'],
-								"required": true,
-								"validation": {
-									"type": "string",
-									"enum": ['6', '12', '24', '48', '72', '96', '120', '144', '168']
-								}
+								"type": "string",
+								"enum": ['6', '12', '24', '48', '72', '96', '120', '144', '168']
 							},
 							"appKey" : {
 								"type": "object",
@@ -538,7 +538,8 @@ module.exports = {
 											},
 											"expDate": {
 												"type": "string",
-												"required": false
+												"required": false,
+												"format": "date-time"
 											},
 											"device": {
 												"type": "object",
@@ -552,10 +553,324 @@ module.exports = {
 									}
 								}
 							},
-							
 						},
 						"additionalProperties": false
 					}
+				}
+			},
+			
+			"/tenant/application": {
+				_apiInfo: {
+					"l": "Add tenant with optional application, key, and ext key",
+					"group": "Tenant"
+				},
+				"description": {
+					"source": ['body.application'],
+					"validation": {
+						"type": "string"
+					},
+					"required": false
+				},
+				"productCode": {
+					"source": ['body.packageCode'],
+					"validation": {
+						"type": "string",
+						"format": "alphanumeric",
+						"maxLength": 5
+					},
+					"required": true
+				},
+				"packageCode": {
+					"source": ['body.packageCode'],
+					"validation": {
+						"type": "string",
+						"format": "alphanumeric",
+						"maxLength": 5
+					},
+					"required": true
+				},
+				"_TTL": {
+					"source": ['body._TTL'],
+					"required": true,
+					"validation": {
+						"type": "string",
+						"enum": ['6', '12', '24', '48', '72', '96', '120', '144', '168']
+					}
+				},
+				"appKey" : {
+					"source": ['body.appKey'],
+					"required": false,
+					"validation": {
+						"type": "object",
+						"properties": {
+							"config": {
+								"type": "object",
+								"required": false
+							},
+							"extKey": {
+								"type": "object",
+								"required": false,
+								"properties": {
+									"label": {
+										"type": "string",
+										"required": true
+									},
+									"env": {
+										"type": "string",
+										"required": true
+									},
+									"expDate": {
+										"type": "string",
+										"required": false,
+										"format": "date-time"
+									},
+									"device": {
+										"type": "object",
+										"required": false
+									},
+									"geo": {
+										"type": "object",
+										"required": false
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			
+			"/admin/tenant/application": {
+				_apiInfo: {
+					"l": "Add tenant with optional application, key, and ext key",
+					"group": "Tenant"
+				},
+				"id": {
+					"source": ['query.id'],
+					"validation": {
+						"type": "string"
+					},
+					"required": true
+				},
+				"description": {
+					"source": ['body.application'],
+					"validation": {
+						"type": "string"
+					},
+					"required": false
+				},
+				"productCode": {
+					"source": ['body.packageCode'],
+					"validation": {
+						"type": "string",
+						"format": "alphanumeric",
+						"maxLength": 5
+					},
+					"required": true
+				},
+				"packageCode": {
+					"source": ['body.packageCode'],
+					"validation": {
+						"type": "string",
+						"format": "alphanumeric",
+						"maxLength": 5
+					},
+					"required": true
+				},
+				"_TTL": {
+					"source": ['body._TTL'],
+					"required": true,
+					"validation": {
+						"type": "string",
+						"enum": ['6', '12', '24', '48', '72', '96', '120', '144', '168']
+					}
+				},
+				"appKey" : {
+					"source": ['body.appKey'],
+					"required": false,
+					"validation": {
+						"type": "object",
+						"properties": {
+							"config": {
+								"type": "object",
+								"required": false
+							},
+							"extKey": {
+								"type": "object",
+								"required": false,
+								"properties": {
+									"label": {
+										"type": "string",
+										"required": true
+									},
+									"env": {
+										"type": "string",
+										"required": true
+									},
+									"expDate": {
+										"type": "string",
+										"required": false,
+										"format": "date-time"
+									},
+									"device": {
+										"type": "object",
+										"required": false
+									},
+									"geo": {
+										"type": "object",
+										"required": false
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			
+			"/tenant/application/key": {
+				_apiInfo: {
+					"l": "Add key to a tenant application with optional ext key",
+					"group": "Tenant"
+				},
+				"commonFields": ['appId'],
+				"config": {
+					"source": ['body.config'],
+					"required": false,
+					"validation": {
+						"type": "object",
+					}
+				},
+				"extKey": {
+					"source": ['body.extKey'],
+					"required": false,
+					"validation": {
+						"type": "object",
+						"properties": {
+							"label": {
+								"type": "string",
+								"required": true
+							},
+							"env": {
+								"type": "string",
+								"required": true
+							},
+							"expDate": {
+								"type": "string",
+								"required": false,
+								"format": "date-time"
+							},
+							"device": {
+								"type": "object",
+								"required": false
+							},
+							"geo": {
+								"type": "object",
+								"required": false
+							}
+						}
+					}
+				}
+			},
+			
+			"/admin/tenant/application/key": {
+				_apiInfo: {
+					"l": "Add key to a tenant application with optional ext key",
+					"group": "Tenant"
+				},
+				"commonFields": ['appId'],
+				"id": {
+					"source": ['query.id'],
+					"validation": {
+						"type": "string"
+					},
+					"required": true
+				},
+				"config": {
+					"source": ['body.config'],
+					"required": false,
+					"validation": {
+						"type": "object",
+					}
+				},
+				"extKey": {
+					"source": ['body.extKey'],
+					"required": false,
+					"validation": {
+						"type": "object",
+						"properties": {
+							"label": {
+								"type": "string",
+								"required": true
+							},
+							"env": {
+								"type": "string",
+								"required": true
+							},
+							"expDate": {
+								"type": "string",
+								"required": false,
+								"format": "date-time"
+							},
+							"device": {
+								"type": "object",
+								"required": false
+							},
+							"geo": {
+								"type": "object",
+								"required": false
+							}
+						}
+					}
+				}
+			},
+			
+			"/tenant/application/key/ext": {
+				_apiInfo: {
+					"l": "Add external key to tenant application",
+					"group": "Tenant Access"
+				},
+				"commonFields": ['appId', 'key', "expDate", "device", "geo"],
+				"label": {
+					"source": ['body.label'],
+					"validation": {
+						"type": "string",
+					},
+					"required": true
+				},
+				"env": {
+					"source": ['body.env'],
+					"validation": {
+						"type": "string",
+					},
+					"required": true
+				}
+			},
+			
+			"/admin/tenant/application/key/ext": {
+				_apiInfo: {
+					"l": "Add external key to tenant application",
+					"group": "Tenant Access"
+				},
+				"id": {
+					"source": ['query.id'],
+					"validation": {
+						"type": "string"
+					},
+					"required": true
+				},
+				"commonFields": ['appId', 'key', "expDate", "device", "geo"],
+				"label": {
+					"source": ['body.label'],
+					"validation": {
+						"type": "string",
+					},
+					"required": true
+				},
+				"env": {
+					"source": ['body.env'],
+					"validation": {
+						"type": "string",
+					},
+					"required": true
 				}
 			}
 		},
