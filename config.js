@@ -575,14 +575,14 @@ module.exports = {
 					"group": "Tenant"
 				},
 				"description": {
-					"source": ['body.application'],
+					"source": ['body.description'],
 					"validation": {
 						"type": "string"
 					},
 					"required": false
 				},
 				"productCode": {
-					"source": ['body.packageCode'],
+					"source": ['body.productCode'],
 					"validation": {
 						"type": "string",
 						"format": "alphanumeric",
