@@ -582,7 +582,7 @@ let bl = {
                         return cb(bl.handleError(soajs, 501, null));
                     }
                     soajsCore.key.generateExternalKey(opt.key, {
-                        "id": opt._id,
+                        "id": opt.id,
                         "code": opt.code,
                         "locked": false
                     }, {
@@ -701,7 +701,7 @@ let bl = {
                     return cb(bl.handleError(soajs, 501, null));
                 }
                 soajsCore.key.generateExternalKey(opt.key, {
-                    "id": opt._id,
+                    "id": opt.id,
                     "code": opt.code,
                     "locked": false
                 }, {
