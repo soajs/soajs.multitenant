@@ -1,3 +1,12 @@
+
+/**
+ * @license
+ * Copyright SOAJS All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache license that can be
+ * found in the LICENSE file at the root of this repository
+ */
+
 'use strict';
 const async = require('async');
 let bl = {
@@ -509,7 +518,7 @@ let bl = {
                         key.extKeys.push(extKey);
                     }
                     app.keys.push(key);
-                    return callback();
+                    return callback(null, internalKey);
                 });
             });
         }
@@ -538,7 +547,7 @@ let bl = {
                 "_TTL": inputmaskData._TTL * 3600 * 1000, // 24 hours
                 "keys": []
             };
-            generateKey(newApplication, tenantRecord, (err) => {
+            generateKey(newApplication, tenantRecord, (err, internalKey) => {
                 tenantRecord.applications.push(newApplication);
                 data = {
                     _id: tenantRecord._id,
@@ -549,7 +558,7 @@ let bl = {
                     if (err) {
                         return cb(bl.handleError(soajs, 471, err));
                     }
-                    return cb(null, response);
+                    return cb(null, internalKey);
                 });
             });
 
@@ -657,7 +666,7 @@ let bl = {
                 } else {
                     return callback();
                 }
-            }, function (err) {
+            }, function () {
                 if (!found) {
                     bl.mp.closeModel(soajs, modelObj);
                     return cb(bl.handleError(soajs, 472, null));
@@ -772,7 +781,7 @@ let bl = {
                 } else {
                     return callback();
                 }
-            }, function (err) {
+            }, function () {
                 if (!found) {
                     bl.mp.closeModel(soajs, modelObj);
                     return cb(bl.handleError(soajs, 473, null));

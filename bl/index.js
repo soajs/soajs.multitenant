@@ -1,3 +1,12 @@
+
+/**
+ * @license
+ * Copyright SOAJS All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache license that can be
+ * found in the LICENSE file at the root of this repository
+ */
+
 'use strict';
 
 const async = require("async");
@@ -6,6 +15,13 @@ const fs = require("fs");
 let SSOT = {};
 let model = process.env.SOAJS_SERVICE_MODEL || "mongo";
 const BLs = ["product", "tenant"];
+
+let BL = {
+	init: init,
+	product: null,
+	tenant: null
+	
+};
 
 function init(service, localConfig, cb) {
     let fillModels = (blName, cb) => {
@@ -35,12 +51,5 @@ function init(service, localConfig, cb) {
         return cb(null);
     });
 }
-
-let BL = {
-    init: init,
-    product: null,
-    tenant: null
-
-};
 
 module.exports = BL;

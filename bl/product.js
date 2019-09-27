@@ -1,3 +1,12 @@
+
+/**
+ * @license
+ * Copyright SOAJS All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache license that can be
+ * found in the LICENSE file at the root of this repository
+ */
+
 'use strict';
 
 let bl = {
@@ -368,7 +377,7 @@ let bl = {
 			record.packages.push(newPackage);
 			data._id = record._id;
 			data.packages = record.packages;
-			modelObj.updateProduct(record, (err, result) => {
+			modelObj.updateProduct(record, (err) => {
 				bl.mp.closeModel(soajs, modelObj);
 				if (err) {
 					return cb(bl.handleError(soajs, 602, err), null);
@@ -432,7 +441,7 @@ let bl = {
 			}
 			data._id = record._id;
 			data.packages = record.packages;
-			modelObj.updateProduct(data, (err, result) => {
+			modelObj.updateProduct(data, (err) => {
 				bl.mp.closeModel(soajs, modelObj);
 				if (err) {
 					return cb(bl.handleError(soajs, 602, err));
@@ -481,7 +490,7 @@ let bl = {
 			}
 			data._id = record._id;
 			data.packages = record.packages;
-			modelObj.updateProduct(data, (err, result) => {
+			modelObj.updateProduct(data, (err) => {
 				bl.mp.closeModel(soajs, modelObj);
 				if (err) {
 					return cb(bl.handleError(soajs, 602, err), null);
