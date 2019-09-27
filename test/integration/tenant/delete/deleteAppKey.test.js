@@ -8,7 +8,7 @@ let deleteAppKeySchema = require("../schemas/deleteAppKey.js");
 let getTenantsSchema = require("../schemas/getTenant.js");
 let listTenantsSchema = require("../schemas/listTenants.js");
 
-describe("Testing delete tenant API", () => {
+describe("Testing delete application key API", () => {
 
     before(function (done) {
         done();
@@ -39,7 +39,7 @@ describe("Testing delete tenant API", () => {
         });
     });
 
-    it("Success - will delete application record - input", (done) => {
+    it("Success - will delete application key - input", (done) => {
         let params = {
             qs: {
                 id: selectedTenant._id,
@@ -59,7 +59,7 @@ describe("Testing delete tenant API", () => {
         });
     });
 
-    it("Success - will delete application record - input", (done) => {
+    it("Success - will delete application key - input", (done) => {
         let params = {
             qs: {
                 code: selectedTenant.code,
@@ -98,10 +98,10 @@ describe("Testing delete tenant API", () => {
         });
     });
 
-    it("Fails - will not delete tenant record - no input", (done) => {
+    it("Fails - will not delete application key - no input", (done) => {
         let params = {};
 
-        requester('/tenant/application', 'delete', params, (error, body) => {
+        requester('/tenant/application/key', 'delete', params, (error, body) => {
             assert.ifError(error);
             assert.ok(body);
             let check = validator.validate(body, deleteAppKeySchema);

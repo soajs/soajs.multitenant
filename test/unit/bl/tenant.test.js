@@ -2231,6 +2231,7 @@ describe("Unit test for: BL - tenant", () => {
 
                         500: "You cannot modify or delete a locked record",
                         501: "Environment record not found!",
+                        502: "Unable to create External key",
 
                         601: "Model not found",
                         602: "Model error: ",
@@ -2268,7 +2269,7 @@ describe("Unit test for: BL - tenant", () => {
             };
             BL.add(soajsClient, inputMask, soajs, (err, record) => {
                 assert.ok(err);
-                assert.deepEqual(err.code, 501);
+                assert.deepEqual(err.code, 502);
                 done();
             });
         });
@@ -4366,7 +4367,7 @@ describe("Unit test for: BL - tenant", () => {
 
             BL.getApplication(soajs, inputMask, (err, record) => {
                 assert.ok(err);
-                assert.deepEqual(err.code,457);
+                assert.deepEqual(err.code, 457);
                 done();
             });
         });
@@ -4435,7 +4436,7 @@ describe("Unit test for: BL - tenant", () => {
 
             BL.getApplication(soajs, inputMask, (err, record) => {
                 assert.ok(err);
-                assert.deepEqual(err.code,457);
+                assert.deepEqual(err.code, 457);
                 done();
             });
         });
@@ -4519,8 +4520,7 @@ describe("Unit test for: BL - tenant", () => {
         });
 
         it("Success - List applications - data - no id", (done) => {
-            let inputMask = {
-            };
+            let inputMask = {};
 
             BL.modelObj = {
                 getTenant: (inputMask, cb) => {
@@ -4588,8 +4588,7 @@ describe("Unit test for: BL - tenant", () => {
         });
 
         it("Success - List applications - empty array - data - no id", (done) => {
-            let inputMask = {
-            };
+            let inputMask = {};
 
             BL.modelObj = {
                 getTenant: (inputMask, cb) => {
@@ -4821,8 +4820,7 @@ describe("Unit test for: BL - tenant", () => {
         });
 
         it("Success - List application external keys - empty array - data - no id", (done) => {
-            let inputMask = {
-            };
+            let inputMask = {};
 
             BL.modelObj = {
                 getTenant: (inputMask, cb) => {
@@ -5603,6 +5601,1262 @@ describe("Unit test for: BL - tenant", () => {
 
             BL.deleteApplicationKey(soa, inputMask, (err, record) => {
                 assert.ok(err);
+                done();
+            });
+        });
+
+    });
+
+    describe("Testing delete application external key", () => {
+        afterEach((done) => {
+            BL.modelObj = null;
+            done();
+        });
+
+        it("Success - delete application external key - data", (done) => {
+            let inputMask = {
+                id: 'TenantID',
+                key: "KEY1",
+                appId: 'AppID',
+                extKey: "EXTKEY1"
+            };
+
+            BL.modelObj = {
+                getTenant: (inputMask, cb) => {
+                    return cb(null, {
+                        "type": "product",
+                        "oauth": {
+                            secret: "this is a secret",
+                            redirectURI: "http://domain.com",
+                            grants: [
+                                "password",
+                                "refresh_token"
+                            ],
+                            disabled: 0,
+                            type: 2.0,
+                            loginMode: "urac",
+                            pin: {
+                                DSBRD: {
+                                    enabled: false
+                                }
+                            },
+                        },
+                        "code": "test",
+                        "name": "Test Tenant",
+                        "description": "this is a description for test tenant",
+                        "applications": [
+                            {
+                                "product": "PROD",
+                                "package": "PROD_TEST",
+                                "appId": "AppID",
+                                "description": "this is a description",
+                                "_TTL": 86400000, // 24 hours
+                                "keys": [
+                                    {
+                                        "key": "KEY1",
+                                        "extKeys": [
+                                            {
+                                                "expDate": new Date().getTime() + 86400000,
+                                                "extKey": "EXTKEY1",
+                                                "device": {},
+                                                "geo": {}
+                                            }
+                                        ],
+                                        "config": {
+                                            "dev": {
+                                                "commonFields": {},
+                                                "oauth": {
+                                                    "loginMode": 'urac'
+                                                }
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    });
+                },
+                updateTenant: (inputmask, cb) => {
+                    return cb(null, true);
+                }
+            };
+
+            BL.deleteApplicationExternalKey(soajs, inputMask, (err, record) => {
+                assert.ok(record);
+                console.log("reso", record);
+                done();
+            });
+        });
+
+        it("Fails - delete application external key - null data", (done) => {
+            BL.modelObj = {};
+
+            BL.deleteApplicationExternalKey(soajs, null, (err, record) => {
+                assert.ok(err);
+                assert.deepEqual(err, {
+                    code: 400,
+                    msg: soajs.config.errors[400]
+                });
+                done();
+            });
+        });
+
+        it("Fails - delete application external key - getTenant Error", (done) => {
+            BL.modelObj = {
+                getTenant: (inputMask, cb) => {
+                    return cb(true, null);
+                }
+            };
+
+            BL.deleteApplicationExternalKey(soajs, {}, (err, record) => {
+                assert.ok(err);
+                assert.deepEqual(err.code, 602);
+                done();
+            });
+        });
+
+        it("Fails - delete application external key - updateTenant error", (done) => {
+            let inputMask = {
+                id: 'TenantID',
+                key: "KEY1",
+                appId: 'AppID',
+                extKey: "EXTKEY1"
+            };
+
+            BL.modelObj = {
+                getTenant: (inputMask, cb) => {
+                    return cb(null, {
+                        "type": "product",
+                        "oauth": {
+                            secret: "this is a secret",
+                            redirectURI: "http://domain.com",
+                            grants: [
+                                "password",
+                                "refresh_token"
+                            ],
+                            disabled: 0,
+                            type: 2.0,
+                            loginMode: "urac",
+                            pin: {
+                                DSBRD: {
+                                    enabled: false
+                                }
+                            },
+                        },
+                        "code": "test",
+                        "name": "Test Tenant",
+                        "description": "this is a description for test tenant",
+                        "applications": [
+                            {
+                                "product": "PROD",
+                                "package": "PROD_TEST",
+                                "appId": "AppID",
+                                "description": "this is a description",
+                                "_TTL": 86400000, // 24 hours
+                                "keys": [
+                                    {
+                                        "key": "KEY1",
+                                        "extKeys": [
+                                            {
+                                                "expDate": new Date().getTime() + 86400000,
+                                                "extKey": "EXTKEY1",
+                                                "device": {},
+                                                "geo": {}
+                                            }
+                                        ],
+                                        "config": {
+                                            "dev": {
+                                                "commonFields": {},
+                                                "oauth": {
+                                                    "loginMode": 'urac'
+                                                }
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    });
+                },
+                updateTenant: (inputmask, cb) => {
+                    return cb(true, null);
+                }
+            };
+
+            BL.deleteApplicationExternalKey(soajs, inputMask, (err, record) => {
+                assert.ok(err);
+                assert.deepEqual(err, {
+                    code: 471,
+                    msg: soajs.config.errors[471]
+                });
+                done();
+            });
+        });
+
+        it("Fails - delete application external key - data", (done) => {
+            let inputMask = {
+                id: 'TenantID',
+                appId: 'AppID'
+            };
+
+            BL.modelObj = {
+                getTenant: (inputMask, cb) => {
+                    return cb(null, {locked: true});
+                }
+            };
+
+            BL.deleteApplicationExternalKey(soajs, inputMask, (err, record) => {
+                assert.ok(err);
+                assert.deepEqual(err, {
+                    code: 500,
+                    msg: soajs.config.errors[500]
+                });
+                done();
+            });
+        });
+
+        it("Fails - delete application external key - no record", (done) => {
+            BL.modelObj = {
+                getTenant: (inputMask, cb) => {
+                    return cb(null, null);
+                }
+            };
+
+            BL.deleteApplicationExternalKey(soajs, {}, (err, record) => {
+                assert.ok(err);
+                assert.deepEqual(err, {
+                    code: 450,
+                    msg: soajs.config.errors[450]
+                });
+                done();
+            });
+        });
+
+        it("Fails - delete application external key - tenant.id", (done) => {
+            let inputMask = {
+                id: 'TenantID',
+                key: "KEY1",
+                appId: 'AppID',
+                extKey: "EXTKEY1"
+            };
+
+            let soa = {
+                config: {
+                    "errors": {
+                        400: "Business logic required data are missing",
+                        450: "Unable to find tenant",
+                        451: "Tenant already exists",
+                        452: "Main Tenant id is required!",
+                        453: "Main Tenant is not found!",
+                        454: "Unable to add tenant application",
+                        455: "Unable to add a new key to the tenant application",
+                        456: "Unable to add the tenant application ext Key",
+                        457: "Unable to find application",
+
+                        460: "Unable to find product",
+                        461: "Unable to find package",
+                        462: "You are not allowed to remove the tenant you are currently logged in with",
+                        463: "Invalid product code or package code provided",
+
+                        466: "You are not allowed to remove the product you are currently logged in with",
+                        467: "Package already exists",
+                        468: "Product already exists",
+
+                        470: "Unable to update product",
+                        471: "Unable to update tenant",
+                        472: "Unable to get the tenant application",
+                        473: "Unable to get the tenant application key",
+                        500: "You cannot modify or delete a locked record",
+                        501: "Environment record not found!",
+
+                        601: "Model not found",
+                        602: "Model error: ",
+                    },
+                    "console": {
+                        "product": "DSBRD"
+                    },
+                },
+                tenant: {
+                    id: "5c0e74ba9acc3c5a84a51259",
+                    main: {
+                        id: "5d8387fd1873f9079b863da0"
+                    },
+                    application: {
+                        product: "TPROD",
+                        package: "TPROD_TEST",
+                    }
+                },
+                log: {
+                    error: () => {
+                        console.log();
+                    }
+                }
+            };
+
+            BL.modelObj = {
+                getTenant: (inputMask, cb) => {
+                    return cb(null, {
+                        "type": "product",
+                        "_id": '5c0e74ba9acc3c5a84a51259'
+                    });
+                }
+            };
+
+            BL.deleteApplicationExternalKey(soa, inputMask, (err, record) => {
+                assert.ok(err);
+                done();
+            });
+        });
+
+        it("Fails - delete application external key - no Apps", (done) => {
+            let inputMask = {
+                id: 'TenantID',
+                key: "KEY1",
+                appId: 'AppID',
+                extKey: "EXTKEY1"
+            };
+
+            BL.modelObj = {
+                getTenant: (inputMask, cb) => {
+                    return cb(null, {
+                        "type": "product",
+                        "oauth": {
+                            secret: "this is a secret",
+                            redirectURI: "http://domain.com",
+                            grants: [
+                                "password",
+                                "refresh_token"
+                            ],
+                            disabled: 0,
+                            type: 2.0,
+                            loginMode: "urac",
+                            pin: {
+                                DSBRD: {
+                                    enabled: false
+                                }
+                            },
+                        },
+                        "code": "test",
+                        "name": "Test Tenant",
+                        "description": "this is a description for test tenant"
+                    });
+                }
+            };
+
+            BL.deleteApplicationExternalKey(soajs, inputMask, (err, record) => {
+                assert.deepEqual(record, 0);
+                done();
+            });
+        });
+
+        it("Fails - delete application external key - Apps no appId", (done) => {
+            let inputMask = {
+                id: 'TenantID',
+                key: "KEY1",
+                appId: 'AppID',
+                extKey: "EXTKEY1"
+            };
+
+            BL.modelObj = {
+                getTenant: (inputMask, cb) => {
+                    return cb(null, {
+                        "type": "product",
+                        "oauth": {
+                            secret: "this is a secret",
+                            redirectURI: "http://domain.com",
+                            grants: [
+                                "password",
+                                "refresh_token"
+                            ],
+                            disabled: 0,
+                            type: 2.0,
+                            loginMode: "urac",
+                            pin: {
+                                DSBRD: {
+                                    enabled: false
+                                }
+                            },
+                        },
+                        "code": "test",
+                        "name": "Test Tenant",
+                        "description": "this is a description for test tenant",
+                        "applications": [
+                            {
+                                "product": "PROD",
+                                "package": "PROD_TEST",
+                                "description": "this is a description",
+                                "_TTL": 86400000, // 24 hours
+                                "keys": [
+                                    {
+                                        "key": "KEY1",
+                                        "extKeys": [
+                                            {
+                                                "expDate": new Date().getTime() + 86400000,
+                                                "extKey": "EXTKEY1",
+                                                "device": {},
+                                                "geo": {}
+                                            }
+                                        ],
+                                        "config": {
+                                            "dev": {
+                                                "commonFields": {},
+                                                "oauth": {
+                                                    "loginMode": 'urac'
+                                                }
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    });
+                }
+            };
+
+            BL.deleteApplicationExternalKey(soajs, inputMask, (err, record) => {
+                assert.deepEqual(record, 0);
+                done();
+            });
+        });
+
+        it("Fails - delete application external key - Apps no extKeys", (done) => {
+            let inputMask = {
+                id: 'TenantID',
+                key: "KEY1",
+                appId: 'AppID',
+                extKey: "EXTKEY1"
+            };
+
+            BL.modelObj = {
+                getTenant: (inputMask, cb) => {
+                    return cb(null, {
+                        "type": "product",
+                        "oauth": {
+                            secret: "this is a secret",
+                            redirectURI: "http://domain.com",
+                            grants: [
+                                "password",
+                                "refresh_token"
+                            ],
+                            disabled: 0,
+                            type: 2.0,
+                            loginMode: "urac",
+                            pin: {
+                                DSBRD: {
+                                    enabled: false
+                                }
+                            },
+                        },
+                        "code": "test",
+                        "name": "Test Tenant",
+                        "description": "this is a description for test tenant",
+                        "applications": [
+                            {
+                                "appId": 'AppID',
+                                "product": "PROD",
+                                "package": "PROD_TEST",
+                                "description": "this is a description",
+                                "_TTL": 86400000, // 24 hours
+                                "keys": [
+                                    {
+                                        "key": "KEY1",
+                                        "config": {
+                                            "dev": {
+                                                "commonFields": {},
+                                                "oauth": {
+                                                    "loginMode": 'urac'
+                                                }
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    });
+                }
+            };
+
+            BL.deleteApplicationExternalKey(soajs, inputMask, (err, record) => {
+                assert.deepEqual(record, 0);
+                done();
+            });
+        });
+    });
+
+    describe("Testing add application key", () => {
+        afterEach((done) => {
+            BL.modelObj = null;
+            done();
+        });
+
+        let core = {
+            core: {
+                registry: {
+                    loadByEnv: (env, cb) => {
+                        return cb(null, {
+                            serviceConfig: {
+                                key: 'key1'
+                            }
+                        });
+                    }
+                },
+                key: {
+                    generateExternalKey: (interKey, opt1, opt2, key, cb) => {
+                        return cb(null, {
+                            "extKey": 'extKey',
+                            "device": {},
+                            "geo": {},
+                            "env": 'dashboard',
+                            "label": 'label',
+                            "expDate": '2019-09-27T13:54:17Z'
+                        });
+                    }
+                }
+            },
+            provision: {
+                generateInternalKey: (cb) => {
+                    return cb(null, "232423423423432");
+                }
+            }
+
+        };
+
+        it("Success - add application key - data", (done) => {
+            let inputMask = {
+                id: 'TenantID',
+                key: "KEY2",
+                appId: 'AppID',
+                extKey: {
+                    label: 'dashboardk',
+                    env: 'dashboard',
+                    expDate: new Date().getTime() + 7 * 24 * 3600 * 1000,
+                    device: {},
+                    geo: {}
+                }
+            };
+
+            BL.modelObj = {
+                getTenant: (inputMask, cb) => {
+                    return cb(null, {
+                        "type": "product",
+                        "oauth": {
+                            secret: "this is a secret",
+                            redirectURI: "http://domain.com",
+                            grants: [
+                                "password",
+                                "refresh_token"
+                            ],
+                            disabled: 0,
+                            type: 2.0,
+                            loginMode: "urac",
+                            pin: {
+                                DSBRD: {
+                                    enabled: false
+                                }
+                            },
+                        },
+                        "code": "test",
+                        "name": "Test Tenant",
+                        "description": "this is a description for test tenant",
+                        "applications": [
+                            {
+                                "product": "PROD",
+                                "package": "PROD_TEST",
+                                "appId": "AppID",
+                                "description": "this is a description",
+                                "_TTL": 86400000, // 24 hours
+                                "keys": [
+                                    {
+                                        "key": "KEY1",
+                                        "extKeys": [
+                                            {
+                                                "expDate": new Date().getTime() + 86400000,
+                                                "extKey": "EXTKEY1",
+                                                "device": {},
+                                                "geo": {}
+                                            }
+                                        ],
+                                        "config": {
+                                            "dev": {
+                                                "commonFields": {},
+                                                "oauth": {
+                                                    "loginMode": 'urac'
+                                                }
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    });
+                },
+                updateTenant: (inputmask, cb) => {
+                    return cb(null, true);
+                }
+            };
+
+            BL.addApplicationKey(soajs, inputMask, core, (err, record) => {
+                assert.ok(record);
+                assert.deepEqual(record, true);
+                done();
+            });
+        });
+
+        it("Fails - add application key - null data", (done) => {
+            BL.modelObj = {};
+
+            BL.addApplicationKey(soajs, null, core, (err, record) => {
+                assert.ok(err);
+                assert.deepEqual(err, {
+                    code: 400,
+                    msg: soajs.config.errors[400]
+                });
+                done();
+            });
+        });
+
+        it("Fails - add application key - loadByEnv error", (done) => {
+            BL.modelObj = {
+                getTenant: (inputMask, cb) => {
+                    return cb(null, {
+                        "type": "product",
+                        "oauth": {
+                            secret: "this is a secret",
+                            redirectURI: "http://domain.com",
+                            grants: [
+                                "password",
+                                "refresh_token"
+                            ],
+                            disabled: 0,
+                            type: 2.0,
+                            loginMode: "urac",
+                            pin: {
+                                DSBRD: {
+                                    enabled: false
+                                }
+                            },
+                        },
+                        "code": "test",
+                        "name": "Test Tenant",
+                        "description": "this is a description for test tenant",
+                        "applications": [
+                            {
+                                "product": "PROD",
+                                "package": "PROD_TEST",
+                                "appId": "AppID",
+                                "description": "this is a description",
+                                "_TTL": 86400000, // 24 hours
+                                "keys": [
+                                    {
+                                        "key": "KEY1",
+                                        "extKeys": [
+                                            {
+                                                "expDate": new Date().getTime() + 86400000,
+                                                "extKey": "EXTKEY1",
+                                                "device": {},
+                                                "geo": {}
+                                            }
+                                        ],
+                                        "config": {
+                                            "dev": {
+                                                "commonFields": {},
+                                                "oauth": {
+                                                    "loginMode": 'urac'
+                                                }
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    });
+                },
+                updateTenant: (inputmask, cb) => {
+                    return cb(null, true);
+                }
+            };
+
+            let coreError = {
+                core: {
+                    registry: {
+                        loadByEnv: (env, cb) => {
+                            return cb(true, null);
+                        }
+                    },
+                    key: {
+                        generateExternalKey: (interKey, opt1, opt2, key, cb) => {
+                            return cb(null, {
+                                "extKey": 'extKey',
+                                "device": {},
+                                "geo": {},
+                                "env": 'dashboard',
+                                "label": 'label',
+                                "expDate": '2019-09-27T13:54:17Z'
+                            });
+                        }
+                    }
+                },
+                provision: {
+                    generateInternalKey: (cb) => {
+                        return cb(null, "232423423423432");
+                    }
+                }
+
+            };
+
+            let inputMask = {
+                id: 'TenantID',
+                key: "KEY2",
+                appId: 'AppID',
+                extKey: {
+                    label: 'dashboardk',
+                    env: 'dashboard',
+                    expDate: new Date().getTime() + 7 * 24 * 3600 * 1000,
+                    device: {},
+                    geo: {}
+                }
+            };
+
+            BL.addApplicationKey(soajs, inputMask, coreError, (err, record) => {
+                assert.ok(err);
+                assert.deepEqual(err.code, 602);
+                done();
+            });
+        });
+
+        it("Fails - add application key - no env error", (done) => {
+            BL.modelObj = {
+                getTenant: (inputMask, cb) => {
+                    return cb(null, {
+                        "type": "product",
+                        "oauth": {
+                            secret: "this is a secret",
+                            redirectURI: "http://domain.com",
+                            grants: [
+                                "password",
+                                "refresh_token"
+                            ],
+                            disabled: 0,
+                            type: 2.0,
+                            loginMode: "urac",
+                            pin: {
+                                DSBRD: {
+                                    enabled: false
+                                }
+                            },
+                        },
+                        "code": "test",
+                        "name": "Test Tenant",
+                        "description": "this is a description for test tenant",
+                        "applications": [
+                            {
+                                "product": "PROD",
+                                "package": "PROD_TEST",
+                                "appId": "AppID",
+                                "description": "this is a description",
+                                "_TTL": 86400000, // 24 hours
+                                "keys": [
+                                    {
+                                        "key": "KEY1",
+                                        "extKeys": [
+                                            {
+                                                "expDate": new Date().getTime() + 86400000,
+                                                "extKey": "EXTKEY1",
+                                                "device": {},
+                                                "geo": {}
+                                            }
+                                        ],
+                                        "config": {
+                                            "dev": {
+                                                "commonFields": {},
+                                                "oauth": {
+                                                    "loginMode": 'urac'
+                                                }
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    });
+                },
+                updateTenant: (inputmask, cb) => {
+                    return cb(null, true);
+                }
+            };
+
+            let coreError = {
+                core: {
+                    registry: {
+                        loadByEnv: (env, cb) => {
+                            return cb(null, null);
+                        }
+                    },
+                    key: {
+                        generateExternalKey: (interKey, opt1, opt2, key, cb) => {
+                            return cb(null, {
+                                "extKey": 'extKey',
+                                "device": {},
+                                "geo": {},
+                                "env": 'dashboard',
+                                "label": 'label',
+                                "expDate": '2019-09-27T13:54:17Z'
+                            });
+                        }
+                    }
+                },
+                provision: {
+                    generateInternalKey: (cb) => {
+                        return cb(null, "232423423423432");
+                    }
+                }
+
+            };
+
+            let inputMask = {
+                id: 'TenantID',
+                key: "KEY2",
+                appId: 'AppID',
+                extKey: {
+                    label: 'dashboardk',
+                    env: 'dashboard',
+                    expDate: new Date().getTime() + 7 * 24 * 3600 * 1000,
+                    device: {},
+                    geo: {}
+                }
+            };
+
+            BL.addApplicationKey(soajs, inputMask, coreError, (err, record) => {
+                assert.ok(err);
+                assert.deepEqual(err.code, 501);
+                done();
+            });
+        });
+
+        it("Fails - add application key - generateExternalKey error", (done) => {
+            BL.modelObj = {
+                getTenant: (inputMask, cb) => {
+                    return cb(null, {
+                        "type": "product",
+                        "oauth": {
+                            secret: "this is a secret",
+                            redirectURI: "http://domain.com",
+                            grants: [
+                                "password",
+                                "refresh_token"
+                            ],
+                            disabled: 0,
+                            type: 2.0,
+                            loginMode: "urac",
+                            pin: {
+                                DSBRD: {
+                                    enabled: false
+                                }
+                            },
+                        },
+                        "code": "test",
+                        "name": "Test Tenant",
+                        "description": "this is a description for test tenant",
+                        "applications": [
+                            {
+                                "product": "PROD",
+                                "package": "PROD_TEST",
+                                "appId": "AppID",
+                                "description": "this is a description",
+                                "_TTL": 86400000, // 24 hours
+                                "keys": [
+                                    {
+                                        "key": "KEY1",
+                                        "extKeys": [
+                                            {
+                                                "expDate": new Date().getTime() + 86400000,
+                                                "extKey": "EXTKEY1",
+                                                "device": {},
+                                                "geo": {}
+                                            }
+                                        ],
+                                        "config": {
+                                            "dev": {
+                                                "commonFields": {},
+                                                "oauth": {
+                                                    "loginMode": 'urac'
+                                                }
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    });
+                },
+                updateTenant: (inputmask, cb) => {
+                    return cb(null, true);
+                }
+            };
+
+            let coreError = {
+                core: {
+                    registry: {
+                        loadByEnv: (env, cb) => {
+                            return cb(null, {
+                                serviceConfig: {
+                                    key: 'key1'
+                                }
+                            });
+                        }
+                    },
+                    key: {
+                        generateExternalKey: (interKey, opt1, opt2, key, cb) => {
+                            return cb(true, null);
+                        }
+                    }
+                },
+                provision: {
+                    generateInternalKey: (cb) => {
+                        return cb(null, "232423423423432");
+                    }
+                }
+
+            };
+
+            let inputMask = {
+                id: 'TenantID',
+                key: "KEY2",
+                appId: 'AppID',
+                extKey: {
+                    label: 'dashboardk',
+                    env: 'dashboard',
+                    expDate: new Date().getTime() + 7 * 24 * 3600 * 1000,
+                    device: {},
+                    geo: {}
+                }
+            };
+
+            BL.addApplicationKey(soajs, inputMask, coreError, (err, record) => {
+                assert.ok(err);
+                assert.deepEqual(err.code, 502);
+                done();
+            });
+        });
+
+        it("Fails - add application key - generateInternalKey error", (done) => {
+            BL.modelObj = {
+                getTenant: (inputMask, cb) => {
+                    return cb(null, {
+                        "type": "product",
+                        "oauth": {
+                            secret: "this is a secret",
+                            redirectURI: "http://domain.com",
+                            grants: [
+                                "password",
+                                "refresh_token"
+                            ],
+                            disabled: 0,
+                            type: 2.0,
+                            loginMode: "urac",
+                            pin: {
+                                DSBRD: {
+                                    enabled: false
+                                }
+                            },
+                        },
+                        "code": "test",
+                        "name": "Test Tenant",
+                        "description": "this is a description for test tenant",
+                        "applications": [
+                            {
+                                "product": "PROD",
+                                "package": "PROD_TEST",
+                                "appId": "AppID",
+                                "description": "this is a description",
+                                "_TTL": 86400000, // 24 hours
+                                "keys": [
+                                    {
+                                        "key": "KEY1",
+                                        "extKeys": [
+                                            {
+                                                "expDate": new Date().getTime() + 86400000,
+                                                "extKey": "EXTKEY1",
+                                                "device": {},
+                                                "geo": {}
+                                            }
+                                        ],
+                                        "config": {
+                                            "dev": {
+                                                "commonFields": {},
+                                                "oauth": {
+                                                    "loginMode": 'urac'
+                                                }
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    });
+                },
+                updateTenant: (inputmask, cb) => {
+                    return cb(null, true);
+                }
+            };
+
+            let coreError = {
+                core: {
+                    registry: {
+                        loadByEnv: (env, cb) => {
+                            return cb(null, {
+                                serviceConfig: {
+                                    key: 'key1'
+                                }
+                            });
+                        }
+                    },
+                    key: {
+                        generateExternalKey: (interKey, opt1, opt2, key, cb) => {
+                            return cb(null, {
+                                "extKey": 'extKey',
+                                "device": {},
+                                "geo": {},
+                                "env": 'dashboard',
+                                "label": 'label',
+                                "expDate": '2019-09-27T13:54:17Z'
+                            });
+                        }
+                    }
+                },
+                provision: {
+                    generateInternalKey: (cb) => {
+                        return cb(true, null);
+                    }
+                }
+
+            };
+
+            let inputMask = {
+                id: 'TenantID',
+                key: "KEY2",
+                appId: 'AppID',
+                extKey: {
+                    label: 'dashboardk',
+                    env: 'dashboard',
+                    expDate: new Date().getTime() + 7 * 24 * 3600 * 1000,
+                    device: {},
+                    geo: {}
+                }
+            };
+
+            BL.addApplicationKey(soajs, inputMask, coreError, (err, record) => {
+                assert.ok(err);
+                assert.deepEqual(err.code, 602);
+                done();
+            });
+        });
+
+        it("Fails - add application key - not found", (done) => {
+            let inputMask = {
+                id: 'TenantID',
+                key: "KEY2",
+                extKey: {
+                    label: 'dashboardk',
+                    env: 'dashboard',
+                    expDate: new Date().getTime() + 7 * 24 * 3600 * 1000,
+                    device: {},
+                    geo: {}
+                }
+            };
+
+            BL.modelObj = {
+                getTenant: (inputMask, cb) => {
+                    return cb(null, {
+                        "type": "product",
+                        "oauth": {
+                            secret: "this is a secret",
+                            redirectURI: "http://domain.com",
+                            grants: [
+                                "password",
+                                "refresh_token"
+                            ],
+                            disabled: 0,
+                            type: 2.0,
+                            loginMode: "urac",
+                            pin: {
+                                DSBRD: {
+                                    enabled: false
+                                }
+                            },
+                        },
+                        "code": "test",
+                        "name": "Test Tenant",
+                        "description": "this is a description for test tenant",
+                        "applications": [
+                            {
+                                "product": "PROD",
+                                "package": "PROD_TEST",
+                                "appId": "AppID",
+                                "description": "this is a description",
+                                "_TTL": 86400000, // 24 hours
+                                "keys": [
+                                    {
+                                        "key": "KEY1",
+                                        "extKeys": [
+                                            {
+                                                "expDate": new Date().getTime() + 86400000,
+                                                "extKey": "EXTKEY1",
+                                                "device": {},
+                                                "geo": {}
+                                            }
+                                        ],
+                                        "config": {
+                                            "dev": {
+                                                "commonFields": {},
+                                                "oauth": {
+                                                    "loginMode": 'urac'
+                                                }
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    });
+                },
+                updateTenant: (inputmask, cb) => {
+                    return cb(null, true);
+                }
+            };
+
+            BL.addApplicationKey(soajs, inputMask, core, (err, record) => {
+                assert.ok(err);
+                assert.deepEqual(err.code, 472);
+                done();
+            });
+        });
+
+        it("Fails - add application key - getTenant Error", (done) => {
+            BL.modelObj = {
+                getTenant: (inputMask, cb) => {
+                    return cb(true, null);
+                }
+            };
+
+            BL.addApplicationKey(soajs, {}, core, (err, record) => {
+                assert.ok(err);
+                assert.deepEqual(err.code, 602);
+                done();
+            });
+        });
+
+        it("Fails - add application key - update Tenant error", (done) => {
+            let inputMask = {
+                id: 'TenantID',
+                appId: 'AppID'
+            };
+
+            BL.modelObj = {
+                getTenant: (inputMask, cb) => {
+                    return cb(null, {
+                        "type": "product",
+                        "oauth": {
+                            secret: "this is a secret",
+                            redirectURI: "http://domain.com",
+                            grants: [
+                                "password",
+                                "refresh_token"
+                            ],
+                            disabled: 0,
+                            type: 2.0,
+                            loginMode: "urac",
+                            pin: {
+                                DSBRD: {
+                                    enabled: false
+                                }
+                            },
+                        },
+                        "code": "test",
+                        "name": "Test Tenant",
+                        "description": "this is a description for test tenant",
+                        "applications": [
+                            {
+                                "product": "PROD",
+                                "package": "PROD_TEST",
+                                "appId": "AppID",
+                                "description": "this is a description",
+                                "_TTL": 86400000, // 24 hours
+                                "keys": [
+                                    {
+                                        "key": "KEY1",
+                                        "extKeys": [
+                                            {
+                                                "expDate": new Date().getTime() + 86400000,
+                                                "extKey": "EXTKEY1",
+                                                "device": {},
+                                                "geo": {}
+                                            }
+                                        ],
+                                        "config": {
+                                            "dev": {
+                                                "commonFields": {},
+                                                "oauth": {
+                                                    "loginMode": 'urac'
+                                                }
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    });
+                },
+                updateTenant: (inputmask, cb) => {
+                    return cb(true, null);
+                }
+            };
+
+            BL.addApplicationKey(soajs, inputMask, core, (err, record) => {
+                assert.ok(err);
+                assert.deepEqual(err, {
+                    code: 471,
+                    msg: soajs.config.errors[471]
+                });
+                done();
+            });
+        });
+
+        it("Fails - add application key - data", (done) => {
+            let inputMask = {
+                id: 'TenantID',
+                appId: 'AppID'
+            };
+
+            BL.modelObj = {
+                getTenant: (inputMask, cb) => {
+                    return cb(null, {locked: true});
+                }
+            };
+
+            BL.addApplicationKey(soajs, inputMask, core, (err, record) => {
+                assert.ok(err);
+                assert.deepEqual(err, {
+                    code: 500,
+                    msg: soajs.config.errors[500]
+                });
+                done();
+            });
+        });
+
+        it("Fails - add application key - no record", (done) => {
+            BL.modelObj = {
+                getTenant: (inputMask, cb) => {
+                    return cb(null, null);
+                }
+            };
+
+            BL.addApplicationKey(soajs, {}, core, (err, record) => {
+                assert.ok(err);
+                assert.deepEqual(err, {
+                    code: 450,
+                    msg: soajs.config.errors[450]
+                });
                 done();
             });
         });

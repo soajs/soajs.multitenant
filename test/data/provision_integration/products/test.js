@@ -67,6 +67,17 @@ let lib = {
                                    },
                                },
                                "group": "Tenant"
+                           },
+                           {
+                               "apis": {
+                                   "/admin/tenant/application": {
+                                       "access": true
+                                   },
+                                   "/admin/tenant/application/key/ext": {
+                                       "access": true
+                                   }
+                               },
+                               "group": "Admin Tenant"
                            }
                        ],
                        "put": [
@@ -202,19 +213,23 @@ let lib = {
                             "version": "1",
                             "get": [
                                 "Product",
-                                "Tenant"
+                                "Tenant",
+                                "Admin Tenant"
                             ],
                             "post": [
                                 "Product",
-                                "Tenant"
+                                "Tenant",
+                                "Admin Tenant"
                             ],
                             "delete": [
                                 "Product",
-                                "Tenant"
+                                "Tenant",
+                                "Admin Tenant"
                             ],
                             "put":[
                                 "Product",
-                                "Tenant"
+                                "Tenant",
+                                "Admin Tenant"
                             ]
                         },
                         {
@@ -271,19 +286,23 @@ let lib = {
                             "version": "1",
                             "get": [
                                 "Product",
-                                "Tenant"
+                                "Tenant",
+                                "Admin Tenant"
                             ],
                             "post": [
                                 "Product",
-                                "Tenant"
+                                "Tenant",
+                                "Admin Tenant"
                             ],
                             "delete": [
                                 "Product",
-                                "Tenant"
+                                "Tenant",
+                                "Admin Tenant"
                             ],
                             "put":[
                                 "Product",
-                                "Tenant"
+                                "Tenant",
+                                "Admin Tenant"
                             ]
                         }
                     ]

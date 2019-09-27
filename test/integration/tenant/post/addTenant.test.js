@@ -217,7 +217,7 @@ describe("Testing add tenant API", () => {
 				"type": "product",
 				"application": {
 					"productCode": "tyrv",
-					"packageCode": "packageCode",
+					"packageCode": "PaaK",
 					"description" : "123",
 					"_TTL": "6",
 				}
@@ -263,7 +263,7 @@ describe("Testing add tenant API", () => {
 				"type": "product",
 				"application": {
 					"productCode": "tyrv",
-					"packageCode": "packageCode",
+					"packageCode": "PACK",
 					"description" : "123",
 					"_TTL": "6",
 					"appKey": {

@@ -21,6 +21,7 @@ describe("starting tenant integration tests", () => {
 
         // POST
         require("./post/addTenant.test.js");
+        require("./post/addApplicationKey.test.js");
 
         // PUT
         require("./put/updateProfile.test");
@@ -30,6 +31,7 @@ describe("starting tenant integration tests", () => {
         require('./put/updateApplication.test');
 
         // DELETE
+        require("./delete/deleteAppExtKeys.test.js");
         require("./delete/deleteAppKey.test.js");
         require("./delete/deleteApplication.test.js");
         require("./delete/deleteTenant.test.js");
