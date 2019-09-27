@@ -53,7 +53,7 @@ describe("Testing get applications API", () => {
             assert.ok(body);
             assert.ok(body.data);
             assert.deepEqual(body.data.product, 'TPROD');
-            assert.deepEqual(body.data.package, 'TPROD_EXAMPLE03');
+            assert.deepEqual(body.data.package, 'TPROD_EXA3');
             assert.deepEqual(body.data.appId, '30d2cb5fc04ce51e06000003');
             let check = validator.validate(body, getApplicationsSchema);
             assert.deepEqual(check.valid, true);
@@ -76,7 +76,7 @@ describe("Testing get applications API", () => {
             assert.ok(body);
             assert.ok(body.data);
             assert.deepEqual(body.data.product, 'TPROD');
-            assert.deepEqual(body.data.package, 'TPROD_EXAMPLE03');
+            assert.deepEqual(body.data.package, 'TPROD_EXA3');
             assert.deepEqual(body.data.appId, '30d2cb5fc04ce51e06000003');
             let check = validator.validate(body, getApplicationsSchema);
             assert.deepEqual(check.valid, true);

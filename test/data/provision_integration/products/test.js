@@ -11,7 +11,6 @@ let lib = {
                "multitenant": {
                    "1": {
                        "access": true,
-                       "apisPermission": "restricted",
                        "get": [
                            {
                                "apis": {
@@ -65,6 +64,9 @@ let lib = {
                                    "/tenant": {
                                        "access": true
                                    },
+                                   "/tenant/application/key": {
+                                       "access": true
+                                   }
                                },
                                "group": "Tenant"
                            },
@@ -74,6 +76,9 @@ let lib = {
                                        "access": true
                                    },
                                    "/admin/tenant/application/key/ext": {
+                                       "access": true
+                                   },
+                                   "/admin/tenant/application/key": {
                                        "access": true
                                    }
                                },
@@ -110,6 +115,9 @@ let lib = {
                                        "access": true
                                    },
                                    "/admin/tenant/application/key/ext": {
+                                       "access": true
+                                   },
+                                   "/admin/tenant/application/key": {
                                        "access": true
                                    }
                                },
@@ -259,7 +267,7 @@ let lib = {
             "_TTL" : 86400000 // 24 hours
         },
         {
-            "code" : "TPROD_EXAMPLE03",
+            "code" : "TPROD_EXA3",
             "name" : "example03 package",
             "description" : "this is a description for test product example03 package",
             "acl" : {
