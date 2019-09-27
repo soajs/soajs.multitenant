@@ -1,4 +1,3 @@
-
 /**
  * @license
  * Copyright SOAJS All Rights Reserved.
@@ -34,7 +33,7 @@ function Tenant(service, options, mongoCore) {
 	}
 	if (indexing && !indexing[index]) {
 		indexing[index] = true;
-		__self.mongoCore.createIndex(colName, {'code': 1}, {unique: true}, (err, result) => {
+		__self.mongoCore.createIndex(colName, {'code': 1}, {unique: true}, () => {
 		});
 		
 		service.log.debug("Tenant: Indexes for " + index + " Updated!");
@@ -43,7 +42,7 @@ function Tenant(service, options, mongoCore) {
 
 Tenant.prototype.validateId = function (id, cb) {
 	let __self = this;
-
+	
 	if (!id) {
 		let error = new Error("id is required.");
 		return cb(error, null);
@@ -78,12 +77,12 @@ Tenant.prototype.getTenant = function (data, cb) {
 			if (err) {
 				return cb(err, null);
 			}
-			condition["$and"].push({'_id': id});
+			condition.$and.push({'_id': id});
 			__self.mongoCore.findOne(colName, condition, null, null, cb);
 		});
 	} else {
 		if (data.code) {
-			condition["$and"].push({'code': data.code});
+			condition.$and.push({'code': data.code});
 		}
 		
 		__self.mongoCore.findOne(colName, condition, null, null, cb);
@@ -103,7 +102,7 @@ Tenant.prototype.listTenants = function (data, cb) {
 	};
 	
 	if (data && data.type) {
-		condition["$and"].push({'type': data.type});
+		condition.$and.push({'type': data.type});
 	}
 	__self.mongoCore.find(colName, condition, null, null, cb);
 };
@@ -154,8 +153,9 @@ Tenant.prototype.addTenant = function (data, cb) {
 		return cb(error, null);
 	}
 	__self.mongoCore.insert(colName, data, (err, record) => {
-		if (record && Array.isArray(record))
+		if (record && Array.isArray(record)) {
 			record = record [0];
+		}
 		return cb(err, record);
 	});
 };
@@ -193,25 +193,25 @@ Tenant.prototype.updateTenant = function (data, cb) {
 		'$set': {}
 	};
 	if (data.description) {
-		fields['$set'].description = data.description;
+		fields.$set.description = data.description;
 	}
 	
 	if (data.name) {
-		fields['$set'].name = data.name;
+		fields.$set.name = data.name;
 	}
 	
 	if (data.tag) {
-		fields['$set'].tag = data.tag;
+		fields.$set.tag = data.tag;
 	}
 	
 	if (data.profile) {
-		fields['$set'].profile = data.profile;
+		fields.$set.profile = data.profile;
 	}
 	if (data.applications) {
-		fields['$set'].applications = data.applications;
+		fields.$set.applications = data.applications;
 	}
 	
-	if (Object.keys(fields['$set']).length === 0) {
+	if (Object.keys(fields.$set).length === 0) {
 		//nothing to update
 		return cb(null, 0);
 	}
@@ -233,8 +233,7 @@ Tenant.prototype.removeApplication = function (data, cb) {
 	
 	try {
 		data.appId = __self.mongoCore.ObjectId(data.appId);
-	}
-	catch (e) {
+	} catch (e) {
 		return cb(e);
 	}
 	let fields = {
@@ -244,7 +243,7 @@ Tenant.prototype.removeApplication = function (data, cb) {
 			}
 		}
 	};
-
+	
 	__self.mongoCore.update(colName, condition, fields, options, (err, result) => {
 		return cb(err, result);
 	});
@@ -258,8 +257,7 @@ Tenant.prototype.removeApplicationKey = function (data, cb) {
 	}
 	try {
 		data.appId = __self.mongoCore.ObjectId(data.appId);
-	}
-	catch (e) {
+	} catch (e) {
 		return cb(e);
 	}
 	let condition = {
@@ -267,7 +265,7 @@ Tenant.prototype.removeApplicationKey = function (data, cb) {
 		'applications.appId': data.appId
 	};
 	let options = {'upsert': false, 'safe': true};
-
+	
 	let fields = {
 		'$pull': {
 			'applications.$.keys': {
@@ -275,7 +273,7 @@ Tenant.prototype.removeApplicationKey = function (data, cb) {
 			}
 		}
 	};
-
+	
 	__self.mongoCore.update(colName, condition, fields, options, (err, result) => {
 		return cb(err, result);
 	});
