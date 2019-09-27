@@ -388,7 +388,7 @@ let bl = {
 					}, envRecord.serviceConfig.key, function (error, extKeyValue) {
 						if (error) {
 							bl.mp.closeModel(soajs, modelObj);
-							return cb(bl.handleError(soajs, 501, error));
+							return cb(bl.handleError(soajs, 502, error));
 						}
 						let newExtKey = {
 							"extKey": extKeyValue,
@@ -430,7 +430,129 @@ let bl = {
 	},
 	
 	"addApplication": (soajs, inputmaskData, core, cb) => {
-		return cb(null, true);
+		const provision = core.provision;
+		const soajsCore = core.core;
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {};
+		data.id = inputmaskData.id;
+		if (!data.id) {
+			data.id = soajs.tenant.id;
+		}
+		function createExternalKey(opt, callback) {
+			if (inputmaskData.appKey.extKey) {
+				soajsCore.registry.loadByEnv({envCode: inputmaskData.appKey.extKey.env.toUpperCase()}, (err, envRecord) => {
+					if (err) {
+						bl.mp.closeModel(soajs, modelObj);
+						return cb(bl.handleError(soajs, 602, err));
+					}
+					if (!envRecord) {
+						bl.mp.closeModel(soajs, modelObj);
+						return cb(bl.handleError(soajs, 501, null));
+					}
+					soajsCore.key.generateExternalKey(opt.key, {
+						"id": opt.id,
+						"code": opt.code,
+						"locked": false
+					}, {
+						"product": opt.product,
+						"package": opt.package,
+						"appId": opt.appId,
+					}, envRecord.serviceConfig.key, function (error, extKeyValue) {
+						if (error) {
+							bl.mp.closeModel(soajs, modelObj);
+							return cb(bl.handleError(soajs, 502, error));
+						}
+						let newExtKey = {
+							"extKey": extKeyValue,
+							"device": inputmaskData.appKey.extKey.device ? inputmaskData.appKey.extKey.device : null,
+							"geo": inputmaskData.appKey.extKey.geo ? inputmaskData.appKey.extKey.geo : null,
+							"env": inputmaskData.appKey.extKey.env.toUpperCase(),
+							"label": inputmaskData.appKey.extKey.label,
+							"expDate": (inputmaskData.appKey.extKey.expDate) ? new Date(inputmaskData.appKey.extKey.expDate).getTime() + bl.localConfig.tenant.expDateTTL : null
+						};
+						return callback(null, newExtKey);
+					});
+				});
+			} else {
+				return callback(null, null);
+			}
+		}
+		
+		function generateKey (app, tenantRecord, callback){
+			if (!inputmaskData.appKey){
+				return callback();
+			}
+			provision.generateInternalKey(function (error, internalKey) {
+				if (error) {
+					return cb(bl.handleError(soajs, 602, error));
+				}
+				let key = {
+					key: internalKey,
+					config: inputmaskData.appKey.config ? inputmaskData.appKey.config : {},
+					extKeys: []
+				};
+				let opt = {
+					"code": tenantRecord.code,
+					"id": tenantRecord._id,
+					"appId": app.appId.toString(),
+					"product": app.product,
+					"package": app.package,
+					"key": internalKey
+				};
+				createExternalKey(opt, (error, extKey) => {
+					if (extKey) {
+						key.extKeys.push(extKey);
+					}
+					app.keys.push(key);
+					return callback();
+				});
+			});
+		}
+		
+		modelObj.getTenant(data, (err, tenantRecord) => {
+			if (err) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 602, err));
+			}
+			if (!tenantRecord) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 450, null));
+			}
+			if (!soajs.tenant.locked && tenantRecord && tenantRecord.locked) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 500, null));
+			}
+			if (!tenantRecord.applications) {
+				tenantRecord.applications = [];
+			}
+			let newApplication = {
+				"product": inputmaskData.productCode,
+				"package": inputmaskData.productCode + '_' + inputmaskData.packageCode,
+				"appId": modelObj.generateId(),
+				"description": inputmaskData.description || '',
+				"_TTL": inputmaskData._TTL * 3600 * 1000, // 24 hours
+				"keys": []
+			};
+			generateKey (newApplication, tenantRecord, (err)=>{
+				tenantRecord.applications.push(newApplication);
+				data = {
+					_id: tenantRecord._id,
+					applications: tenantRecord.applications
+				};
+				modelObj.updateTenant(data, (err, response) => {
+					bl.mp.closeModel(soajs, modelObj);
+					if (err) {
+						return cb(bl.handleError(soajs, 471, err));
+					}
+					return cb(null, response);
+				});
+			});
+			
+		});
 	},
 	
 	"addApplicationKey": (soajs, inputmaskData, core, cb) => {
@@ -469,7 +591,7 @@ let bl = {
 					}, envRecord.serviceConfig.key, function (error, extKeyValue) {
 						if (error) {
 							bl.mp.closeModel(soajs, modelObj);
-							return cb(bl.handleError(soajs, 501, error));
+							return cb(bl.handleError(soajs, 502, error));
 						}
 						let newExtKey = {
 							"extKey": extKeyValue,
@@ -588,7 +710,7 @@ let bl = {
 				}, envRecord.serviceConfig.key, function (error, extKeyValue) {
 					if (error) {
 						bl.mp.closeModel(soajs, modelObj);
-						return cb(bl.handleError(soajs, 501, error));
+						return cb(bl.handleError(soajs, 502, error));
 					}
 					let newExtKey = {
 						"extKey": extKeyValue,
@@ -787,6 +909,9 @@ let bl = {
 				if (tenantRecord.applications[i].appId.toString() === inputmaskData.appId) {
 					if (inputmaskData.description) {
 						tenantRecord.applications[i].description = inputmaskData.description;
+					}
+					if (inputmaskData.packageCode) {
+						tenantRecord.applications[i].package = tenantRecord.applications[i].product + "_" + inputmaskData.packageCode;
 					}
 					if (inputmaskData._TTL) {
 						tenantRecord.applications[i]._TTL = inputmaskData._TTL * 3600 * 1000;

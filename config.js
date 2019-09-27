@@ -49,6 +49,7 @@ module.exports = {
 		473: "Unable to get the tenant application key",
 		500: "You cannot modify or delete a locked record",
 		501: "Environment record not found!",
+		502: "Unable to create External key",
 		
 		601: "Model not found",
 		602: "Model error: ",
@@ -652,14 +653,14 @@ module.exports = {
 					"required": true
 				},
 				"description": {
-					"source": ['body.application'],
+					"source": ['body.description'],
 					"validation": {
 						"type": "string"
 					},
 					"required": false
 				},
 				"productCode": {
-					"source": ['body.packageCode'],
+					"source": ['body.productCode'],
 					"validation": {
 						"type": "string",
 						"format": "alphanumeric",
@@ -1221,7 +1222,16 @@ module.exports = {
 					"validation": {
 						"type": "string"
 					}
-				}
+				},
+				"packageCode": {
+					"source": ['body.packageCode'],
+					"validation": {
+						"type": "string",
+						"format": "alphanumeric",
+						"maxLength": 5
+					},
+					"required": false
+				},
 			},
 			
 			"/admin/tenant/application": {
