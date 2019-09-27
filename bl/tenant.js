@@ -553,7 +553,7 @@ let bl = {
                     _id: tenantRecord._id,
                     applications: tenantRecord.applications
                 };
-                modelObj.updateTenant(data, (err, response) => {
+                modelObj.updateTenant(data, (err) => {
                     bl.mp.closeModel(soajs, modelObj);
                     if (err) {
                         return cb(bl.handleError(soajs, 471, err));
