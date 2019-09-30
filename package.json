@@ -7,6 +7,10 @@
     "type": "git",
     "url": "git+ssh://git@github.com/soajs/soajs.multitenant.git"
   },
+  "keywords": [
+    "soajs",
+    "multitenant"
+  ],
   "license": "Apache-2.0",
   "engines": {
     "node": "*"
@@ -28,21 +32,8 @@
     "soajs.controller": "2.5.*"
   },
   "dependencies": {
-    "async": "^2.1.4",
+    "async": "3.1.0",
     "soajs": "2.5.14",
     "soajs.core.libs": "1.2.0"
-  },
-  "bugs": {
-    "url": "https://github.com/soajs/soajs.multitenant/issues"
-  },
-  "homepage": "https://github.com/soajs/soajs.multitenant#readme",
-  "main": "index.js",
-  "directories": {
-    "lib": "lib",
-    "test": "test"
-  },
-  "keywords": [
-    "soajs",
-    "multitenant"
-  ]
+  }
 }
