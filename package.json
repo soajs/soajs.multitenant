@@ -1,7 +1,7 @@
 {
   "name": "soajs.multitenant",
   "description": "soajs multitenant service",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "soajs team <team@soajs.org>",
   "repository": {
     "type": "git",
