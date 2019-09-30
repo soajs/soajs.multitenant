@@ -1,3 +1,11 @@
+/**
+ * @license
+ * Copyright SOAJS All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache license that can be
+ * found in the LICENSE file at the root of this repository
+ */
+
 "use strict";
 const colName = "tenants";
 const core = require("soajs");
@@ -25,7 +33,7 @@ function Tenant(service, options, mongoCore) {
 	}
 	if (indexing && !indexing[index]) {
 		indexing[index] = true;
-		__self.mongoCore.createIndex(colName, {'code': 1}, {unique: true}, (err, result) => {
+		__self.mongoCore.createIndex(colName, {'code': 1}, {unique: true}, () => {
 		});
 		
 		service.log.debug("Tenant: Indexes for " + index + " Updated!");
@@ -63,17 +71,18 @@ Tenant.prototype.getTenant = function (data, cb) {
 			]
 		}]
 	};
+	
 	if (data.id) {
 		__self.validateId(data.id, (err, id) => {
 			if (err) {
 				return cb(err, null);
 			}
-			condition["$and"].push({'_id': id});
+			condition.$and.push({'_id': id});
 			__self.mongoCore.findOne(colName, condition, null, null, cb);
 		});
 	} else {
 		if (data.code) {
-			condition["$and"].push({'code': data.code});
+			condition.$and.push({'code': data.code});
 		}
 		
 		__self.mongoCore.findOne(colName, condition, null, null, cb);
@@ -93,7 +102,7 @@ Tenant.prototype.listTenants = function (data, cb) {
 	};
 	
 	if (data && data.type) {
-		condition["$and"].push({'type': data.type});
+		condition.$and.push({'type': data.type});
 	}
 	__self.mongoCore.find(colName, condition, null, null, cb);
 };
@@ -144,8 +153,9 @@ Tenant.prototype.addTenant = function (data, cb) {
 		return cb(error, null);
 	}
 	__self.mongoCore.insert(colName, data, (err, record) => {
-		if (record && Array.isArray(record))
+		if (record && Array.isArray(record)) {
 			record = record [0];
+		}
 		return cb(err, record);
 	});
 };
@@ -183,21 +193,25 @@ Tenant.prototype.updateTenant = function (data, cb) {
 		'$set': {}
 	};
 	if (data.description) {
-		fields['$set'].description = data.description;
+		fields.$set.description = data.description;
 	}
 	
 	if (data.name) {
-		fields['$set'].name = data.name;
+		fields.$set.name = data.name;
 	}
 	
 	if (data.tag) {
-		fields['$set'].tag = data.tag;
+		fields.$set.tag = data.tag;
 	}
 	
 	if (data.profile) {
-		fields['$set'].profile = data.profile;
+		fields.$set.profile = data.profile;
 	}
-	if (Object.keys(fields['$set']).length === 0) {
+	if (data.applications) {
+		fields.$set.applications = data.applications;
+	}
+	
+	if (Object.keys(fields.$set).length === 0) {
 		//nothing to update
 		return cb(null, 0);
 	}
@@ -206,6 +220,66 @@ Tenant.prototype.updateTenant = function (data, cb) {
 	});
 	
 };
+
+Tenant.prototype.removeApplication = function (data, cb) {
+	let __self = this;
+	if (!data || !data._id || !data.appId) {
+		let error = new Error("_id and appId are required.");
+		return cb(error, null);
+	}
+	
+	let condition = {'_id': data._id};
+	let options = {'upsert': false, 'safe': true};
+	
+	try {
+		data.appId = __self.mongoCore.ObjectId(data.appId);
+	} catch (e) {
+		return cb(e);
+	}
+	let fields = {
+		'$pull': {
+			'applications': {
+				"appId": __self.mongoCore.ObjectId(data.appId)
+			}
+		}
+	};
+	
+	__self.mongoCore.update(colName, condition, fields, options, (err, result) => {
+		return cb(err, result);
+	});
+};
+
+Tenant.prototype.removeApplicationKey = function (data, cb) {
+	let __self = this;
+	if (!data || !data._id || !data.appId || !data.key) {
+		let error = new Error("_id, appId, and key are required.");
+		return cb(error, null);
+	}
+	try {
+		data.appId = __self.mongoCore.ObjectId(data.appId);
+	} catch (e) {
+		return cb(e);
+	}
+	let condition = {
+		'_id': data._id,
+		'applications.appId': data.appId
+	};
+	let options = {'upsert': false, 'safe': true};
+	
+	let fields = {
+		'$pull': {
+			'applications.$.keys': {
+				"key": data.key
+			}
+		}
+	};
+	
+	__self.mongoCore.update(colName, condition, fields, options, (err, result) => {
+		return cb(err, result);
+	});
+};
+
+
 Tenant.prototype.closeConnection = function () {
 	let __self = this;
 	__self.mongoCore.closeDb();

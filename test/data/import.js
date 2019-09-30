@@ -123,6 +123,39 @@ let lib = {
                 });
         } else
             return cb();
+    },
+    tenants: (dataPath, mongoConnection, cb) => {
+        let records = [];
+        fs.readdirSync(dataPath).forEach(function (file) {
+            let rec = require(dataPath + file);
+            //TODO: validate env
+            records.push(rec);
+        });
+        if (records && Array.isArray(records) && records.length > 0) {
+            mongoConnection.dropCollection("tenants", () => {
+                async.each(
+                    records,
+                    (e, cb) => {
+                        let condition = {["code"]: e["code"]};
+                        e["_id"] = mongoConnection.ObjectId(e["_id"]);
+                        e.applications.forEach(app => {
+                            app.appId = mongoConnection.ObjectId(app.appId);
+                        });
+                        mongoConnection.update('tenants', condition, e, {'upsert': true}, (error, result) => {
+                            console.log('tenants', error);
+                            return cb();
+                        });
+                    },
+                    () => {
+                        return cb();
+                    });
+            });
+        } else
+        {
+            mongoConnection.dropCollection(colName, () => {
+                return cb();
+            });
+        }
     }
 };
 
@@ -202,12 +235,7 @@ module.exports = (profilePath, dataPath, callback) => {
                 function (cb) {
                     //check for tenants data
                     if (fs.existsSync(dataPath + "tenants/")) {
-                        let config = {
-                            "colName": "tenants",
-                            "condAnchor": "code",
-                            "objId": "_id"
-                        };
-                        return lib.basic(config, dataPath + "tenants/", mongoConnection, cb);
+                        return lib.tenants( dataPath + "tenants/", mongoConnection, cb);
                     } else
                         return cb(null);
                 },

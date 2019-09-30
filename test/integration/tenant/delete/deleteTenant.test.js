@@ -1,3 +1,12 @@
+
+/**
+ * @license
+ * Copyright SOAJS All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache license that can be
+ * found in the LICENSE file at the root of this repository
+ */
+
 "use strict";
 const assert = require('assert');
 const requester = require('../../requester');
@@ -5,7 +14,6 @@ const requester = require('../../requester');
 let core = require('soajs').core;
 let validator = new core.validator.Validator();
 let deleteTenantSchema = require("../schemas/deleteTenant.js");
-let getTenantsSchema = require("../schemas/getTenant.js");
 let listTenantsSchema = require("../schemas/listTenants.js");
 
 describe("Testing delete tenant API", () => {
@@ -67,23 +75,6 @@ describe("Testing delete tenant API", () => {
             assert.ok(body);
             assert.ok(body.data);
             let check = validator.validate(body, deleteTenantSchema);
-            assert.deepEqual(check.valid, true);
-            assert.deepEqual(check.errors, []);
-            done();
-        });
-    });
-
-    it("Success - will return product record - code", (done) => {
-        let params = {
-            qs: {
-                code: 'test'
-            }
-        };
-        requester('/tenant', 'get', params, (error, body) => {
-            assert.ifError(error);
-            assert.ok(body);
-            assert.ok(body.errors);
-            let check = validator.validate(body, getTenantsSchema);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);
             done();

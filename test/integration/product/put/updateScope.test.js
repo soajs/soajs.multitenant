@@ -1,3 +1,12 @@
+
+/**
+ * @license
+ * Copyright SOAJS All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache license that can be
+ * found in the LICENSE file at the root of this repository
+ */
+
 "use strict";
 const assert = require('assert');
 const requester = require('../../requester');
@@ -79,7 +88,6 @@ describe("Testing update product API", () => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.data);
-            console.log("dita", JSON.stringify(body.data.scope, null, 2));
             assert.deepEqual(body.data.scope, {
                 "dashboard": {
                     "multitenant": {

@@ -1,3 +1,12 @@
+
+/**
+ * @license
+ * Copyright SOAJS All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache license that can be
+ * found in the LICENSE file at the root of this repository
+ */
+
 "use strict";
 
 const helper = require("../../../helper.js");
@@ -56,7 +65,7 @@ describe("Unit test for: Model - tenant - indexes", () => {
         model.addProduct({
             name: "Console Tenant",
             code: "DBTN"
-        }, (err, record) => {
+        }, (err) => {
             assert.deepEqual(err.name, 'MongoError');
             assert.deepEqual(err.message, 'E11000 duplicate key error collection: core_provision.products index: code_1 dup key: { : "DSBRD" }');
             assert.ok(err);
@@ -68,7 +77,7 @@ describe("Unit test for: Model - tenant - indexes", () => {
         model.addProduct({
             name: "Console Tenant",
             code: null
-        }, (err, record) => {
+        }, (err) => {
             assert.ok(err);
             done();
         });

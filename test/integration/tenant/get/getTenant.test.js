@@ -1,3 +1,12 @@
+
+/**
+ * @license
+ * Copyright SOAJS All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache license that can be
+ * found in the LICENSE file at the root of this repository
+ */
+
 "use strict";
 const assert = require('assert');
 const requester = require('../../requester');
@@ -41,13 +50,13 @@ describe("Testing get tenant API", () => {
         });
     });
 
-    it("Success - will return product record - id", (done) => {
+    it("Success - will return tenant record - id (admin)", (done) => {
         let params = {
             qs: {
                 id: selectedTenant._id
             }
         };
-        requester('/tenant', 'get', params, (error, body) => {
+        requester('/admin/tenant', 'get', params, (error, body) => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.data);
@@ -61,7 +70,7 @@ describe("Testing get tenant API", () => {
         });
     });
 
-    it("Success - will return product record - no id no code", (done) => {
+    it("Success - will return tenant record - no id", (done) => {
         let params = {
             qs: {
             },
@@ -72,29 +81,7 @@ describe("Testing get tenant API", () => {
         requester('/tenant', 'get', params, (error, body) => {
             assert.ifError(error);
             assert.ok(body);
-            console.log("boudy", body, body.errors);
             assert.ok(body.data);
-            let check = validator.validate(body, getTenantsSchema);
-            assert.deepEqual(check.valid, true);
-            assert.deepEqual(check.errors, []);
-            done();
-        });
-    });
-
-
-    it("Success - will return product record - code", (done) => {
-        let params = {
-            qs: {
-                code: 'test'
-            }
-        };
-        requester('/tenant', 'get', params, (error, body) => {
-            assert.ifError(error);
-            assert.ok(body);
-            assert.ok(body.data);
-            assert.deepEqual(body.data.name, 'Test Tenant');
-            assert.deepEqual(body.data.code, 'test');
-            assert.deepEqual(body.data.description, 'this is a description for test tenant');
             let check = validator.validate(body, getTenantsSchema);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);
@@ -104,7 +91,7 @@ describe("Testing get tenant API", () => {
 
     it("Fail - will not return tenant record - no params", (done) => {
         let params = {};
-        requester('/product', 'get', params, (error, body) => {
+        requester('/tenant', 'get', params, (error, body) => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.errors.codes);

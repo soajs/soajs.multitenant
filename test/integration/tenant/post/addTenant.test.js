@@ -1,3 +1,12 @@
+
+/**
+ * @license
+ * Copyright SOAJS All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache license that can be
+ * found in the LICENSE file at the root of this repository
+ */
+
 "use strict";
 const assert = require('assert');
 const requester = require('../../requester');
@@ -54,13 +63,13 @@ describe("Testing add tenant API", () => {
         });
     });
 
-    it("Success - will return product tenant record - code", (done) => {
+    it("Success - will return product tenant record - id", (done) => {
         let params = {
             qs: {
-                code: 'ttoc'
+                id: product._id
             }
         };
-        requester('/tenant', 'get', params, (error, body) => {
+        requester('/admin/tenant', 'get', params, (error, body) => {
             assert.ok(body);
             assert.ok(body.data);
             assert.deepEqual(body.data.oauth, {
@@ -217,7 +226,7 @@ describe("Testing add tenant API", () => {
 				"type": "product",
 				"application": {
 					"productCode": "tyrv",
-					"packageCode": "packageCode",
+					"packageCode": "PaaK",
 					"description" : "123",
 					"_TTL": "6",
 				}
@@ -263,7 +272,7 @@ describe("Testing add tenant API", () => {
 				"type": "product",
 				"application": {
 					"productCode": "tyrv",
-					"packageCode": "packageCode",
+					"packageCode": "PACK",
 					"description" : "123",
 					"_TTL": "6",
 					"appKey": {

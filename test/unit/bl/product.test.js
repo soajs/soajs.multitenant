@@ -1,3 +1,12 @@
+
+/**
+ * @license
+ * Copyright SOAJS All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache license that can be
+ * found in the LICENSE file at the root of this repository
+ */
+
 "use strict";
 
 const helper = require("../../helper.js");
@@ -325,7 +334,7 @@ describe("Unit test for: BL - product", () => {
                     return cb(null, null);
                 }
             };
-            BL.get(soajs, null, (err, record) => {
+            BL.get(soajs, null, (err) => {
                 assert.ok(err);
                 assert.equal(err.code, 400);
                 done();
@@ -452,7 +461,7 @@ describe("Unit test for: BL - product", () => {
             };
             BL.model = Product;
 
-            BL.get(soajsClient, null, (err, record) => {
+            BL.get(soajsClient, null, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 400);
                 done();
@@ -491,7 +500,7 @@ describe("Unit test for: BL - product", () => {
 
             BL.model = Product;
 
-            BL.get(soajsClient, {id: "notfound"}, (err, record) => {
+            BL.get(soajsClient, {id: "notfound"}, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 460);
                 done();
@@ -530,7 +539,7 @@ describe("Unit test for: BL - product", () => {
 
             BL.model = Product;
 
-            BL.get(soajsClient, {id: "found"}, (err, record) => {
+            BL.get(soajsClient, {id: "found"}, (err) => {
                 assert.deepEqual(err.code, 602);
                 assert.ok(err);
                 done();
@@ -621,7 +630,7 @@ describe("Unit test for: BL - product", () => {
                     return cb(null, 1);
                 }
             };
-            BL.add(soajs, inputMask, (err, record) => {
+            BL.add(soajs, inputMask, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 468);
                 done();
@@ -665,7 +674,7 @@ describe("Unit test for: BL - product", () => {
             Product.prototype.closeConnection = () => {
             };
             BL.model = Product;
-            BL.add(soajsClient, inputMask, (err, record) => {
+            BL.add(soajsClient, inputMask, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 468);
                 done();
@@ -707,7 +716,7 @@ describe("Unit test for: BL - product", () => {
             Product.prototype.closeConnection = () => {
             };
             BL.model = Product;
-            BL.add(soajsClient, inputMask, (err, record) => {
+            BL.add(soajsClient, inputMask, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 602);
                 done();
@@ -749,7 +758,7 @@ describe("Unit test for: BL - product", () => {
             Product.prototype.closeConnection = () => {
             };
             BL.model = Product;
-            BL.add(soajsClient, inputMask, (err, record) => {
+            BL.add(soajsClient, inputMask, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 602);
                 done();
@@ -765,7 +774,7 @@ describe("Unit test for: BL - product", () => {
                     return cb(true, null);
                 }
             };
-            BL.add(soajs, null, (err, record) => {
+            BL.add(soajs, null, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 400);
                 done();
@@ -861,7 +870,7 @@ describe("Unit test for: BL - product", () => {
                     return cb(true, null);
                 }
             };
-            BL.update(soajs, inputMask, (err, record) => {
+            BL.update(soajs, inputMask, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 602);
                 done();
@@ -877,7 +886,7 @@ describe("Unit test for: BL - product", () => {
                     return cb(true, null);
                 }
             };
-            BL.update(soajs, null, (err, record) => {
+            BL.update(soajs, null, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 400);
                 done();
@@ -896,7 +905,7 @@ describe("Unit test for: BL - product", () => {
                     return cb(null, 0);
                 }
             };
-            BL.update(soajs, null, (err, record) => {
+            BL.update(soajs, null, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 400);
                 done();
@@ -912,7 +921,7 @@ describe("Unit test for: BL - product", () => {
                     return cb(null, null);
                 }
             };
-            BL.update(soajs, {}, (err, record) => {
+            BL.update(soajs, {}, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 460,
@@ -934,7 +943,7 @@ describe("Unit test for: BL - product", () => {
                     return cb(null, null);
                 }
             };
-            BL.update(soajs, {}, (err, record) => {
+            BL.update(soajs, {}, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 500,
@@ -956,7 +965,7 @@ describe("Unit test for: BL - product", () => {
                     return cb(true, null);
                 }
             };
-            BL.update(soajs, {}, (err, record) => {
+            BL.update(soajs, {}, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 470,
@@ -1360,7 +1369,7 @@ describe("Unit test for: BL - product", () => {
                     return cb(true, null);
                 }
             };
-            BL.updateScope(soajs, inputMask, (err, result) => {
+            BL.updateScope(soajs, inputMask, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 470,
@@ -1414,7 +1423,7 @@ describe("Unit test for: BL - product", () => {
                     return cb(true, null);
                 }
             };
-            BL.delete(soajs, inputMask, (err, record) => {
+            BL.delete(soajs, inputMask, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 602);
                 done();
@@ -1434,7 +1443,7 @@ describe("Unit test for: BL - product", () => {
                     return cb(null, null);
                 }
             };
-            BL.delete(soajs, inputMask, (err, record) => {
+            BL.delete(soajs, inputMask, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 460,
@@ -1453,7 +1462,7 @@ describe("Unit test for: BL - product", () => {
                     return cb(true, null);
                 }
             };
-            BL.delete(soajs, null, (err, record) => {
+            BL.delete(soajs, null, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 400,
@@ -1476,7 +1485,7 @@ describe("Unit test for: BL - product", () => {
                     return cb(null, null);
                 }
             };
-            BL.delete(soajs, inputMask, (err, record) => {
+            BL.delete(soajs, inputMask, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 460,
@@ -1546,7 +1555,7 @@ describe("Unit test for: BL - product", () => {
                     });
                 }
             };
-            BL.delete(soajs2, inputMask, (err, record) => {
+            BL.delete(soajs2, inputMask, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 466,
@@ -1572,7 +1581,7 @@ describe("Unit test for: BL - product", () => {
                     });
                 }
             };
-            BL.delete(soajs, inputMask, (err, record) => {
+            BL.delete(soajs, inputMask, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 500,
@@ -1595,7 +1604,7 @@ describe("Unit test for: BL - product", () => {
                     return cb(null, null);
                 }
             };
-            BL.delete(soajs, inputMask, (err, record) => {
+            BL.delete(soajs, inputMask, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 460,
@@ -1616,7 +1625,7 @@ describe("Unit test for: BL - product", () => {
                     return cb(true, null);
                 }
             };
-            BL.delete(soajs, inputMask, (err, record) => {
+            BL.delete(soajs, inputMask, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 602);
                 done();
@@ -1636,7 +1645,7 @@ describe("Unit test for: BL - product", () => {
                     return cb(null, {});
                 }
             };
-            BL.delete(soajs, inputMask, (err, record) => {
+            BL.delete(soajs, inputMask, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 602);
                 done();
@@ -2383,7 +2392,7 @@ describe("Unit test for: BL - product", () => {
                     return cb(null, true);
                 }
             };
-            BL.addPackage(soajs, inputmaskData, (err, result) => {
+            BL.addPackage(soajs, inputmaskData, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 467,
@@ -2428,7 +2437,7 @@ describe("Unit test for: BL - product", () => {
                     return cb(true, null);
                 }
             };
-            BL.addPackage(soajs, inputMask, (err, result) => {
+            BL.addPackage(soajs, inputMask, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 602);
                 done();
@@ -2578,7 +2587,7 @@ describe("Unit test for: BL - product", () => {
                     return cb(null, true);
                 }
             };
-            BL.updatePackage(soajs, inputMask, (err, result) => {
+            BL.updatePackage(soajs, inputMask, (err) => {
                 assert.ok(err, {
                     code: 461,
                     msg: soajs.config.errors[461]
@@ -2745,7 +2754,7 @@ describe("Unit test for: BL - product", () => {
                     return cb(null, true);
                 }
             };
-            BL.updatePackage(soajs, inputmaskData, (err, result) => {
+            BL.updatePackage(soajs, inputmaskData, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 461,
@@ -2790,7 +2799,7 @@ describe("Unit test for: BL - product", () => {
                     return cb(true, null);
                 }
             };
-            BL.updatePackage(soajs, inputMask, (err, result) => {
+            BL.updatePackage(soajs, inputMask, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 602);
                 done();
@@ -3097,7 +3106,7 @@ describe("Unit test for: BL - product", () => {
                     return cb(null, true);
                 }
             };
-            BL.deletePackage(soajs, inputmaskData, (err, result) => {
+            BL.deletePackage(soajs, inputmaskData, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 461,
@@ -3142,7 +3151,7 @@ describe("Unit test for: BL - product", () => {
                     return cb(true, null);
                 }
             };
-            BL.deletePackage(soajs, inputMask, (err, result) => {
+            BL.deletePackage(soajs, inputMask, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 602);
                 done();

@@ -1,3 +1,12 @@
+
+/**
+ * @license
+ * Copyright SOAJS All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache license that can be
+ * found in the LICENSE file at the root of this repository
+ */
+
 "use strict";
 const colName = "products";
 const core = require("soajs");
@@ -27,13 +36,13 @@ function Product(service, options, mongoCore) {
     }
     if (indexing && !indexing[index]) {
         indexing[index] = true;
-        __self.mongoCore.createIndex(colName, {'code': 1}, {unique: true}, (err, result) => {
+        __self.mongoCore.createIndex(colName, {'code': 1}, {unique: true}, () => {
         });
 
-        __self.mongoCore.createIndex(colName, {'packages.code': 1}, {}, (err, result) => {
+        __self.mongoCore.createIndex(colName, {'packages.code': 1}, {}, () => {
         });
 
-        __self.mongoCore.createIndex(colName, {'code': 1, 'packages.code': 1}, {}, (err, result) => {
+        __self.mongoCore.createIndex(colName, {'code': 1, 'packages.code': 1}, {}, () => {
         });
 
         service.log.debug("Product: Indexes for " + index + " Updated!");
@@ -101,7 +110,7 @@ Product.prototype.getProduct = function (data, cb) {
             if (err) {
                 return cb(err, null);
             }
-            condition["$and"].push({'_id': id});
+            condition.$and.push({'_id': id});
 
             __self.mongoCore.findOne(colName, condition, null, null, (err, record) => {
 	            lib.unsanitize(record, cb);
@@ -109,7 +118,7 @@ Product.prototype.getProduct = function (data, cb) {
         });
     } else {
         if (data.code) {
-	        condition["$and"].push({'code': data.code}); // TODO: ADD to documentation
+	        condition.$and.push({'code': data.code}); // TODO: ADD to documentation
         }
 
         __self.mongoCore.findOne(colName, condition, null, null, (err, record) => {
@@ -160,15 +169,17 @@ Product.prototype.addProduct = function (data, cb) {
 		lib.sanitize(scope, () => {
 			data.scope.acl = scope;
 			__self.mongoCore.insert(colName, data, (err, record) => {
-				if (record && Array.isArray(record))
-					record = record [0];
+				if (record && Array.isArray(record)){
+					record = record[0];
+				}
 				return cb(err, record);
 			});
 		});
 	} else {
 		__self.mongoCore.insert(colName, data, (err, record) => {
-			if (record && Array.isArray(record))
+			if (record && Array.isArray(record)){
 				record = record [0];
+			}
 			return cb(err, record);
 		});
 	}
@@ -223,27 +234,27 @@ Product.prototype.updateProduct = function (data, cb) {
 		}
 	};
 	if (data.description){
-		fields['$set'].description = data.description;
+		fields.$set.description = data.description;
 	}
 	
 	if (data.name){
-		fields['$set'].name = data.name;
+		fields.$set.name = data.name;
 	}
 	
 	if (data.packages){
-		fields['$set'].packages = data.packages;
+		fields.$set.packages = data.packages;
 	}
 	if (data.scope){
 		let scope = data.scope.acl;
 		lib.sanitize(scope, () => {
-			fields['$set'].scope = scope;
+			fields.$set.scope = scope;
 			__self.mongoCore.update(colName, condition, fields, options, (err, result) => {
 				return cb(err, result);
 			});
 		});
 	}
 	else {
-        if (Object.keys(fields['$set']).length === 0){
+        if (Object.keys(fields.$set).length === 0){
 			//nothing to update
 			return cb(null, 0);
 		}
