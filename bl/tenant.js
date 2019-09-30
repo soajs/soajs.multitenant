@@ -705,7 +705,7 @@ let bl = {
                     bl.mp.closeModel(soajs, modelObj);
                     return cb(bl.handleError(soajs, 602, err));
                 }
-                if (!envRecord) {
+                if (!envRecord || !envRecord.serviceConfig || !envRecord.serviceConfig.key) {
                     bl.mp.closeModel(soajs, modelObj);
                     return cb(bl.handleError(soajs, 501, null));
                 }

@@ -23,6 +23,7 @@ describe("starting tenant integration tests", () => {
         require("./post/addTenant.test.js");
         require("./post/addApplication.test");
         require("./post/addApplicationKey.test.js");
+        require("./post/addAppExtKey.test.js");
 
         // PUT
         require("./put/updateProfile.test");
