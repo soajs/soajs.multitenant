@@ -328,7 +328,7 @@ describe("Unit test for: Model - tenant", () => {
 			    appId: 'wewe2',
 			    key: 'ff7b65bb252201121f1be95adc08f44a'
 		    };
-		    model.removeApplicationKey(inputmaskData, (err, result) => {
+		    model.removeApplicationKey(inputmaskData, (err) => {
 			    assert.ok(err);
 			    done();
 		    });
@@ -359,7 +359,7 @@ describe("Unit test for: Model - tenant", () => {
 			    _id: tenantTest._id,
 			    appId: 'rwe32',
 		    };
-		    model.removeApplication(inputmaskData, (err, result) => {
+		    model.removeApplication(inputmaskData, (err) => {
 			    assert.ok(err);
 			    done();
 		    });
