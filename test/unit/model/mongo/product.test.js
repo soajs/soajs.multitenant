@@ -527,5 +527,46 @@ describe("Unit test for: Model - product", () => {
             model = new Product(service, null, true);
             done();
         });
+	    it("Success", (done) => {
+		    model = new Product(service, {
+			    "name": "core_provision",
+			    "prefix": '',
+			    "servers": [
+				    {
+					    "host": "127.0.0.1",
+					    "port": 27017
+				    }
+			    ],
+			    "index": "test",
+			    "credentials": null,
+			    "URLParam": {
+				    "poolSize": 5,
+				    "autoReconnect": true
+			    },
+		    }, null);
+		    model.closeConnection();
+		    done();
+	    });
+	
+	    it("Success", (done) => {
+		    model = new Product(service, {
+			    "name": "core_provision",
+			    "prefix": '',
+			    "servers": [
+				    {
+					    "host": "127.0.0.1",
+					    "port": 27017
+				    }
+			    ],
+			    "index": "test",
+			    "credentials": null,
+			    "URLParam": {
+				    "poolSize": 5,
+				    "autoReconnect": true
+			    },
+			    "dbConfig" : {}
+		    }, null);
+		    done();
+	    });
     });
 });
