@@ -1,3 +1,5 @@
+"use strict";
+
 let addAppKeySchema = {
     "type": "object",
     "required": true,

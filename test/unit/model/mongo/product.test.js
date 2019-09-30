@@ -112,7 +112,7 @@ describe("Unit test for: Model - product", () => {
         });
 
         it("Fails - getProduct empty", (done) => {
-            model.getProduct({}, (err, record) => {
+            model.getProduct({}, (err) => {
                 assert.ok(err);
                 done();
             });
@@ -135,7 +135,7 @@ describe("Unit test for: Model - product", () => {
         });
 
         it('Fail - check if exist - id', (done) => {
-            model.checkIfExist(null, (err, count) => {
+            model.checkIfExist(null, (err) => {
                 assert.ok(err);
                 done();
             });
@@ -167,7 +167,7 @@ describe("Unit test for: Model - product", () => {
         });
 
         it("Fails - add Product", (done) => {
-            model.addProduct(null, (err, record) => {
+            model.addProduct(null, (err) => {
                 assert.ok(err);
                 done();
             });
@@ -187,7 +187,7 @@ describe("Unit test for: Model - product", () => {
         });
 
         it('Fails - update - null data', (done) => {
-            model.updateProduct(null, (err, record) => {
+            model.updateProduct(null, (err) => {
                 assert.ok(err);
                 done();
             });
@@ -224,7 +224,7 @@ describe("Unit test for: Model - product", () => {
         });
 
         it("Fails - deleteProduct - Null data", (done) => {
-            model.deleteProduct(null, (err, record) => {
+            model.deleteProduct(null, (err) => {
                 assert.ok(err);
                 done();
             });
@@ -348,7 +348,7 @@ describe("Unit test for: Model - product", () => {
         });
 
         it('Fail - check if exist - id', (done) => {
-            model.checkIfExist(null, (err, count) => {
+            model.checkIfExist(null, (err) => {
                 assert.ok(err);
                 done();
             });
@@ -410,7 +410,7 @@ describe("Unit test for: Model - product", () => {
         });
 
         it("Fails - add Product", (done) => {
-            model.addProduct(null, (err, record) => {
+            model.addProduct(null, (err) => {
                 assert.ok(err);
                 done();
             });
@@ -445,7 +445,7 @@ describe("Unit test for: Model - product", () => {
         });
 
         it('Fails - update - null data', (done) => {
-            model.updateProduct(null, (err, record) => {
+            model.updateProduct(null, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, new Error("_id is required."));
                 done();
@@ -461,7 +461,7 @@ describe("Unit test for: Model - product", () => {
         });
 
         it('Fails - save - null data', (done) => {
-            model.saveProduct(null, (err, record) => {
+            model.saveProduct(null, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, new Error("_id is required."));
                 done();
@@ -493,7 +493,7 @@ describe("Unit test for: Model - product", () => {
 
 
         it("Fails - deleteProduct", (done) => {
-            model.deleteProduct(null, (err, record) => {
+            model.deleteProduct(null, (err) => {
                 assert.ok(err);
                 done();
             });
@@ -501,7 +501,7 @@ describe("Unit test for: Model - product", () => {
 
         //TODO fix indexes
         it("Fails - getProduct empty", (done) => {
-            model.addProduct({}, (err, record) => {
+            model.addProduct({}, (err) => {
                 assert.ok(err);
                 done();
             });

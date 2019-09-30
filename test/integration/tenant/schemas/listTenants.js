@@ -1,3 +1,5 @@
+"use strict";
+
 let listTenantsSchema = {
     "type": "object",
     "required": true,

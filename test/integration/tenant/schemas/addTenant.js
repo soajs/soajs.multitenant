@@ -1,3 +1,5 @@
+"use strict";
+
 let addTenantsSchema = {
     "type": "object",
     "required": true,

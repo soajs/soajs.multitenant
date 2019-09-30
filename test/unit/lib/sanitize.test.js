@@ -441,7 +441,7 @@ describe("Testing sanitize", () => {
                 }
             }
         };
-        lib.sanitize(scopeObject, (err) => {
+        lib.sanitize(scopeObject, () => {
             assert.deepEqual(scopeObject.dashboard.multitenant, {
                 "1x2": {
                     "access": false,

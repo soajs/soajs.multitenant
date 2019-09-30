@@ -149,7 +149,7 @@ describe("Unit test for: Model - tenant", () => {
         });
 
         it("Success - getTenant - null", (done) => {
-            model.getTenant(null, (err, record) => {
+            model.getTenant(null, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, new Error("id or code is required."));
                 done();
@@ -157,7 +157,7 @@ describe("Unit test for: Model - tenant", () => {
         });
 
         it("Success - getTenant - empty object", (done) => {
-            model.getTenant({}, (err, record) => {
+            model.getTenant({}, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, new Error("id or code is required."));
                 done();
@@ -185,7 +185,7 @@ describe("Unit test for: Model - tenant", () => {
         });
 
         it("Fails - countTenants - null data", (done) => {
-            model.countTenants(null, (err, count) => {
+            model.countTenants(null, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, new Error("name is required."));
                 done();
@@ -255,7 +255,7 @@ describe("Unit test for: Model - tenant", () => {
                     "test": "update"
                 }
             };
-            model.updateTenant(inputmaskData, (err, record) => {
+            model.updateTenant(inputmaskData, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, new Error("_id is required."));
                 done();
@@ -270,7 +270,7 @@ describe("Unit test for: Model - tenant", () => {
 	    });
 
         it("fail - addTenant - null", (done) => {
-            model.addTenant(null, (err, record) => {
+            model.addTenant(null, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, new Error("name and code are required."));
                 done();
@@ -278,7 +278,7 @@ describe("Unit test for: Model - tenant", () => {
         });
 
         it("Fails - removeApplicationKey - null", (done) => {
-            model.removeApplicationKey(null, (err, record) => {
+            model.removeApplicationKey(null, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, new Error("_id, appId, and key are required."));
                 done();
@@ -299,7 +299,7 @@ describe("Unit test for: Model - tenant", () => {
         });
 
         it("Fails - removeApplication - null", (done) => {
-            model.removeApplication(null, (err, record) => {
+            model.removeApplication(null, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, new Error("_id and appId are required."));
                 done();
@@ -341,7 +341,7 @@ describe("Unit test for: Model - tenant", () => {
         });
 
         it("Fails - deleteTenant - null", (done) => {
-            model.deleteTenant(null, (err, record) => {
+            model.deleteTenant(null, (err) => {
                 assert.ok(err);
                 done();
             });

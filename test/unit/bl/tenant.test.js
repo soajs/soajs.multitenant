@@ -249,7 +249,7 @@ describe("Unit test for: BL - tenant", () => {
                     return cb(null, null);
                 }
             };
-            BL.get(soajs, null, (err, record) => {
+            BL.get(soajs, null, (err) => {
                 assert.ok(err);
                 assert.equal(err.code, 400);
                 done();
@@ -369,7 +369,7 @@ describe("Unit test for: BL - tenant", () => {
             };
             BL.model = Tenant;
 
-            BL.get(soajsClient, null, (err, record) => {
+            BL.get(soajsClient, null, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 400);
                 done();
@@ -408,7 +408,7 @@ describe("Unit test for: BL - tenant", () => {
 
             BL.model = Tenant;
 
-            BL.get(soajsClient, {id: "notfound"}, (err, record) => {
+            BL.get(soajsClient, {id: "notfound"}, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 450);
                 done();
@@ -447,7 +447,7 @@ describe("Unit test for: BL - tenant", () => {
 
             BL.model = Tenant;
 
-            BL.get(soajsClient, {id: "found"}, (err, record) => {
+            BL.get(soajsClient, {id: "found"}, (err) => {
                 assert.deepEqual(err.code, 602);
                 assert.ok(err);
                 done();
@@ -1519,7 +1519,7 @@ describe("Unit test for: BL - tenant", () => {
         it("Fails - add tenant - empty data", (done) => {
             BL.modelObj = {};
 
-            BL.add(soajs, null, {}, (err, record) => {
+            BL.add(soajs, null, {}, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 400,
@@ -1615,7 +1615,7 @@ describe("Unit test for: BL - tenant", () => {
                     }
                 }
             };
-            BL.add(soajsClient, inputMask, {}, (err, record) => {
+            BL.add(soajsClient, inputMask, {}, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 602);
                 done();
@@ -1707,7 +1707,7 @@ describe("Unit test for: BL - tenant", () => {
                     }
                 }
             };
-            BL.add(soajsClient, inputMask, {}, (err, record) => {
+            BL.add(soajsClient, inputMask, {}, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 451);
                 done();
@@ -1802,7 +1802,7 @@ describe("Unit test for: BL - tenant", () => {
                     }
                 }
             };
-            BL.add(soajsClient, inputMask, {}, (err, record) => {
+            BL.add(soajsClient, inputMask, {}, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 602);
                 done();
@@ -1897,7 +1897,7 @@ describe("Unit test for: BL - tenant", () => {
                     }
                 }
             };
-            BL.add(soajsClient, inputMask, {}, (err, record) => {
+            BL.add(soajsClient, inputMask, {}, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 453);
                 done();
@@ -2020,7 +2020,7 @@ describe("Unit test for: BL - tenant", () => {
                     }
                 }
             };
-            BL.add(soajsClient, inputMask, soajs, (err, record) => {
+            BL.add(soajsClient, inputMask, soajs, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 602);
                 done();
@@ -2143,7 +2143,7 @@ describe("Unit test for: BL - tenant", () => {
                     }
                 }
             };
-            BL.add(soajsClient, inputMask, soajs, (err, record) => {
+            BL.add(soajsClient, inputMask, soajs, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 602);
                 done();
@@ -2267,7 +2267,7 @@ describe("Unit test for: BL - tenant", () => {
                     }
                 }
             };
-            BL.add(soajsClient, inputMask, soajs, (err, record) => {
+            BL.add(soajsClient, inputMask, soajs, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 502);
                 done();
@@ -2390,7 +2390,7 @@ describe("Unit test for: BL - tenant", () => {
                     }
                 }
             };
-            BL.add(soajsClient, inputMask, soajs, (err, record) => {
+            BL.add(soajsClient, inputMask, soajs, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 602);
                 done();
@@ -2513,7 +2513,7 @@ describe("Unit test for: BL - tenant", () => {
                     }
                 }
             };
-            BL.add(soajsClient, inputMask, soajs, (err, record) => {
+            BL.add(soajsClient, inputMask, soajs, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 501);
                 done();
@@ -2678,7 +2678,7 @@ describe("Unit test for: BL - tenant", () => {
                     }
                 }
             };
-            BL.add(soajsClient, inputMask, soajs, (err, record) => {
+            BL.add(soajsClient, inputMask, soajs, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 602);
                 done();
@@ -2778,7 +2778,7 @@ describe("Unit test for: BL - tenant", () => {
         it("Fails - Update tenant profile - null data", (done) => {
             BL.modelObj = {};
 
-            BL.updateProfile(soajs, null, (err, record) => {
+            BL.updateProfile(soajs, null, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 400,
@@ -2795,7 +2795,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.updateProfile(soajs, {}, (err, record) => {
+            BL.updateProfile(soajs, {}, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 602);
                 done();
@@ -2816,7 +2816,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.updateProfile(soajs, {}, (err, record) => {
+            BL.updateProfile(soajs, {}, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 471,
@@ -2836,7 +2836,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.updateProfile(soajs, {}, (err, record) => {
+            BL.updateProfile(soajs, {}, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 450,
@@ -2859,7 +2859,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.updateProfile(soajs, {}, (err, record) => {
+            BL.updateProfile(soajs, {}, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 500,
@@ -2965,7 +2965,7 @@ describe("Unit test for: BL - tenant", () => {
         it("Fails - Update tenant - null data", (done) => {
             BL.modelObj = {};
 
-            BL.updateTenant(soajs, null, (err, record) => {
+            BL.updateTenant(soajs, null, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 400,
@@ -2982,7 +2982,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.updateTenant(soajs, {}, (err, record) => {
+            BL.updateTenant(soajs, {}, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 602);
                 done();
@@ -3003,7 +3003,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.updateTenant(soajs, {}, (err, record) => {
+            BL.updateTenant(soajs, {}, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 471,
@@ -3023,7 +3023,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.updateTenant(soajs, {}, (err, record) => {
+            BL.updateTenant(soajs, {}, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 450,
@@ -3046,7 +3046,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.updateTenant(soajs, {}, (err, record) => {
+            BL.updateTenant(soajs, {}, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 500,
@@ -3173,7 +3173,7 @@ describe("Unit test for: BL - tenant", () => {
         it("Fails - Update tenant application - null data", (done) => {
             BL.modelObj = {};
 
-            BL.updateApplication(soajs, null, (err, record) => {
+            BL.updateApplication(soajs, null, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 400,
@@ -3241,7 +3241,7 @@ describe("Unit test for: BL - tenant", () => {
                     });
                 },
                 updateTenant: (inputMask, cb) => {
-                    return cb(true, null)
+                    return cb(true, null);
                 }
             };
 
@@ -3263,7 +3263,7 @@ describe("Unit test for: BL - tenant", () => {
                     });
                 },
                 updateTenant: (inputMask, cb) => {
-                    return cb(true, null)
+                    return cb(true, null);
                 }
             };
 
@@ -3463,7 +3463,7 @@ describe("Unit test for: BL - tenant", () => {
         it("Fails - Update application key - null data", (done) => {
             BL.modelObj = {};
 
-            BL.updateApplicationKey(soajs, null, (err, record) => {
+            BL.updateApplicationKey(soajs, null, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 400,
@@ -3546,7 +3546,7 @@ describe("Unit test for: BL - tenant", () => {
                     });
                 },
                 updateTenant: (inputMask, cb) => {
-                    return cb(true, null)
+                    return cb(true, null);
                 }
             };
 
@@ -3597,7 +3597,7 @@ describe("Unit test for: BL - tenant", () => {
                     });
                 },
                 updateTenant: (inputMask, cb) => {
-                    return cb(true, null)
+                    return cb(true, null);
                 }
             };
 
@@ -3775,7 +3775,7 @@ describe("Unit test for: BL - tenant", () => {
         it("Fails - Update application external key - null data", (done) => {
             BL.modelObj = {};
 
-            BL.updateApplicationExternalKey(soajs, null, (err, record) => {
+            BL.updateApplicationExternalKey(soajs, null, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 400,
@@ -3848,7 +3848,7 @@ describe("Unit test for: BL - tenant", () => {
                     });
                 },
                 updateTenant: (inputMask, cb) => {
-                    return cb(true, null)
+                    return cb(true, null);
                 }
             };
 
@@ -3899,7 +3899,7 @@ describe("Unit test for: BL - tenant", () => {
                     });
                 },
                 updateTenant: (inputMask, cb) => {
-                    return cb(true, null)
+                    return cb(true, null);
                 }
             };
 
@@ -3988,7 +3988,7 @@ describe("Unit test for: BL - tenant", () => {
         it("Fails - delete tenant - null data", (done) => {
             BL.modelObj = {};
 
-            BL.delete(soajs, null, (err, record) => {
+            BL.delete(soajs, null, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 400,
@@ -4008,7 +4008,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.delete(soajs, {}, (err, record) => {
+            BL.delete(soajs, {}, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 602);
                 done();
@@ -4029,7 +4029,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.delete(soajs, {}, (err, record) => {
+            BL.delete(soajs, {}, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 602);
                 done();
@@ -4046,7 +4046,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.delete(soajs, {}, (err, record) => {
+            BL.delete(soajs, {}, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 450,
@@ -4069,7 +4069,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.delete(soajs, {}, (err, record) => {
+            BL.delete(soajs, {}, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 500,
@@ -4130,7 +4130,7 @@ describe("Unit test for: BL - tenant", () => {
                     602: "Model error: ",
                 },
             };
-            BL.delete(soajs, {}, (err, record) => {
+            BL.delete(soajs, {}, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 462,
@@ -4291,7 +4291,7 @@ describe("Unit test for: BL - tenant", () => {
         it("Fails - get application - null data", (done) => {
             BL.modelObj = {};
 
-            BL.getApplication(soajs, null, (err, record) => {
+            BL.getApplication(soajs, null, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 400,
@@ -4308,7 +4308,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.getApplication(soajs, {}, (err, record) => {
+            BL.getApplication(soajs, {}, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 602);
                 done();
@@ -4322,7 +4322,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.getApplication(soajs, {}, (err, record) => {
+            BL.getApplication(soajs, {}, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 450,
@@ -4365,7 +4365,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.getApplication(soajs, inputMask, (err, record) => {
+            BL.getApplication(soajs, inputMask, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 457);
                 done();
@@ -4434,7 +4434,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.getApplication(soajs, inputMask, (err, record) => {
+            BL.getApplication(soajs, inputMask, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 457);
                 done();
@@ -4628,7 +4628,7 @@ describe("Unit test for: BL - tenant", () => {
         it("Fails - List applications - null data", (done) => {
             BL.modelObj = {};
 
-            BL.listApplications(soajs, null, (err, record) => {
+            BL.listApplications(soajs, null, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 400,
@@ -4645,7 +4645,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.listApplications(soajs, {}, (err, record) => {
+            BL.listApplications(soajs, {}, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 602);
                 done();
@@ -4659,7 +4659,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.listApplications(soajs, {}, (err, record) => {
+            BL.listApplications(soajs, {}, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 450,
@@ -4972,7 +4972,7 @@ describe("Unit test for: BL - tenant", () => {
         it("Fails - List application external keys - null data", (done) => {
             BL.modelObj = {};
 
-            BL.listApplicationExtKeys(soajs, null, (err, record) => {
+            BL.listApplicationExtKeys(soajs, null, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 400,
@@ -4989,7 +4989,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.listApplicationExtKeys(soajs, {}, (err, record) => {
+            BL.listApplicationExtKeys(soajs, {}, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 602);
                 done();
@@ -5003,7 +5003,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.listApplicationExtKeys(soajs, {}, (err, record) => {
+            BL.listApplicationExtKeys(soajs, {}, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 450,
@@ -5095,7 +5095,7 @@ describe("Unit test for: BL - tenant", () => {
         it("Fails - delete application - null data", (done) => {
             BL.modelObj = {};
 
-            BL.deleteApplication(soajs, null, (err, record) => {
+            BL.deleteApplication(soajs, null, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 400,
@@ -5112,7 +5112,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.deleteApplication(soajs, {}, (err, record) => {
+            BL.deleteApplication(soajs, {}, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 602);
                 done();
@@ -5185,7 +5185,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.deleteApplication(soajs, inputMask, (err, record) => {
+            BL.deleteApplication(soajs, inputMask, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 471,
@@ -5207,7 +5207,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.deleteApplication(soajs, inputMask, (err, record) => {
+            BL.deleteApplication(soajs, inputMask, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 500,
@@ -5224,7 +5224,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.deleteApplication(soajs, {}, (err, record) => {
+            BL.deleteApplication(soajs, {}, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 450,
@@ -5302,7 +5302,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.deleteApplication(soa, inputMask, (err, record) => {
+            BL.deleteApplication(soa, inputMask, (err) => {
                 assert.ok(err);
                 done();
             });
@@ -5392,7 +5392,7 @@ describe("Unit test for: BL - tenant", () => {
         it("Fails - delete application key - null data", (done) => {
             BL.modelObj = {};
 
-            BL.deleteApplicationKey(soajs, null, (err, record) => {
+            BL.deleteApplicationKey(soajs, null, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 400,
@@ -5409,7 +5409,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.deleteApplicationKey(soajs, {}, (err, record) => {
+            BL.deleteApplicationKey(soajs, {}, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 602);
                 done();
@@ -5482,7 +5482,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.deleteApplicationKey(soajs, inputMask, (err, record) => {
+            BL.deleteApplicationKey(soajs, inputMask, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 471,
@@ -5504,7 +5504,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.deleteApplicationKey(soajs, inputMask, (err, record) => {
+            BL.deleteApplicationKey(soajs, inputMask, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 500,
@@ -5521,7 +5521,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.deleteApplicationKey(soajs, {}, (err, record) => {
+            BL.deleteApplicationKey(soajs, {}, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 450,
@@ -5599,7 +5599,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.deleteApplicationKey(soa, inputMask, (err, record) => {
+            BL.deleteApplicationKey(soa, inputMask, (err) => {
                 assert.ok(err);
                 done();
             });
@@ -5691,7 +5691,7 @@ describe("Unit test for: BL - tenant", () => {
         it("Fails - delete application external key - null data", (done) => {
             BL.modelObj = {};
 
-            BL.deleteApplicationExternalKey(soajs, null, (err, record) => {
+            BL.deleteApplicationExternalKey(soajs, null, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 400,
@@ -5708,7 +5708,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.deleteApplicationExternalKey(soajs, {}, (err, record) => {
+            BL.deleteApplicationExternalKey(soajs, {}, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 602);
                 done();
@@ -5783,7 +5783,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.deleteApplicationExternalKey(soajs, inputMask, (err, record) => {
+            BL.deleteApplicationExternalKey(soajs, inputMask, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 471,
@@ -5805,7 +5805,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.deleteApplicationExternalKey(soajs, inputMask, (err, record) => {
+            BL.deleteApplicationExternalKey(soajs, inputMask, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 500,
@@ -5822,7 +5822,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.deleteApplicationExternalKey(soajs, {}, (err, record) => {
+            BL.deleteApplicationExternalKey(soajs, {}, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 450,
@@ -5902,7 +5902,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.deleteApplicationExternalKey(soa, inputMask, (err, record) => {
+            BL.deleteApplicationExternalKey(soa, inputMask, (err) => {
                 assert.ok(err);
                 done();
             });
@@ -6285,7 +6285,7 @@ describe("Unit test for: BL - tenant", () => {
         it("Fails - add application key - null data", (done) => {
             BL.modelObj = {};
 
-            BL.addApplicationKey(soajs, null, core, (err, record) => {
+            BL.addApplicationKey(soajs, null, core, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 400,
@@ -6397,7 +6397,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.addApplicationKey(soajs, inputMask, coreError, (err, record) => {
+            BL.addApplicationKey(soajs, inputMask, coreError, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 602);
                 done();
@@ -6506,7 +6506,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.addApplicationKey(soajs, inputMask, coreError, (err, record) => {
+            BL.addApplicationKey(soajs, inputMask, coreError, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 501);
                 done();
@@ -6612,7 +6612,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.addApplicationKey(soajs, inputMask, coreError, (err, record) => {
+            BL.addApplicationKey(soajs, inputMask, coreError, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 502);
                 done();
@@ -6725,7 +6725,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.addApplicationKey(soajs, inputMask, coreError, (err, record) => {
+            BL.addApplicationKey(soajs, inputMask, coreError, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 602);
                 done();
@@ -6805,7 +6805,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.addApplicationKey(soajs, inputMask, core, (err, record) => {
+            BL.addApplicationKey(soajs, inputMask, core, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 472);
                 done();
@@ -6819,7 +6819,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.addApplicationKey(soajs, {}, core, (err, record) => {
+            BL.addApplicationKey(soajs, {}, core, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 602);
                 done();
@@ -6892,7 +6892,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.addApplicationKey(soajs, inputMask, core, (err, record) => {
+            BL.addApplicationKey(soajs, inputMask, core, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 471,
@@ -6914,7 +6914,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.addApplicationKey(soajs, inputMask, core, (err, record) => {
+            BL.addApplicationKey(soajs, inputMask, core, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 500,
@@ -6931,7 +6931,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.addApplicationKey(soajs, {}, core, (err, record) => {
+            BL.addApplicationKey(soajs, {}, core, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 450,
@@ -7161,7 +7161,7 @@ describe("Unit test for: BL - tenant", () => {
         it("Fails - add application - null data", (done) => {
             BL.modelObj = {};
 
-            BL.addApplication(soajs, null, core, (err, record) => {
+            BL.addApplication(soajs, null, core, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 400,
@@ -7281,7 +7281,7 @@ describe("Unit test for: BL - tenant", () => {
                 },
             };
 
-            BL.addApplication(soajs, inputMask, coreError, (err, record) => {
+            BL.addApplication(soajs, inputMask, coreError, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 602);
                 done();
@@ -7398,7 +7398,7 @@ describe("Unit test for: BL - tenant", () => {
                 },
             };
 
-            BL.addApplication(soajs, inputMask, coreError, (err, record) => {
+            BL.addApplication(soajs, inputMask, coreError, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 501);
                 done();
@@ -7512,7 +7512,7 @@ describe("Unit test for: BL - tenant", () => {
                 },
             };
 
-            BL.addApplication(soajs, inputMask, coreError, (err, record) => {
+            BL.addApplication(soajs, inputMask, coreError, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 502);
                 done();
@@ -7633,7 +7633,7 @@ describe("Unit test for: BL - tenant", () => {
                 },
             };
 
-            BL.addApplication(soajs, inputMask, coreError, (err, record) => {
+            BL.addApplication(soajs, inputMask, coreError, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 602);
                 done();
@@ -7650,7 +7650,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.addApplication(soajs, {}, core, (err, record) => {
+            BL.addApplication(soajs, {}, core, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 602);
                 done();
@@ -7739,7 +7739,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.addApplication(soajs, inputMask, core, (err, record) => {
+            BL.addApplication(soajs, inputMask, core, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 471,
@@ -7777,7 +7777,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.addApplication(soajs, inputMask, core, (err, record) => {
+            BL.addApplication(soajs, inputMask, core, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 500,
@@ -7797,7 +7797,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.addApplication(soajs, {}, core, (err, record) => {
+            BL.addApplication(soajs, {}, core, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 450,
@@ -8001,7 +8001,7 @@ describe("Unit test for: BL - tenant", () => {
         it("Fails - add application external key - null data", (done) => {
             BL.modelObj = {};
 
-            BL.addApplicationExtKey(soajs, null, core, (err, record) => {
+            BL.addApplicationExtKey(soajs, null, core, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 400,
@@ -8104,7 +8104,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.addApplicationExtKey(soajs, inputMask, coreError, (err, record) => {
+            BL.addApplicationExtKey(soajs, inputMask, coreError, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 602);
                 done();
@@ -8205,7 +8205,7 @@ describe("Unit test for: BL - tenant", () => {
                 geo: {}
             };
 
-            BL.addApplicationExtKey(soajs, inputMask, coreError, (err, record) => {
+            BL.addApplicationExtKey(soajs, inputMask, coreError, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 501);
                 done();
@@ -8303,7 +8303,7 @@ describe("Unit test for: BL - tenant", () => {
                 geo: {}
             };
 
-            BL.addApplicationExtKey(soajs, inputMask, coreError, (err, record) => {
+            BL.addApplicationExtKey(soajs, inputMask, coreError, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 502);
                 done();
@@ -8382,7 +8382,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.addApplicationExtKey(soajs, inputMask, core, (err, record) => {
+            BL.addApplicationExtKey(soajs, inputMask, core, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 473);
                 done();
@@ -8396,7 +8396,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.addApplicationExtKey(soajs, {}, core, (err, record) => {
+            BL.addApplicationExtKey(soajs, {}, core, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err.code, 602);
                 done();
@@ -8475,7 +8475,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.addApplicationExtKey(soajs, inputMask, core, (err, record) => {
+            BL.addApplicationExtKey(soajs, inputMask, core, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 471,
@@ -8497,7 +8497,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.addApplicationExtKey(soajs, inputMask, core, (err, record) => {
+            BL.addApplicationExtKey(soajs, inputMask, core, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 500,
@@ -8514,7 +8514,7 @@ describe("Unit test for: BL - tenant", () => {
                 }
             };
 
-            BL.addApplicationExtKey(soajs, {}, core, (err, record) => {
+            BL.addApplicationExtKey(soajs, {}, core, (err) => {
                 assert.ok(err);
                 assert.deepEqual(err, {
                     code: 450,

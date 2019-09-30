@@ -1,3 +1,5 @@
+"use strict";
+
 let updateProfileSchema = {
     "type": "object",
     "required": true,

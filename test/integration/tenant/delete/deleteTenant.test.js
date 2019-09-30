@@ -5,7 +5,6 @@ const requester = require('../../requester');
 let core = require('soajs').core;
 let validator = new core.validator.Validator();
 let deleteTenantSchema = require("../schemas/deleteTenant.js");
-let getTenantsSchema = require("../schemas/getTenant.js");
 let listTenantsSchema = require("../schemas/listTenants.js");
 
 describe("Testing delete tenant API", () => {

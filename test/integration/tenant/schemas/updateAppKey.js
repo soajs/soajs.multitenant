@@ -1,3 +1,5 @@
+"use strict";
+
 let updateAppKeySchema = {
     "type": "object",
     "required": true,

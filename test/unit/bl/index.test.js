@@ -74,7 +74,7 @@ describe("Unit test for: BLs", () => {
 
     describe("Unit test index init", () => {
         it("Success - init", (done) => {
-            BL.init(soajs, soajs.config, (err, records) => {
+            BL.init(soajs, soajs.config, () => {
                 done();
             });
         });

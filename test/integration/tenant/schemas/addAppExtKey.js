@@ -1,3 +1,5 @@
+"use strict";
+
 let addAppExtKeySchema = {
     "type": "object",
     "required": true,

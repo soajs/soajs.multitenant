@@ -1,3 +1,5 @@
+"use strict";
+
 let addAppSchema = {
     "type": "object",
     "required": true,

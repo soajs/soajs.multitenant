@@ -1,3 +1,5 @@
+"use strict";
+
 let deleteTenantsSchema = {
     "type": "object",
     "required": true,

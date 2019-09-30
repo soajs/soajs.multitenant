@@ -1,3 +1,5 @@
+"use strict";
+
 let listApplicationSchema = {
     "type": "object",
     "required": true,

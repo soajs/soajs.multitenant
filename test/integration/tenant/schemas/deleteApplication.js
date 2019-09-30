@@ -1,3 +1,5 @@
+"use strict";
+
 let deleteApplicationSchema = {
     "type": "object",
     "required": true,
