@@ -258,7 +258,7 @@ module.exports = {
 			"/admin/tenant/application": {
 				_apiInfo: {
 					"l": "Get tenant application",
-					"group": "Tenant"
+					"group": "Admin Tenant"
 				},
 				"id": {
 					"source": ['query.id'],
@@ -277,14 +277,14 @@ module.exports = {
 			},
 			"/tenant/applications": {
 				_apiInfo: {
-					"l": "Get tenant applications",
+					"l": "List tenant applications",
 					"group": "Tenant"
 				},
 			},
 			"/admin/tenant/applications": {
 				_apiInfo: {
-					"l": "Get tenant applications",
-					"group": "Tenant"
+					"l": "List tenant applications",
+					"group": "Admin Tenant"
 				},
 				"id": {
 					"source": ['query.id'],
@@ -296,7 +296,7 @@ module.exports = {
 			},
 			"/tenant/application/key/ext": {
 				_apiInfo: {
-					"l": "Get tenant application keys",
+					"l": "List tenant application ext keys",
 					"group": "Tenant"
 				},
 				"appId": {
@@ -316,8 +316,8 @@ module.exports = {
 			},
 			"/admin/tenant/application/key/ext": {
 				_apiInfo: {
-					"l": "Get tenant application keys",
-					"group": "Tenant"
+					"l": "List tenant application ext keys",
+					"group": "Admin Tenant"
 				},
 				"id": {
 					"source": ['query.id'],
@@ -571,7 +571,7 @@ module.exports = {
 			
 			"/tenant/application": {
 				_apiInfo: {
-					"l": "Add tenant with optional application, key, and ext key",
+					"l": "Add application to tenant with optional key and ext key",
 					"group": "Tenant"
 				},
 				"description": {
@@ -651,8 +651,8 @@ module.exports = {
 			
 			"/admin/tenant/application": {
 				_apiInfo: {
-					"l": "Add tenant with optional application, key, and ext key",
-					"group": "Tenant"
+					"l": "Add application to tenant with optional key and ext key",
+					"group": "Admin Tenant"
 				},
 				"id": {
 					"source": ['query.id'],
@@ -784,7 +784,7 @@ module.exports = {
 			"/admin/tenant/application/key": {
 				_apiInfo: {
 					"l": "Add key to a tenant application with optional ext key",
-					"group": "Tenant"
+					"group": "Admin Tenant"
 				},
 				"commonFields": ['appId'],
 				"id": {
@@ -858,7 +858,7 @@ module.exports = {
 			"/admin/tenant/application/key/ext": {
 				_apiInfo: {
 					"l": "Add external key to tenant application",
-					"group": "Tenant Access"
+					"group": "Admin Tenant"
 				},
 				"id": {
 					"source": ['query.id'],
@@ -1311,7 +1311,7 @@ module.exports = {
 			
 			"/tenant/application/key/ext": {
 				_apiInfo: {
-					"l": "Update key information for a tenant application",
+					"l": "Update external key information for a tenant application",
 					"group": "Tenant Access"
 				},
 				"commonFields": ['appId', 'key', 'extKey', 'expDate', 'device', 'geo'],
@@ -1333,7 +1333,7 @@ module.exports = {
 			
 			"/admin/tenant/application/key/ext": {
 				_apiInfo: {
-					"l": "Update key information for a tenant application",
+					"l": "Update external key information for a tenant application",
 					"group": "Admin Tenant"
 				},
 				"commonFields": ['appId', 'key', 'extKey', 'expDate', 'device', 'geo'],
