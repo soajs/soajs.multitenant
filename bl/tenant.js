@@ -558,7 +558,7 @@ let bl = {
                     if (err) {
                         return cb(bl.handleError(soajs, 471, err));
                     }
-                    return cb(null, internalKey);
+                    return cb(null, internalKey ? internalKey : 1);
                 });
             });
 
@@ -634,7 +634,8 @@ let bl = {
             }
             let found = false;
             if (!tenantRecord.applications) {
-                return cb(null, 0);
+	            bl.mp.closeModel(soajs, modelObj);
+	            return cb(bl.handleError(soajs, 472, null));
             }
             let key = {};
             async.each(tenantRecord.applications, function (application, callback) {
@@ -750,7 +751,8 @@ let bl = {
             }
             let found = false;
             if (!tenantRecord.applications) {
-                return cb(null, 0);
+	            bl.mp.closeModel(soajs, modelObj);
+	            return cb(bl.handleError(soajs, 472, null));
             }
             async.each(tenantRecord.applications, function (application, callback) {
                 if (application.appId && application.appId.toString() === inputmaskData.appId) {
@@ -910,7 +912,8 @@ let bl = {
             }
             let found = false;
             if (!tenantRecord.applications) {
-                return cb(null, 0);
+	            bl.mp.closeModel(soajs, modelObj);
+	            return cb(bl.handleError(soajs, 472, null));
             }
             for (let i = 0; i < tenantRecord.applications.length; i++) {
                 if (!tenantRecord.applications[i] || !tenantRecord.applications[i].appId) {
@@ -972,7 +975,8 @@ let bl = {
                 return cb(bl.handleError(soajs, 500, null));
             }
             if (!tenantRecord.applications) {
-                return cb(null, 0);
+	            bl.mp.closeModel(soajs, modelObj);
+	            return cb(bl.handleError(soajs, 472, null));
             }
             let found = false;
 
@@ -1033,7 +1037,8 @@ let bl = {
             }
             let found = false;
             if (!tenantRecord.applications) {
-                return cb(null, 0);
+	            bl.mp.closeModel(soajs, modelObj);
+	            return cb(bl.handleError(soajs, 472, null));
             }
             for (let i = 0; i < tenantRecord.applications.length; i++) {
                 if (!tenantRecord.applications[i] || !tenantRecord.applications[i].appId || !tenantRecord.applications[i].keys) {
