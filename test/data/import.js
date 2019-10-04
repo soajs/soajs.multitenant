@@ -196,12 +196,24 @@ module.exports = (profilePath, dataPath, callback) => {
                     } else
                         return cb(null);
                 },
+		        function (cb) {
+			        //check for products data
+			        if (fs.existsSync(dataPath + "products/")) {
+				        let config = {
+					        "colName": "products",
+					        "condAnchor": "code",
+					        "objId": "_id"
+				        };
+				        return lib.basic(config, dataPath + "products/", mongoConnection, cb);
+			        } else
+				        return cb(null);
+		        },
                 function (cb) {
                     //check for products data
                     if (fs.existsSync(dataPath + "resources/")) {
                         let config = {
                             "colName": "resources",
-                            "condAnchor": "code",
+                            "condAnchor": "name",
                             "objId": "_id"
                         };
                         return lib.basic(config, dataPath + "resources/", mongoConnection, cb);
@@ -213,22 +225,10 @@ module.exports = (profilePath, dataPath, callback) => {
                     if (fs.existsSync(dataPath + "services/")) {
                         let config = {
                             "colName": "services",
-                            "condAnchor": "code",
+                            "condAnchor": "name",
                             "objId": "_id"
                         };
                         return lib.basic(config, dataPath + "services/", mongoConnection, cb);
-                    } else
-                        return cb(null);
-                },
-                function (cb) {
-                    //check for products data
-                    if (fs.existsSync(dataPath + "products/")) {
-                        let config = {
-                            "colName": "products",
-                            "condAnchor": "code",
-                            "objId": "_id"
-                        };
-                        return lib.basic(config, dataPath + "products/", mongoConnection, cb);
                     } else
                         return cb(null);
                 },
