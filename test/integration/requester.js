@@ -42,7 +42,6 @@ function requester(apiName, method, params, cb) {
     if (params.qs) {
         options.qs = params.qs;
     }
-    console.log(options.headers)
     if (method === 'delete') {
         request.del(options, function (error, response, body) {
             assert.ifError(error);
