@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "async": "3.1.0",
-    "soajs":"2.5.20",
+    "soajs": "2.5.20",
     "soajs.core.libs": "1.2.0"
   }
 }
