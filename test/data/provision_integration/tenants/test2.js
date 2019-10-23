@@ -61,7 +61,7 @@ let lib = {
 		},
 		{
 			"product": "TPROD",
-			"package": "TPROD_EXAMPLE03",
+			"package": "TPROD_EXAMP",
 			"appId": "30d2cb5fc04ce51e06000003",
 			"description": "this is a description for app for test tenant for test product and example03 package",
 			"_TTL": 86400000, // 24 hours
