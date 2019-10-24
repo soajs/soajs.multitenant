@@ -64,23 +64,6 @@ describe("Testing delete tenant API", () => {
         });
     });
 
-    it("Success - will delete tenant record - input", (done) => {
-        let params = {
-            qs: {
-                code: 'test'
-            }
-        };
-        requester('/tenant', 'delete', params, (error, body) => {
-            assert.ifError(error);
-            assert.ok(body);
-            assert.ok(body.data);
-            let check = validator.validate(body, deleteTenantSchema);
-            assert.deepEqual(check.valid, true);
-            assert.deepEqual(check.errors, []);
-            done();
-        });
-    });
-
     it("Fails - will not delete tenant record - no input", (done) => {
         let params = {};
 

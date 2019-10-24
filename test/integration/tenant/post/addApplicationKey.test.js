@@ -39,7 +39,7 @@ describe("Testing add application key API", () => {
             assert.ok(body);
             assert.ok(body.data);
             body.data.forEach(tenant => {
-                if (tenant.code === 'test') {
+                if (tenant.code === 'test2') {
                     selectedTenant = tenant;
                 }
             });
@@ -118,7 +118,7 @@ describe("Testing add application key API", () => {
             assert.ok(body);
             assert.ok(body.data);
             assert.deepEqual(body.data.applications[1].keys.length, 2);
-            assert.deepEqual(body.data.applications[2].keys.length, 2);
+            assert.deepEqual(body.data.applications[2].keys.length, 1);
             let check = validator.validate(body, getTenantsSchema);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);
