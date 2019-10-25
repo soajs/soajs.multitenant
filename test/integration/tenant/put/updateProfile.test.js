@@ -17,6 +17,8 @@ let updateProfileSchema = require("../schemas/updateProfile.js");
 let listTenantsSchema = require("../schemas/listTenants.js");
 let getTenantSchema = require("../schemas/getTenant");
 
+let extKey = 'aa39b5490c4a4ed0e56d7ec1232a428f1c5b5dcabc0788ce563402e233386738fc3eb18234a486ce1667cf70bd0e8b08890a86126cf1aa8d38f84606d8a6346359a61678428343e01319e0b784bc7e2ca267bbaafccffcb6174206e8c83f2a25';
+
 describe("Testing update tenant profile API", () => {
 	
 	before(function (done) {
@@ -39,7 +41,7 @@ describe("Testing update tenant profile API", () => {
 			assert.ok(body.data);
 			tenants = body.data;
 			body.data.forEach(tenant => {
-				if (tenant.code === 'test') {
+				if (tenant.code === 'test2') {
 					selectedTenant = tenant;
 				}
 			});
@@ -84,8 +86,8 @@ describe("Testing update tenant profile API", () => {
 			assert.ifError(error);
 			assert.ok(body);
 			assert.ok(body.data);
-			assert.deepEqual(body.data.name, 'Test Tenant');
-			assert.deepEqual(body.data.code, 'test');
+			assert.deepEqual(body.data.name, 'Test 2 Tenant');
+			assert.deepEqual(body.data.code, 'test2');
 			assert.deepEqual(body.data.description, 'this is a description for test tenant');
 			assert.deepEqual(body.data.profile, {
 				"test": "profile"
@@ -101,7 +103,7 @@ describe("Testing update tenant profile API", () => {
 		let params = {
 			qs: {},
 			headers: {
-				key: "aa39b5490c4a4ed0e56d7ec1232a428f771e8bb83cfcee16de14f735d0f5da587d5968ec4f785e38570902fd24e0b522b46cb171872d1ea038e88328e7d973ff47d9392f72b2d49566209eb88eb60aed8534a965cf30072c39565bd8d72f68ac"
+				key: extKey
 			},
 			body: {
 				profile: {
@@ -124,7 +126,7 @@ describe("Testing update tenant profile API", () => {
 	it("Success - will return product record - id", (done) => {
 		let params = {
 			headers: {
-				key: "aa39b5490c4a4ed0e56d7ec1232a428f771e8bb83cfcee16de14f735d0f5da587d5968ec4f785e38570902fd24e0b522b46cb171872d1ea038e88328e7d973ff47d9392f72b2d49566209eb88eb60aed8534a965cf30072c39565bd8d72f68ac"
+				key: extKey
 			}
 		};
 		setTimeout(() => {
@@ -132,8 +134,8 @@ describe("Testing update tenant profile API", () => {
 				assert.ifError(error);
 				assert.ok(body);
 				assert.ok(body.data);
-				assert.deepEqual(body.data.name, 'Test Tenant');
-				assert.deepEqual(body.data.code, 'test');
+				assert.deepEqual(body.data.name, 'Test 2 Tenant');
+				assert.deepEqual(body.data.code, 'test2');
 				assert.deepEqual(body.data.description, 'this is a description for test tenant');
 				assert.deepEqual(body.data.profile, {
 					"test2": "profile no code no id"

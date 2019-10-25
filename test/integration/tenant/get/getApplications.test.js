@@ -38,7 +38,7 @@ describe("Testing get applications API", () => {
             assert.ok(body.data);
             tenants = body.data;
             body.data.forEach(tenant => {
-                if (tenant.code === 'test') {
+                if (tenant.code === 'test2') {
                     selectedTenant = tenant;
                 }
             });
@@ -54,7 +54,7 @@ describe("Testing get applications API", () => {
         let params = {
             qs: {
                 id: selectedTenant._id,
-                appId: '30d2cb5fc04ce51e06000003'
+                appId: '30d2cb5fc04ce51e06000002'
             }
         };
         requester('/admin/tenant/application', 'get', params, (error, body) => {
@@ -62,8 +62,8 @@ describe("Testing get applications API", () => {
             assert.ok(body);
             assert.ok(body.data);
             assert.deepEqual(body.data.product, 'TPROD');
-            assert.deepEqual(body.data.package, 'TPROD_EXA3');
-            assert.deepEqual(body.data.appId, '30d2cb5fc04ce51e06000003');
+            assert.deepEqual(body.data.package, 'TPROD_BASIC');
+            assert.deepEqual(body.data.appId, '30d2cb5fc04ce51e06000002');
             let check = validator.validate(body, getApplicationsSchema);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);
@@ -74,10 +74,10 @@ describe("Testing get applications API", () => {
     it("Success - will return tenant application - no id", (done) => {
         let params = {
             qs: {
-                appId: '30d2cb5fc04ce51e06000003'
+                appId: '30d2cb5fc04ce51e06000002'
             },
             headers: {
-                key: "aa39b5490c4a4ed0e56d7ec1232a428f771e8bb83cfcee16de14f735d0f5da587d5968ec4f785e38570902fd24e0b522b46cb171872d1ea038e88328e7d973ff47d9392f72b2d49566209eb88eb60aed8534a965cf30072c39565bd8d72f68ac"
+                key: "aa39b5490c4a4ed0e56d7ec1232a428f7ad78ebb7347db3fc9875cb10c2bce39bbf8aabacf9e00420afb580b15698c04ce10d659d1972ebc53e76b6bbae0c113bee1e23062800bc830e4c329ca913fefebd1f1222295cf2eb5486224044b4d0c"
             }
         };
         requester('/tenant/application', 'get', params, (error, body) => {
@@ -85,8 +85,8 @@ describe("Testing get applications API", () => {
             assert.ok(body);
             assert.ok(body.data);
             assert.deepEqual(body.data.product, 'TPROD');
-            assert.deepEqual(body.data.package, 'TPROD_EXA3');
-            assert.deepEqual(body.data.appId, '30d2cb5fc04ce51e06000003');
+            assert.deepEqual(body.data.package, 'TPROD_BASIC');
+            assert.deepEqual(body.data.appId, '30d2cb5fc04ce51e06000002');
             let check = validator.validate(body, getApplicationsSchema);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);

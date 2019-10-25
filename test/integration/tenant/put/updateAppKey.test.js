@@ -41,7 +41,7 @@ describe("Testing update app key of tenant API", () => {
             assert.ok(body.data);
             tenants = body.data;
             body.data.forEach(tenant => {
-                if (tenant.code === 'test') {
+                if (tenant.code === 'test2') {
                     selectedTenant = tenant;
                 }
             });

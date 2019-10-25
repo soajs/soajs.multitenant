@@ -38,7 +38,7 @@ describe("Testing list applications API", () => {
             assert.ok(body.data);
             tenants = body.data;
             body.data.forEach(tenant => {
-                if (tenant.code === 'test') {
+                if (tenant.code === 'test2') {
                     selectedTenant = tenant;
                 }
             });
@@ -73,7 +73,7 @@ describe("Testing list applications API", () => {
             qs: {
             },
             headers: {
-                key: "aa39b5490c4a4ed0e56d7ec1232a428f771e8bb83cfcee16de14f735d0f5da587d5968ec4f785e38570902fd24e0b522b46cb171872d1ea038e88328e7d973ff47d9392f72b2d49566209eb88eb60aed8534a965cf30072c39565bd8d72f68ac"
+                key: "aa39b5490c4a4ed0e56d7ec1232a428f7ad78ebb7347db3fc9875cb10c2bce39bbf8aabacf9e00420afb580b15698c04ce10d659d1972ebc53e76b6bbae0c113bee1e23062800bc830e4c329ca913fefebd1f1222295cf2eb5486224044b4d0c"
             }
         };
         requester('/tenant/applications', 'get', params, (error, body) => {

@@ -37,7 +37,7 @@ describe("Testing delete application API", () => {
             assert.ok(body);
             assert.ok(body.data);
             body.data.forEach(tenant => {
-                if (tenant.code === 'test') {
+                if (tenant.code === 'test2') {
                     selectedTenant = tenant;
                 }
             });
@@ -96,7 +96,7 @@ describe("Testing delete application API", () => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.data);
-            assert.deepEqual(body.data.applications.length, 3);
+            assert.deepEqual(body.data.applications.length, 2);
             let check = validator.validate(body, getTenantsSchema);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);
