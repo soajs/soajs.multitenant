@@ -25,3 +25,21 @@ jobs:
     - grunt
     - if [ "$TRAVIS_BRANCH" != "master" ]; then grunt test; fi
     - if [ "$TRAVIS_BRANCH" = "master" ]; then grunt coverage; fi
+
+  - stage: Publish to npm
+    if: branch = master
+    script:
+    - echo "PUBLISH npm"
+
+  - stage: Publish to docker registry
+    script:
+    - echo "PUBLISH docker"
+    - export PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g' | tr -d '[[:space:]]')
+    - export MAJOR_VERSION=$(echo ${PACKAGE_VERSION} | awk -F. '{ print $1 }')
+    - echo Package version ${PACKAGE_VERSION}
+    - echo Major version ${MAJOR_VERSION}
+    - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+    - docker build -t multitenant .
+    - docker tag gateway:latest ${$DOCKER_USERNAME}/gateway:${PACKAGE_VERSION}
+    - docker tag gateway:latest ${$DOCKER_USERNAME}/gateway:${MAJOR_VERSION}.x
+    - docker push ${$DOCKER_USERNAME}/multitenant
