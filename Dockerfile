@@ -1,4 +1,4 @@
-FROM soajsorg/nodejs
+FROM soajsorg/node
 
 RUN mkdir -p /opt/soajs/soajs.multitenant/node_modules/
 WORKDIR /opt/soajs/soajs.multitenant/

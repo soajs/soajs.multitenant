@@ -39,8 +39,12 @@ jobs:
     - echo Package version ${PACKAGE_VERSION}
     - echo Major version ${MAJOR_VERSION}
     - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-    - docker build -t multitenant .
-    - docker tag multitenant:latest ${$DOCKER_USERNAME}/gateway:${PACKAGE_VERSION}
-    - docker tag multitenant:latest ${DOCKER_USERNAME}/gateway:${MAJOR_VERSION}.x
+
+    - docker build -t soajsorg/multitenant .
+
     - docker images
-    - docker push ${DOCKER_USERNAME}/multitenant
+
+    - docker tag soajsorg/multitenant:latest soajsorg/multitenant:${PACKAGE_VERSION}
+    - docker tag soajsorg/multitenant:latest soajsorg/multitenant:${MAJOR_VERSION}.x
+
+    - docker push soajsorg/multitenant
