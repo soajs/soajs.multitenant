@@ -40,6 +40,7 @@ jobs:
     - echo Major version ${MAJOR_VERSION}
     - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
     - docker build -t multitenant .
-    - docker tag gateway:latest ${$DOCKER_USERNAME}/gateway:${PACKAGE_VERSION}
-    - docker tag gateway:latest ${$DOCKER_USERNAME}/gateway:${MAJOR_VERSION}.x
-    - docker push ${$DOCKER_USERNAME}/multitenant
+    - docker tag multitenant:latest ${$DOCKER_USERNAME}/gateway:${PACKAGE_VERSION}
+    - docker tag multitenant:latest ${DOCKER_USERNAME}/gateway:${MAJOR_VERSION}.x
+    - docker images
+    - docker push ${DOCKER_USERNAME}/multitenant
