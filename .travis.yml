@@ -34,7 +34,7 @@ jobs:
   - stage: Publish to docker registry
     script:
     - echo "PUBLISH docker"
-    - export PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g' | tr -d '[[:space:]]')
+    - export PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -Fn '{ print $2 }' | sed 's/[n:",]//g' | tr -d '[[:space:]]')
     - export MAJOR_VERSION=$(echo ${PACKAGE_VERSION} | awk -F. '{ print $1 }')
     - echo Package version ${PACKAGE_VERSION}
     - echo Major version ${MAJOR_VERSION}
