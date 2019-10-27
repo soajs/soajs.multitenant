@@ -30,6 +30,10 @@ jobs:
     if: branch =~ /(release)/
     script:
     - echo "PUBLISH npm"
+    deploy:
+      provider: npm
+      email: $NPM_EMAIL
+      api_key: $NPM_TOKEN
 
   - stage: Publish to docker registry
     if: branch =~ /(release)/
