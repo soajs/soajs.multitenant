@@ -27,11 +27,12 @@ jobs:
     - if [ "$TRAVIS_BRANCH" = "master" ]; then grunt coverage; fi
 
   - stage: Publish to npm
-    if: branch = master
+    if: branch =~ /(release)/
     script:
     - echo "PUBLISH npm"
 
   - stage: Publish to docker registry
+    if: branch =~ /(release)/
     script:
     - echo "PUBLISH docker"
     - export PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -Fn '{ print $2 }' | sed 's/[n:",]//g' | tr -d '[[:space:]]')
