@@ -36,7 +36,7 @@ jobs:
       api_key: $NPM_TOKEN
       on:
         all_branches: true
-        condition: $TRAVIS_BRANCH =~ /(release)/
+        condition: $TRAVIS_BRANCH =~ ^(release)*
 
   - stage: Publish to docker registry
     if: branch =~ /(release)/
