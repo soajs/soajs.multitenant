@@ -59,7 +59,7 @@ Product.prototype.listProducts = function (data, cb) {
         ]
     };
 
-    __self.mongoCore.find(colName, condition, null, null, (err, records) => {
+    __self.mongoCore.find(colName, condition, null, (err, records) => {
 	    async.map(records, function (record, callback) {
 		    lib.unsanitize(record, callback);
 	    }, cb);
@@ -72,7 +72,7 @@ Product.prototype.listConsoleProducts = function (data, cb) {
     let condition = {
         console: true
     };
-    __self.mongoCore.find(colName, condition, null, null, (err, records) => {
+    __self.mongoCore.find(colName, condition, null, (err, records) => {
 	    async.map(records, function (record, callback) {
 		    lib.unsanitize(record, callback);
 	    }, cb);
@@ -112,7 +112,7 @@ Product.prototype.getProduct = function (data, cb) {
             }
             condition.$and.push({'_id': id});
 
-            __self.mongoCore.findOne(colName, condition, null, null, (err, record) => {
+            __self.mongoCore.findOne(colName, condition, null, (err, record) => {
 	            lib.unsanitize(record, cb);
             });
         });
@@ -121,7 +121,7 @@ Product.prototype.getProduct = function (data, cb) {
 	        condition.$and.push({'code': data.code}); // TODO: ADD to documentation
         }
 
-        __self.mongoCore.findOne(colName, condition, null, null, (err, record) => {
+        __self.mongoCore.findOne(colName, condition, null, (err, record) => {
 	        lib.unsanitize(record, cb);
         });
     }

@@ -94,14 +94,14 @@ Tenant.prototype.getTenant = function (data, cb) {
 				return cb(err, null);
 			}
 			condition.$and.push({'_id': id});
-			__self.mongoCore.findOne(colName, condition, null, null, cb);
+			__self.mongoCore.findOne(colName, condition, null, cb);
 		});
 	} else {
 		if (data.code) {
 			condition.$and.push({'code': data.code});
 		}
 		
-		__self.mongoCore.findOne(colName, condition, null, null, cb);
+		__self.mongoCore.findOne(colName, condition, null, cb);
 	}
 };
 
@@ -120,7 +120,7 @@ Tenant.prototype.listTenants = function (data, cb) {
 	if (data && data.type) {
 		condition.$and.push({'type': data.type});
 	}
-	__self.mongoCore.find(colName, condition, null, null, cb);
+	__self.mongoCore.find(colName, condition, null, cb);
 };
 
 Tenant.prototype.listAllTenants = function (data, cb) {
@@ -136,7 +136,7 @@ Tenant.prototype.listAllTenants = function (data, cb) {
 		}
 	}
 	
-	__self.mongoCore.find(colName, {}, fields, null, cb);
+	__self.mongoCore.find(colName, {}, {"fields": fields}, cb);
 };
 
 Tenant.prototype.countTenants = function (data, cb) {
