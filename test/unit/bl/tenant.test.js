@@ -7562,7 +7562,7 @@ describe("Unit test for: BL - tenant", () => {
 			
 			BL.addApplication(soajs, inputMask, core, (err, record) => {
 				assert.ok(record);
-				assert.deepEqual(record, 'internalKey');
+				assert.deepEqual(record, {intKey: 'internalKey', extKey: 'extKey'});
 				done();
 			});
 		});
@@ -7650,7 +7650,7 @@ describe("Unit test for: BL - tenant", () => {
 			
 			BL.addApplication(soajs, inputMask, core, (err, record) => {
 				assert.ok(record);
-				assert.deepEqual(record, 'internalKey');
+				assert.deepEqual(record, {intKey: 'internalKey', extKey: 'extKey'});
 				done();
 			});
 		});
@@ -7698,7 +7698,7 @@ describe("Unit test for: BL - tenant", () => {
 			
 			BL.addApplication(soajs, inputMask, core, (err, record) => {
 				assert.ok(record);
-				assert.deepEqual(record, 1);
+				assert.deepEqual(record, {intKey: 1, extKey: 1});
 				done();
 			});
 		});
@@ -7779,7 +7779,7 @@ describe("Unit test for: BL - tenant", () => {
 			
 			BL.addApplication(soajs, inputMask, core, (err, record) => {
 				assert.ok(record);
-				assert.deepEqual(record, 'internalKey');
+				assert.deepEqual(record, {intKey: 'internalKey', extKey: 1});
 				done();
 			});
 		});

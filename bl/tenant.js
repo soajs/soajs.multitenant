@@ -560,7 +560,7 @@ let bl = {
                     }
                     return cb(null, {
                             intKey: internalKey ? internalKey : 1,
-                            extKey: externalKey ? externalKey : 1
+                            extKey: externalKey && externalKey.extKey ? externalKey.extKey.extKey : 1
                         }
                     );
                 });
