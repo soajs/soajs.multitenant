@@ -518,7 +518,7 @@ let bl = {
                         key.extKeys.push(extKey);
                     }
                     app.keys.push(key);
-                    return callback(null, internalKey);
+                    return callback(null, internalKey, extKey);
                 });
             });
         }
@@ -547,7 +547,7 @@ let bl = {
                 "_TTL": inputmaskData._TTL * 3600 * 1000, // 24 hours
                 "keys": []
             };
-            generateKey(newApplication, tenantRecord, (err, internalKey) => {
+            generateKey(newApplication, tenantRecord, (err, internalKey, externalKey) => {
                 tenantRecord.applications.push(newApplication);
                 data = {
                     _id: tenantRecord._id,
@@ -558,7 +558,11 @@ let bl = {
                     if (err) {
                         return cb(bl.handleError(soajs, 471, err));
                     }
-                    return cb(null, internalKey ? internalKey : 1);
+                    return cb(null, {
+                            intKey: internalKey ? internalKey : 1,
+                            extKey: externalKey ? externalKey : 1
+                        }
+                    );
                 });
             });
 
