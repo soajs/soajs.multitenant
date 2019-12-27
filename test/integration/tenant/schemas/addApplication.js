@@ -19,8 +19,18 @@ let addAppSchema = {
             "required": true
         },
         "data": {
-            "type": "string",
-            "required": false
+            "type": "object",
+            "required": false,
+            "properties": {
+                "extKey": {
+                    "type": "string",
+                    "required": true
+                },
+                "intKey": {
+                    "type": "string",
+                    "required": true
+                }
+            }
         },
         "errors": {
             "type": "object",
