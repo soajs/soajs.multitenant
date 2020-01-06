@@ -6549,14 +6549,7 @@ describe("Unit test for: BL - tenant", () => {
 				},
 				key: {
 					generateExternalKey: (interKey, opt1, opt2, key, cb) => {
-						return cb(null, {
-							"extKey": 'extKey',
-							"device": {},
-							"geo": {},
-							"env": 'dashboard',
-							"label": 'label',
-							"expDate": '2019-09-27T13:54:17Z'
-						});
+						return cb (null, 'extKey');
 					}
 				}
 			},
@@ -6862,14 +6855,7 @@ describe("Unit test for: BL - tenant", () => {
 					},
 					key: {
 						generateExternalKey: (interKey, opt1, opt2, key, cb) => {
-							return cb(null, {
-								"extKey": 'extKey',
-								"device": {},
-								"geo": {},
-								"env": 'dashboard',
-								"label": 'label',
-								"expDate": '2019-09-27T13:54:17Z'
-							});
+							return cb (null, 'extKey');
 						}
 					}
 				},
@@ -6971,14 +6957,7 @@ describe("Unit test for: BL - tenant", () => {
 					},
 					key: {
 						generateExternalKey: (interKey, opt1, opt2, key, cb) => {
-							return cb(null, {
-								"extKey": 'extKey',
-								"device": {},
-								"geo": {},
-								"env": 'dashboard',
-								"label": 'label',
-								"expDate": '2019-09-27T13:54:17Z'
-							});
+							return cb (null, 'extKey');
 						}
 					}
 				},
@@ -7190,14 +7169,7 @@ describe("Unit test for: BL - tenant", () => {
 					},
 					key: {
 						generateExternalKey: (interKey, opt1, opt2, key, cb) => {
-							return cb(null, {
-								"extKey": 'extKey',
-								"device": {},
-								"geo": {},
-								"env": 'dashboard',
-								"label": 'label',
-								"expDate": '2019-09-27T13:54:17Z'
-							});
+							return cb (null, 'extKey');
 						}
 					}
 				},
@@ -7459,14 +7431,7 @@ describe("Unit test for: BL - tenant", () => {
 				},
 				key: {
 					generateExternalKey: (interKey, opt1, opt2, key, cb) => {
-						return cb(null, {
-							"extKey": 'extKey',
-							"device": {},
-							"geo": {},
-							"env": 'dashboard',
-							"label": 'label',
-							"expDate": '2019-09-27T13:54:17Z'
-						});
+						return cb (null, 'extKey');
 					}
 				}
 			},
@@ -7870,14 +7835,7 @@ describe("Unit test for: BL - tenant", () => {
 					},
 					key: {
 						generateExternalKey: (interKey, opt1, opt2, key, cb) => {
-							return cb(null, {
-								"extKey": 'extKey',
-								"device": {},
-								"geo": {},
-								"env": 'dashboard',
-								"label": 'label',
-								"expDate": '2019-09-27T13:54:17Z'
-							});
+							return cb (null, 'extKey');
 						}
 					}
 				},
@@ -7987,14 +7945,7 @@ describe("Unit test for: BL - tenant", () => {
 					},
 					key: {
 						generateExternalKey: (interKey, opt1, opt2, key, cb) => {
-							return cb(null, {
-								"extKey": 'extKey',
-								"device": {},
-								"geo": {},
-								"env": 'dashboard',
-								"label": 'label',
-								"expDate": '2019-09-27T13:54:17Z'
-							});
+							return cb (null, 'extKey');
 						}
 					}
 				},
@@ -8222,14 +8173,7 @@ describe("Unit test for: BL - tenant", () => {
 					},
 					key: {
 						generateExternalKey: (interKey, opt1, opt2, key, cb) => {
-							return cb(null, {
-								"extKey": 'extKey',
-								"device": {},
-								"geo": {},
-								"env": 'dashboard',
-								"label": 'label',
-								"expDate": '2019-09-27T13:54:17Z'
-							});
+							return cb (null, 'extKey');
 						}
 					}
 				},
@@ -8454,14 +8398,7 @@ describe("Unit test for: BL - tenant", () => {
 				},
 				key: {
 					generateExternalKey: (interKey, opt1, opt2, key, cb) => {
-						return cb(null, {
-							"extKey": 'KeyNew',
-							"device": {},
-							"geo": {},
-							"env": 'dashboard',
-							"label": 'label',
-							"expDate": '2019-09-27T13:54:17Z'
-						});
+						return cb (null, 'KeyNew');
 					}
 				}
 			}
@@ -8757,14 +8694,7 @@ describe("Unit test for: BL - tenant", () => {
 					},
 					key: {
 						generateExternalKey: (interKey, opt1, opt2, key, cb) => {
-							return cb(null, {
-								"extKey": 'newExt',
-								"device": {},
-								"geo": {},
-								"env": 'dashboard',
-								"label": 'dashboardk',
-								"expDate": '2019-09-27T13:54:17Z'
-							});
+							return cb (null, 'newExt');
 						}
 					}
 				}
@@ -8847,14 +8777,7 @@ describe("Unit test for: BL - tenant", () => {
 					},
 					key: {
 						generateExternalKey: (interKey, opt1, opt2, key, cb) => {
-							return cb(null, {
-								"extKey": 'extKey',
-								"device": {},
-								"geo": {},
-								"env": 'dashboard',
-								"label": 'dashboardk',
-								"expDate": '2019-09-27T13:54:17Z'
-							});
+							return cb (null, 'extKey');
 						}
 					}
 				}
