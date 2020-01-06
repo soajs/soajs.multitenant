@@ -517,7 +517,7 @@ let bl = {
                 	let externalKey = null;
                     if (extKey) {
                         key.extKeys.push(extKey);
-	                    externalKey = extKey.extKey
+	                    externalKey = extKey.extKey;
                     }
                     return callback(null, internalKey, externalKey);
                 });
