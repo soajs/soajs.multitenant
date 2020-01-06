@@ -392,11 +392,10 @@ module.exports = {
 				},
 				"tags": {
 					"source": ['body.tags'],
-					// "required": false,
+					"required": false,
 					"validation": {
 						"type": "array",
 						"items": {
-							"required": false,
 							"type": "string",
 							"uniqueItems": true,
 							"minItems": 1
@@ -1118,7 +1117,6 @@ module.exports = {
 					"validation": {
 						"type": "array",
 						"items": {
-							"required": false,
 							"type": "string",
 							"uniqueItems": true,
 							"minItems": 1
