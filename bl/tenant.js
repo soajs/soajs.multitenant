@@ -514,11 +514,12 @@ let bl = {
                     "key": internalKey
                 };
                 createExternalKey(opt, (error, extKey) => {
+                	let externalKey = null;
                     if (extKey) {
                         key.extKeys.push(extKey);
+	                    externalKey = extKey.extKey
                     }
-                    app.keys.push(key);
-                    return callback(null, internalKey, extKey);
+                    return callback(null, internalKey, externalKey);
                 });
             });
         }
@@ -560,7 +561,7 @@ let bl = {
                     }
                     return cb(null, {
                             intKey: internalKey ? internalKey : 1,
-                            extKey: externalKey && externalKey.extKey ? externalKey.extKey.extKey : 1
+                            extKey: externalKey ? externalKey : 1
                         }
                     );
                 });
