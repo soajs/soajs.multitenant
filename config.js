@@ -26,6 +26,7 @@ module.exports = {
 	"requestTimeoutRenewal": 5,
 	"oauth": true,
 	"extKeyRequired": true,
+	'awareness': false,
 	"tenant": {
 		"generatedCodeLength": 5,
 		"character": "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
