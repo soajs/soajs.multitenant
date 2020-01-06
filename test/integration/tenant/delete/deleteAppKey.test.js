@@ -98,9 +98,14 @@ describe("Testing delete application key API", () => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.data);
-            //todo: fix
-            assert.deepEqual(body.data.applications[1].keys.length, 1);
-            assert.deepEqual(body.data.applications[2].keys.length, 1);
+            
+	        for (let i = 0; i < body.data.applications.length; i++) {
+		        let app = body.data.applications[i];
+		        if (app.appId === "30d2cb5fc04ce51e06000002" || app.appId === "30d2cb5fc04ce51e06000003") {
+			        assert.deepEqual(app.keys[0].extKeys.length, 1);
+		        }
+	        }
+	        
             let check = validator.validate(body, getTenantsSchema);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);
