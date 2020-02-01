@@ -98,6 +98,7 @@ describe("Testing update tenant API", () => {
     it("Success - will update tenant - no id", (done) => {
         let params = {
             headers: {
+	            access_token: "ddfd5eb42417b480471b4cec06381244658ffc7a",
                 key: extKeyTest
             },
             body: {
@@ -121,6 +122,7 @@ describe("Testing update tenant API", () => {
     it("Success - will return tenant record", (done) => {
         let params = {
             headers: {
+	            access_token: "ddfd5eb42417b480471b4cec06381244658ffc7a",
                 key: extKeyTest
             }
         };

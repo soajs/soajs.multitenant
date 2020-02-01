@@ -80,6 +80,7 @@ describe("Testing add application external key API", () => {
     it("Success - will add application ext key - input", (done) => {
         let params = {
             headers: {
+	            access_token: "ddfd5eb42417b480471b4cec06381244658ffc7a",
                 key: extKeyTest
             },
             body: {

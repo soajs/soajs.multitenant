@@ -1,6 +1,7 @@
 'use strict';
 
 let lib = {
+	"_id": "5e348418ed5e433de5bea716",
 	"type": "product",
 	"oauth": {
 		secret: "this is a secret",

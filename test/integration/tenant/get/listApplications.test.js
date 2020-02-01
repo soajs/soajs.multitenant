@@ -73,6 +73,7 @@ describe("Testing list applications API", () => {
             qs: {
             },
             headers: {
+	            access_token: "ddfd5eb42417b480471b4cec06381244658ffc7a",
                 key: "aa39b5490c4a4ed0e56d7ec1232a428f7ad78ebb7347db3fc9875cb10c2bce39bbf8aabacf9e00420afb580b15698c04ce10d659d1972ebc53e76b6bbae0c113bee1e23062800bc830e4c329ca913fefebd1f1222295cf2eb5486224044b4d0c"
             }
         };

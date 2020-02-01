@@ -112,6 +112,7 @@ describe("Testing update app external key of tenant API", () => {
     it("Success - will update tenant application external key - no id", (done) => {
         let params = {
             headers: {
+	            access_token: "ddfd5eb42417b480471b4cec06381244658ffc7a",
                 key: extKeyTest
             },
             body: {
@@ -140,6 +141,7 @@ describe("Testing update app external key of tenant API", () => {
     it("Success - will return tenant record", (done) => {
         let params = {
             headers: {
+	            access_token: "ddfd5eb42417b480471b4cec06381244658ffc7a",
                 key: extKeyTest
             }
         };

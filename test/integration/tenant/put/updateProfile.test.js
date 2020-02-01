@@ -103,6 +103,7 @@ describe("Testing update tenant profile API", () => {
 		let params = {
 			qs: {},
 			headers: {
+				access_token: "ddfd5eb42417b480471b4cec06381244658ffc7a",
 				key: extKey
 			},
 			body: {
@@ -126,6 +127,7 @@ describe("Testing update tenant profile API", () => {
 	it("Success - will return product record - id", (done) => {
 		let params = {
 			headers: {
+				access_token: "ddfd5eb42417b480471b4cec06381244658ffc7a",
 				key: extKey
 			}
 		};

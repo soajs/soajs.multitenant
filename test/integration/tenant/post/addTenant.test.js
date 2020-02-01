@@ -142,6 +142,7 @@ describe("Testing add tenant API", () => {
 				"type": "client"
 			},
 			headers: {
+				access_token: "ddfd5eb42417b480471b4cec06381244658ffc7a",
 				key: extKey
 			}
 		};
@@ -185,6 +186,7 @@ describe("Testing add tenant API", () => {
 				"type": "product"
 			},
 			headers: {
+				access_token: "ddfd5eb42417b480471b4cec06381244658ffc7a",
 				key: extKey
 			}
 		};
