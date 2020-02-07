@@ -1122,6 +1122,14 @@ module.exports = {
 							"minItems": 1
 						}
 					}
+				},
+				"type": {
+					"source": ["query.type"],
+					"required": false,
+					"validation": {
+						"type": "string",
+						"enum": ["granular"]
+					}
 				}
 			},
 			

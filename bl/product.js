@@ -431,6 +431,12 @@ let bl = {
 					if (inputmaskData.tags){
 						record.packages[i].tags = inputmaskData.tags;
 					}
+					if (inputmaskData.type  === "granular"){
+						record.packages[i].aclType = "granular";
+					}
+					else {
+						delete record.packages[i].aclType;
+					}
 					found = true;
 					break;
 				}
