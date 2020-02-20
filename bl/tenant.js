@@ -519,6 +519,7 @@ let bl = {
                         key.extKeys.push(extKey);
 	                    externalKey = extKey.extKey;
                     }
+	                app.keys.push(key);
                     return callback(null, internalKey, externalKey);
                 });
             });

@@ -61,7 +61,6 @@ describe("Testing add application API", () => {
                 packageCode: 'TEST1',
                 _TTL: '12',
                 appKey: {
-                    config: {},
                     extKey: {
                         label: 'Label for Key',
                         env: 'dashboard',
