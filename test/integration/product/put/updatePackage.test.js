@@ -50,6 +50,31 @@ before(function (done) {
             done();
         });
     });
+	it("Success - will update product package to granular", (done) => {
+		let params = {
+			qs: {
+				id: selectedProd._id,
+			},
+			body: {
+				code: "NEWS",
+				name: "PACK_NAME2",
+				description: "Pack Description after update",
+				_TTL: "24",
+				type: "granular",
+				acl: {}
+			}
+		};
+		requester('/product/package', 'put', params, (error, body) => {
+			assert.ifError(error);
+			assert.ok(body);
+			assert.ok(body.data);
+			assert.deepEqual(body.data, "product package NEWS updated successfully");
+			let check = validator.validate(body, updatePackagesSchema);
+			assert.deepEqual(check.valid, true);
+			assert.deepEqual(check.errors, []);
+			done();
+		});
+	});
     it("Success - will update product package", (done) => {
         let params = {
             qs: {
@@ -108,7 +133,7 @@ before(function (done) {
             done();
         });
     });
-
+	
     it("Fail - will not add package to product - no params", (done) => {
         let params = {};
         requester('/product/package', 'put', params, (error, body) => {

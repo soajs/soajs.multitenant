@@ -1124,7 +1124,7 @@ module.exports = {
 					}
 				},
 				"type": {
-					"source": ["query.type"],
+					"source": ["body.type"],
 					"required": false,
 					"validation": {
 						"type": "string",

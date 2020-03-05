@@ -10,34 +10,35 @@ let lib = {
 		"acl": {
 			"dashboard": {
 				"multitenant": {
-					"access": true,
-					"apisPermission": "restricted",
-					"get": [
-						{
-							"apis": {
-								"/product": {
-									"access": true
-								}
+					"1": {
+						"access": true,
+						"get": [
+							{
+								"apis": {
+									"/product": {
+										"access": true
+									}
+								},
+								"group": "Product"
 							},
-							"group": "Product"
-						},
-						{
-							"apis": {
-								"/tenants/console": {
-									"access": true
-								}
+							{
+								"apis": {
+									"/tenants/console": {
+										"access": true
+									}
+								},
+								"group": "Tenant"
 							},
-							"group": "Tenant"
-						},
-						{
-							"apis": {
-								"/products/console": {
-									"access": true
-								}
-							},
-							"group": "Console product"
-						}
-					]
+							{
+								"apis": {
+									"/products/console": {
+										"access": true
+									}
+								},
+								"group": "Console product"
+							}
+						]
+					}
 				},
 			}
 		}

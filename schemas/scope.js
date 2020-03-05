@@ -9,11 +9,7 @@
 
 "use strict";
 
-let accessSchema = {
-	"type": "boolean", "required": false
-};
-
-let apisObject = {
+const apisObject = {
 	"type": "object",
 	"required": false,
 	"patternProperties": {
@@ -21,59 +17,65 @@ let apisObject = {
 			"type": "object",
 			"required": true,
 			"properties": {
-				"access": accessSchema
-			},
-			"additionalProperties": false
+				"access": {"type": "boolean", "required": false},
+			}
 		}
 	}
 };
 
-let aclMethod = {
-	"required": false,
+const aclRoute = {
 	"type": "array",
-	"items": {
-		"required": false,
-		"type": "object",
-		"properties" :{
-			"apis": apisObject,
-			"group": {"type": "string", "required": true}
-		},
-		"uniqueItems": true
-	}
+	"required": false,
+	"items":
+		{
+			"type": "object",
+			"required": false,
+			"properties": {
+				"access": {"type": "string", "required": false},
+				"apis": apisObject
+			}
+		}
 };
 
 let scope = {
 	"type": "object",
 	"required": false,
 	"patternProperties": {
-		"^[a-zA-Z0-9]+$": { //env
+		"^[a-zA-Z0-9]+$": {
 			"type": "object",
 			"required": false,
 			"patternProperties": {
-				"^[a-zA-Z0-9]+$": { //service
+				"^[^\W\.]+$": 	{
 					"type": "object",
 					"required": false,
 					"patternProperties": {
-						"^[0-9]+(.[0-9]+)$": { //version
+						".+": {
 							"type": "object",
 							"required": false,
 							"properties": {
-								"access": accessSchema,
+								"access": {"type": "boolean", "required": false},
 								"apisPermission": {
 									"type": "string", "enum": ["restricted"], "required": false
 								},
-								"get": aclMethod,
-								"post": aclMethod,
-								"put": aclMethod,
-								"delete": aclMethod
+								"get": aclRoute,
+								"post": aclRoute,
+								"put": aclRoute,
+								"delete": aclRoute,
+								"head": aclRoute,
+								"options": aclRoute,
+								"other": aclRoute,
+								"additionalProperties": false
 							},
 							"additionalProperties": false
 						}
-					}
-				}
-			}
+					},
+					"additionalProperties": false
+				},
+			},
+			"additionalProperties": false
 		}
-	}
+	},
+	"additionalProperties": false
 };
 
 module.exports = scope;
