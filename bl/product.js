@@ -9,6 +9,12 @@
 
 'use strict';
 
+const core = require('soajs').core;
+const validator = new core.validator.Validator();
+
+const apiGroup = require("../schemas/aclApiGroup");
+const granularAcl = require("../schemas/aclGranular");
+
 let bl = {
     "modelObj": null,
     "model": null,
@@ -374,6 +380,31 @@ let bl = {
 				newPackage.tags = inputmaskData.tags;
 			}
 			newPackage.acl = inputmaskData.acl ? inputmaskData.acl : {};
+			if (inputmaskData.type){
+				newPackage.aclType = inputmaskData.type;
+			}
+			if (newPackage.acl){
+				let schema = {
+					"type": "object",
+					"required": false,
+					"patternProperties": {
+						"^[a-zA-Z0-9]+$": {
+							"type": "object",
+							"patternProperties": {
+								"^[^\W\.]+$": newPackage.aclType === "granular" ? granularAcl : apiGroup
+							},
+							"additionalProperties": false
+						}
+					},
+					"additionalProperties": false
+				};
+				let check = validator.validate(newPackage.acl, schema);
+				if (!check.valid){
+					let message = `Invalid Acl of type ${newPackage.aclType === "granular" ? "Granular" : "Api Group"} provided!`;
+					soajs.log.debug(check.errors);
+					return cb({"code": "469", "msg": message});
+				}
+			}
 			record.packages.push(newPackage);
 			data._id = record._id;
 			data.packages = record.packages;
@@ -425,17 +456,37 @@ let bl = {
 					if (inputmaskData._TTL){
 						record.packages[i]._TTL = inputmaskData._TTL * 3600 * 1000;
 					}
-					if (inputmaskData.acl){
-						record.packages[i].acl = inputmaskData.acl;
-					}
-					if (inputmaskData.tags){
-						record.packages[i].tags = inputmaskData.tags;
-					}
 					if (inputmaskData.type  === "granular"){
 						record.packages[i].aclType = "granular";
 					}
 					else {
 						delete record.packages[i].aclType;
+					}
+					if (inputmaskData.acl){
+						record.packages[i].acl = inputmaskData.acl;
+						let schema = {
+							"type": "object",
+							"required": false,
+							"patternProperties": {
+								"^[a-zA-Z0-9]+$": {
+									"type": "object",
+									"patternProperties": {
+										"^[^\W\.]+$": record.packages[i].aclType === "granular" ? granularAcl : apiGroup
+									},
+									"additionalProperties": false
+								}
+							},
+							"additionalProperties": false
+						};
+						let check = validator.validate(record.packages[i].acl, schema);
+						if (!check.valid){
+							let message = `Invalid Acl of type ${record.packages[i].aclType === "granular" ? "Granular" : "Api Group"} provided!`;
+							soajs.log.debug(check.errors);
+							return cb({"code": "469", "msg": message});
+						}
+					}
+					if (inputmaskData.tags){
+						record.packages[i].tags = inputmaskData.tags;
 					}
 					found = true;
 					break;
