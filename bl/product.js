@@ -401,6 +401,7 @@ let bl = {
 				let check = validator.validate(newPackage.acl, schema);
 				if (!check.valid){
 					let message = `Invalid Acl of type ${newPackage.aclType === "granular" ? "Granular" : "Api Group"} provided!`;
+					soajs.log.debug(check.errors);
 					return cb({"code": "469", "msg": message});
 				}
 			}
@@ -480,6 +481,7 @@ let bl = {
 						let check = validator.validate(record.packages[i].acl, schema);
 						if (!check.valid){
 							let message = `Invalid Acl of type ${record.packages[i].aclType === "granular" ? "Granular" : "Api Group"} provided!`;
+							soajs.log.debug(check.errors);
 							return cb({"code": "469", "msg": message});
 						}
 					}
