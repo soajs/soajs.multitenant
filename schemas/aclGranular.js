@@ -42,6 +42,7 @@ const granular = {
 				"delete": granularAcl,
 				"head": granularAcl,
 				"options": granularAcl,
+				"patch": granularAcl,
 				"other": granularAcl,
 				"apisRegExp": {
 					"type": "array",
