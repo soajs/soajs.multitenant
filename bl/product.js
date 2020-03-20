@@ -242,6 +242,39 @@ let bl = {
 		});
 	},
 	
+	"updateScopeByEnv": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {};
+		data.id = inputmaskData.id;
+		modelObj.getProduct(data, (err, record) => {
+			if (err) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 602, err));
+			}
+			if (!record) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 460, null));
+			}
+			if (!soajs.tenant.locked && record && record.locked) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 500, null));
+			}
+			data.acl = inputmaskData.acl;
+			data.env = inputmaskData.env;
+			data._id = record._id;
+			modelObj.updateScope(data, (err, result) => {
+				bl.mp.closeModel(soajs, modelObj);
+				if (err) {
+					return cb(bl.handleError(soajs, 470, err));
+				}
+				return cb(null, result);
+			});
+		});
+	},
+	
 	"delete": (soajs, inputmaskData, cb) => {
 		if (!inputmaskData) {
 			return cb(bl.handleError(soajs, 400, null));
@@ -456,11 +489,8 @@ let bl = {
 					if (inputmaskData._TTL){
 						record.packages[i]._TTL = inputmaskData._TTL * 3600 * 1000;
 					}
-					if (inputmaskData.type  === "granular"){
-						record.packages[i].aclType = "granular";
-					}
-					else {
-						delete record.packages[i].aclType;
+					if (inputmaskData.type ){
+						record.packages[i].aclTypeByEnv = inputmaskData.type;
 					}
 					if (inputmaskData.acl){
 						record.packages[i].acl = inputmaskData.acl;
@@ -487,6 +517,77 @@ let bl = {
 					}
 					if (inputmaskData.tags){
 						record.packages[i].tags = inputmaskData.tags;
+					}
+					found = true;
+					break;
+				}
+			}
+			if (!found){
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 461, null));
+			}
+			data._id = record._id;
+			data.packages = record.packages;
+			modelObj.updateProduct(data, (err) => {
+				bl.mp.closeModel(soajs, modelObj);
+				if (err) {
+					return cb(bl.handleError(soajs, 602, err));
+				}
+				return cb(null, `product package ${inputmaskData.code} updated successfully`);
+			});
+		});
+	},
+	
+	"updatePackageAclByEnv": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {};
+		data.id = inputmaskData.id;
+		
+		modelObj.getProduct(data, (err, record) => {
+			if (err) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 602, err));
+			}
+			if (!record) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 460, null));
+			}
+			if (!soajs.tenant.locked && record && record.locked) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 500, null));
+			}
+			if (!record.packages){
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 461, null));
+			}
+			let found = false;
+			let prefix = record.code.toUpperCase() + '_';
+			for (let i = 0; i < record.packages.length; i++) {
+				if (record.packages[i].code.toUpperCase() === prefix + inputmaskData.code) {
+					record.packages[i].acl[inputmaskData.env.toLowerCase()] = inputmaskData.acl;
+					if (inputmaskData.type){
+						if (!record.packages[i].aclTypeByEnv){
+							record.packages[i].aclTypeByEnv = {};
+						}
+						
+						record.packages[i].aclTypeByEnv[inputmaskData.env.toLowerCase()] = inputmaskData.type;
+					}
+					let schema = {
+						"type": "object",
+						"required": false,
+						"patternProperties": {
+							"^[^\W\.]+$": record.packages[i].aclTypeByEnv === "granular" ? granularAcl : apiGroup
+						},
+						"additionalProperties": false
+					};
+					let check = validator.validate(inputmaskData.acl, schema);
+					if (!check.valid){
+						let message = `Invalid Acl of type ${record.packages[i].aclTypeByEnv === "granular" ? "Granular" : "Api Group"} provided!`;
+						soajs.log.debug(check.errors);
+						return cb({"code": "469", "msg": message});
 					}
 					found = true;
 					break;

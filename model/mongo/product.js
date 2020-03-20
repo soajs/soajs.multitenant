@@ -265,6 +265,27 @@ Product.prototype.updateProduct = function (data, cb) {
 	
 };
 
+Product.prototype.updateScope = function (data, cb) {
+	let __self = this;
+	if (!data || !data._id || !data.env || !data.acl ) {
+		let error = new Error("_id, env, and acl are required.");
+		return cb(error, null);
+	}
+	
+	let condition = {'_id': data._id};
+	let options = {'upsert': false, 'safe': true};
+	let fields = {
+		'$set': {
+			["scope.acl." + data.env]: data.acl
+		}
+	};
+	
+	__self.mongoCore.update(colName, condition, fields, options, (err, result) => {
+		return cb(err, result);
+	});
+	
+};
+
 Product.prototype.closeConnection = function () {
     let __self = this;
     __self.mongoCore.closeDb();

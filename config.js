@@ -402,6 +402,13 @@ module.exports = {
 						}
 					}
 				},
+				"type": {
+					"source": ['body.type'],
+					"required": false,
+					"validation": {
+						"type": "object"
+					}
+				},
 			},
 			
 			"/tenant": {
@@ -1080,6 +1087,31 @@ module.exports = {
 				}
 			},
 			
+			"/product/scope/env": {
+				_apiInfo: {
+					"l": "Update product ACL scope by env",
+					"group": "Product"
+				},
+				"commonFields": ['id'],
+				"acl": {
+					'source': ['body.acl'],
+					'required': true,
+					'validation': {
+						"type": "object",
+						"properties": {
+							"acl": scopeSchema.patternProperties["^[a-zA-Z0-9]+$"]
+						}
+					}
+				},
+				"env": {
+					"required": true,
+					"source": ["query.env"],
+					"validation": {
+						"type": "string"
+					}
+				}
+			},
+			
 			"/product/package": {
 				_apiInfo: {
 					"l": "Update product package",
@@ -1130,6 +1162,44 @@ module.exports = {
 						"type": "string",
 						"enum": ["granular"]
 					}
+				}
+			},
+			
+			"/product/package/acl/env": {
+				_apiInfo: {
+					"l": "Update product package",
+					"group": "Product"
+				},
+				"commonFields": ['id'],
+				"code": {
+					"source": ["body.code"],
+					"required": true,
+					"validation": {
+						"type": "string",
+						"format": "alphanumeric",
+						"minLength": 4,
+						"maxLength": 5
+					}
+				},
+				"type": {
+					"source": ["body.type"],
+					"required": false,
+					"validation": {
+						"type": "string",
+						"enum": ["granular"]
+					}
+				},
+				"env": {
+					"source": ["query.env"],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"acl": {
+					'source': ['body.acl'],
+					'required': true,
+					"validation": aclSchema.validation.patternProperties["^[a-zA-Z0-9]+$"]
 				}
 			},
 			

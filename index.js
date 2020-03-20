@@ -102,9 +102,21 @@ service.init(() => {
 			    return res.json(req.soajs.buildResponse(error, data));
 		    });
 	    });
+	    
+	    service.put("/product/scope/env", (req, res) => {
+		    bl.product.updateScopeByEnv(req.soajs, req.soajs.inputmaskData, (error, data) => {
+			    return res.json(req.soajs.buildResponse(error, data));
+		    });
+	    });
 	
 	    service.put("/product/package", (req, res) => {
 		    bl.product.updatePackage(req.soajs, req.soajs.inputmaskData, (error, data) => {
+			    return res.json(req.soajs.buildResponse(error, data));
+		    });
+	    });
+	
+	    service.put("/product/package/acl/env", (req, res) => {
+		    bl.product.updatePackageAclByEnv(req.soajs, req.soajs.inputmaskData, (error, data) => {
 			    return res.json(req.soajs.buildResponse(error, data));
 		    });
 	    });

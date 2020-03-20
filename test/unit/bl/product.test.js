@@ -56,7 +56,10 @@ describe("Unit test for: BL - product", () => {
         log: {
             error: () => {
                 console.log();
-            }
+            },
+	        debug: () => {
+		        console.log();
+	        }
         }
     };
 
@@ -108,7 +111,10 @@ describe("Unit test for: BL - product", () => {
                 log: {
                     error: () => {
                         console.log();
-                    }
+                    },
+	                debug: () => {
+		                console.log();
+	                }
                 }
             };
 
@@ -147,7 +153,10 @@ describe("Unit test for: BL - product", () => {
                 log: {
                     error: () => {
                         console.log();
-                    }
+                    },
+	                debug: () => {
+                    	console.log();
+	                }
                 }
             };
 
@@ -219,7 +228,10 @@ describe("Unit test for: BL - product", () => {
                 log: {
                     error: () => {
                         console.log();
-                    }
+                    },
+	                debug: () => {
+		                console.log();
+	                }
                 }
             };
 
@@ -257,7 +269,10 @@ describe("Unit test for: BL - product", () => {
                 log: {
                     error: () => {
                         console.log();
-                    }
+                    },
+	                debug: () => {
+		                console.log();
+	                }
                 }
             };
 
@@ -357,7 +372,10 @@ describe("Unit test for: BL - product", () => {
                 log: {
                     error: () => {
                         console.log();
-                    }
+                    },
+	                debug: () => {
+		                console.log();
+	                }
                 }
             };
 
@@ -401,7 +419,10 @@ describe("Unit test for: BL - product", () => {
                 log: {
                     error: () => {
                         console.log();
-                    }
+                    },
+	                debug: () => {
+		                console.log();
+	                }
                 }
             };
 
@@ -446,7 +467,10 @@ describe("Unit test for: BL - product", () => {
                 log: {
                     error: () => {
                         console.log();
-                    }
+                    },
+	                debug: () => {
+		                console.log();
+	                }
                 }
             };
 
@@ -484,7 +508,10 @@ describe("Unit test for: BL - product", () => {
                 log: {
                     error: () => {
                         console.log();
-                    }
+                    },
+	                debug: () => {
+		                console.log();
+	                }
                 }
             };
 
@@ -523,7 +550,10 @@ describe("Unit test for: BL - product", () => {
                 log: {
                     error: () => {
                         console.log();
-                    }
+                    },
+	                debug: () => {
+		                console.log();
+	                }
                 }
             };
 
@@ -657,7 +687,10 @@ describe("Unit test for: BL - product", () => {
                 log: {
                     error: () => {
                         console.log();
-                    }
+                    },
+	                debug: () => {
+		                console.log();
+	                }
                 }
             };
 
@@ -695,7 +728,10 @@ describe("Unit test for: BL - product", () => {
                 log: {
                     error: () => {
                         console.log();
-                    }
+                    },
+	                debug: () => {
+		                console.log();
+	                }
                 }
             };
             let inputMask = {
@@ -737,7 +773,10 @@ describe("Unit test for: BL - product", () => {
                 log: {
                     error: () => {
                         console.log();
-                    }
+                    },
+	                debug: () => {
+		                console.log();
+	                },
                 }
             };
             let inputMask = {
@@ -796,7 +835,10 @@ describe("Unit test for: BL - product", () => {
                 log: {
                     error: () => {
                         console.log();
-                    }
+                    },
+	                debug: () => {
+		                console.log();
+	                },
                 }
             };
 
@@ -1034,7 +1076,10 @@ describe("Unit test for: BL - product", () => {
                 log: {
                     error: () => {
                         console.log();
-                    }
+                    },
+	                debug: () => {
+		                console.log();
+	                },
                 }
             };
 
@@ -1189,7 +1234,10 @@ describe("Unit test for: BL - product", () => {
                 log: {
                     error: () => {
                         console.log();
-                    }
+                    },
+	                debug: () => {
+		                console.log();
+	                },
                 }
             };
 
@@ -1380,6 +1428,165 @@ describe("Unit test for: BL - product", () => {
         });
 
     });
+	
+	describe("Testing Update Scope Product by env", () => {
+		afterEach((done) => {
+			BL.modelObj = null;
+			done();
+		});
+		
+		let inputMask = {
+			id: "DummyID",
+			env: "dashboard",
+			acl: {
+				multitenant: {
+					1: {
+						access: false,
+						get: [
+							{
+								"/product": {
+									access: false
+								},
+								group: 'Product'
+							}
+						]
+					}
+				}
+			}
+		};
+		
+		it("Fails - update product scope - null data", (done) => {
+			BL.modelObj = {};
+			BL.updateScopeByEnv(soajs, null, (err, records) => {
+				assert.ok(err);
+				assert.equal(records, null);
+				assert.deepEqual(err, {
+					code: 400,
+					msg: soajs.config.errors[400]
+				});
+				done();
+			});
+		});
+		
+		it("Success - update product scope - data", (done) => {
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(null, {
+						"code": "TPROD",
+						"name": "Test Product",
+						"description": "this is a description for test product",
+						"packages": [
+							{
+								"code": "TPROD_BASIC",
+								"name": "basic package",
+								"description": "this is a description for test product basic package",
+								"acl": {
+									"urac": {},
+									"multitenant": {}
+								},
+								"_TTL": 86400000 // 24 hours
+							}
+						]
+					});
+				},
+				updateScope: (data, cb) => {
+					return cb(null, true);
+				}
+			};
+			BL.updateScopeByEnv(soajs, inputMask, (err, result) => {
+				assert.ok(result);
+				assert.deepEqual(result, true);
+				done();
+			});
+		});
+		
+		it("Fails - update product scope - getProduct error", (done) => {
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(true, null);
+				}
+			};
+			BL.updateScopeByEnv(soajs, {}, (err, records) => {
+				assert.ok(err);
+				assert.equal(records, null);
+				assert.deepEqual(err.code, 602);
+				done();
+			});
+		});
+		
+		it("Fails - update product scope - no record error", (done) => {
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(null, null);
+				}
+			};
+			BL.updateScopeByEnv(soajs, {}, (err, records) => {
+				assert.ok(err);
+				assert.equal(records, null);
+				assert.deepEqual(err, {
+					code: 460,
+					msg: soajs.config.errors[460]
+				});
+				done();
+			});
+		});
+		
+		it("Fails - update product scope - locked record error", (done) => {
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(null, {
+						locked: true,
+						console: true
+					});
+				}
+			};
+			BL.updateScopeByEnv(soajs, {}, (err, records) => {
+				assert.ok(err);
+				assert.equal(records, null);
+				assert.deepEqual(err, {
+					code: 500,
+					msg: soajs.config.errors[500]
+				});
+				done();
+			});
+		});
+		
+		it("Fails - update product scope - updateProduct error", (done) => {
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(null, {
+						"code": "TPROD",
+						"name": "Test Product",
+						"description": "this is a description for test product",
+						"packages": [
+							{
+								"code": "TPROD_BASIC",
+								"name": "basic package",
+								"description": "this is a description for test product basic package",
+								"acl": {
+									"urac": {},
+									"multitenant": {}
+								},
+								"_TTL": 86400000 // 24 hours
+							}
+						]
+					});
+				},
+				updateScope: (data, cb) => {
+					return cb(true, null);
+				}
+			};
+			BL.updateScopeByEnv(soajs, inputMask, (err) => {
+				assert.ok(err);
+				assert.deepEqual(err, {
+					code: 470,
+					msg: soajs.config.errors[470]
+				});
+				done();
+			});
+		});
+		
+	});
 
     describe("Testing Delete Product", () => {
         afterEach((done) => {
@@ -1534,10 +1741,13 @@ describe("Unit test for: BL - product", () => {
                 }
             },
             log: {
-                error: () => {
-                    console.log();
+                    error: () => {
+                        console.log();
+                    },
+	                debug: () => {
+		                console.log();
+	                },
                 }
-            }
         };
 
         it("Fails - Delete product - Tenant product", (done) => {
@@ -1762,7 +1972,10 @@ describe("Unit test for: BL - product", () => {
                 log: {
                     error: () => {
                         console.log();
-                    }
+                    },
+	                debug: () => {
+		                console.log();
+	                },
                 }
             };
 
@@ -1845,7 +2058,10 @@ describe("Unit test for: BL - product", () => {
                 log: {
                     error: () => {
                         console.log();
-                    }
+                    },
+	                debug: () => {
+		                console.log();
+	                },
                 }
             };
 
@@ -1961,7 +2177,10 @@ describe("Unit test for: BL - product", () => {
                 log: {
                     error: () => {
                         console.log();
-                    }
+                    },
+	                debug: () => {
+		                console.log();
+	                },
                 }
             };
 
@@ -2036,7 +2255,10 @@ describe("Unit test for: BL - product", () => {
                 log: {
                     error: () => {
                         console.log();
-                    }
+                    },
+	                debug: () => {
+		                console.log();
+	                },
                 }
             };
 
@@ -2181,7 +2403,10 @@ describe("Unit test for: BL - product", () => {
                 log: {
                     error: () => {
                         console.log();
-                    }
+                    },
+	                debug: () => {
+		                console.log();
+	                },
                 }
             };
 
@@ -2268,7 +2493,10 @@ describe("Unit test for: BL - product", () => {
                 log: {
                     error: () => {
                         console.log();
-                    }
+                    },
+	                debug: () => {
+		                console.log();
+	                },
                 }
             };
 
@@ -2521,7 +2749,10 @@ describe("Unit test for: BL - product", () => {
                 log: {
                     error: () => {
                         console.log();
-                    }
+                    },
+	                debug: () => {
+		                console.log();
+	                },
                 }
             };
 
@@ -2630,7 +2861,10 @@ describe("Unit test for: BL - product", () => {
                 log: {
                     error: () => {
                         console.log();
-                    }
+                    },
+	                debug: () => {
+		                console.log();
+	                },
                 }
             };
 
@@ -2807,6 +3041,366 @@ describe("Unit test for: BL - product", () => {
         });
 
     });
+	
+	describe("Testing update package acl inside Product by env", () => {
+		afterEach((done) => {
+			BL.modelObj = null;
+			done();
+		});
+		
+		let inputMask = {
+			"code": "EXAMPLE03",
+			"id": "SomeProductID",
+			"acl": {},
+			"env": "dashboard"
+		};
+		
+		it("Success - update package - data", (done) => {
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(null, {
+						"code": "TPROD",
+						"name": "Test Product",
+						"description": "this is a description for test product",
+						"packages": [
+							{
+								"code": "TPROD_BASIC",
+								"name": "basic package",
+								"description": "this is a description for test product basic package",
+								"acl": {
+									"urac": {},
+									"multitenant": {}
+								},
+								"_TTL": 86400000 // 24 hours
+							},
+							{
+								"code": "TPROD_EXAMPLE03",
+								"name": "example03 package",
+								"description": "this is a description for test product example03 package",
+								"acl": {
+									"urac": {},
+									"example03": {}
+								},
+								"_TTL": 86400000 // 24 hours
+							}
+						]
+					});
+				},
+				updateProduct: (data, cb) => {
+					return cb(null, true);
+				}
+			};
+			BL.updatePackageAclByEnv(soajs, inputMask, (err, result) => {
+				assert.ok(result);
+				assert.deepEqual(result, "product package EXAMPLE03 updated successfully");
+				done();
+			});
+		});
+		
+		it("Success - update package  - client tenant", (done) => {
+			let soajsClient = {
+				config: {
+					"errors": {
+						460: "Unable to find product",
+						601: "Model not found"
+					},
+				},
+				tenant: {
+					type: "client",
+					dbConfig: {}
+				},
+				log: {
+                    error: () => {
+                        console.log();
+                    },
+	                debug: () => {
+		                console.log();
+	                },
+                }
+			};
+			
+			function Product() {
+				console.log("Product");
+			}
+			
+			Product.prototype.getProduct = (inputMask, cb) => {
+				return cb(null, {
+					"code": "TPROD",
+					"name": "Test Product",
+					"description": "this is a description for test product",
+					"packages": [
+						{
+							"code": "TPROD_BASIC",
+							"name": "basic package",
+							"description": "this is a description for test product basic package",
+							"acl": {
+								"urac": {},
+								"multitenant": {}
+							},
+							"_TTL": 86400000 // 24 hours
+						},
+						{
+							"code": "TPROD_EXAMPLE03",
+							"name": "example03 package",
+							"description": "this is a description for test product example03 package",
+							"acl": {
+								"urac": {},
+								"example03": {}
+							},
+							"_TTL": 86400000 // 24 hours
+						}
+					]
+				});
+			};
+			
+			Product.prototype.updateProduct = (data, cb) => {
+				return cb(null, true);
+			};
+			
+			Product.prototype.closeConnection = () => {
+			};
+			BL.model = Product;
+			
+			BL.updatePackageAclByEnv(soajsClient, inputMask, (err, record) => {
+				console.log(err)
+				assert.ok(record);
+				assert.deepEqual(record, "product package EXAMPLE03 updated successfully");
+				done();
+			});
+		});
+		
+		it("Fails - update package - data - no packages in record", (done) => {
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(null, {
+						"code": "TPROD",
+						"name": "Test Product",
+						"description": "this is a description for test product"
+					});
+				},
+				updateProduct: (data, cb) => {
+					return cb(null, true);
+				}
+			};
+			BL.updatePackageAclByEnv(soajs, inputMask, (err) => {
+				assert.ok(err, {
+					code: 461,
+					msg: soajs.config.errors[461]
+				});
+				done();
+			});
+		});
+		
+		it("Fails - update package - null data", (done) => {
+			BL.modelObj = {
+				getProduct: (nullObject, cb) => {
+					return cb(true, null);
+				},
+				updateProduct: (data, cb) => {
+					return cb(true, null);
+				}
+			};
+			BL.updatePackageAclByEnv(soajs, null, (err, records) => {
+				assert.ok(err);
+				assert.equal(records, null);
+				assert.deepEqual(err, {
+					code: 400,
+					msg: soajs.config.errors[400]
+				});
+				done();
+			});
+		});
+		
+		it("Fails - update package - error - client tenant", (done) => {
+			let soajsClient = {
+				config: {
+					"errors": {
+						400: "Business logic required data are missing"
+					},
+				},
+				tenant: {
+					type: "client",
+					dbConfig: {}
+				},
+				log: {
+                    error: () => {
+                        console.log();
+                    },
+	                debug: () => {
+		                console.log();
+	                },
+                }
+			};
+			
+			function Product() {
+				console.log("Product");
+			}
+			
+			Product.prototype.getProduct = (data, cb) => {
+				return cb(true, null);
+			};
+			Product.prototype.updateProduct = (data, cb) => {
+				return cb(true, null);
+			};
+			Product.prototype.closeConnection = () => {
+			};
+			BL.model = Product;
+			BL.updatePackageAclByEnv(soajsClient, null, (err, records) => {
+				assert.ok(err);
+				assert.equal(records, null);
+				assert.deepEqual(err, {
+					code: 400,
+					msg: soajsClient.config.errors[400]
+				});
+				done();
+			});
+		});
+		
+		it("Fails - update package - getProduct error", (done) => {
+			BL.modelObj = {
+				getProduct: (nullObject, cb) => {
+					return cb(null, null);
+				}
+			};
+			BL.updatePackageAclByEnv(soajs, {}, (err, records) => {
+				assert.ok(err);
+				assert.equal(records, null);
+				assert.deepEqual(err, {
+					code: 460,
+					msg: soajs.config.errors[460]
+				});
+				done();
+			});
+		});
+		
+		it("Fails - update package - no record error", (done) => {
+			BL.modelObj = {
+				getProduct: (nullObject, cb) => {
+					return cb(true, null);
+				}
+			};
+			BL.updatePackageAclByEnv(soajs, {}, (err, records) => {
+				assert.ok(err);
+				assert.equal(records, null);
+				assert.deepEqual(err.code, 602);
+				done();
+			});
+		});
+		
+		it("Fails - update package - locked record error", (done) => {
+			BL.modelObj = {
+				getProduct: (nullObject, cb) => {
+					return cb(null, {
+						locked: true,
+						console: true
+					});
+				}
+			};
+			BL.updatePackageAclByEnv(soajs, {}, (err, records) => {
+				assert.ok(err);
+				assert.equal(records, null);
+				assert.deepEqual(err, {
+					code: 500,
+					msg: soajs.config.errors[500]
+				});
+				done();
+			});
+		});
+		
+		it("Fails - update package - data - package not found", (done) => {
+			let inputmaskData = {
+				"code": "NOTFND",
+				"id": "SomeProductID",
+				"acl": {},
+				"env": "dashboard"
+			};
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(null, {
+						"code": "TPROD",
+						"name": "Test Product",
+						"description": "this is a description for test product",
+						"packages": [
+							{
+								"code": "TPROD_BASIC",
+								"name": "basic package",
+								"description": "this is a description for test product basic package",
+								"acl": {
+									"urac": {},
+									"multitenant": {}
+								},
+								"_TTL": 86400000 // 24 hours
+							},
+							{
+								"code": "TPROD_EXAMPLE03",
+								"name": "example03 package",
+								"description": "this is a description for test product example03 package",
+								"acl": {
+									"urac": {},
+									"example03": {}
+								},
+								"_TTL": 86400000 // 24 hours
+							}
+						]
+					});
+				},
+				updateProduct: (data, cb) => {
+					return cb(null, true);
+				}
+			};
+			BL.updatePackageAclByEnv(soajs, inputmaskData, (err) => {
+				assert.ok(err);
+				assert.deepEqual(err, {
+					code: 461,
+					msg: soajs.config.errors[461]
+				});
+				done();
+			});
+		});
+		
+		it("Fails - update package - updateProduct error", (done) => {
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(null, {
+						"code": "TPROD",
+						"name": "Test Product",
+						"description": "this is a description for test product",
+						"packages": [
+							{
+								"code": "TPROD_BASIC",
+								"name": "basic package",
+								"description": "this is a description for test product basic package",
+								"acl": {
+									"urac": {},
+									"multitenant": {}
+								},
+								"_TTL": 86400000 // 24 hours
+							},
+							{
+								"code": "TPROD_EXAMPLE03",
+								"name": "example03 package",
+								"description": "this is a description for test product example03 package",
+								"acl": {
+									"urac": {},
+									"example03": {}
+								},
+								"_TTL": 86400000 // 24 hours
+							}
+						]
+					});
+				},
+				updateProduct: (data, cb) => {
+					return cb(true, null);
+				}
+			};
+			BL.updatePackageAclByEnv(soajs, inputMask, (err) => {
+				assert.ok(err);
+				assert.deepEqual(err.code, 602);
+				done();
+			});
+		});
+		
+	});
 
     describe("Testing delete package inside Product", () => {
         afterEach((done) => {
@@ -2877,7 +3471,10 @@ describe("Unit test for: BL - product", () => {
                 log: {
                     error: () => {
                         console.log();
-                    }
+                    },
+	                debug: () => {
+		                console.log();
+	                },
                 }
             };
 
@@ -2963,7 +3560,10 @@ describe("Unit test for: BL - product", () => {
                 log: {
                     error: () => {
                         console.log();
-                    }
+                    },
+	                debug: () => {
+		                console.log();
+	                },
                 }
             };
 
