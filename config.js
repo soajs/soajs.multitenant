@@ -1159,8 +1159,7 @@ module.exports = {
 					"source": ["body.type"],
 					"required": false,
 					"validation": {
-						"type": "string",
-						"enum": ["granular"]
+						"type": "object"
 					}
 				}
 			},

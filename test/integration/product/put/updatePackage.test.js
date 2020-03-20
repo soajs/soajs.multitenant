@@ -60,7 +60,9 @@ before(function (done) {
 				name: "PACK_NAME2",
 				description: "Pack Description after update",
 				_TTL: "24",
-				type: "granular",
+				type: {
+					"dashboard": "granular"
+				},
 				acl: {}
 			}
 		};
@@ -125,9 +127,13 @@ before(function (done) {
                 code: "TEST2_NEWS",
                 description: "Pack Description after update",
                 acl: {},
+	            aclTypeByEnv: {
+                	dashboard: "granular"
+	            },
                 _TTL: 24 * 3600 * 1000
             });
             let check = validator.validate(body, getProductsSchema);
+            console.log()
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);
             done();

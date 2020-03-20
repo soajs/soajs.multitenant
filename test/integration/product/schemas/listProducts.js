@@ -54,7 +54,11 @@ let listProductsSchema = {
                                 "name": {"type": "string", "required": true},
                                 "description": {"type": "string", "required": false},
                                 "_TTL": {"type": "number", "min": 1, "required": true},
-                                "acl": aclSchema
+                                "acl": aclSchema,
+	                            "aclTypeByEnv": {
+		                            "type": "object",
+		                            "required": false
+	                            }
                             }
                         }
                     }
