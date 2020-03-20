@@ -3162,7 +3162,6 @@ describe("Unit test for: BL - product", () => {
 			BL.model = Product;
 			
 			BL.updatePackageAclByEnv(soajsClient, inputMask, (err, record) => {
-				console.log(err)
 				assert.ok(record);
 				assert.deepEqual(record, "product package EXAMPLE03 updated successfully");
 				done();

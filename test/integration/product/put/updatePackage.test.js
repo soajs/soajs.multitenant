@@ -133,7 +133,6 @@ before(function (done) {
                 _TTL: 24 * 3600 * 1000
             });
             let check = validator.validate(body, getProductsSchema);
-            console.log()
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);
             done();
