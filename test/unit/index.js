@@ -14,7 +14,7 @@ describe("Starting Unit test", () => {
 
     before((done) => {
         let rootPath = process.cwd();
-        imported(rootPath + "/test/data/soajs_profile.js", rootPath + "/test/data/provision_unit/", (err, msg) => {
+	    imported.runPath(rootPath + "/test/data/soajs_profile.js", rootPath + "/test/data/provision_unit/", true, null, (err, msg) => {
             if (err) {
 	            console.log(err);
             }

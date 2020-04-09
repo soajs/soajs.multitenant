@@ -32,8 +32,10 @@ describe("Testing list products API", () => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.data);
+            console.log(body.data)
             assert.ok(body.data.length > 0);
             let check = validator.validate(body, listProductsSchema);
+            console.log(check)
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);
             done();
