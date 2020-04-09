@@ -312,7 +312,7 @@ function run(serviceStartCb) {
 				});
 			});
 			
-			service.start();
+			service.start(serviceStartCb);
 		});
 	});
 }
