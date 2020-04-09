@@ -1,7 +1,6 @@
 'use strict';
 
 let token = {
-    _id: "5cdc190fd52c82e0ddb1dcd5",
     type: "accessToken",
     token: "44a5399dcce96325fadfab908e614bf00e6fe967",
     clientId: "5c0e74ba9acc3c5a84a51259",
