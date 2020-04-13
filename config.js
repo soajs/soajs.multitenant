@@ -1,4 +1,3 @@
-
 /**
  * @license
  * Copyright SOAJS All Rights Reserved.
@@ -13,10 +12,10 @@ let aclSchema = require("./schemas/acl");
 let scopeSchema = require("./schemas/scope");
 
 module.exports = {
-	type: 'service',
-	prerequisites: {
-		cpu: '',
-		memory: ''
+	"type": 'service',
+	"prerequisites": {
+		"cpu": '',
+		"memory": ''
 	},
 	"serviceVersion": 1,
 	"serviceName": "multitenant",
@@ -26,7 +25,16 @@ module.exports = {
 	"requestTimeoutRenewal": 5,
 	"oauth": true,
 	"extKeyRequired": true,
-	'awareness': false,
+	"maintenance": {
+		"readiness": "/heartbeat",
+		"port": {"type": "maintenance"},
+		"commands": [
+			{"label": "Reload Registry", "path": "/reloadRegistry", "icon": "fas fa-undo"},
+			{"label": "Resource Info", "path": "/resourceInfo", "icon": "fas fa-info"}
+		]
+	},
+	
+	//-------------------------------------
 	"tenant": {
 		"generatedCodeLength": 5,
 		"character": "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
@@ -533,7 +541,7 @@ module.exports = {
 								"type": "string",
 								"enum": ['6', '12', '24', '48', '72', '96', '120', '144', '168']
 							},
-							"appKey" : {
+							"appKey": {
 								"type": "object",
 								"required": false,
 								"properties": {
@@ -614,7 +622,7 @@ module.exports = {
 						"enum": ['6', '12', '24', '48', '72', '96', '120', '144', '168']
 					}
 				},
-				"appKey" : {
+				"appKey": {
 					"source": ['body.appKey'],
 					"required": false,
 					"validation": {
@@ -701,7 +709,7 @@ module.exports = {
 						"enum": ['6', '12', '24', '48', '72', '96', '120', '144', '168']
 					}
 				},
-				"appKey" : {
+				"appKey": {
 					"source": ['body.appKey'],
 					"required": false,
 					"validation": {
@@ -1353,7 +1361,7 @@ module.exports = {
 					"l": "Update key information for a tenant application",
 					"group": "Tenant"
 				},
-				"commonFields" : ["appId", "key"],
+				"commonFields": ["appId", "key"],
 				"config": {
 					"source": ['body.config'],
 					"required": true,
@@ -1368,7 +1376,7 @@ module.exports = {
 					"l": "Update key information for a tenant application",
 					"group": "Admin Tenant"
 				},
-				"commonFields" : ["appId", "key"],
+				"commonFields": ["appId", "key"],
 				"id": {
 					"source": ['query.id'],
 					"required": true,
