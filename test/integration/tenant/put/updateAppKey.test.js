@@ -65,8 +65,7 @@ describe("Testing update app key of tenant API", () => {
                     "dashboard": {
                         "commonFields": {},
                         "urac": {
-                            "hashIterations": 1024, //used by hasher
-                            "seedLength": 32, //used by hasher
+                            "hashIterations": 12, //used by hasher
                             "tokenExpiryTTL": 2 * 24 * 3600 * 1000
                         }
                     }
@@ -103,8 +102,7 @@ describe("Testing update app key of tenant API", () => {
                                 "dashboard": {
                                     "commonFields": {},
                                     "urac": {
-                                        "hashIterations": 1024, //used by hasher
-                                        "seedLength": 32, //used by hasher
+                                        "hashIterations": 12, //used by hasher
                                         "tokenExpiryTTL": 2 * 24 * 3600 * 1000
                                     }
                                 }
@@ -132,8 +130,7 @@ describe("Testing update app key of tenant API", () => {
                 config: {
                     "test": {
                         "urac": {
-                            "hashIterations": 1024, //used by hasher
-                            "seedLength": 32, //used by hasher
+                            "hashIterations": 12, //used by hasher
                             "tokenExpiryTTL": 2 * 24 * 3600 * 1000
                         }
                     }
@@ -170,8 +167,7 @@ describe("Testing update app key of tenant API", () => {
                             assert.deepEqual(k.config, {
                                 "test": {
                                     "urac": {
-                                        "hashIterations": 1024, //used by hasher
-                                        "seedLength": 32, //used by hasher
+                                        "hashIterations": 12, //used by hasher
                                         "tokenExpiryTTL": 2 * 24 * 3600 * 1000
                                     }
                                 }
