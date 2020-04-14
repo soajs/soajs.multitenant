@@ -29,12 +29,12 @@
     "grunt-jsdoc": "2.4.0",
     "grunt-mocha-test": "0.13.3",
     "mocha": "6.2.2",
-    "request": "2.88.0",
-    "soajs.controller": "3.*"
+    "request": "2.88.2",
+    "soajs.controller": "3.1.*"
   },
   "dependencies": {
     "async": "3.2.0",
-    "soajs": "3.0.4",
+    "soajs": "3.0.5",
     "soajs.core.libs": "1.2.0"
   }
 }
