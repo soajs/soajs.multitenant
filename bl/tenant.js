@@ -559,10 +559,6 @@ let bl = {
                     if (err) {
                         return cb(bl.handleError(soajs, 471, err));
                     }
-                    let ll = {
-	                    intKey: internalKey ? internalKey : 1,
-	                    extKey: externalKey ? externalKey : 1
-                    };
                     return cb(null, {
                             intKey: internalKey ? internalKey : 1,
                             extKey: externalKey ? externalKey : 1
