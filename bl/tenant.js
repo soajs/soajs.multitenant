@@ -444,7 +444,8 @@ let bl = {
         if (!inputmaskData) {
             return cb(bl.handleError(soajs, 400, null));
         }
-
+console.log("inputmaskData");
+console.log(JSON.stringify(inputmaskData));
         let modelObj = bl.mp.getModel(soajs);
         let data = {};
         data.id = inputmaskData.id;
@@ -560,6 +561,12 @@ let bl = {
                     if (err) {
                         return cb(bl.handleError(soajs, 471, err));
                     }
+                    let ll = {
+	                    intKey: internalKey ? internalKey : 1,
+	                    extKey: externalKey ? externalKey : 1
+                    };
+	                console.log("==================");
+                    console.log(ll);
                     return cb(null, {
                             intKey: internalKey ? internalKey : 1,
                             extKey: externalKey ? externalKey : 1
