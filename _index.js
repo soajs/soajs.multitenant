@@ -197,6 +197,8 @@ function run(serviceStartCb) {
 				bl.tenant.addApplication(req.soajs, req.soajs.inputmaskData, soajs, (error, data) => {
 					console.log(error);
 					console.log(data);
+					let resp = req.soajs.buildResponse(error, data);
+					console.log(resp);
 					return res.json(req.soajs.buildResponse(error, data));
 				});
 			});
