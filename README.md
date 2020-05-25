@@ -9,7 +9,7 @@ SOAJS_SERVICE_MODEL | The model | mongo | other models can be implemented aka or
 
 
 ### Complete Documentation
-More information is available on SOAJS website under the section for [Multitenant](https://soajsorg.atlassian.net/wiki/spaces/MUL).
+More information is available on SOAJS website under the section for [Multitenant](https://soajsorg.atlassian.net/wiki/spaces/MIC/overview).
 
 
 ### License
