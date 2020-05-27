@@ -26,33 +26,34 @@ function Tenant(service, options, mongoCore) {
 			let registry = service.registry.get();
 			__self.mongoCore = new Mongo(registry.coreDB.provision);
 		}
-	}
-	let index = "default";
-	if (options && options.index) {
-		index = options.index;
-	}
-	if (indexing && !indexing[index]) {
-		indexing[index] = true;
-		__self.mongoCore.createIndex(colName, {'code': 1}, {unique: true}, () => {
-		});
-		__self.mongoCore.createIndex(colName, {'_id': 1, 'locked': 1}, () => {
-		});
-		__self.mongoCore.createIndex(colName, {'name': 1}, () => {
-		});
-		__self.mongoCore.createIndex(colName, {'type': 1}, () => {
-		});
-		__self.mongoCore.createIndex(colName, {'console': 1}, () => {
-		});
-		__self.mongoCore.createIndex(colName, {'console': 1, 'type': 1}, () => {
-		});
-		__self.mongoCore.createIndex(colName, {'_id': 1, 'console': 1}, () => {
-		});
-		__self.mongoCore.createIndex(colName, {'applications.keys.extKeys.env': 1}, () => {
-		});
-		__self.mongoCore.createIndex(colName, {'applications.keys.key': 1}, () => {
-		});
 		
-		service.log.debug("Tenant: Indexes for " + index + " Updated!");
+		let index = "default";
+		if (options && options.index) {
+			index = options.index;
+		}
+		if (indexing && !indexing[index]) {
+			indexing[index] = true;
+			__self.mongoCore.createIndex(colName, {'code': 1}, {unique: true}, () => {
+			});
+			__self.mongoCore.createIndex(colName, {'_id': 1, 'locked': 1}, () => {
+			});
+			__self.mongoCore.createIndex(colName, {'name': 1}, () => {
+			});
+			__self.mongoCore.createIndex(colName, {'type': 1}, () => {
+			});
+			__self.mongoCore.createIndex(colName, {'console': 1}, () => {
+			});
+			__self.mongoCore.createIndex(colName, {'console': 1, 'type': 1}, () => {
+			});
+			__self.mongoCore.createIndex(colName, {'_id': 1, 'console': 1}, () => {
+			});
+			__self.mongoCore.createIndex(colName, {'applications.keys.extKeys.env': 1}, () => {
+			});
+			__self.mongoCore.createIndex(colName, {'applications.keys.key': 1}, () => {
+			});
+			
+			service.log.debug("Tenant: Indexes for " + index + " Updated!");
+		}
 	}
 }
 

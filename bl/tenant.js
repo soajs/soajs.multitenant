@@ -284,7 +284,7 @@ let bl = {
                     }
                     record.tenant = {
                         id: mainTenant._id.toString(),
-                        code: mainTenant.code,
+                        code: mainTenant.code
                     };
                     //inherit form main tenant if oauth was not provided
                     if (!inputmaskData.oauth && mainTenant.oauth) {
