@@ -19,7 +19,7 @@ module.exports = {
 	},
 	"serviceVersion": 1,
 	"serviceName": "multitenant",
-	"serviceGroup": "SOAJS Core Services",
+	"serviceGroup": "SOAJS-Core-Service",
 	"servicePort": 4004,
 	"requestTimeout": 30,
 	"requestTimeoutRenewal": 5,
