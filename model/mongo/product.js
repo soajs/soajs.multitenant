@@ -23,29 +23,30 @@ function Product(service, options, mongoCore) {
         __self.mongoCore = mongoCore;
     }
     if (!__self.mongoCore) {
-        if (options && options.dbConfig) {
-            __self.mongoCore = new Mongo(options.dbConfig);
-        } else {
-            let registry = service.registry.get();
-            __self.mongoCore = new Mongo(registry.coreDB.provision);
-        }
-    }
-    let index = "default";
-    if (options && options.index) {
-        index = options.index;
-    }
-    if (indexing && !indexing[index]) {
-        indexing[index] = true;
-        __self.mongoCore.createIndex(colName, {'code': 1}, {unique: true}, () => {
-        });
-
-        __self.mongoCore.createIndex(colName, {'packages.code': 1}, {}, () => {
-        });
-
-        __self.mongoCore.createIndex(colName, {'code': 1, 'packages.code': 1}, {}, () => {
-        });
-
-        service.log.debug("Product: Indexes for " + index + " Updated!");
+	    if (options && options.dbConfig) {
+		    __self.mongoCore = new Mongo(options.dbConfig);
+	    } else {
+		    let registry = service.registry.get();
+		    __self.mongoCore = new Mongo(registry.coreDB.provision);
+	    }
+	
+	    let index = "default";
+	    if (options && options.index) {
+		    index = options.index;
+	    }
+	    if (indexing && !indexing[index]) {
+		    indexing[index] = true;
+		    __self.mongoCore.createIndex(colName, {'code': 1}, {unique: true}, () => {
+		    });
+		
+		    __self.mongoCore.createIndex(colName, {'packages.code': 1}, {}, () => {
+		    });
+		
+		    __self.mongoCore.createIndex(colName, {'code': 1, 'packages.code': 1}, {}, () => {
+		    });
+		
+		    service.log.debug("Product: Indexes for " + index + " Updated!");
+	    }
     }
 }
 
