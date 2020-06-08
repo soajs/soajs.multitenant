@@ -13,13 +13,15 @@ let scopeSchema = require("./schemas/scope");
 
 module.exports = {
 	"type": 'service',
+	'subType': 'soajs',
+	"description": "This microservice is handling everything related to multitenancy and productization.",
 	"prerequisites": {
 		"cpu": '',
 		"memory": ''
 	},
 	"serviceVersion": 1,
 	"serviceName": "multitenant",
-	"serviceGroup": "SOAJS Core Services",
+	"serviceGroup": "Console",
 	"servicePort": 4004,
 	"requestTimeout": 30,
 	"requestTimeoutRenewal": 5,
