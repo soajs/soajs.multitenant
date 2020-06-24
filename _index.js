@@ -53,7 +53,16 @@ function run(serviceStartCb) {
 					return res.json(req.soajs.buildResponse(error, data));
 				});
 			});
-			
+			service.get("/product/acl/ui", (req, res) => {
+				bl.product.getUIProductAcl(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			service.get("/product/package/acl/ui", (req, res) => {
+				bl.product.getUIProductPackageAcl(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
 			
 			//* POST
 			

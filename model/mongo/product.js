@@ -97,15 +97,19 @@ Product.prototype.getProduct = function (data, cb) {
         let error = new Error("id or code is required.");
         return cb(error, null);
     }
-
-    let condition = {
-    	'$and' : [{
-		    "$or": [
-			    {console: false},
-			    {console: null}
-		    ]
-	    }]
-    };
+	
+	let partial = [{
+		console: data.soajs
+	}];
+	if (!data.soajs){
+		partial.push({console: null});
+	}
+	
+	let condition = {
+		'$and' : [{
+			"$or": partial
+		}]
+	};
     if (data.id) {
         __self.validateId(data.id, (err, id) => {
             if (err) {

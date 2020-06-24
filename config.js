@@ -35,7 +35,12 @@ module.exports = {
 			{"label": "Resource Info", "path": "/resourceInfo", "icon": "fas fa-info"}
 		]
 	},
-	
+	"interConnect": [
+		{
+			"name": "marketplace",
+			"version": "1"
+		}
+	],
 	//-------------------------------------
 	"tenant": {
 		"generatedCodeLength": 5,
@@ -216,6 +221,81 @@ module.exports = {
 						"type": "string",
 						"format": "alphanumeric",
 						"maxLength": 6
+					}
+				}
+			},
+			"/product/acl/ui": {
+				_apiInfo: {
+					"l": "Get product",
+					"group": "Product",
+					"groupMain": true
+				},
+				"id": {
+					"source": ['query.id'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"soajs": {
+					"source": ["query.soajs"],
+					"required": false,
+					"validation": {
+						"type": "boolean"
+					}
+				}
+			},
+			"/product/package/acl/ui": {
+				_apiInfo: {
+					"l": "Get product",
+					"group": "Product",
+					"groupMain": true
+				},
+				"id": {
+					"source": ['query.id'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"package": {
+					"source": ['query.package'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"soajs": {
+					"source": ["query.soajs"],
+					"required": false,
+					"validation": {
+						"type": "boolean"
+					}
+				},
+				
+				"config": {
+					"source": ["query.config"],
+					"required": true,
+					"validation": {
+						"type": "object",
+						"properties": {
+							"envs": {
+								"type" : "array",
+								"items": {
+									"type": "string",
+									"uniqueItems": true,
+									"minItems": 1
+								}
+							},
+							"type": {
+								"source": ["query.type"],
+								"required": false,
+								"validation": {
+									"type": "string",
+									"enum": ["granular", "apiGroup"]
+								}
+							}
+						}
 					}
 				}
 			},
