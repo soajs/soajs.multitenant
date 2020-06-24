@@ -99,7 +99,7 @@ Product.prototype.getProduct = function (data, cb) {
     }
 	
 	let partial = [{
-		console: data.soajs
+		console: !!data.soajs
 	}];
 	if (!data.soajs){
 		partial.push({console: null});
