@@ -1295,7 +1295,7 @@ let bl = {
 								};
 								newItem.fixList = acl;
 								async.detect(aclResponse.allServiceApisGranular[item.configuration.group], function(group, callback) {
-									return callback(null, group.name === newItem.name && group.type === newItem.type && group.group === newItem.group)
+									return callback(null, group.name === newItem.name && group.type === newItem.type && group.group === newItem.group);
 								}, function(err, result) {
 									if(!result){
 										aclResponse.allServiceApisGranular[item.configuration.group].push(newItem);
