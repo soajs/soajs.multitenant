@@ -97,7 +97,6 @@ Product.prototype.getProduct = function (data, cb) {
         let error = new Error("id or code is required.");
         return cb(error, null);
     }
-	
 	let partial = [{
 		console: !!data.soajs
 	}];

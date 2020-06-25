@@ -37,7 +37,7 @@ function computeErrorMessageFromService(body) {
 function groupApisForDisplay(apisArray, apiGroupName, cb) {
 	let result = {};
 	let defaultGroupName = 'General';
-	async.eachSeries(apisArray, function (one, callback) {
+	async.each(apisArray, function (one, callback) {
 		if (one[apiGroupName]) {
 			defaultGroupName = one[apiGroupName];
 		}
@@ -67,7 +67,7 @@ function fillServiceAccess(service, currentService, cb) {
 	if (currentService.versions) {
 		service.collapse = false;
 		service.include = true;
-		async.each(currentService.versions, function (v, callback) {
+		async.eachSeries(currentService.versions, function (v, callback) {
 			if (!service[v.version]) {
 				service[v.version] = {
 					include: false
@@ -101,11 +101,11 @@ function fillServiceAccess(service, currentService, cb) {
 }
 
 function fillApiAccess(method, cb) {
-	async.forEachOf(method, function (value, group, callback) {
+	async.forEachOfSeries(method, function (value, group, callback) {
 		if (!value.apis) {
 			return callback();
 		}
-		async.forEachOf(value.apis, function (api, apiName, call) {
+		async.forEachOfSeries(value.apis, function (api, apiName, call) {
 			api.include = true;
 			api.accessType = 'clear';
 			if (api.access === true) {
@@ -128,9 +128,9 @@ function fillApiAccess(method, cb) {
 
 function fillServiceApiAccess(service, currentService, cb) {
 	if (currentService.versions) {
-		async.each(currentService.versions, function (v, callback) {
+		async.eachSeries(currentService.versions, function (v, callback) {
 			if (service[v.version].get || service[v.version].post || service[v.version].put || service[v.version].delete || service[v.version].patch || service[v.version].options || service[v.version].other) {
-				async.forEachOf(service[v.version], function (value, method, call) {
+				async.forEachOfSeries(service[v.version], function (value, method, call) {
 					if (value && ['access', 'apiPermission'].indexOf(method) === -1 && Object.keys(value).length > 0) {
 						fillApiAccess(service[v.version][method], call);
 					} else {
@@ -141,6 +141,9 @@ function fillServiceApiAccess(service, currentService, cb) {
 				return callback();
 			}
 		}, cb);
+	}
+	else {
+		return cb();
 	}
 }
 
@@ -160,7 +163,7 @@ function reFormACL(acl, cb) {
 		});
 	};
 	if (acl && Object.keys(acl).length > 0) {
-		async.forEachOf(acl, function (oneAcl, service, callback) {
+		async.forEachOfSeries(acl, function (oneAcl, service, callback) {
 			newForm[service] = {};
 			for (let version in oneAcl) {
 				if (oneAcl.hasOwnProperty(version) && oneAcl[version]) {
@@ -833,6 +836,7 @@ let bl = {
 			});
 		});
 	},
+	
 	"getUIProductAcl": (soajs, inputmaskData, cb) => {
 		
 		let modelObj = bl.mp.getModel(soajs);
@@ -923,10 +927,10 @@ let bl = {
 							return cb(null, aclResponse);
 						}
 						let myAcl = {};
-						async.forEachOf(product.scope.acl, function (acl, env, aclCall) {
+						async.forEachOfSeries(product.scope.acl, function (acl, env, aclCall) {
 							reFormACL(acl, (result) => {
 								myAcl[env.toUpperCase()] = result;
-								async.forEachOf(myAcl[env.toUpperCase()], function (service, serviceName, serviceCall) {
+								async.forEachOfSeries(myAcl[env.toUpperCase()], function (service, serviceName, serviceCall) {
 									let currentService = {};
 									//need to optimize this search with async
 									for (let group in aclResponse.allServiceApis) {
@@ -939,7 +943,7 @@ let bl = {
 											}
 										}
 									}
-									async.parallel([
+									async.series([
 										function (callback) {
 											fillServiceAccess(service, currentService, callback);
 										},
@@ -1100,14 +1104,14 @@ let bl = {
 					if (!service.versions) {
 						service.versions = [];
 					}
-					async.each(service.versions, function (v, call) {
+					async.eachSeries(service.versions, function (v, call) {
 						serviceList[service.name][v.version] = {};
 						serviceList[service.name]["%serviceGroup%"] = service.configuration.group;
 						if (groups.indexOf(service.configuration.group) === -1) {
 							groups.push(service.configuration.group);
 						}
 						if (v.apis) {
-							async.each(v.apis, function (oneApi, apiCall) {
+							async.eachSeries(v.apis, function (oneApi, apiCall) {
 								serviceList[service.name][v.version][oneApi.v + "%%" + oneApi.m + "%%"] = { // this is used only to allow same rout different method
 									m: oneApi.m,
 									group: oneApi.group ? oneApi.group : "General"
@@ -1183,9 +1187,9 @@ let bl = {
 					});
 				};
 				if (acl && Object.keys(acl).length > 0) {
-					async.forEachOf(acl, function (aclService, service, callback) {
+					async.forEachOfSeries(acl, function (aclService, service, callback) {
 						newForm[service] = {};
-						async.forEachOf(aclService, function (oneVersion, version, versionCall) {
+						async.forEachOfSeries(aclService, function (oneVersion, version, versionCall) {
 							newForm[service][version] = {};
 							if (oneVersion.apisPermission) {
 								newForm[service][version].apisPermission = oneVersion.apisPermission;
@@ -1290,8 +1294,14 @@ let bl = {
 									"versions": item.versions
 								};
 								newItem.fixList = acl;
-								aclResponse.allServiceApisGranular[item.configuration.group].push(newItem);
-								return callback();
+								async.detect(aclResponse.allServiceApisGranular[item.configuration.group], function(group, callback) {
+									return callback(null, group.name === newItem.name && group.type === newItem.type && group.group === newItem.group)
+								}, function(err, result) {
+									if(!result){
+										aclResponse.allServiceApisGranular[item.configuration.group].push(newItem);
+									}
+									return callback();
+								});
 							});
 						} else {
 							return callback();
@@ -1303,7 +1313,7 @@ let bl = {
 					let myAcl = {};
 					reFormPackageAclGranular(aclResponse.aclFill[env.toUpperCase()], (result) => {
 						myAcl[env.toUpperCase()] = result;
-						async.forEachOf(myAcl[env.toUpperCase()], function (service, serviceName, serviceCall) {
+						async.forEachOfSeries(myAcl[env.toUpperCase()], function (service, serviceName, serviceCall) {
 							let currentService = {};
 							//need to optimize this search with async
 							for (let group in aclResponse.allServiceApisGranular) {
@@ -1316,7 +1326,7 @@ let bl = {
 									}
 								}
 							}
-							async.parallel([
+							async.series([
 								function (callback) {
 									fillServiceAccess(service, currentService, callback);
 								},
