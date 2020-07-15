@@ -134,7 +134,7 @@ Tenant.prototype.getConsoleTenant = function (data, cb) {
 		
 		__self.mongoCore.findOne(colName, condition, null, cb);
 	}
-}
+};
 
 Tenant.prototype.listTenants = function (data, cb) {
 	let __self = this;
