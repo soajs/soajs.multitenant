@@ -475,7 +475,7 @@ describe("Unit test for: BL - tenant", () => {
 			};
 			
 			BL.modelObj = {
-				removeApplicationKey: (inputMask, cb) => {
+				getConsoleTenant: (inputMask, cb) => {
 					return cb(null, {
 						"code": "DBTN",
 						"name": "DBTN Tenant",
