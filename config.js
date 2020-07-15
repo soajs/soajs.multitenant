@@ -332,6 +332,19 @@ module.exports = {
 					}
 				}
 			},
+			"/console/tenant": {
+				_apiInfo: {
+					"l": "Get Console tenant",
+					"group": "Console Tenant"
+				},
+				"code": {
+					"source": ['query.code'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				}
+			},
 			"/tenant/application": {
 				_apiInfo: {
 					"l": "Get tenant application",

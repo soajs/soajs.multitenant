@@ -146,6 +146,12 @@ function run(serviceStartCb) {
 				});
 			});
 			
+			service.get("/console/tenant", (req, res) => {
+				bl.tenant.getConsole(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
 			service.get("/tenants", (req, res) => {
 				bl.tenant.list(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));

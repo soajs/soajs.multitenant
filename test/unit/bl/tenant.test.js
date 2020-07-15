@@ -463,6 +463,34 @@ describe("Unit test for: BL - tenant", () => {
 		});
 	});
 	
+	describe("Testing Get console tenant", () => {
+		afterEach((done) => {
+			BL.modelObj = null;
+			done();
+		});
+		
+		it("Success - Get tenant - code", (done) => {
+			let inputMask = {
+				code: "DBTN"
+			};
+			
+			BL.modelObj = {
+				removeApplicationKey: (inputMask, cb) => {
+					return cb(null, {
+						"code": "DBTN",
+						"name": "DBTN Tenant",
+						"description": "this is a description for DBTN tenant",
+					});
+				}
+			};
+			BL.getConsole(soajs, inputMask, (err, record) => {
+				assert.ok(record);
+				assert.deepEqual(record.name, "DBTN Tenant");
+				done();
+			});
+		});
+	});
+	
 	describe("Testing Add tenant", () => {
 		afterEach((done) => {
 			BL.modelObj = null;

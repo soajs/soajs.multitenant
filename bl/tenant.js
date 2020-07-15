@@ -70,6 +70,26 @@ let bl = {
             return cb(null, record);
         });
     },
+	
+	"getConsole": (soajs, inputmaskData, cb) => {
+        if (!inputmaskData) {
+            return cb(bl.handleError(soajs, 400, null));
+        }
+        let modelObj = bl.mp.getModel(soajs);
+        let data = {
+        	code: inputmaskData.code
+        };
+        modelObj.getConsoleTenant(data, (err, record) => {
+            bl.mp.closeModel(soajs, modelObj);
+            if (err) {
+                return cb(bl.handleError(soajs, 602, err));
+            }
+            if (!record) {
+                return cb(bl.handleError(soajs, 450, null));
+            }
+            return cb(null, record);
+        });
+    },
 
     "list": (soajs, inputmaskData, cb) => {
         if (!inputmaskData) {
