@@ -41,6 +41,18 @@ module.exports = {
 			"version": "1"
 		}
 	],
+	
+	"tags": ["productization", "packaging"],
+	"attributes": {
+		"multitenant": ["main tenant", "sub tenant"],
+		"acl": ["by environment", "by tenant", "by key"]
+	},
+	"program": ["soajs"],
+	"documentation": {
+		"readme": "/README.md",
+		"release": "/RELEASE.md"
+	},
+	
 	//-------------------------------------
 	"tenant": {
 		"generatedCodeLength": 5,
