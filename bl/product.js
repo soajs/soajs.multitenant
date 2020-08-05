@@ -857,6 +857,7 @@ let bl = {
 			if (!product) {
 				return cb(bl.handleError(soajs, 460, err), null);
 			}
+			aclResponse.product = product;
 			soajs.awareness.connect("marketplace", "1", (response) => {
 				
 				let options = {
@@ -992,6 +993,7 @@ let bl = {
 			if (!product.packages) {
 				return cb(bl.handleError(soajs, 461, null), null);
 			}
+			aclResponse.product = product;
 			let currentPackage = null;
 			for (let i = 0; i < product.packages.length; i++) {
 				if (product.packages[i].code === inputmaskData.package) {
@@ -1002,6 +1004,7 @@ let bl = {
 			if (!currentPackage) {
 				return cb(bl.handleError(soajs, 461, null), null);
 			}
+			aclResponse.package = currentPackage;
 			aclResponse.aclTypeByEnv = currentPackage.aclTypeByEnv;
 			aclResponse.scopeFill = product.scope && product.scope.acl ? product.scope.acl : {};
 			soajs.awareness.connect("marketplace", "1", (response) => {
