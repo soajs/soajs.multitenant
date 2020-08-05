@@ -9,7 +9,9 @@
 'use strict';
 
 let aclSchema = require("./schemas/acl");
+let updateAclSchema = require("./schemas/updateAcl");
 let scopeSchema = require("./schemas/scope");
+let updateScopeSchema = require("./schemas/updateScope");
 
 module.exports = {
 	"type": 'service',
@@ -1202,7 +1204,7 @@ module.exports = {
 					'validation': {
 						"type": "object",
 						"properties": {
-							"acl": scopeSchema.patternProperties["^[a-zA-Z0-9]+$"]
+							"acl": updateScopeSchema
 						}
 					}
 				},
@@ -1301,7 +1303,7 @@ module.exports = {
 				"acl": {
 					'source': ['body.acl'],
 					'required': true,
-					"validation": aclSchema.validation.patternProperties["^[a-zA-Z0-9]+$"]
+					"validation": updateAclSchema
 				}
 			},
 			
