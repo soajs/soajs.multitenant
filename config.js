@@ -209,10 +209,40 @@ module.exports = {
 					}
 				}
 			},
+			"/product/console": {
+				_apiInfo: {
+					"l": "Get console product",
+					"group": "Console product",
+					"groupMain": true
+				},
+				"id": {
+					"source": ['query.id'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"code": {
+					"source": ["query.code"],
+					"required": false,
+					"validation": {
+						"type": "string",
+						"format": "alphanumeric",
+						"maxLength": 6
+					}
+				}
+			},
 			"/product/packages": {
 				_apiInfo: {
 					"l": "List product packages",
 					"group": "Product"
+				},
+				"commonFields": ['id']
+			},
+			"/product/console/packages": {
+				_apiInfo: {
+					"l": "List console product packages",
+					"group": "Console product"
 				},
 				"commonFields": ['id']
 			},
@@ -238,9 +268,31 @@ module.exports = {
 					}
 				}
 			},
-			"/product/acl/ui": {
+			"/product/console/package": {
 				_apiInfo: {
-					"l": "Get product",
+					"l": "Get console product package",
+					"group": "Console product"
+				},
+				"packageCode": {
+					"source": ["query.packageCode"],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"productCode": {
+					"source": ["query.productCode"],
+					"required": true,
+					"validation": {
+						"type": "string",
+						"format": "alphanumeric",
+						"maxLength": 6
+					}
+				}
+			},
+			"/product/acl/scope/raw": {
+				_apiInfo: {
+					"l": "Get product ACL in raw form",
 					"group": "Product",
 					"groupMain": true
 				},
@@ -259,9 +311,30 @@ module.exports = {
 					}
 				}
 			},
-			"/product/package/acl/ui": {
+			"/product/console/acl/scope/raw": {
 				_apiInfo: {
-					"l": "Get product",
+					"l": "Get console product Acl in raw form",
+					"group": "Console product",
+					"groupMain": true
+				},
+				"id": {
+					"source": ['query.id'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"soajs": {
+					"source": ["query.soajs"],
+					"required": false,
+					"validation": {
+						"type": "boolean"
+					}
+				}
+			},
+			"/product/package/acl/raw": {
+				_apiInfo: {
+					"l": "Get product package ACL in raw form",
 					"group": "Product",
 					"groupMain": true
 				},
@@ -286,7 +359,6 @@ module.exports = {
 						"type": "boolean"
 					}
 				},
-				
 				"config": {
 					"source": ["query.config"],
 					"required": true,
@@ -313,6 +385,368 @@ module.exports = {
 					}
 				}
 			},
+			"/product/console/package/acl/raw": {
+				_apiInfo: {
+					"l": "Get console product package ACL in raw form",
+					"group": "Console product",
+					"groupMain": true
+				},
+				"id": {
+					"source": ['query.id'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"package": {
+					"source": ['query.package'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"soajs": {
+					"source": ["query.soajs"],
+					"required": false,
+					"validation": {
+						"type": "boolean"
+					}
+				},
+				"config": {
+					"source": ["query.config"],
+					"required": true,
+					"validation": {
+						"type": "object",
+						"properties": {
+							"envs": {
+								"type" : "array",
+								"items": {
+									"type": "string",
+									"uniqueItems": true,
+									"minItems": 1
+								}
+							},
+							"type": {
+								"source": ["query.type"],
+								"required": false,
+								"validation": {
+									"type": "string",
+									"enum": ["granular", "apiGroup"]
+								}
+							}
+						}
+					}
+				}
+			},
+			"/product/acl/ui": {
+				_apiInfo: {
+					"l": "Get product Acl in UI form",
+					"group": "Product",
+					"groupMain": true
+				},
+				"id": {
+					"source": ['query.id'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"soajs": {
+					"source": ["query.soajs"],
+					"required": false,
+					"validation": {
+						"type": "boolean"
+					}
+				}
+			},
+			"/product/package/acl/ui": {
+				_apiInfo: {
+					"l": "Get product package ACL in UI form",
+					"group": "Product",
+					"groupMain": true
+				},
+				"id": {
+					"source": ['query.id'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"package": {
+					"source": ['query.package'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"soajs": {
+					"source": ["query.soajs"],
+					"required": false,
+					"validation": {
+						"type": "boolean"
+					}
+				},
+				"config": {
+					"source": ["query.config"],
+					"required": true,
+					"validation": {
+						"type": "object",
+						"properties": {
+							"envs": {
+								"type" : "array",
+								"items": {
+									"type": "string",
+									"uniqueItems": true,
+									"minItems": 1
+								}
+							},
+							"type": {
+								"source": ["query.type"],
+								"required": false,
+								"validation": {
+									"type": "string",
+									"enum": ["granular", "apiGroup"]
+								}
+							}
+						}
+					}
+				}
+			},
+			"/product/console/acl/ui": {
+				_apiInfo: {
+					"l": "Get console product Acl in UI form",
+					"group": "Console product",
+					"groupMain": true
+				},
+				"id": {
+					"source": ['query.id'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"soajs": {
+					"source": ["query.soajs"],
+					"required": false,
+					"validation": {
+						"type": "boolean"
+					}
+				}
+			},
+			"/product/console/package/acl/ui": {
+				_apiInfo: {
+					"l": "Get console product package ACL in UI form",
+					"group": "Console product",
+					"groupMain": true
+				},
+				"id": {
+					"source": ['query.id'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"package": {
+					"source": ['query.package'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"soajs": {
+					"source": ["query.soajs"],
+					"required": false,
+					"validation": {
+						"type": "boolean"
+					}
+				},
+				"config": {
+					"source": ["query.config"],
+					"required": true,
+					"validation": {
+						"type": "object",
+						"properties": {
+							"envs": {
+								"type" : "array",
+								"items": {
+									"type": "string",
+									"uniqueItems": true,
+									"minItems": 1
+								}
+							},
+							"type": {
+								"source": ["query.type"],
+								"required": false,
+								"validation": {
+									"type": "string",
+									"enum": ["granular", "apiGroup"]
+								}
+							}
+						}
+					}
+				}
+			},
+			"/product/package/acl/service": {
+				_apiInfo: {
+					"l": "Get the ACL of a specific service in the product package",
+					"group": "Product"
+				},
+				"packageCode": {
+					"source": ["query.packageCode"],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"productCode": {
+					"source": ["query.productCode"],
+					"required": true,
+					"validation": {
+						"type": "string",
+					}
+				},
+				"mainEnv" :{
+					"source": ["query.mainEnv"],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"secEnv" :{
+					"source": ["query.secEnv"],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"page" :{
+					"source": ["query.page"],
+					"required": false,
+					"validation": {
+						"type": "integer",
+						"minimum": 1
+					}
+				}
+				
+			},
+			"/product/package/acl/api": {
+				_apiInfo: {
+					"l": "Get the ACL of a specific api in the product package",
+					"group": "Product"
+				},
+				"packageCode": {
+					"source": ["query.packageCode"],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"productCode": {
+					"source": ["query.productCode"],
+					"required": true,
+					"validation": {
+						"type": "string",
+						"format": "alphanumeric",
+						"maxLength": 6
+					}
+				},
+				"mainEnv" :{
+					"source": ["query.mainEnv"],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"secEnv" :{
+					"source": ["query.secEnv"],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"page" :{
+					"source": ["query.page"],
+					"required": false,
+					"validation": {
+						"type": "integer",
+						"minimum": 1
+					}
+				}
+			},
+			"/product/acl/scope/service": {
+				_apiInfo: {
+					"l": "Get the ACL of a specific service in the product scope",
+					"group": "Product"
+				},
+				"productCode": {
+					"source": ["query.productCode"],
+					"required": true,
+					"validation": {
+						"type": "string",
+					}
+				},
+				"mainEnv" :{
+					"source": ["query.mainEnv"],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"secEnv" :{
+					"source": ["query.secEnv"],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"page" :{
+					"source": ["query.page"],
+					"required": false,
+					"validation": {
+						"type": "integer",
+						"minimum": 1
+					}
+				}
+				
+			},
+			"/product/acl/scope/api": {
+				_apiInfo: {
+					"l": "Get the ACL of a specific api in the product scope",
+					"group": "Product"
+				},
+				"productCode": {
+					"source": ["query.productCode"],
+					"required": true,
+					"validation": {
+						"type": "string",
+						"format": "alphanumeric",
+						"maxLength": 6
+					}
+				},
+				"mainEnv" :{
+					"source": ["query.mainEnv"],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"secEnv" :{
+					"source": ["query.secEnv"],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"page" :{
+					"source": ["query.page"],
+					"required": false,
+					"validation": {
+						"type": "integer",
+						"minimum": 1
+					}
+				}
+			},
+			
 			"/tenants": {
 				_apiInfo: {
 					"l": "List tenants",
@@ -327,6 +761,13 @@ module.exports = {
 					}
 				}
 			},
+			"/tenants/console": {
+				_apiInfo: {
+					"l": "List console tenants",
+					"group": "Console tenant",
+					"groupMain": true
+				}
+			},
 			"/tenant": {
 				_apiInfo: {
 					"l": "Get tenant",
@@ -335,7 +776,7 @@ module.exports = {
 			},
 			"/admin/tenant": {
 				_apiInfo: {
-					"l": "Get tenant",
+					"l": "Get admin tenant",
 					"group": "Admin Tenant"
 				},
 				"id": {
@@ -346,9 +787,9 @@ module.exports = {
 					}
 				}
 			},
-			"/console/tenant": {
+			"/tenant/console": {
 				_apiInfo: {
-					"l": "Get Console tenant",
+					"l": "Get console tenant",
 					"group": "Console Tenant"
 				},
 				"code": {
@@ -363,6 +804,20 @@ module.exports = {
 				_apiInfo: {
 					"l": "Get tenant application",
 					"group": "Tenant"
+				},
+				"appId": {
+					"source": ['query.appId'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				}
+				
+			},
+			"/tenant/console/application": {
+				_apiInfo: {
+					"l": "Get console tenant application",
+					"group": "Console tenant"
 				},
 				"appId": {
 					"source": ['query.appId'],
@@ -399,6 +854,12 @@ module.exports = {
 					"group": "Tenant"
 				},
 			},
+			"/tenant/console/applications": {
+				_apiInfo: {
+					"l": "List console tenant applications",
+					"group": "Console tenant"
+				},
+			},
 			"/admin/tenant/applications": {
 				_apiInfo: {
 					"l": "List tenant applications",
@@ -411,6 +872,27 @@ module.exports = {
 						"type": "string"
 					}
 				}
+			},
+			"/tenant/application/keys": {
+				_apiInfo: {
+					"l": "List tenant application keys",
+					"group": "Tenant"
+				},
+				"commonFields": ['appId']
+			},
+			"/tenant/console/application/keys": {
+				_apiInfo: {
+					"l": "List console tenant application keys",
+					"group": "Console tenant"
+				},
+				"commonFields": ['appId']
+			},
+			"/admin/tenant/application/keys": {
+				_apiInfo: {
+					"l": "List tenant application keys",
+					"group": "Tenant"
+				},
+				"commonFields": ['id', 'appId']
 			},
 			"/tenant/application/key/ext": {
 				_apiInfo: {
@@ -432,17 +914,10 @@ module.exports = {
 					}
 				}
 			},
-			"/admin/tenant/application/key/ext": {
+			"/tenant/console/application/key/ext": {
 				_apiInfo: {
-					"l": "List tenant application ext keys",
-					"group": "Admin Tenant"
-				},
-				"id": {
-					"source": ['query.id'],
-					"required": true,
-					"validation": {
-						"type": "string"
-					}
+					"l": "List console tenant application ext keys",
+					"group": "Console Tenant"
 				},
 				"appId": {
 					"source": ['query.appId'],
@@ -458,7 +933,68 @@ module.exports = {
 						"type": "string"
 					}
 				}
-			}
+			},
+			"/admin/tenant/application/key/ext": {
+				_apiInfo: {
+					"l": "List tenant application ext keys",
+					"group": "Admin Tenant"
+				},
+				"commonFields": ['id'],
+				"appId": {
+					"source": ['query.appId'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"key": {
+					"source": ['query.key'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+			},
+			"/tenant/application/key/config": {
+				_apiInfo: {
+					"l": "List tenant application key configuration",
+					"group": "Tenant"
+				},
+				"commonFields": ['appId', 'key', 'soajs_project']
+			},
+			"/tenant/console/application/key/config": {
+				_apiInfo: {
+					"l": "List tenant application key configuration",
+					"group": "Tenant Application"
+				},
+				"commonFields": ['appId', 'key', 'soajs_project']
+			},
+			"/admin/tenant/application/key/config": {
+				_apiInfo: {
+					"l": "List tenant application key configuration",
+					"group": "Tenant"
+				},
+				"commonFields": ['id', 'appId', 'key', 'soajs_project']
+			},
+			"/tenant/oauth/users": {
+				_apiInfo: {
+					"l": "List tenant oauth users",
+					"group": "Tenant"
+				}
+			},
+			"/tenant/console/oauth/users": {
+				_apiInfo: {
+					"l": "List console tenant oauth users",
+					"group": "Tenant"
+				}
+			},
+			"/admin/tenant/oauth/users": {
+				_apiInfo: {
+					"l": "List tenant oauth users",
+					"group": "Tenant"
+				},
+				"commonFields": ['id']
+			},
 		},
 		
 		"post": {
@@ -491,10 +1027,76 @@ module.exports = {
 				}
 			},
 			
+			"/product/console": {
+				_apiInfo: {
+					"l": "Add console product",
+					"group": "Console product",
+					"groupMain": true
+				},
+				"commonFields": ['description', 'name'],
+				"code": {
+					"source": ['body.code'],
+					"required": true,
+					"validation": {
+						"type": "string",
+						"format": "alphanumeric",
+						"minLength": 4,
+						"maxLength": 5
+					}
+				},
+				"scope": {
+					'source': ['body.scope'],
+					'required': false,
+					'validation': {
+						"type": "object",
+						"properties": {
+							"acl": scopeSchema
+						}
+					}
+				}
+			},
+			
 			"/product/package": {
 				_apiInfo: {
-					"l": "Add package to product",
+					"l": "Add a package to product",
 					"group": "Product"
+				},
+				"commonFields": ['id', 'name', 'description', '_TTL', 'acl'],
+				"code": {
+					"source": ["body.code"],
+					"required": true,
+					"validation": {
+						"type": "string",
+						"format": "alphanumeric",
+						"minLength": 4,
+						"maxLength": 5
+					}
+				},
+				"tags": {
+					"source": ['body.tags'],
+					"required": false,
+					"validation": {
+						"type": "array",
+						"items": {
+							"type": "string",
+							"uniqueItems": true,
+							"minItems": 1
+						}
+					}
+				},
+				"type": {
+					"source": ['body.type'],
+					"required": false,
+					"validation": {
+						"type": "object"
+					}
+				},
+			},
+			
+			"/product/console/package": {
+				_apiInfo: {
+					"l": "Add a package to console product",
+					"group": "Console product"
 				},
 				"commonFields": ['id', 'name', 'description', '_TTL', 'acl'],
 				"code": {
@@ -559,11 +1161,162 @@ module.exports = {
 						"type": "string"
 					}
 				},
-				"console": {
-					"source": ['body.console'],
+				"mainTenant": {
+					"source": ['body.mainTenant'],
 					"required": false,
 					"validation": {
-						"type": "boolean"
+						"type": "string"
+					}
+				},
+				"profile": {
+					"source": ['body.profile'],
+					"required": false,
+					"validation": {
+						"type": "object"
+					}
+				},
+				"oauth": {
+					"source": ['body.oauth'],
+					"required": false,
+					"validation": {
+						"type": "object",
+						"properties": {
+							"secret": {
+								"type": "string",
+								"required": true
+							},
+							"redirectURI": {
+								"type": "string",
+								"required": true
+							},
+							"grants": {
+								"type": "array",
+								"required": true,
+								"minItems": 1,
+								"items": {
+									"type": "string",
+								}
+							},
+							"disabled": {
+								"type": "integer",
+								"required": true,
+								"enum": [0, 1]
+							},
+							"type": {
+								"type": "integer",
+								"required": true,
+								"enum": [1, 2]
+							},
+							"loginMode": {
+								"type": "string",
+								"required": true,
+								"enum": ["urac", "oauth"]
+							},
+							"pin": {
+								"type": "object",
+								"required": false,
+							}
+						}
+					}
+				},
+				"application": {
+					"source": ['body.application'],
+					"required": false,
+					"validation": {
+						"type": "object",
+						"properties": {
+							"description": {
+								"type": "string",
+								"required": false
+							},
+							"productCode": {
+								"type": "string",
+								"required": true,
+								"format": "alphanumeric",
+								"maxLength": 5
+							},
+							"packageCode": {
+								"type": "string",
+								"required": true,
+								"format": "alphanumeric",
+								"maxLength": 5
+							},
+							"_TTL": {
+								"type": "string",
+								"enum": ['6', '12', '24', '48', '72', '96', '120', '144', '168']
+							},
+							"appKey": {
+								"type": "object",
+								"required": false,
+								"properties": {
+									"config": {
+										"type": "object",
+										"required": false
+									},
+									"extKey": {
+										"type": "object",
+										"required": false,
+										"properties": {
+											"label": {
+												"type": "string",
+												"required": true
+											},
+											"env": {
+												"type": "string",
+												"required": true
+											},
+											"expDate": {
+												"type": "string",
+												"required": false,
+												"format": "date-time"
+											},
+											"device": {
+												"type": "object",
+												"required": false
+											},
+											"geo": {
+												"type": "object",
+												"required": false
+											}
+										}
+									}
+								}
+							},
+						},
+						"additionalProperties": false
+					}
+				}
+			},
+			
+			"/tenant/console": {
+				_apiInfo: {
+					"l": "Add console tenant with optional application, key, and ext key",
+					"group": "Console tenant"
+				},
+				"commonFields": ['name', 'description'],
+				"code": {
+					"source": ['body.code'],
+					"required": false,
+					"validation": {
+						"type": "string",
+						"format": "alphanumeric",
+						"maxLength": 5
+					}
+				},
+				"type": {
+					"source": ['body.type'],
+					"required": true,
+					"default": "client",
+					"validation": {
+						"type": "string",
+						"enum": ["product", "client"]
+					}
+				},
+				"tag": {
+					"source": ['body.tag'],
+					"required": false,
+					"validation": {
+						"type": "string"
 					}
 				},
 				"mainTenant": {
@@ -860,6 +1613,86 @@ module.exports = {
 				}
 			},
 			
+			"/tenant/console/application": {
+				_apiInfo: {
+					"l": "Add application to console tenant with optional key and ext key",
+					"group": "Console tenant"
+				},
+				"description": {
+					"source": ['body.description'],
+					"validation": {
+						"type": "string"
+					},
+					"required": false
+				},
+				"productCode": {
+					"source": ['body.productCode'],
+					"validation": {
+						"type": "string",
+						"format": "alphanumeric",
+						"maxLength": 5
+					},
+					"required": true
+				},
+				"packageCode": {
+					"source": ['body.packageCode'],
+					"validation": {
+						"type": "string",
+						"format": "alphanumeric",
+						"maxLength": 5
+					},
+					"required": true
+				},
+				"_TTL": {
+					"source": ['body._TTL'],
+					"required": true,
+					"validation": {
+						"type": "string",
+						"enum": ['6', '12', '24', '48', '72', '96', '120', '144', '168']
+					}
+				},
+				"appKey": {
+					"source": ['body.appKey'],
+					"required": false,
+					"validation": {
+						"type": "object",
+						"properties": {
+							"config": {
+								"type": "object",
+								"required": false
+							},
+							"extKey": {
+								"type": "object",
+								"required": false,
+								"properties": {
+									"label": {
+										"type": "string",
+										"required": true
+									},
+									"env": {
+										"type": "string",
+										"required": true
+									},
+									"expDate": {
+										"type": "string",
+										"required": false,
+										"format": "date-time"
+									},
+									"device": {
+										"type": "object",
+										"required": false
+									},
+									"geo": {
+										"type": "object",
+										"required": false
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			
 			"/tenant/application/key": {
 				_apiInfo: {
 					"l": "Add key to a tenant application with optional ext key",
@@ -957,10 +1790,55 @@ module.exports = {
 				}
 			},
 			
+			"/tenant/console/application/key": {
+				_apiInfo: {
+					"l": "Add key to a console tenant application with optional ext key",
+					"group": "Console tenant"
+				},
+				"commonFields": ['appId'],
+				"config": {
+					"source": ['body.config'],
+					"required": false,
+					"validation": {
+						"type": "object",
+					}
+				},
+				"extKey": {
+					"source": ['body.extKey'],
+					"required": false,
+					"validation": {
+						"type": "object",
+						"properties": {
+							"label": {
+								"type": "string",
+								"required": true
+							},
+							"env": {
+								"type": "string",
+								"required": true
+							},
+							"expDate": {
+								"type": "string",
+								"required": false,
+								"format": "date-time"
+							},
+							"device": {
+								"type": "object",
+								"required": false
+							},
+							"geo": {
+								"type": "object",
+								"required": false
+							}
+						}
+					}
+				}
+			},
+			
 			"/tenant/application/key/ext": {
 				_apiInfo: {
 					"l": "Add external key to tenant application",
-					"group": "Tenant Access"
+					"group": "Tenant"
 				},
 				"commonFields": ['appId', 'key', "expDate", "device", "geo"],
 				"label": {
@@ -1006,11 +1884,57 @@ module.exports = {
 					},
 					"required": true
 				}
-			}
+			},
+			
+			"/tenant/console/application/key/ext": {
+				_apiInfo: {
+					"l": "Add console external key to tenant application",
+					"group": "Console tenant"
+				},
+				"commonFields": ['appId', 'key', "expDate", "device", "geo"],
+				"label": {
+					"source": ['body.label'],
+					"validation": {
+						"type": "string",
+					},
+					"required": true
+				},
+				"env": {
+					"source": ['body.env'],
+					"validation": {
+						"type": "string",
+					},
+					"required": true
+				}
+			},
+			
+			"/tenant/oauth/user": {
+				_apiInfo: {
+					"l": "Add tenant oauth user",
+					"group": "Tenant"
+				},
+				"commonFields": ['userId', 'password', 'soajs_project']
+			},
+			
+			"/tenant/console/oauth/user": {
+				_apiInfo: {
+					"l": "Add console tenant oauth user",
+					"group": "Console tenant"
+				},
+				"commonFields": ['userId', 'password', 'soajs_project']
+			},
+			
+			"/admin/tenant/oauth/user": {
+				_apiInfo: {
+					"l": "Add tenant oauth user",
+					"group": "Tenant"
+				},
+				"commonFields": ['id', 'userId', 'password']
+			},
 		},
 		
 		"delete": {
-			"/product": {
+			"/product": {//
 				_apiInfo: {
 					"l": "Delete product",
 					"group": "Product",
@@ -1031,7 +1955,7 @@ module.exports = {
 					}
 				}
 			},
-			"/product/package": {
+			"/product/package": {//
 				_apiInfo: {
 					"l": "Delete product package",
 					"group": "Product"
@@ -1043,11 +1967,55 @@ module.exports = {
 					"validation": {
 						"type": "string"
 					}
+				},
+				"soajs": {
+					"source": ["query.soajs"],
+					"required": false,
+					"validation": {
+						"type": "boolean"
+					}
+				},
+			},
+			
+			"/product/console": {//
+				_apiInfo: {
+					"l": "Delete console product",
+					"group": "Console product",
+					"groupMain": true
+				},
+				"id": {
+					"source": ['query.id'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"code": {
+					"source": ['query.code'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
 				}
 			},
+			"/product/package/console": {//
+				_apiInfo: {
+					"l": "Delete console product package",
+					"group": " Console product"
+				},
+				"commonFields": ['id'],
+				"packageCode": {
+					"source": ['query.packageCode'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				}
+			},
+			
 			"/tenant": {
 				_apiInfo: {
-					"l": "Delete Tenant",
+					"l": "Delete tenant",
 					"group": "Tenant"
 				},
 				"id": {
@@ -1166,22 +2134,153 @@ module.exports = {
 						"type": "string"
 					}
 				}
+			},
+			
+			"/tenant/console": {
+				_apiInfo: {
+					"l": "Delete console tenant",
+					"group": "Console tenant"
+				},
+				"id": {
+					"source": ['query.id'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"code": {
+					"source": ['query.code'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				}
+			},
+			"/tenant/console/application": {
+				_apiInfo: {
+					"l": "Delete console tenant application",
+					"group": "Console tenant"
+				},
+				"id": {
+					"source": ['query.id'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"code": {
+					"source": ['query.code'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"appId": {
+					"source": ['query.appId'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				}
+			},
+			"/tenant/console/application/key": {
+				_apiInfo: {
+					"l": "Delete console tenant application key",
+					"group": "Console tenant"
+				},
+				"id": {
+					"source": ['query.id'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"code": {
+					"source": ['query.code'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"appId": {
+					"source": ['query.appId'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"key": {
+					"source": ['query.key'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				}
+			},
+			"/tenant/console/application/key/ext": {
+				_apiInfo: {
+					"l": "Delete console tenant application external key",
+					"group": "Console tenant"
+				},
+				"id": {
+					"source": ['query.id'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"code": {
+					"source": ['query.code'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"appId": {
+					"source": ['query.appId'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"key": {
+					"source": ['query.key'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"extKey": {
+					"source": ['query.extKey'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				}
 			}
 		},
 		
 		"put": {
 			"/product/purge": {
 				_apiInfo: {
-					"l": "Purge ACL for a Product and all its packages",
+					"l": "Purge ACL for a product and all its packages",
 					"group": "Product"
 				},
 				"commonFields": ['id']
 			},
 			
-			"/product": {
+			"/product": {//
 				_apiInfo: {
 					"l": "Update product",
 					"group": "Product"
+				},
+				"commonFields": ['id', 'name', 'description']
+			},
+			
+			"/product/console": {//
+				_apiInfo: {
+					"l": "Update console product",
+					"group": "Console product"
 				},
 				"commonFields": ['id', 'name', 'description']
 			},
@@ -1204,10 +2303,53 @@ module.exports = {
 				}
 			},
 			
+			"/product/console/scope": {
+				_apiInfo: {
+					"l": "Update console product ACL scope",
+					"group": "Console product"
+				},
+				"commonFields": ['id'],
+				"scope": {
+					'source': ['body.scope'],
+					'required': true,
+					'validation': {
+						"type": "object",
+						"properties": {
+							"acl": scopeSchema
+						}
+					}
+				}
+			},
+			
 			"/product/scope/env": {
 				_apiInfo: {
 					"l": "Update product ACL scope by env",
 					"group": "Product"
+				},
+				"commonFields": ['id'],
+				"acl": {
+					'source': ['body.acl'],
+					'required': true,
+					'validation': {
+						"type": "object",
+						"properties": {
+							"acl": updateScopeSchema
+						}
+					}
+				},
+				"env": {
+					"required": true,
+					"source": ["query.env"],
+					"validation": {
+						"type": "string"
+					}
+				}
+			},
+			
+			"/product/console/scope/env": {
+				_apiInfo: {
+					"l": "Update console product ACL scope by env",
+					"group": "Console product"
 				},
 				"commonFields": ['id'],
 				"acl": {
@@ -1252,6 +2394,72 @@ module.exports = {
 						"maxLength": 5
 					}
 				},
+				"soajs": {
+					"source": ["query.soajs"],
+					"required": false,
+					"validation": {
+						"type": "boolean"
+					}
+				},
+				"_TTL": {
+					"source": ['body._TTL'],
+					"required": false,
+					"validation": {
+						"type": "string",
+						"enum": ['6', '12', '24', '48', '72', '96', '120', '144', '168']
+					}
+				},
+				"tags": {
+					"source": ['body.tags'],
+					"required": false,
+					"validation": {
+						"type": "array",
+						"items": {
+							"type": "string",
+							"uniqueItems": true,
+							"minItems": 1
+						}
+					}
+				},
+				"type": {
+					"source": ["body.type"],
+					"required": false,
+					"validation": {
+						"type": "object"
+					}
+				}
+			},
+			
+			"/product/console/package": {
+				_apiInfo: {
+					"l": "Update console product package",
+					"group": "Console product"
+				},
+				"commonFields": ['id', 'description', 'acl'],
+				"name": {
+					"source": ["body.name"],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"code": {
+					"source": ["body.code"],
+					"required": true,
+					"validation": {
+						"type": "string",
+						"format": "alphanumeric",
+						"minLength": 4,
+						"maxLength": 5
+					}
+				},
+				"soajs": {
+					"source": ["query.soajs"],
+					"required": false,
+					"validation": {
+						"type": "boolean"
+					}
+				},
 				"_TTL": {
 					"source": ['body._TTL'],
 					"required": false,
@@ -1283,7 +2491,7 @@ module.exports = {
 			
 			"/product/package/acl/env": {
 				_apiInfo: {
-					"l": "Update product package",
+					"l": "Update product package ACL by env",
 					"group": "Product"
 				},
 				"commonFields": ['id'],
@@ -1319,10 +2527,197 @@ module.exports = {
 				}
 			},
 			
+			"/product/console/package/acl/env": {
+				_apiInfo: {
+					"l": "Update console product package",
+					"group": "Console product"
+				},
+				"commonFields": ['id'],
+				"code": {
+					"source": ["body.code"],
+					"required": true,
+					"validation": {
+						"type": "string",
+						"format": "alphanumeric",
+						"minLength": 4,
+						"maxLength": 5
+					}
+				},
+				"type": {
+					"source": ["body.type"],
+					"required": false,
+					"validation": {
+						"type": "string",
+						"enum": ["granular"]
+					}
+				},
+				"env": {
+					"source": ["query.env"],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"acl": {
+					'source': ['body.acl'],
+					'required': true,
+					"validation": updateAclSchema
+				}
+			},
+			
+			"/product/package/acl/service": {
+				_apiInfo: {
+					"l": "Update the ACL of a specific service in the product package",
+					"group": "Product"
+				},
+				"commonFields": ['soajs_project'],
+				"packageCode": {
+					"source": ["body.packageCode", "query.packageCode"],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"productCode": {
+					"source": ["body.productCode", "query.productCode"],
+					"required": true,
+					"validation": {
+						"type": "string",
+					}
+				},
+				"env" :{
+					"source": ["body.env", "query.env"],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"acl" :{
+					"source": ["body.acl"],
+					"required": true,
+					"validation": {
+						"type": "array"
+					}
+				}
+			},
+			
+			"/product/package/acl/api": {
+				_apiInfo: {
+					"l": "Update the ACL of a specific api in the product package",
+					"group": "Product"
+				},
+				"packageCode": {
+					"source": ["body.packageCode", "query.packageCode"],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"productCode": {
+					"source": ["body.productCode", "query.productCode"],
+					"required": true,
+					"validation": {
+						"type": "string",
+					}
+				},
+				"env" :{
+					"source": ["body.env", "query.env"],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"acl" :{
+					"source": ["body.acl"],
+					"required": true,
+					"validation": {
+						"type": "array"
+					}
+				}
+			},
+			
+			"/product/scope/acl/service": {
+				_apiInfo: {
+					"l": "Update the ACL of a specific service in the product scope",
+					"group": "Product"
+				},
+				"productCode": {
+					"source": ["body.productCode", "query.productCode"],
+					"required": true,
+					"validation": {
+						"type": "string",
+					}
+				},
+				"env" :{
+					"source": ["body.env", "query.env"],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"acl" :{
+					"source": ["body.acl"],
+					"required": true,
+					"validation": {
+						"type": "array"
+					}
+				}
+			},
+			
+			"/product/scope/acl/api": {
+				_apiInfo: {
+					"l": "Update the ACL of a specific api in the product scope",
+					"group": "Product"
+				},
+				"productCode": {
+					"source": ["body.productCode", "query.productCode"],
+					"required": true,
+					"validation": {
+						"type": "string",
+					}
+				},
+				"env" :{
+					"source": ["body.env", "query.env"],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"acl" :{
+					"source": ["body.acl"],
+					"required": true,
+					"validation": {
+						"type": "array"
+					}
+				}
+			},
+			
 			"/tenant": {
 				_apiInfo: {
 					"l": "Update tenant",
 					"group": "Tenant"
+				},
+				"commonFields": ['description'],
+				"tag": {
+					"source": ['body.tag'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"name": {
+					"source": ['body.name'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+			},
+			
+			"/tenant/console": {
+				_apiInfo: {
+					"l": "Update console tenant",
+					"group": "Console tenant"
 				},
 				"commonFields": ['description'],
 				"tag": {
@@ -1372,8 +2767,22 @@ module.exports = {
 			
 			"/tenant/profile": {
 				_apiInfo: {
-					"l": "Update profile",
+					"l": "Update tenant profile",
 					"group": "Tenant"
+				},
+				"profile": {
+					"source": ['body.profile'],
+					"required": true,
+					"validation": {
+						"type": "object"
+					}
+				},
+			},
+			
+			"/tenant/console/profile": {
+				_apiInfo: {
+					"l": "Update tenant profile",
+					"group": "Console Tenant"
 				},
 				"profile": {
 					"source": ['body.profile'],
@@ -1409,6 +2818,37 @@ module.exports = {
 				_apiInfo: {
 					"l": "Update tenant application",
 					"group": "Tenant"
+				},
+				"commonFields": ['description'],
+				"appId": {
+					"source": ['body.appId'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"_TTL": {
+					"source": ['body._TTL'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"packageCode": {
+					"source": ['body.packageCode'],
+					"validation": {
+						"type": "string",
+						"format": "alphanumeric",
+						"maxLength": 5
+					},
+					"required": false
+				},
+			},
+			
+			"/tenant/console/application": {
+				_apiInfo: {
+					"l": "Update console tenant application",
+					"group": "Console tenant"
 				},
 				"commonFields": ['description'],
 				"appId": {
@@ -1480,6 +2920,21 @@ module.exports = {
 				}
 			},
 			
+			"/tenant/console/application/key": {
+				_apiInfo: {
+					"l": "Update key information for a console tenant application",
+					"group": "Console tenant"
+				},
+				"commonFields": ["appId", "key"],
+				"config": {
+					"source": ['body.config'],
+					"required": true,
+					"validation": {
+						"type": "object"
+					}
+				}
+			},
+			
 			"/admin/tenant/application/key": {
 				_apiInfo: {
 					"l": "Update key information for a tenant application",
@@ -1506,6 +2961,28 @@ module.exports = {
 				_apiInfo: {
 					"l": "Update external key information for a tenant application",
 					"group": "Tenant Access"
+				},
+				"commonFields": ['appId', 'key', 'extKey', 'expDate', 'device', 'geo'],
+				"label": {
+					"source": ['body.label'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"extKeyEnv": {
+					"source": ['body.extKeyEnv'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				}
+			},
+			
+			"/tenant/console/application/key/ext": {
+				_apiInfo: {
+					"l": "Update external key information for a console tenant application",
+					"group": "Console tenant"
 				},
 				"commonFields": ['appId', 'key', 'extKey', 'expDate', 'device', 'geo'],
 				"label": {
@@ -1552,7 +3029,190 @@ module.exports = {
 					}
 				}
 				//todo: add config
-			}
+			},
+			
+			"/tenant/application/key/config": {
+				_apiInfo: {
+					"l": "Update tenant application key configuration",
+					"group": "Tenant Application"
+				},
+				"commonFields": ['appId', 'key', 'envCode', 'config']
+			},
+			
+			"/tenant/console/application/key/config": {
+				_apiInfo: {
+					"l": "Update console tenant application key configuration",
+					"group": "Console tenant"
+				},
+				"commonFields": ['appId', 'key', 'envCode', 'config']
+			},
+			
+			"/admin/tenant/application/key/config": {
+				_apiInfo: {
+					"l": "Update tenant application key configuration",
+					"group": "Admin Tenant"
+				},
+				"commonFields": ['id', 'appId', 'key', 'envCode', 'config']
+			},
+			
+			"/tenant/oauth/update": {
+				_apiInfo: {
+					"l": "Update tenant oauth configuration",
+					"group": "Tenant"
+				},
+				"commonFields": ['secret', 'redirectURI', 'availableEnv'],
+				"type": {
+					"source": ['body.type'],
+					"required": false,
+					"validation": {
+						"type": "number",
+						"enum": [0, 2]
+					}
+				},
+				"oauthType": {
+					"source": ['body.oauthType'],
+					"required": false,
+					"validation": {
+						"type": "string",
+						"enum": ["urac", "miniurac", "off"]
+					}
+				},
+				"pin": {
+					"source": ['body.pin'],
+					"required": false,
+					"validation": {
+						"type": "object"
+					}
+				},
+			},
+			
+			"/tenant/console/oauth/update": {
+				_apiInfo: {
+					"l": "Update console tenant oauth configuration",
+					"group": "Console tenant"
+				},
+				"commonFields": ['secret', 'redirectURI', 'availableEnv'],
+				"type": {
+					"source": ['body.type'],
+					"required": false,
+					"validation": {
+						"type": "number",
+						"enum": [0, 2]
+					}
+				},
+				"oauthType": {
+					"source": ['body.oauthType'],
+					"required": false,
+					"validation": {
+						"type": "string",
+						"enum": ["urac", "miniurac", "off"]
+					}
+				},
+				"pin": {
+					"source": ['body.pin'],
+					"required": false,
+					"validation": {
+						"type": "object"
+					}
+				},
+			},
+			
+			"/admin/tenant/oauth/update": {
+				_apiInfo: {
+					"l": "Update tenant oauth configuration",
+					"group": "Admin tenant"
+				},
+				"commonFields": ['id', 'secret', 'redirectURI', 'availableEnv'],
+				"type": {
+					"source": ['body.type'],
+					"required": false,
+					"validation": {
+						"type": "number",
+						"enum": [0, 2]
+					}
+				},
+				"oauthType": {
+					"source": ['body.oauthType'],
+					"required": false,
+					"validation": {
+						"type": "string",
+						"enum": ["urac", "miniurac", "off"]
+					}
+				},
+				"pin": {
+					"source": ['body.pin'],
+					"required": false,
+					"validation": {
+						"type": "object"
+					}
+				},
+			},
+			
+			"/tenant/oauth/user": {
+				_apiInfo: {
+					"l": "Update Tenant oAuth User",
+					"group": "Tenant oAuth"
+				},
+				"commonFields": ['uId'],
+				"userId": {
+					"source": ['body.userId'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"password": {
+					"source": ['body.password'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				}
+			},
+			
+			"/tenant/console/oauth/user": {
+				_apiInfo: {
+					"l": "Update console tenant oauth user",
+					"group": "Console Tenant"
+				},
+				"commonFields": ['uId'],
+				"userId": {
+					"source": ['body.userId'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"password": {
+					"source": ['body.password'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				}
+			},
+			
+			"/admin/tenant/oauth/user": {
+				_apiInfo: {
+					"l": "Update admin tenant oauth user",
+					"group": "Admin tenant"
+				},
+				"commonFields": ['id', 'uId'],
+				"userId": {
+					"source": ['body.userId'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"password": {
+					"source": ['body.password'],
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				}
+			},
 		}
 	}
 };
