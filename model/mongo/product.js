@@ -71,7 +71,10 @@ Product.prototype.listConsoleProducts = function (data, cb) {
     let __self = this;
 
     let condition = {
-        console: true
+	    $or: [
+		    {console: true},
+		    {code: "DBTN"},
+	    ]
     };
     __self.mongoCore.find(colName, condition, null, (err, records) => {
 	    async.map(records, function (record, callback) {
