@@ -1236,7 +1236,7 @@ let bl = {
 										temp.restriction[inputmaskData.secEnv] = scope.acl[inputmaskData.secEnv][service.name][v].apisPermission === "restricted";
 									}
 								}
-								acl.push(temp)
+								acl.push(temp);
 							});
 						}
 						callback();
@@ -1893,7 +1893,7 @@ let bl = {
 						record.packages[i].aclTypeByEnv[inputmaskData.env.toLowerCase()] = inputmaskData.type;
 					} else {
 						if (record.packages[i].aclTypeByEnv) {
-							delete record.packages[i].aclTypeByEnv[req.soajs.inputmaskData.env.toLowerCase()];
+							delete record.packages[i].aclTypeByEnv[inputmaskData.env.toLowerCase()];
 						}
 						
 					}
@@ -1988,7 +1988,7 @@ let bl = {
 					if (err) {
 						return cb(bl.handleError(soajs, 470, err));
 					}
-					return cb(null, "Product Acl Updated!")
+					return cb(null, "Product Acl Updated!");
 				});
 			});
 		});
@@ -2075,7 +2075,7 @@ let bl = {
 					if (err) {
 						return cb(bl.handleError(soajs, 470, err));
 					}
-					return cb(null, "Product Acl Updated!")
+					return cb(null, "Product Acl Updated!");
 				});
 			});
 		});
@@ -2146,7 +2146,7 @@ let bl = {
 					if (err) {
 						return cb(bl.handleError(soajs, 470, err));
 					}
-					return cb(null, "Product Package Acl Updated!")
+					return cb(null, "Product Package Acl Updated!");
 				});
 			});
 		});
@@ -2210,7 +2210,7 @@ let bl = {
 					if (err) {
 						return cb(bl.handleError(soajs, 470, err));
 					}
-					return cb(null, "Product Package Acl Updated!")
+					return cb(null, "Product Package Acl Updated!");
 				});
 			});
 		});
