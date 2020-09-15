@@ -107,6 +107,13 @@ let bl = {
             return cb(null, record ? record : []);
         });
     },
+	
+	"listConsole": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		return cb(null, null);
+	},
 
     "getApplication": (soajs, inputmaskData, cb) => {
         if (!inputmaskData) {
@@ -170,6 +177,13 @@ let bl = {
             return cb(null, record.applications ? record.applications : []);
         });
     },
+	
+	"listApplicationKeys": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		return cb(null, null);
+	},
 
     "listApplicationExtKeys": (soajs, inputmaskData, cb) => {
         if (!inputmaskData) {
@@ -213,6 +227,20 @@ let bl = {
             return cb(null, extKeys);
         });
     },
+	
+	"listApplicationKeyConfig": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		return cb(null, null);
+	},
+	
+	"listTenantOauthUsers": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		return cb(null, null);
+	},
 
     "add": (soajs, inputmaskData, core, cb) => {
         const provision = core.provision;
@@ -827,6 +855,13 @@ let bl = {
             });
         });
     },
+	
+	"addOauthUser": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		return cb(null, null);
+	},
 
     "updateTenant": (soajs, inputmaskData, cb) => {
         if (!inputmaskData) {
@@ -1307,7 +1342,28 @@ let bl = {
                 return cb(null, response);
             });
         });
-    }
+    },
+	
+	"updateApplicationKeyConfig": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		return cb(null, null);
+	},
+	
+	"updateOauth": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		return cb(null, null);
+	},
+	
+	"updateOuathUser": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		return cb(null, null);
+	},
 };
 
 module.exports = bl;

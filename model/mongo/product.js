@@ -281,9 +281,37 @@ Product.prototype.updateScope = function (data, cb) {
 	
 	let condition = {'_id': data._id};
 	let options = {'upsert': false, 'safe': true};
+	
+	let scope = {
+		[data.env]: data.acl
+	};
+	lib.sanitize(scope, () => {
+		let fields = {
+			'$set': {
+				["scope.acl." + data.env]: scope[data.env]
+			}
+		};
+		__self.mongoCore.update(colName, condition, fields, options, (err, result) => {
+			return cb(err, result);
+		});
+	});
+};
+
+Product.prototype.updatePackageACL = function (data, cb) {
+	let __self = this;
+	if (!data || !data.code || !data.packageCode || !data.acl ) {
+		let error = new Error("_id, env, and acl are required.");
+		return cb(error, null);
+	}
+	
+	let condition = {
+		'code': data.code,
+		'packages.code': data.packageCode
+	};
+	let options = {'upsert': false, 'safe': true};
 	let fields = {
 		'$set': {
-			["scope.acl." + data.env]: data.acl
+			'packages.$.acl': data.acl
 		}
 	};
 	

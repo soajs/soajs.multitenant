@@ -12,6 +12,7 @@ const core = require('soajs').core;
 const request = require('request');
 const async = require('async');
 const validator = new core.validator.Validator();
+const soajsLib = require("soajs.core.libs");
 
 const apiGroup = require("../schemas/aclApiGroup");
 const granularAcl = require("../schemas/aclGranular");
@@ -141,8 +142,7 @@ function fillServiceApiAccess(service, currentService, cb) {
 				return callback();
 			}
 		}, cb);
-	}
-	else {
+	} else {
 		return cb();
 	}
 }
@@ -263,7 +263,7 @@ let bl = {
 		let data = {};
 		data.id = inputmaskData.id;
 		data.code = inputmaskData.code;
-		
+		data.soajs = !!inputmaskData.soajs;
 		modelObj.getProduct(data, (err, record) => {
 			bl.mp.closeModel(soajs, modelObj);
 			if (err) {
@@ -276,226 +276,6 @@ let bl = {
 		});
 	},
 	
-	"purge": (soajs, inputmaskData, cb) => {
-		if (!inputmaskData) {
-			return cb(bl.handleError(soajs, 400, null));
-		}
-		let modelObj = bl.mp.getModel(soajs);
-		let data = {};
-		data.id = inputmaskData.id;
-		modelObj.getProduct(data, (err, record) => {
-			if (err) {
-				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 602, err), null);
-			}
-			if (!record) {
-				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 460, null), null);
-			}
-			if (!soajs.tenant.locked && record && record.locked) {
-				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 500, null));
-			}
-			record.scope = {
-				acl: {}
-			};
-			for (let i = 0; i < record.packages.length; i++) {
-				record.packages[i].acl = {};
-			}
-			
-			modelObj.saveProduct(record, (err) => {
-				bl.mp.closeModel(soajs, modelObj);
-				if (err) {
-					return cb(bl.handleError(soajs, 602, err), null);
-				}
-				return cb(null, true);
-			});
-		});
-	},
-	
-	"add": (soajs, inputmaskData, cb) => {
-		if (!inputmaskData) {
-			return cb(bl.handleError(soajs, 400, null));
-		}
-		let modelObj = bl.mp.getModel(soajs);
-		let data = {
-			name: inputmaskData.name,
-			code: inputmaskData.code,
-			description: inputmaskData.description,
-			scope: {
-				acl: {}
-			},
-			packages: []
-		};
-		
-		if (inputmaskData.scope) {
-			data.scope = inputmaskData.scope;
-		}
-		modelObj.checkIfExist(data, (err, count) => {
-			if (err) {
-				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 602, err));
-			}
-			
-			if (count > 0) {
-				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 468, null));
-			}
-			
-			modelObj.addProduct(data, (err, record) => {
-				bl.mp.closeModel(soajs, modelObj);
-				if (err) {
-					return cb(bl.handleError(soajs, 602, err));
-				}
-				return cb(null, record);
-			});
-		});
-	},
-	
-	"update": (soajs, inputmaskData, cb) => {
-		if (!inputmaskData) {
-			return cb(bl.handleError(soajs, 400, null));
-		}
-		let modelObj = bl.mp.getModel(soajs);
-		let data = {};
-		data.id = inputmaskData.id;
-		modelObj.getProduct(data, (err, record) => {
-			if (err) {
-				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 602, err));
-			}
-			if (!record) {
-				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 460, null));
-			}
-			if (!soajs.tenant.locked && record && record.locked) {
-				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 500, null));
-			}
-			data.name = inputmaskData.name;
-			if (inputmaskData.scope) {
-				data.scope = inputmaskData.scope;
-			}
-			if (inputmaskData.description) {
-				data.description = inputmaskData.description;
-			}
-			data._id = record._id;
-			modelObj.updateProduct(data, (err, result) => {
-				bl.mp.closeModel(soajs, modelObj);
-				if (err) {
-					return cb(bl.handleError(soajs, 470, err));
-				}
-				return cb(null, result);
-			});
-		});
-	},
-	
-	"updateScope": (soajs, inputmaskData, cb) => {
-		if (!inputmaskData) {
-			return cb(bl.handleError(soajs, 400, null));
-		}
-		let modelObj = bl.mp.getModel(soajs);
-		let data = {};
-		data.id = inputmaskData.id;
-		modelObj.getProduct(data, (err, record) => {
-			if (err) {
-				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 602, err));
-			}
-			if (!record) {
-				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 460, null));
-			}
-			if (!soajs.tenant.locked && record && record.locked) {
-				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 500, null));
-			}
-			data.scope = inputmaskData.scope;
-			data._id = record._id;
-			modelObj.updateProduct(data, (err, result) => {
-				bl.mp.closeModel(soajs, modelObj);
-				if (err) {
-					return cb(bl.handleError(soajs, 470, err));
-				}
-				return cb(null, result);
-			});
-		});
-	},
-	
-	"updateScopeByEnv": (soajs, inputmaskData, cb) => {
-		if (!inputmaskData) {
-			return cb(bl.handleError(soajs, 400, null));
-		}
-		let modelObj = bl.mp.getModel(soajs);
-		let data = {};
-		data.id = inputmaskData.id;
-		modelObj.getProduct(data, (err, record) => {
-			if (err) {
-				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 602, err));
-			}
-			if (!record) {
-				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 460, null));
-			}
-			if (!soajs.tenant.locked && record && record.locked) {
-				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 500, null));
-			}
-			data.acl = inputmaskData.acl;
-			data.env = inputmaskData.env;
-			data._id = record._id;
-			modelObj.updateScope(data, (err, result) => {
-				bl.mp.closeModel(soajs, modelObj);
-				if (err) {
-					return cb(bl.handleError(soajs, 470, err));
-				}
-				return cb(null, result);
-			});
-		});
-	},
-	
-	"delete": (soajs, inputmaskData, cb) => {
-		if (!inputmaskData) {
-			return cb(bl.handleError(soajs, 400, null));
-		}
-		let modelObj = bl.mp.getModel(soajs);
-		let data = {};
-		data.code = inputmaskData.code;
-		data.id = inputmaskData.id;
-		
-		modelObj.getProduct(data, (err, record) => {
-			if (err) {
-				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 602, err));
-			}
-			if (!record) {
-				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 460, null));
-			}
-			if (soajs.tenant.application.product === record.code) {
-				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 466, null));
-			}
-			if (!soajs.tenant.locked && record && record.locked) {
-				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 500, null));
-			}
-			data._id = record._id;
-			modelObj.deleteProduct(data, (err, result) => {
-				bl.mp.closeModel(soajs, modelObj);
-				if (err) {
-					return cb(bl.handleError(soajs, 602, err));
-				}
-				return cb(null, result);
-			});
-		});
-	},
-	
-	/**
-	 * Packages
-	 */
-	
 	"getPackages": (soajs, inputmaskData, cb) => {
 		if (!inputmaskData) {
 			return cb(bl.handleError(soajs, 400, null));
@@ -503,7 +283,7 @@ let bl = {
 		let modelObj = bl.mp.getModel(soajs);
 		let data = {};
 		data.id = inputmaskData.id;
-		
+		data.soajs = !!inputmaskData.soajs;
 		modelObj.getProduct(data, (err, record) => {
 			bl.mp.closeModel(soajs, modelObj);
 			if (err) {
@@ -523,7 +303,7 @@ let bl = {
 		let modelObj = bl.mp.getModel(soajs);
 		let data = {};
 		data.code = inputmaskData.productCode;
-		
+		data.soajs = !!inputmaskData.soajs;
 		modelObj.getProduct(data, (err, record) => {
 			bl.mp.closeModel(soajs, modelObj);
 			if (err) {
@@ -539,306 +319,68 @@ let bl = {
 					break;
 				}
 			}
-			return cb(null, (pck || {}));
-		});
-	},
-	
-	"addPackage": (soajs, inputmaskData, cb) => {
-		if (!inputmaskData) {
-			return cb(bl.handleError(soajs, 400, null));
-		}
-		let modelObj = bl.mp.getModel(soajs);
-		let data = {};
-		data.id = inputmaskData.id;
-		
-		modelObj.getProduct(data, (err, record) => {
-			if (err) {
-				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 602, err), null);
-			}
-			if (!record) {
-				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 460, null), null);
-			}
-			if (!soajs.tenant.locked && record && record.locked) {
-				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 500, null));
-			}
-			if (!record.packages) {
-				record.packages = [];
-			}
-			let prefix = record.code.toUpperCase() + '_';
-			let found = false;
-			if (inputmaskData.code) {
-				record.packages.forEach(pack => {
-					if (pack.code === prefix + inputmaskData.code.toUpperCase()) {
-						found = true;
-					}
-				});
-			}
-			if (found) {
-				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 467, null));
-			}
-			let newPackage = {
-				"code": prefix + inputmaskData.code.toUpperCase(),
-				"name": inputmaskData.name,
-				"_TTL": inputmaskData._TTL * 3600 * 1000
-			};
-			
-			if (inputmaskData.description) {
-				newPackage.description = inputmaskData.description;
-			}
-			if (inputmaskData.tags) {
-				newPackage.tags = inputmaskData.tags;
-			}
-			newPackage.acl = inputmaskData.acl ? inputmaskData.acl : {};
-			if (inputmaskData.type) {
-				newPackage.aclType = inputmaskData.type;
-			}
-			if (newPackage.acl) {
-				let schema = {
-					"type": "object",
-					"required": false,
-					"patternProperties": {
-						"^[a-zA-Z0-9]+$": {
-							"type": "object",
-							"patternProperties": {
-								"^[^\W\.]+$": newPackage.aclType === "granular" ? granularAcl : apiGroup
-							},
-							"additionalProperties": false
-						}
-					},
-					"additionalProperties": false
-				};
-				let check = validator.validate(newPackage.acl, schema);
-				if (!check.valid) {
-					let message = `Invalid Acl of type ${newPackage.aclType === "granular" ? "Granular" : "Api Group"} provided!`;
-					soajs.log.debug(check.errors);
-					return cb({"code": "469", "msg": message});
-				}
-			}
-			record.packages.push(newPackage);
-			data._id = record._id;
-			data.packages = record.packages;
-			modelObj.updateProduct(record, (err) => {
-				bl.mp.closeModel(soajs, modelObj);
-				if (err) {
-					return cb(bl.handleError(soajs, 602, err), null);
-				}
-				return cb(null, newPackage.code);
-			});
-		});
-	},
-	
-	"updatePackage": (soajs, inputmaskData, cb) => {
-		if (!inputmaskData) {
-			return cb(bl.handleError(soajs, 400, null));
-		}
-		let modelObj = bl.mp.getModel(soajs);
-		let data = {};
-		data.id = inputmaskData.id;
-		
-		modelObj.getProduct(data, (err, record) => {
-			if (err) {
-				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 602, err));
-			}
-			if (!record) {
-				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 460, null));
-			}
-			if (!soajs.tenant.locked && record && record.locked) {
-				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 500, null));
-			}
-			if (!record.packages) {
-				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 461, null));
-			}
-			let found = false;
-			let prefix = record.code.toUpperCase() + '_';
-			for (let i = 0; i < record.packages.length; i++) {
-				if (record.packages[i].code.toUpperCase() === prefix + inputmaskData.code) {
-					if (inputmaskData.name) {
-						record.packages[i].name = inputmaskData.name;
-					}
-					if (inputmaskData.description) {
-						record.packages[i].description = inputmaskData.description;
-					}
-					if (inputmaskData._TTL) {
-						record.packages[i]._TTL = inputmaskData._TTL * 3600 * 1000;
-					}
-					if (inputmaskData.type) {
-						record.packages[i].aclTypeByEnv = inputmaskData.type;
-					}
-					if (inputmaskData.acl) {
-						record.packages[i].acl = inputmaskData.acl;
-						let schema = {
-							"type": "object",
-							"required": false,
-							"patternProperties": {
-								"^[a-zA-Z0-9]+$": {
-									"type": "object",
-									"patternProperties": {
-										"^[^\W\.]+$": record.packages[i].aclType === "granular" ? granularAcl : apiGroup
-									},
-									"additionalProperties": false
-								}
-							},
-							"additionalProperties": false
-						};
-						let check = validator.validate(record.packages[i].acl, schema);
-						if (!check.valid) {
-							let message = `Invalid Acl of type ${record.packages[i].aclType === "granular" ? "Granular" : "Api Group"} provided!`;
-							soajs.log.debug(check.errors);
-							return cb({"code": "469", "msg": message});
-						}
-					}
-					if (inputmaskData.tags) {
-						record.packages[i].tags = inputmaskData.tags;
-					}
-					found = true;
-					break;
-				}
-			}
-			if (!found) {
-				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 461, null));
-			}
-			data._id = record._id;
-			data.packages = record.packages;
-			modelObj.updateProduct(data, (err) => {
-				bl.mp.closeModel(soajs, modelObj);
-				if (err) {
-					return cb(bl.handleError(soajs, 602, err));
-				}
-				return cb(null, `product package ${inputmaskData.code} updated successfully`);
-			});
-		});
-	},
-	
-	"updatePackageAclByEnv": (soajs, inputmaskData, cb) => {
-		if (!inputmaskData) {
-			return cb(bl.handleError(soajs, 400, null));
-		}
-		let modelObj = bl.mp.getModel(soajs);
-		let data = {};
-		data.id = inputmaskData.id;
-		
-		modelObj.getProduct(data, (err, record) => {
-			if (err) {
-				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 602, err));
-			}
-			if (!record) {
-				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 460, null));
-			}
-			if (!soajs.tenant.locked && record && record.locked) {
-				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 500, null));
-			}
-			if (!record.packages) {
-				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 461, null));
-			}
-			let found = false;
-			let prefix = record.code.toUpperCase() + '_';
-			for (let i = 0; i < record.packages.length; i++) {
-				if (record.packages[i].code.toUpperCase() === prefix + inputmaskData.code) {
-					record.packages[i].acl[inputmaskData.env.toLowerCase()] = inputmaskData.acl;
-					if (inputmaskData.type) {
-						if (!record.packages[i].aclTypeByEnv) {
-							record.packages[i].aclTypeByEnv = {};
-						}
-						
-						record.packages[i].aclTypeByEnv[inputmaskData.env.toLowerCase()] = inputmaskData.type;
-					}
-					let schema = {
-						"type": "object",
-						"required": false,
-						"patternProperties": {
-							"^[^\W\.]+$": record.packages[i].aclTypeByEnv === "granular" ? granularAcl : apiGroup
-						},
-						"additionalProperties": false
-					};
-					let check = validator.validate(inputmaskData.acl, schema);
-					if (!check.valid) {
-						let message = `Invalid Acl of type ${record.packages[i].aclTypeByEnv === "granular" ? "Granular" : "Api Group"} provided!`;
-						soajs.log.debug(check.errors);
-						return cb({"code": "469", "msg": message});
-					}
-					found = true;
-					break;
-				}
-			}
-			if (!found) {
-				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 461, null));
-			}
-			data._id = record._id;
-			data.packages = record.packages;
-			modelObj.updateProduct(data, (err) => {
-				bl.mp.closeModel(soajs, modelObj);
-				if (err) {
-					return cb(bl.handleError(soajs, 602, err));
-				}
-				return cb(null, `product package ${inputmaskData.code} updated successfully`);
-			});
-		});
-	},
-	
-	"deletePackage": (soajs, inputmaskData, cb) => {
-		if (!inputmaskData) {
-			return cb(bl.handleError(soajs, 400, null));
-		}
-		let modelObj = bl.mp.getModel(soajs);
-		let data = {};
-		data.id = inputmaskData.id;
-		modelObj.getProduct(data, (err, record) => {
-			if (err) {
-				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 602, err), null);
-			}
-			if (!record) {
-				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 460, null), null);
-			}
-			if (!soajs.tenant.locked && record && record.locked) {
-				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 500, null));
-			}
-			if (!record.packages) {
-				bl.mp.closeModel(soajs, modelObj);
-				return cb(bl.handleError(soajs, 461, null));
-			}
-			let found = false;
-			for (let i = 0; i < record.packages.length; i++) {
-				if (record.packages[i].code.toUpperCase() === inputmaskData.packageCode) {
-					record.packages.splice(i, 1);
-					found = true;
-					break;
-				}
-			}
-			if (!found) {
-				bl.mp.closeModel(soajs, modelObj);
+			if (!pck) {
 				return cb(bl.handleError(soajs, 461, null), null);
 			}
-			data._id = record._id;
-			data.packages = record.packages;
-			modelObj.updateProduct(data, (err) => {
-				bl.mp.closeModel(soajs, modelObj);
-				if (err) {
-					return cb(bl.handleError(soajs, 602, err), null);
+			return cb(null, pck);
+		});
+	},
+	
+	"getAclScope": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {};
+		data.id = inputmaskData.id;
+		data.code = inputmaskData.code;
+		data.soajs = !!inputmaskData.soajs;
+		modelObj.getProduct(data, (err, record) => {
+			bl.mp.closeModel(soajs, modelObj);
+			if (err) {
+				return cb(bl.handleError(soajs, 602, err), null);
+			}
+			if (!record) {
+				return cb(bl.handleError(soajs, 460, err), null);
+			}
+			return cb(null, record.scope ? record.scope : {});
+		});
+	},
+	
+	"getPackageAclScope": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {};
+		data.code = inputmaskData.productCode;
+		data.soajs = !!inputmaskData.soajs;
+		modelObj.getProduct(data, (err, record) => {
+			bl.mp.closeModel(soajs, modelObj);
+			if (err) {
+				return cb(bl.handleError(soajs, 602, err), null);
+			}
+			if (!record || !record.packages) {
+				return cb(bl.handleError(soajs, 461, null), null);
+			}
+			let pck = null;
+			for (let i = 0; i < record.packages.length; i++) {
+				if (record.packages[i].code === inputmaskData.packageCode) {
+					pck = record.packages[i];
+					break;
 				}
-				return cb(null, `product package ${inputmaskData.packageCode} deleted successfully`);
-			});
+			}
+			if (!pck) {
+				return cb(bl.handleError(soajs, 461, null), null);
+			}
+			return cb(null, pck.acl ? pck.acl : {});
 		});
 	},
 	
 	"getUIProductAcl": (soajs, inputmaskData, cb) => {
-		
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
 		let modelObj = bl.mp.getModel(soajs);
 		let data = {};
 		data.id = inputmaskData.id;
@@ -1298,10 +840,10 @@ let bl = {
 									"versions": item.versions
 								};
 								newItem.fixList = acl;
-								async.detect(aclResponse.allServiceApisGranular[item.configuration.group], function(group, callback) {
+								async.detect(aclResponse.allServiceApisGranular[item.configuration.group], function (group, callback) {
 									return callback(null, group.name === newItem.name && group.type === newItem.type && group.group === newItem.group);
-								}, function(err, result) {
-									if(!result){
+								}, function (err, result) {
+									if (!result) {
 										aclResponse.allServiceApisGranular[item.configuration.group].push(newItem);
 									}
 									return callback();
@@ -1346,8 +888,1333 @@ let bl = {
 				});
 			}
 		});
-	}
+	},
 	
+	"getPackagesPreviewService": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {};
+		data.code = inputmaskData.productCode;
+		data.soajs = !!inputmaskData.soajs;
+		modelObj.getProduct(data, (err, record) => {
+			bl.mp.closeModel(soajs, modelObj);
+			if (err) {
+				return cb(bl.handleError(soajs, 602, err), null);
+			}
+			if (!record || !record.packages) {
+				return cb(bl.handleError(soajs, 461, null), null);
+			}
+			let pck = null;
+			for (let i = 0; i < record.packages.length; i++) {
+				if (record.packages[i].code === inputmaskData.packageCode) {
+					pck = record.packages[i];
+					break;
+				}
+			}
+			if (!pck) {
+				return cb(bl.handleError(soajs, 461, null), null);
+			}
+			if (inputmaskData.secEnv && pck.aclTypeByEnv &&
+				pck.aclTypeByEnv[inputmaskData.mainEnv] !== "granular" &&
+				(pck.aclTypeByEnv[inputmaskData.mainEnv] !== pck.aclTypeByEnv[inputmaskData.secEnv])) {
+				return cb(bl.handleError(soajs, 480, null), null);
+			}
+			soajs.awareness.connect("marketplace", "1", (response) => {
+				let options = {
+					uri: 'http://' + response.host,
+					headers: response.headers,
+					qs: {
+						"type": 'service',
+						"start": 0,
+						"limit": 500
+					},
+					json: true
+				};
+				if (inputmaskData.page > 1) {
+					options.qs.start = options.qs.limit * inputmaskData.page - 1;
+				}
+				if (inputmaskData.soajs) {
+					options.uri += "/soajs/items";
+				} else {
+					options.uri += "/items/type/all";
+				}
+				request.get(options, function (error, response, body) {
+					if (error || !body.result) {
+						return cb(bl.handleError(soajs, 503, computeErrorMessageFromService(body)));
+					}
+					let services = body.data.records;
+					let acl = [];
+					async.each(services, function (service, callback) {
+						if (service.versions && service.versions.length > 0) {
+							service.versions.forEach((oneVersion) => {
+								if (oneVersion) {
+									let v = oneVersion.version;
+									let temp = {
+										service: service.name,
+										version: oneVersion.version,
+										envs: {
+											[inputmaskData.mainEnv]: false
+										},
+										restriction: {
+											[inputmaskData.mainEnv]: true,
+										},
+										access: {
+											[inputmaskData.mainEnv]: true,
+										},
+									};
+									if (inputmaskData.secEnv) {
+										temp.envs[inputmaskData.secEnv] = false;
+										temp.restriction[inputmaskData.secEnv] = true;
+										temp.access[inputmaskData.secEnv] = true;
+									}
+									if (pck.acl) {
+										if (pck.acl[inputmaskData.mainEnv] &&
+											pck.acl[inputmaskData.mainEnv][service.name] &&
+											pck.acl[inputmaskData.mainEnv][service.name][v]) {
+											temp.envs[inputmaskData.mainEnv] = true;
+											temp.access[inputmaskData.mainEnv] = !!pck.acl[inputmaskData.mainEnv][service.name][v].access;
+											temp.restriction[inputmaskData.mainEnv] = pck.acl[inputmaskData.mainEnv][service.name][v].apisPermission === "restricted";
+										}
+										if (inputmaskData.secEnv && pck.acl[inputmaskData.secEnv] &&
+											pck.acl[inputmaskData.secEnv][service.name] &&
+											pck.acl[inputmaskData.secEnv][service.name][v]) {
+											temp.envs[inputmaskData.secEnv] = true;
+											temp.access[inputmaskData.secEnv] = !!pck.acl[inputmaskData.secEnv][service.name][v].access;
+											temp.restriction[inputmaskData.secEnv] = pck.acl[inputmaskData.secEnv][service.name][v].apisPermission === "restricted";
+										}
+									}
+									acl.push(temp);
+								}
+							});
+						}
+						callback();
+					}, function () {
+						let result = {
+							package: pck.code,
+							product: inputmaskData.productCode,
+							acl: acl,
+						};
+						if (pck.aclTypeByEnv) {
+							result.aclTypeByEnv = pck.aclTypeByEnv;
+						}
+						return cb(null, result);
+					});
+				});
+			});
+		});
+	},
+	
+	"getPackagesPreviewApi": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {};
+		data.code = inputmaskData.productCode;
+		data.soajs = !!inputmaskData.soajs;
+		modelObj.getProduct(data, (err, record) => {
+			bl.mp.closeModel(soajs, modelObj);
+			if (err) {
+				return cb(bl.handleError(soajs, 602, err), null);
+			}
+			if (!record || !record.packages) {
+				return cb(bl.handleError(soajs, 461, null), null);
+			}
+			let pck = null;
+			for (let i = 0; i < record.packages.length; i++) {
+				if (record.packages[i].code === inputmaskData.packageCode) {
+					pck = record.packages[i];
+					break;
+				}
+			}
+			if (!pck) {
+				return cb(bl.handleError(soajs, 461, null), null);
+			}
+			if (inputmaskData.secEnv && pck.aclTypeByEnv &&
+				pck.aclTypeByEnv[inputmaskData.mainEnv] !== "granular" &&
+				(pck.aclTypeByEnv[inputmaskData.mainEnv] !== pck.aclTypeByEnv[inputmaskData.secEnv])) {
+				return cb(bl.handleError(soajs, 480, null), null);
+			}
+			soajs.awareness.connect("marketplace", "1", (response) => {
+				let options = {
+					uri: 'http://' + response.host,
+					headers: response.headers,
+					qs: {
+						"type": 'service',
+						"start": 0,
+						"limit": 500
+					},
+					json: true
+				};
+				if (inputmaskData.page > 1) {
+					options.qs.start = options.qs.limit * inputmaskData.page - 1;
+				}
+				if (inputmaskData.soajs) {
+					options.uri += "/soajs/items";
+				} else {
+					options.uri += "/items/type/all";
+				}
+				request.get(options, function (error, response, body) {
+					if (error || !body.result) {
+						return cb(bl.handleError(soajs, 503, computeErrorMessageFromService(body)));
+					}
+					let services = body.data.records;
+					let acl = [];
+					async.each(services, function (service, serviceCall) {
+						if (!service.versions || service.versions.length === 0) {
+							return serviceCall();
+						}
+						async.each(service.versions, function (version, versionCall) {
+							let v = version.version;
+							async.each(version.apis, function (api, call) {
+									let temp = {
+										service: service.name,
+										version: version.version,
+										group: api.group,
+										method: api.m,
+										api: api.v,
+										envs: {
+											[inputmaskData.mainEnv]: false
+										},
+										access: {
+											[inputmaskData.mainEnv]: false,
+										},
+										restriction: {
+											[inputmaskData.mainEnv]: false,
+										},
+									};
+									if (inputmaskData.secEnv) {
+										temp.envs[inputmaskData.secEnv] = false;
+										temp.access[inputmaskData.secEnv] = false;
+										temp.restriction[inputmaskData.secEnv] = false;
+									}
+									if (pck.acl) {
+										if (pck.acl[inputmaskData.mainEnv] &&
+											pck.acl[inputmaskData.mainEnv][service.name] &&
+											pck.acl[inputmaskData.mainEnv][service.name][v]) {
+											if (pck.acl[inputmaskData.mainEnv][service.name][v].apisPermission !== "restricted") {
+												temp.restriction[inputmaskData.mainEnv] = false;
+											}
+											if (pck.acl[inputmaskData.mainEnv][service.name][v].apisPermission === "restricted") {
+												temp.restriction[inputmaskData.mainEnv] = true;
+											}
+											temp.access[inputmaskData.mainEnv] = !!pck.acl[inputmaskData.mainEnv][service.name][v].access;
+											if (pck.acl[inputmaskData.mainEnv][service.name][v][api.m] && pck.acl[inputmaskData.mainEnv][service.name][v][api.m].apis &&
+												pck.acl[inputmaskData.mainEnv][service.name][v][api.m].apis[api.v]) {
+												temp.envs[inputmaskData.mainEnv] = true;
+												if (pck.acl[inputmaskData.mainEnv][service.name][v][api.m].apis[api.v].hasOwnProperty("access")) {
+													temp.access[inputmaskData.mainEnv] = !!pck.acl[inputmaskData.mainEnv][service.name][v][api.m].apis[api.v].access;
+												}
+												
+											}
+											if (temp.envs[inputmaskData.mainEnv]) {
+												if (pck.acl[inputmaskData.secEnv] &&
+													pck.acl[inputmaskData.secEnv][service.name] &&
+													pck.acl[inputmaskData.secEnv][service.name][v]) {
+													if (pck.acl[inputmaskData.secEnv][service.name][v].apisPermission !== "restricted") {
+														temp.restriction[inputmaskData.secEnv] = false;
+														temp.envs[inputmaskData.secEnv] = true;
+													}
+													if (pck.acl[inputmaskData.secEnv][service.name][v].apisPermission === "restricted") {
+														temp.restriction[inputmaskData.secEnv] = true;
+													}
+													temp.access[inputmaskData.secEnv] = !!pck.acl[inputmaskData.secEnv][service.name][v].access;
+													if (pck.acl[inputmaskData.secEnv][service.name][v][api.m] && pck.acl[inputmaskData.secEnv][service.name][v][api.m].apis &&
+														pck.acl[inputmaskData.secEnv][service.name][v][api.m].apis[api.v]) {
+														temp.envs[inputmaskData.secEnv] = true;
+														if (pck.acl[inputmaskData.secEnv][service.name][v][api.m].apis[api.v].hasOwnProperty("access")) {
+															temp.access[inputmaskData.secEnv] = !!pck.acl[inputmaskData.secEnv][service.name][v][api.m].apis[api.v].access;
+														}
+													}
+												}
+												acl.push(temp);
+											}
+										}
+									}
+									call();
+								},
+								function () {
+									versionCall();
+								});
+						}, serviceCall);
+					}, function () {
+						let result = {
+							package: pck.code,
+							product: inputmaskData.productCode,
+							acl: acl,
+						};
+						if (pck.aclTypeByEnv) {
+							result.aclTypeByEnv = pck.aclTypeByEnv;
+						}
+						return cb(null, result);
+					});
+				});
+			});
+		});
+	},
+	
+	"getScopePreviewService": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {};
+		data.code = inputmaskData.productCode;
+		data.soajs = !!inputmaskData.soajs;
+		modelObj.getProduct(data, (err, record) => {
+			bl.mp.closeModel(soajs, modelObj);
+			if (err) {
+				return cb(bl.handleError(soajs, 602, err), null);
+			}
+			if (!record) {
+				return cb(bl.handleError(soajs, 460, err), null);
+			}
+			let scope = record.scope || {};
+			soajs.awareness.connect("marketplace", "1", (response) => {
+				
+				let options = {
+					uri: 'http://' + response.host,
+					headers: response.headers,
+					qs: {
+						"type": 'service',
+						"start": 0,
+						"limit": 500
+					},
+					json: true
+				};
+				if (inputmaskData.page > 1) {
+					options.qs.start = options.qs.limit * inputmaskData.page - 1;
+				}
+				
+				if (inputmaskData.soajs) {
+					options.uri += "/soajs/items";
+				} else {
+					options.uri += "/items/type/all";
+				}
+				request.get(options, function (error, response, body) {
+					if (error || !body.result) {
+						return cb(bl.handleError(soajs, 503, computeErrorMessageFromService(body)));
+					}
+					let acl = [];
+					async.each(body.data.records, function (service, callback) {
+						if (service.versions.length > 0) {
+							service.versions.forEach((oneVersion) => {
+								let v = oneVersion.version;
+								let temp = {
+									service: service.name,
+									version: oneVersion.version,
+									envs: {
+										[inputmaskData.mainEnv]: false
+									},
+									restriction: {
+										[inputmaskData.mainEnv]: true,
+									},
+									access: {
+										[inputmaskData.mainEnv]: true,
+									},
+								};
+								if (inputmaskData.secEnv) {
+									temp.envs[inputmaskData.secEnv] = false;
+									temp.restriction[inputmaskData.secEnv] = true;
+									temp.access[inputmaskData.secEnv] = true;
+								}
+								if (scope.acl) {
+									if (scope.acl[inputmaskData.mainEnv] &&
+										scope.acl[inputmaskData.mainEnv][service.name] &&
+										scope.acl[inputmaskData.mainEnv][service.name][v]) {
+										temp.envs[inputmaskData.mainEnv] = true;
+										temp.access[inputmaskData.mainEnv] = !!scope.acl[inputmaskData.mainEnv][service.name][v].access;
+										temp.restriction[inputmaskData.mainEnv] = scope.acl[inputmaskData.mainEnv][service.name][v].apisPermission === "restricted";
+									}
+									if (inputmaskData.secEnv && scope.acl[inputmaskData.secEnv] &&
+										scope.acl[inputmaskData.secEnv][service.name] &&
+										scope.acl[inputmaskData.secEnv][service.name][v]) {
+										temp.envs[inputmaskData.secEnv] = true;
+										temp.access[inputmaskData.secEnv] = !!scope.acl[inputmaskData.secEnv][service.name][v].access;
+										temp.restriction[inputmaskData.secEnv] = scope.acl[inputmaskData.secEnv][service.name][v].apisPermission === "restricted";
+									}
+								}
+								acl.push(temp)
+							});
+						}
+						callback();
+					}, function () {
+						let result = {
+							product: inputmaskData.productCode,
+							acl: acl,
+						};
+						return cb(null, result);
+					});
+				});
+			});
+		});
+	},
+	
+	"getScopePreviewApi": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {};
+		data.code = inputmaskData.productCode;
+		data.soajs = !!inputmaskData.soajs;
+		modelObj.getProduct(data, (err, record) => {
+			bl.mp.closeModel(soajs, modelObj);
+			if (err) {
+				return cb(bl.handleError(soajs, 602, err), null);
+			}
+			if (!record) {
+				return cb(bl.handleError(soajs, 460, err), null);
+			}
+			let scope = record.scope || {};
+			soajs.awareness.connect("marketplace", "1", (response) => {
+				
+				let options = {
+					uri: 'http://' + response.host,
+					headers: response.headers,
+					qs: {
+						"type": 'service',
+						"start": 0,
+						"limit": 500
+					},
+					json: true
+				};
+				if (inputmaskData.page > 1) {
+					options.qs.start = options.qs.limit * inputmaskData.page - 1;
+				}
+				
+				if (inputmaskData.soajs) {
+					options.uri += "/soajs/items";
+				} else {
+					options.uri += "/items/type/all";
+				}
+				request.get(options, function (error, response, body) {
+					if (error || !body.result) {
+						return cb(bl.handleError(soajs, 503, computeErrorMessageFromService(body)));
+					}
+					let acl = [];
+					
+					async.each(body.data.records, function (service, serviceCall) {
+						if (!service.versions || service.length === 0) {
+							serviceCall();
+						}
+						async.each(service.versions, function (version, versionCall) {
+							let v = version.version;
+							async.each(version.apis, function (api, call) {
+									let temp = {
+										service: service.name,
+										version: soajsLib.version.unsanitize(v),
+										group: api.group,
+										method: api.m,
+										api: api.v,
+										envs: {
+											[inputmaskData.mainEnv]: false
+										},
+										access: {
+											[inputmaskData.mainEnv]: false,
+										},
+										restriction: {
+											[inputmaskData.mainEnv]: false,
+										},
+									};
+									if (inputmaskData.secEnv) {
+										temp.envs[inputmaskData.secEnv] = false;
+										temp.access[inputmaskData.secEnv] = false;
+										temp.restriction[inputmaskData.secEnv] = false;
+									}
+									
+									if (scope.acl) {
+										if (scope.acl[inputmaskData.mainEnv] &&
+											scope.acl[inputmaskData.mainEnv][service.name] &&
+											scope.acl[inputmaskData.mainEnv][service.name][v]) {
+											if (scope.acl[inputmaskData.mainEnv][service.name][v].apisPermission !== "restricted") {
+												temp.restriction[inputmaskData.mainEnv] = false;
+											}
+											if (scope.acl[inputmaskData.mainEnv][service.name][v].apisPermission === "restricted") {
+												temp.restriction[inputmaskData.mainEnv] = true;
+											}
+											temp.access[inputmaskData.mainEnv] = !!scope.acl[inputmaskData.mainEnv][service.name][v].access;
+											if (scope.acl[inputmaskData.mainEnv][service.name][v][api.m]) {
+												async.each(scope.acl[inputmaskData.mainEnv][service.name][v][api.m], function (method, methodMainCall) {
+													if (method.group === api.group) {
+														if (method.apis && method.apis[api.v]) {
+															temp.envs[inputmaskData.mainEnv] = true;
+															if (method.apis[api.v].hasOwnProperty("access")) {
+																temp.access[inputmaskData.mainEnv] = method.apis[api.v].access;
+															}
+														}
+													}
+													if (temp.envs[inputmaskData.mainEnv]) {
+														if (scope.acl[inputmaskData.secEnv] &&
+															scope.acl[inputmaskData.secEnv][service.name] &&
+															scope.acl[inputmaskData.secEnv][service.name][v]) {
+															if (scope.acl[inputmaskData.secEnv][service.name][v].apisPermission !== "restricted") {
+																temp.restriction[inputmaskData.secEnv] = false;
+																temp.envs[inputmaskData.secEnv] = true;
+															}
+															if (scope.acl[inputmaskData.secEnv][service.name][v].apisPermission === "restricted") {
+																temp.restriction[inputmaskData.secEnv] = true;
+															}
+															
+															temp.access[inputmaskData.secEnv] = !!scope.acl[inputmaskData.secEnv][service.name][v].access;
+															async.each(scope.acl[inputmaskData.secEnv] &&
+																scope.acl[inputmaskData.secEnv][service.name][v][api.m], function (method, methodSecCall) {
+																if (method.group === api.group) {
+																	if (method.apis && method.apis[api.v]) {
+																		temp.envs[inputmaskData.secEnv] = true;
+																		if (method.apis[api.v].hasOwnProperty("access")) {
+																			temp.access[inputmaskData.secEnv] = method.apis[api.v].access;
+																		}
+																	}
+																}
+																methodSecCall();
+															}, () => {
+																methodMainCall();
+															});
+														} else {
+															methodMainCall();
+														}
+													} else {
+														methodMainCall();
+													}
+												}, () => {
+													if (temp.envs[inputmaskData.mainEnv]) {
+														acl.push(temp);
+													}
+													call();
+												});
+											} else {
+												call();
+											}
+										} else {
+											call();
+										}
+									} else {
+										call();
+									}
+								},
+								function () {
+									versionCall();
+								});
+						}, function () {
+							serviceCall();
+						});
+					}, function () {
+						let result = {
+							product: inputmaskData.productCode,
+							acl: acl,
+						};
+						return cb(null, result);
+					});
+				});
+			});
+		});
+	},
+	
+	"purge": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {};
+		data.id = inputmaskData.id;
+		modelObj.getProduct(data, (err, record) => {
+			if (err) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 602, err), null);
+			}
+			if (!record) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 460, null), null);
+			}
+			if (!soajs.tenant.locked && record && record.locked) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 500, null));
+			}
+			record.scope = {
+				acl: {}
+			};
+			for (let i = 0; i < record.packages.length; i++) {
+				record.packages[i].acl = {};
+			}
+			
+			modelObj.saveProduct(record, (err) => {
+				bl.mp.closeModel(soajs, modelObj);
+				if (err) {
+					return cb(bl.handleError(soajs, 602, err), null);
+				}
+				return cb(null, true);
+			});
+		});
+	},
+	
+	"add": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {
+			name: inputmaskData.name,
+			code: inputmaskData.code,
+			description: inputmaskData.description,
+			scope: {
+				acl: {}
+			},
+			packages: [],
+			console: !!inputmaskData.soajs
+		};
+		
+		if (inputmaskData.scope) {
+			data.scope = inputmaskData.scope;
+		}
+		modelObj.checkIfExist(data, (err, count) => {
+			if (err) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 602, err));
+			}
+			
+			if (count > 0) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 468, null));
+			}
+			
+			modelObj.addProduct(data, (err, record) => {
+				bl.mp.closeModel(soajs, modelObj);
+				if (err) {
+					return cb(bl.handleError(soajs, 602, err));
+				}
+				return cb(null, record);
+			});
+		});
+	},
+	
+	"addPackage": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {};
+		data.id = inputmaskData.id;
+		data.soajs = !!inputmaskData.soajs;
+		
+		modelObj.getProduct(data, (err, record) => {
+			if (err) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 602, err), null);
+			}
+			if (!record) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 460, null), null);
+			}
+			if (!soajs.tenant.locked && record && record.locked) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 500, null));
+			}
+			if (!record.packages) {
+				record.packages = [];
+			}
+			let prefix = record.code.toUpperCase() + '_';
+			let found = false;
+			if (inputmaskData.code) {
+				record.packages.forEach(pack => {
+					if (pack.code === prefix + inputmaskData.code.toUpperCase()) {
+						found = true;
+					}
+				});
+			}
+			if (found) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 467, null));
+			}
+			let newPackage = {
+				"code": prefix + inputmaskData.code.toUpperCase(),
+				"name": inputmaskData.name,
+				"_TTL": inputmaskData._TTL * 3600 * 1000
+			};
+			
+			if (inputmaskData.description) {
+				newPackage.description = inputmaskData.description;
+			}
+			if (inputmaskData.tags) {
+				newPackage.tags = inputmaskData.tags;
+			}
+			newPackage.acl = inputmaskData.acl ? inputmaskData.acl : {};
+			if (inputmaskData.type) {
+				newPackage.aclType = inputmaskData.type;
+			}
+			if (newPackage.acl) {
+				let schema = {
+					"type": "object",
+					"required": false,
+					"patternProperties": {
+						"^[a-zA-Z0-9]+$": {
+							"type": "object",
+							"patternProperties": {
+								"^[^\W\.]+$": newPackage.aclType === "granular" ? granularAcl : apiGroup
+							},
+							"additionalProperties": false
+						}
+					},
+					"additionalProperties": false
+				};
+				let check = validator.validate(newPackage.acl, schema);
+				if (!check.valid) {
+					let message = `Invalid Acl of type ${newPackage.aclType === "granular" ? "Granular" : "Api Group"} provided!`;
+					soajs.log.debug(check.errors);
+					return cb({"code": "469", "msg": message});
+				}
+			}
+			record.packages.push(newPackage);
+			data._id = record._id;
+			data.packages = record.packages;
+			modelObj.updateProduct(record, (err) => {
+				bl.mp.closeModel(soajs, modelObj);
+				if (err) {
+					return cb(bl.handleError(soajs, 602, err), null);
+				}
+				return cb(null, newPackage.code);
+			});
+		});
+	},
+	
+	"delete": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {};
+		data.code = inputmaskData.code;
+		data.id = inputmaskData.id;
+		data.soajs = !!inputmaskData.soajs;
+		
+		modelObj.getProduct(data, (err, record) => {
+			if (err) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 602, err));
+			}
+			if (!record) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 460, null));
+			}
+			if (soajs.tenant.application.product === record.code) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 466, null));
+			}
+			if (!soajs.tenant.locked && record && record.locked) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 500, null));
+			}
+			data._id = record._id;
+			modelObj.deleteProduct(data, (err, result) => {
+				bl.mp.closeModel(soajs, modelObj);
+				if (err) {
+					return cb(bl.handleError(soajs, 602, err));
+				}
+				return cb(null, result);
+			});
+		});
+	},
+	
+	"deletePackage": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {};
+		data.id = inputmaskData.id;
+		data.soajs = !!inputmaskData.soajs;
+		modelObj.getProduct(data, (err, record) => {
+			if (err) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 602, err), null);
+			}
+			if (!record) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 460, null), null);
+			}
+			if (!soajs.tenant.locked && record && record.locked) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 500, null));
+			}
+			if (!record.packages) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 461, null));
+			}
+			let found = false;
+			for (let i = 0; i < record.packages.length; i++) {
+				if (record.packages[i].code.toUpperCase() === inputmaskData.code) {
+					record.packages.splice(i, 1);
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 461, null), null);
+			}
+			data._id = record._id;
+			data.packages = record.packages;
+			modelObj.updateProduct(data, (err) => {
+				bl.mp.closeModel(soajs, modelObj);
+				if (err) {
+					return cb(bl.handleError(soajs, 602, err), null);
+				}
+				return cb(null, `product package ${inputmaskData.packageCode} deleted successfully`);
+			});
+		});
+	},
+	
+	"update": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {};
+		data.id = inputmaskData.id;
+		data.soajs = !!inputmaskData.soajs;
+		modelObj.getProduct(data, (err, record) => {
+			if (err) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 602, err));
+			}
+			if (!record) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 460, null));
+			}
+			if (!soajs.tenant.locked && record && record.locked) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 500, null));
+			}
+			data.name = inputmaskData.name;
+			if (inputmaskData.description) {
+				data.description = inputmaskData.description;
+			}
+			data._id = record._id;
+			modelObj.updateProduct(data, (err, result) => {
+				bl.mp.closeModel(soajs, modelObj);
+				if (err) {
+					return cb(bl.handleError(soajs, 470, err));
+				}
+				return cb(null, result);
+			});
+		});
+	},
+	
+	"updateScope": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {};
+		data.id = inputmaskData.id;
+		data.soajs = !!inputmaskData.soajs;
+		modelObj.getProduct(data, (err, record) => {
+			if (err) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 602, err));
+			}
+			if (!record) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 460, null));
+			}
+			if (!soajs.tenant.locked && record && record.locked) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 500, null));
+			}
+			data.scope = inputmaskData.scope;
+			data._id = record._id;
+			modelObj.updateProduct(data, (err, result) => {
+				bl.mp.closeModel(soajs, modelObj);
+				if (err) {
+					return cb(bl.handleError(soajs, 470, err));
+				}
+				return cb(null, result);
+			});
+		});
+	},
+	
+	"updateScopeByEnv": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {};
+		data.id = inputmaskData.id;
+		data.soajs = !!inputmaskData.soajs;
+		modelObj.getProduct(data, (err, record) => {
+			if (err) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 602, err));
+			}
+			if (!record) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 460, null));
+			}
+			if (!soajs.tenant.locked && record && record.locked) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 500, null));
+			}
+			data.acl = inputmaskData.acl;
+			data.env = inputmaskData.env;
+			data._id = record._id;
+			modelObj.updateScope(data, (err, result) => {
+				bl.mp.closeModel(soajs, modelObj);
+				if (err) {
+					return cb(bl.handleError(soajs, 470, err));
+				}
+				return cb(null, result);
+			});
+		});
+	},
+	
+	"updatePackage": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {};
+		data.id = inputmaskData.id;
+		data.soajs = !!inputmaskData.soajs;
+		
+		modelObj.getProduct(data, (err, record) => {
+			if (err) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 602, err));
+			}
+			if (!record) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 460, null));
+			}
+			if (!soajs.tenant.locked && record && record.locked) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 500, null));
+			}
+			if (!record.packages) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 461, null));
+			}
+			let found = false;
+			for (let i = 0; i < record.packages.length; i++) {
+				if (record.packages[i].code.toUpperCase() === inputmaskData.code) {
+					if (inputmaskData.name) {
+						record.packages[i].name = inputmaskData.name;
+					}
+					if (inputmaskData.description) {
+						record.packages[i].description = inputmaskData.description;
+					}
+					if (inputmaskData._TTL) {
+						record.packages[i]._TTL = inputmaskData._TTL * 3600 * 1000;
+					}
+					if (inputmaskData.type) {
+						record.packages[i].aclTypeByEnv = inputmaskData.type;
+					}
+					if (inputmaskData.acl) {
+						record.packages[i].acl = inputmaskData.acl;
+						let schema = {
+							"type": "object",
+							"required": false,
+							"patternProperties": {
+								"^[a-zA-Z0-9]+$": {
+									"type": "object",
+									"patternProperties": {
+										"^[^\W\.]+$": record.packages[i].aclType === "granular" ? granularAcl : apiGroup
+									},
+									"additionalProperties": false
+								}
+							},
+							"additionalProperties": false
+						};
+						let check = validator.validate(record.packages[i].acl, schema);
+						if (!check.valid) {
+							let message = `Invalid Acl of type ${record.packages[i].aclType === "granular" ? "Granular" : "Api Group"} provided!`;
+							soajs.log.debug(check.errors);
+							return cb({"code": "469", "msg": message});
+						}
+					}
+					if (inputmaskData.tags) {
+						record.packages[i].tags = inputmaskData.tags;
+					}
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 461, null));
+			}
+			data._id = record._id;
+			data.packages = record.packages;
+			modelObj.updateProduct(data, (err) => {
+				bl.mp.closeModel(soajs, modelObj);
+				if (err) {
+					return cb(bl.handleError(soajs, 602, err));
+				}
+				return cb(null, `product package ${inputmaskData.code} updated successfully`);
+			});
+		});
+	},
+	
+	"updatePackageAclByEnv": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {};
+		data.id = inputmaskData.id;
+		data.soajs = !!inputmaskData.soajs;
+		modelObj.getProduct(data, (err, record) => {
+			if (err) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 602, err));
+			}
+			if (!record) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 460, null));
+			}
+			if (!soajs.tenant.locked && record && record.locked) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 500, null));
+			}
+			if (!record.packages) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 461, null));
+			}
+			let found = false;
+			for (let i = 0; i < record.packages.length; i++) {
+				if (record.packages[i].code.toUpperCase() === inputmaskData.code) {
+					record.packages[i].acl[inputmaskData.env.toLowerCase()] = inputmaskData.acl;
+					if (inputmaskData.type) {
+						if (!record.packages[i].aclTypeByEnv) {
+							record.packages[i].aclTypeByEnv = {};
+						}
+						
+						record.packages[i].aclTypeByEnv[inputmaskData.env.toLowerCase()] = inputmaskData.type;
+					} else {
+						if (record.packages[i].aclTypeByEnv) {
+							delete record.packages[i].aclTypeByEnv[req.soajs.inputmaskData.env.toLowerCase()];
+						}
+						
+					}
+					let schema = {
+						"type": "object",
+						"required": false,
+						"patternProperties": {
+							"^[^\W\.]+$": record.packages[i].aclTypeByEnv[inputmaskData.env.toLowerCase()] === "granular" ? granularAcl : apiGroup
+						},
+						"additionalProperties": false
+					};
+					let check = validator.validate(inputmaskData.acl, schema);
+					if (!check.valid) {
+						let message = `Invalid Acl of type ${record.packages[i].aclTypeByEnv[inputmaskData.env.toLowerCase()] === "granular" ? "Granular" : "Api Group"} provided!`;
+						soajs.log.debug(check.errors);
+						return cb({"code": "469", "msg": message});
+					}
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(bl.handleError(soajs, 461, null));
+			}
+			data._id = record._id;
+			data.packages = record.packages;
+			modelObj.updateProduct(data, (err) => {
+				bl.mp.closeModel(soajs, modelObj);
+				if (err) {
+					return cb(bl.handleError(soajs, 602, err));
+				}
+				return cb(null, `product package ${inputmaskData.code} updated successfully`);
+			});
+		});
+	},
+	
+	"updateScopePreviewService": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {};
+		data.code = inputmaskData.productCode;
+		data.soajs = !!inputmaskData.soajs;
+		modelObj.getProduct(data, (err, record) => {
+			bl.mp.closeModel(soajs, modelObj);
+			if (err) {
+				return cb(bl.handleError(soajs, 602, err), null);
+			}
+			if (!record) {
+				return cb(bl.handleError(soajs, 460, err), null);
+			}
+			let scope = record.scope || {};
+			let acl = inputmaskData.acl;
+			let env = inputmaskData.env.toLowerCase();
+			async.each(acl, function (oneService, callback) {
+				oneService.version = soajsLib.version.sanitize(oneService.version);
+				if (!scope.acl) {
+					scope.acl = {};
+				}
+				if (!scope.acl[env]) {
+					scope.acl[env] = {};
+				}
+				if (oneService.envs[env]) {
+					if (!scope.acl[env][oneService.service]) {
+						scope.acl[env][oneService.service] = {};
+					}
+					if (!scope.acl[env][oneService.service][oneService.version]) {
+						scope.acl[env][oneService.service][oneService.version] = {};
+					}
+					scope.acl[env][oneService.service][oneService.version].access = oneService.access[env];
+					if (oneService.restriction[env]) {
+						scope.acl[env][oneService.service][oneService.version].apisPermission = "restricted";
+					} else {
+						delete scope.acl[env][oneService.service][oneService.version].apisPermission;
+					}
+					
+				} else if (oneService.hasOwnProperty("envs")) {
+					delete scope.acl[env][oneService.service];
+				}
+				callback();
+			}, function () {
+				let data = {
+					acl: scope.acl[env],
+					env: env,
+					_id: record._id
+				};
+				
+				modelObj.updateScope(data, (err) => {
+					bl.mp.closeModel(soajs, modelObj);
+					if (err) {
+						return cb(bl.handleError(soajs, 470, err));
+					}
+					return cb(null, "Product Acl Updated!")
+				});
+			});
+		});
+	},
+	
+	"updateScopePreviewApi": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {};
+		data.code = inputmaskData.productCode;
+		data.soajs = !!inputmaskData.soajs;
+		modelObj.getProduct(data, (err, record) => {
+			bl.mp.closeModel(soajs, modelObj);
+			if (err) {
+				return cb(bl.handleError(soajs, 602, err), null);
+			}
+			if (!record) {
+				return cb(bl.handleError(soajs, 460, err), null);
+			}
+			let scope = record.scope || {};
+			let acl = inputmaskData.acl;
+			let env = inputmaskData.env.toLowerCase();
+			async.each(acl, function (oneService, callback) {
+				if (scope.acl && scope.acl[env] && scope.acl[env][oneService.service] &&
+					scope.acl[env][oneService.service][oneService.version]) {
+					if (oneService.envs[env]) {
+						if (!scope.acl[env][oneService.service][oneService.version][oneService.method]) {
+							scope.acl[env][oneService.service][oneService.version][oneService.method] = [];
+							scope.acl[env][oneService.service][oneService.version][oneService.method].push({
+								group: oneService.group,
+								apis: {
+									[oneService.api]: {
+										access: oneService.access[env]
+									}
+								}
+							});
+						} else {
+							let found = false;
+							scope.acl[env][oneService.service][oneService.version][oneService.method].forEach((oneGroup) => {
+								if (oneGroup.group === oneService.group && oneGroup.apis && oneGroup.apis[oneService.api]) {
+									oneGroup.apis[oneService.api].access = oneService.access[env];
+									found = true;
+								}
+							});
+							if (!found) {
+								scope.acl[env][oneService.service][oneService.version][oneService.method].push({
+									group: oneService.group,
+									apis: {
+										[oneService.api]: {
+											access: oneService.access[env]
+										}
+									}
+								});
+							}
+						}
+					} else {
+						for (let i = scope.acl[env][oneService.service][oneService.version][oneService.method].length - 1; i >= 0; i--) {
+							if (scope.acl[env][oneService.service][oneService.version][oneService.method][i].group === oneService.group &&
+								scope.acl[env][oneService.service][oneService.version][oneService.method][i].apis &&
+								scope.acl[env][oneService.service][oneService.version][oneService.method][i].apis[oneService.api]) {
+								delete scope.acl[env][oneService.service][oneService.version][oneService.method][i].apis[oneService.api];
+								if (Object.keys(scope.acl[env][oneService.service][oneService.version][oneService.method][i].apis).length === 0) {
+									scope.acl[env][oneService.service][oneService.version][oneService.method].splice(i, 1);
+								}
+							}
+						}
+						if (scope.acl[env][oneService.service][oneService.version][oneService.method].length === 0) {
+							delete scope.acl[env][oneService.service][oneService.version][oneService.method];
+						}
+					}
+					
+				}
+				callback();
+			}, function () {
+				let data = {
+					acl: scope.acl[env],
+					env: env,
+					_id: record._id
+				};
+				modelObj.updateScope(data, (err) => {
+					bl.mp.closeModel(soajs, modelObj);
+					if (err) {
+						return cb(bl.handleError(soajs, 470, err));
+					}
+					return cb(null, "Product Acl Updated!")
+				});
+			});
+		});
+	},
+	
+	"updatePackagesPreviewService": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {};
+		data.code = inputmaskData.productCode;
+		data.soajs = !!inputmaskData.soajs;
+		modelObj.getProduct(data, (err, record) => {
+			bl.mp.closeModel(soajs, modelObj);
+			if (err) {
+				return cb(bl.handleError(soajs, 602, err), null);
+			}
+			if (!record || !record.packages) {
+				return cb(bl.handleError(soajs, 461, null), null);
+			}
+			let pack = null;
+			for (let i = 0; i < record.packages.length; i++) {
+				if (record.packages[i].code === inputmaskData.packageCode) {
+					pack = record.packages[i];
+					break;
+				}
+			}
+			if (!pack) {
+				return cb(bl.handleError(soajs, 461, null), null);
+			}
+			let acl = inputmaskData.acl;
+			let env = inputmaskData.env.toLowerCase();
+			async.each(acl, function (oneService, callback) {
+				oneService.version = soajsLib.version.sanitize(oneService.version);
+				if (!pack.acl) {
+					pack.acl = {};
+				}
+				if (!pack.acl[env]) {
+					pack.acl[env] = {};
+				}
+				if (oneService.envs[env]) {
+					if (!pack.acl[env][oneService.service]) {
+						pack.acl[env][oneService.service] = {};
+					}
+					if (!pack.acl[env][oneService.service][oneService.version]) {
+						pack.acl[env][oneService.service][oneService.version] = {};
+					}
+					pack.acl[env][oneService.service][oneService.version].access = oneService.access[env];
+					if (oneService.restriction[env]) {
+						pack.acl[env][oneService.service][oneService.version].apisPermission = "restricted";
+					} else {
+						delete pack.acl[env][oneService.service][oneService.version].apisPermission;
+					}
+					
+				} else if (oneService.hasOwnProperty("envs")) {
+					delete pack.acl[env][oneService.service];
+				}
+				callback();
+			}, function () {
+				let data = {
+					packageCode: inputmaskData.packageCode,
+					code: inputmaskData.productCode,
+					acl: pack.acl
+				};
+				modelObj.updatePackageACL(data, (err) => {
+					bl.mp.closeModel(soajs, modelObj);
+					if (err) {
+						return cb(bl.handleError(soajs, 470, err));
+					}
+					return cb(null, "Product Package Acl Updated!")
+				});
+			});
+		});
+	},
+	
+	"updatePackagesPreviewApi": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		let modelObj = bl.mp.getModel(soajs);
+		let data = {};
+		data.code = inputmaskData.productCode;
+		data.soajs = !!inputmaskData.soajs;
+		modelObj.getProduct(data, (err, record) => {
+			bl.mp.closeModel(soajs, modelObj);
+			if (err) {
+				return cb(bl.handleError(soajs, 602, err), null);
+			}
+			if (!record || !record.packages) {
+				return cb(bl.handleError(soajs, 461, null), null);
+			}
+			let pack = null;
+			for (let i = 0; i < record.packages.length; i++) {
+				if (record.packages[i].code === inputmaskData.packageCode) {
+					pack = record.packages[i];
+					break;
+				}
+			}
+			if (!pack) {
+				return cb(bl.handleError(soajs, 461, null), null);
+			}
+			let acl = inputmaskData.acl;
+			let env = inputmaskData.env.toLowerCase();
+			async.each(acl, function (oneService, callback) {
+				if (pack.acl && pack.acl[env] && pack.acl[env][oneService.service] &&
+					pack.acl[env][oneService.service][oneService.version]) {
+					if (!pack.acl[env][oneService.service][oneService.version][oneService.method]) {
+						pack.acl[env][oneService.service][oneService.version][oneService.method] = {};
+					}
+					if (!pack.acl[env][oneService.service][oneService.version][oneService.method].apis) {
+						pack.acl[env][oneService.service][oneService.version][oneService.method].apis = {};
+					}
+					if (!pack.acl[env][oneService.service][oneService.version][oneService.method].apis[oneService.api]) {
+						pack.acl[env][oneService.service][oneService.version][oneService.method].apis[oneService.api] = {};
+					}
+					pack.acl[env][oneService.service][oneService.version][oneService.method].apis[oneService.api].group = oneService.group;
+					if (pack.acl[env][oneService.service][oneService.version].access !== oneService.access[env]) {
+						pack.acl[env][oneService.service][oneService.version][oneService.method].apis[oneService.api].access = oneService.access[env];
+					}
+					
+				}
+				callback();
+			}, function () {
+				let data = {
+					packageCode: inputmaskData.packageCode,
+					code: inputmaskData.productCode,
+					acl: pack.acl
+				};
+				modelObj.updatePackageACL(data, (err) => {
+					bl.mp.closeModel(soajs, modelObj);
+					if (err) {
+						return cb(bl.handleError(soajs, 470, err));
+					}
+					return cb(null, "Product Package Acl Updated!")
+				});
+			});
+		});
+	},
 };
 
 module.exports = bl;

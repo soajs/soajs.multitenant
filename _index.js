@@ -43,7 +43,19 @@ function run(serviceStartCb) {
 					return res.json(req.soajs.buildResponse(error, data));
 				});
 			});
+			service.get("/product/console", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
+				bl.product.get(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
 			service.get("/product/packages", (req, res) => {
+				bl.product.getPackages(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			service.get("/product/console/packages", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
 				bl.product.getPackages(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
 				});
@@ -53,13 +65,104 @@ function run(serviceStartCb) {
 					return res.json(req.soajs.buildResponse(error, data));
 				});
 			});
+			service.get("/product/console/package", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
+				bl.product.getPackage(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			service.get("/product/acl/scope/raw", (req, res) => {
+				bl.product.getAclScope(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			service.get("/product/console/acl/scope/raw", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
+				bl.product.getAclScope(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			service.get("/product/package/acl/raw", (req, res) => {
+				bl.product.getPackageAclScope(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			service.get("/product/console/package/acl/raw", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
+				bl.product.getPackageAclScope(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
 			service.get("/product/acl/ui", (req, res) => {
+				bl.product.getUIProductAcl(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			service.get("/product/console/acl/ui", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
 				bl.product.getUIProductAcl(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
 				});
 			});
 			service.get("/product/package/acl/ui", (req, res) => {
 				bl.product.getUIProductPackageAcl(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			service.get("/product/console/package/acl/ui", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
+				bl.product.getUIProductPackageAcl(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
+			service.get("/product/package/acl/service", (req, res) => {
+				bl.product.getPackagesPreviewService(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
+			service.get("/product/console/package/acl/service", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
+				bl.product.getPackagesPreviewService(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
+			service.get("/product/package/acl/api", (req, res) => {
+				bl.product.getPackagesPreviewApi(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			service.get("/product/console/package/acl/api", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
+				bl.product.getPackagesPreviewApi(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
+			service.get("/product/acl/scope/service", (req, res) => {
+				bl.product.getScopePreviewService(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
+			service.get("/product/console/acl/scope/service", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
+				bl.product.getScopePreviewService(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
+			service.get("/product/acl/scope/api", (req, res) => {
+				bl.product.getScopePreviewApi(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			service.get("/product/console/acl/scope/api", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
+				bl.product.getScopePreviewApi(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
 				});
 			});
@@ -71,7 +174,22 @@ function run(serviceStartCb) {
 					return res.json(req.soajs.buildResponse(error, data));
 				});
 			});
+			
+			service.post("/product/console", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
+				bl.product.add(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
 			service.post("/product/package", (req, res) => {
+				bl.product.addPackage(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
+			service.post("/product/console/package", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
 				bl.product.addPackage(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
 				});
@@ -85,12 +203,25 @@ function run(serviceStartCb) {
 				});
 			});
 			
+			service.delete("/product/console", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
+				bl.product.delete(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
 			service.delete("/product/package", (req, res) => {
 				bl.product.deletePackage(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
 				});
 			});
 			
+			service.delete("/product/console/package", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
+				bl.product.deletePackage(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
 			
 			//* PUT
 			
@@ -106,7 +237,21 @@ function run(serviceStartCb) {
 				});
 			});
 			
+			service.put("/product/console", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
+				bl.product.update(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
 			service.put("/product/scope", (req, res) => {
+				bl.product.updateScope(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
+			service.put("/product/scope/console", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
 				bl.product.updateScope(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
 				});
@@ -118,7 +263,21 @@ function run(serviceStartCb) {
 				});
 			});
 			
+			service.put("/product/console/scope/env", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
+				bl.product.updateScopeByEnv(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
 			service.put("/product/package", (req, res) => {
+				bl.product.updatePackage(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
+			service.put("/product/console/package", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
 				bl.product.updatePackage(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
 				});
@@ -126,6 +285,61 @@ function run(serviceStartCb) {
 			
 			service.put("/product/package/acl/env", (req, res) => {
 				bl.product.updatePackageAclByEnv(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
+			service.put("/product/console/package/acl/env", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
+				bl.product.updatePackageAclByEnv(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
+			service.put("/product/package/acl/service", (req, res) => {
+				bl.product.updatePackagesPreviewService(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
+			service.put("/product/console/package/acl/service", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
+				bl.product.updatePackagesPreviewService(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
+			service.put("/product/package/acl/api", (req, res) => {
+				bl.product.updatePackagesPreviewApi(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			service.put("/product/console/package/acl/api", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
+				bl.product.updatePackagesPreviewApi(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
+			service.put("/product/acl/scope/service", (req, res) => {
+				bl.product.updateScopePreviewService(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			service.put("/product/console/acl/scope/service", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
+				bl.product.updateScopePreviewService(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			service.put("/product/acl/scope/api", (req, res) => {
+				bl.product.updateScopePreviewApi(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			service.put("/product/console/acl/scope/api", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
+				bl.product.updateScopePreviewApi(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
 				});
 			});
@@ -140,13 +354,14 @@ function run(serviceStartCb) {
 				});
 			});
 			
+			
 			service.get("/admin/tenant", (req, res) => {
 				bl.tenant.get(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
 				});
 			});
 			
-			service.get("/console/tenant", (req, res) => {
+			service.get("/tenant/console", (req, res) => {
 				bl.tenant.getConsole(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
 				});
@@ -154,6 +369,12 @@ function run(serviceStartCb) {
 			
 			service.get("/tenants", (req, res) => {
 				bl.tenant.list(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
+			service.get("/tenants/console", (req, res) => {
+				bl.tenant.listConsole(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
 				});
 			});
@@ -182,6 +403,18 @@ function run(serviceStartCb) {
 				});
 			});
 			
+			service.get("/tenant/application/key", (req, res) => {
+				bl.tenant.listApplicationKeys(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
+			service.get("/admin/tenant/application/key", (req, res) => {
+				bl.tenant.listApplicationKeys(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
 			service.get("/tenant/application/key/ext", (req, res) => {
 				bl.tenant.listApplicationExtKeys(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
@@ -194,9 +427,40 @@ function run(serviceStartCb) {
 				});
 			});
 			
+			service.get("/tenant/application/key/config", (req, res) => {
+				bl.tenant.listApplicationKeyConfig(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
+			service.get("/admin/tenant/application/key/config", (req, res) => {
+				bl.tenant.listApplicationKeyConfig(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
+			service.get("/tenant/oauth/users", (req, res) => {
+				bl.tenant.listTenantOauthUsers(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
+			service.get("/admin/tenant/oauth/users", (req, res) => {
+				bl.tenant.listTenantOauthUsers(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
 			//* Post
 			
 			service.post("/tenant", (req, res) => {
+				bl.tenant.add(req.soajs, req.soajs.inputmaskData, soajs, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
+			service.post("/tenant", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
 				bl.tenant.add(req.soajs, req.soajs.inputmaskData, soajs, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
 				});
@@ -234,6 +498,18 @@ function run(serviceStartCb) {
 			
 			service.post("/admin/tenant/application/key/ext", (req, res) => {
 				bl.tenant.addApplicationExtKey(req.soajs, req.soajs.inputmaskData, soajs, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
+			service.post("/tenant/oauth/user", (req, res) => {
+				bl.tenant.addOauthUser(req.soajs, req.soajs.inputmaskData, soajs, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
+			service.post("/admin/tenant/oauth/user", (req, res) => {
+				bl.tenant.addOauthUser(req.soajs, req.soajs.inputmaskData, soajs, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
 				});
 			});
@@ -276,7 +552,6 @@ function run(serviceStartCb) {
 				});
 			});
 			
-			
 			service.put("/tenant/application/key", (req, res) => {
 				bl.tenant.updateApplicationKey(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
@@ -301,6 +576,42 @@ function run(serviceStartCb) {
 				});
 			});
 			
+			
+			service.put("/tenant/application/key/config", (req, res) => {
+				bl.tenant.updateApplicationKeyConfig(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
+			service.put("/admin/tenant/application/key/config", (req, res) => {
+				bl.tenant.updateApplicationKeyConfig(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
+			service.put("/tenant/oauth", (req, res) => {
+				bl.tenant.updateOauth(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
+			service.put("/admin/tenant/oauth", (req, res) => {
+				bl.tenant.updateOauth(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
+			service.put("/tenant/oauth/user", (req, res) => {
+				bl.tenant.updateOuathUser(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
+			service.put("/admin/tenant/oauth/user", (req, res) => {
+				bl.tenant.updateOuathUser(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
 			//* DELETE
 			
 			service.delete("/tenant", (req, res) => {
