@@ -26,7 +26,7 @@ describe("Testing get product API", () => {
         done();
     });
 
-    it("Success - will return product record", (done) => {
+    it("Success - will return product record by code", (done) => {
         let params = {
             qs: {
                 code: 'TPROD'
@@ -44,6 +44,25 @@ describe("Testing get product API", () => {
             done();
         });
     });
+	
+	it("Success - will return product record by id", (done) => {
+		let params = {
+			qs: {
+				id: '5f575ec295bb89628f3221d1'
+			}
+		};
+		requester('/product', 'get', params, (error, body) => {
+			assert.ifError(error);
+			assert.ok(body);
+			assert.ok(body.data);
+			assert.deepEqual(body.data.name, 'Test 2 Product');
+			assert.deepEqual(body.data.code, 'TEST2');
+			let check = validator.validate(body, getProductSchema);
+			assert.deepEqual(check.valid, true);
+			assert.deepEqual(check.errors, []);
+			done();
+		});
+	});
 
     it("Fail - will not return product record - wrong request", (done) => {
         let params = {};
@@ -57,4 +76,22 @@ describe("Testing get product API", () => {
             done();
         });
     });
+	
+	it("Success - will return console product record", (done) => {
+		let params = {
+			qs: {
+				code: 'DSBRD'
+			}
+		};
+		requester('/product/console', 'get', params, (error, body) => {
+			assert.ifError(error);
+			assert.ok(body);
+			assert.ok(body.data);
+			assert.deepEqual(body.data.code, 'DSBRD');
+			let check = validator.validate(body, getProductSchema);
+			assert.deepEqual(check.valid, true);
+			assert.deepEqual(check.errors, []);
+			done();
+		});
+	});
 });

@@ -45,6 +45,25 @@ describe("Testing get Package API", () => {
             done();
         });
     });
+	
+	it("Success - will get a console product package ", (done) => {
+		let params = {
+			qs: {
+				packageCode: 'DSBRD_GUEST',
+				productCode: 'DSBRD'
+			}
+		};
+		requester('/product/console/package', 'get', params, (error, body) => {
+			assert.ifError(error);
+			assert.ok(body);
+			assert.deepEqual(body.data.code, "DSBRD_GUEST");
+			assert.deepEqual(body.data.name, 'Guest');
+			let check = validator.validate(body, getPackageSchema);
+			assert.deepEqual(check.valid, true);
+			assert.deepEqual(check.errors, []);
+			done();
+		});
+	});
 
     it("Fail - will not get a product package - no params", (done) => {
         let params = {};

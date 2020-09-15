@@ -33,6 +33,13 @@ describe("Testing list products API", () => {
             assert.ok(body);
             assert.ok(body.data);
             assert.ok(body.data.length > 0);
+	        let nonConsole = true;
+	        body.data.forEach((prod)=>{
+		        if (prod.console){
+			        nonConsole = prod.console;
+		        }
+	        });
+	        assert.ok(nonConsole);
             let check = validator.validate(body, listProductsSchema);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);
@@ -50,6 +57,13 @@ describe("Testing list console products API", () => {
             assert.ok(body);
             assert.ok(body.data);
             assert.ok(body.data.length > 0);
+            let console = true;
+            body.data.forEach((prod)=>{
+            	if (!prod.console){
+		            console = !prod.console;
+	            }
+            });
+            assert.ok(console);
             let check = validator.validate(body, listProductsSchema);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);

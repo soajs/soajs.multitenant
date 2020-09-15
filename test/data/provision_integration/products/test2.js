@@ -2,6 +2,7 @@
 
 let lib = {
     "code" : "TEST2",
+	"_id": "5f575ec295bb89628f3221d1",
     "name" : "Test 2 Product",
     "description" : "This is another product with multiple services and versions, version is sanitized",
     "console": false,
