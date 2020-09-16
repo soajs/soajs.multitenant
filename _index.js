@@ -354,7 +354,6 @@ function run(serviceStartCb) {
 				});
 			});
 			
-			
 			service.get("/admin/tenant", (req, res) => {
 				bl.tenant.get(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
@@ -362,7 +361,8 @@ function run(serviceStartCb) {
 			});
 			
 			service.get("/tenant/console", (req, res) => {
-				bl.tenant.getConsole(req.soajs, req.soajs.inputmaskData, (error, data) => {
+				req.soajs.inputmaskData.soajs = true;
+				bl.tenant.get(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
 				});
 			});
@@ -385,6 +385,13 @@ function run(serviceStartCb) {
 				});
 			});
 			
+			service.get("/tenant/console/application", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
+				bl.tenant.getApplication(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
 			service.get("/admin/tenant/application", (req, res) => {
 				bl.tenant.getApplication(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
@@ -392,6 +399,13 @@ function run(serviceStartCb) {
 			});
 			
 			service.get("/tenant/applications", (req, res) => {
+				bl.tenant.listApplications(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
+			service.get("/tenant/console/applications", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
 				bl.tenant.listApplications(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
 				});
@@ -409,6 +423,13 @@ function run(serviceStartCb) {
 				});
 			});
 			
+			service.get("/tenant/console/application/key", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
+				bl.tenant.listApplicationKeys(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
 			service.get("/admin/tenant/application/key", (req, res) => {
 				bl.tenant.listApplicationKeys(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
@@ -416,6 +437,13 @@ function run(serviceStartCb) {
 			});
 			
 			service.get("/tenant/application/key/ext", (req, res) => {
+				bl.tenant.listApplicationExtKeys(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
+			service.get("/tenant/console/application/key/ext", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
 				bl.tenant.listApplicationExtKeys(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
 				});
@@ -433,6 +461,13 @@ function run(serviceStartCb) {
 				});
 			});
 			
+			service.get("/tenant/console/application/key/config", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
+				bl.tenant.listApplicationKeyConfig(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
 			service.get("/admin/tenant/application/key/config", (req, res) => {
 				bl.tenant.listApplicationKeyConfig(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
@@ -440,6 +475,13 @@ function run(serviceStartCb) {
 			});
 			
 			service.get("/tenant/oauth/users", (req, res) => {
+				bl.tenant.listTenantOauthUsers(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
+			service.get("/tenant/console/oauth/users", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
 				bl.tenant.listTenantOauthUsers(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
 				});
@@ -459,7 +501,7 @@ function run(serviceStartCb) {
 				});
 			});
 			
-			service.post("/tenant", (req, res) => {
+			service.post("/tenant/console", (req, res) => {
 				req.soajs.inputmaskData.soajs = true;
 				bl.tenant.add(req.soajs, req.soajs.inputmaskData, soajs, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
@@ -467,6 +509,13 @@ function run(serviceStartCb) {
 			});
 			
 			service.post("/tenant/application", (req, res) => {
+				bl.tenant.addApplication(req.soajs, req.soajs.inputmaskData, soajs, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
+			service.post("/tenant/console/application", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
 				bl.tenant.addApplication(req.soajs, req.soajs.inputmaskData, soajs, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
 				});
@@ -484,6 +533,13 @@ function run(serviceStartCb) {
 				});
 			});
 			
+			service.post("/tenant/console/application/key", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
+				bl.tenant.addApplicationKey(req.soajs, req.soajs.inputmaskData, soajs, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
 			service.post("/admin/tenant/application/key", (req, res) => {
 				bl.tenant.addApplicationKey(req.soajs, req.soajs.inputmaskData, soajs, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
@@ -496,6 +552,13 @@ function run(serviceStartCb) {
 				});
 			});
 			
+			service.post("/tenant/console/application/key/ext", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
+				bl.tenant.addApplicationExtKey(req.soajs, req.soajs.inputmaskData, soajs, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
 			service.post("/admin/tenant/application/key/ext", (req, res) => {
 				bl.tenant.addApplicationExtKey(req.soajs, req.soajs.inputmaskData, soajs, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
@@ -503,6 +566,13 @@ function run(serviceStartCb) {
 			});
 			
 			service.post("/tenant/oauth/user", (req, res) => {
+				bl.tenant.addOauthUser(req.soajs, req.soajs.inputmaskData, soajs, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
+			service.post("/tenant/console/oauth/user", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
 				bl.tenant.addOauthUser(req.soajs, req.soajs.inputmaskData, soajs, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
 				});
@@ -522,6 +592,13 @@ function run(serviceStartCb) {
 				});
 			});
 			
+			service.put("/tenant/console", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
+				bl.tenant.updateTenant(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
 			service.put("/admin/tenant", (req, res) => {
 				bl.tenant.updateTenant(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
@@ -529,6 +606,13 @@ function run(serviceStartCb) {
 			});
 			
 			service.put("/tenant/profile", (req, res) => {
+				bl.tenant.updateProfile(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
+			service.put("/tenant/console/profile", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
 				bl.tenant.updateProfile(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
 				});
@@ -546,6 +630,13 @@ function run(serviceStartCb) {
 				});
 			});
 			
+			service.put("/tenant/console/application", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
+				bl.tenant.updateApplication(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
 			service.put("/admin/tenant/application", (req, res) => {
 				bl.tenant.updateApplication(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
@@ -558,6 +649,13 @@ function run(serviceStartCb) {
 				});
 			});
 			
+			service.put("/tenant/console/application/key", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
+				bl.tenant.updateApplicationKey(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
 			service.put("/admin/tenant/application/key", (req, res) => {
 				bl.tenant.updateApplicationKey(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
@@ -565,6 +663,13 @@ function run(serviceStartCb) {
 			});
 			
 			service.put("/tenant/application/key/ext", (req, res) => {
+				bl.tenant.updateApplicationExternalKey(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
+			service.put("/tenant/console/application/key/ext", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
 				bl.tenant.updateApplicationExternalKey(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
 				});
@@ -583,6 +688,13 @@ function run(serviceStartCb) {
 				});
 			});
 			
+			service.put("/tenant/console/application/key/config", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
+				bl.tenant.updateApplicationKeyConfig(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
 			service.put("/admin/tenant/application/key/config", (req, res) => {
 				bl.tenant.updateApplicationKeyConfig(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
@@ -595,6 +707,13 @@ function run(serviceStartCb) {
 				});
 			});
 			
+			service.put("/tenant/console/oauth", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
+				bl.tenant.updateOauth(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
 			service.put("/admin/tenant/oauth", (req, res) => {
 				bl.tenant.updateOauth(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
@@ -602,6 +721,13 @@ function run(serviceStartCb) {
 			});
 			
 			service.put("/tenant/oauth/user", (req, res) => {
+				bl.tenant.updateOuathUser(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
+			service.put("/tenant/console/oauth/user", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
 				bl.tenant.updateOuathUser(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
 				});
@@ -620,7 +746,21 @@ function run(serviceStartCb) {
 				});
 			});
 			
+			service.delete("/tenant/console", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
+				bl.tenant.delete(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
 			service.delete("/tenant/application", (req, res) => {
+				bl.tenant.deleteApplication(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
+			service.delete("/tenant/console/application", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
 				bl.tenant.deleteApplication(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
 				});
@@ -632,7 +772,21 @@ function run(serviceStartCb) {
 				});
 			});
 			
+			service.delete("/tenant/console/application/key", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
+				bl.tenant.deleteApplicationKey(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
 			service.delete("/tenant/application/key/ext", (req, res) => {
+				bl.tenant.deleteApplicationExternalKey(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
+			service.delete("/tenant/console/application/key/ext", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
 				bl.tenant.deleteApplicationExternalKey(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
 				});

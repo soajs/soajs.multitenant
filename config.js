@@ -72,7 +72,7 @@ module.exports = {
 		455: "Unable to add a new key to the tenant application",
 		456: "Unable to add the tenant application ext Key",
 		457: "Unable to find application",
-		
+		459: "Unable to update the tenant OAuth, Server to server authentication is only supported with Oauth 2.0",
 		460: "Unable to find product",
 		461: "Unable to find package",
 		462: "You are not allowed to remove the tenant you are currently logged in with",
@@ -129,7 +129,7 @@ module.exports = {
 				}
 			},
 			"key": {
-				"source": ['body.key'],
+				"source": ['body.key', 'query.key'],
 				"required": true,
 				"validation": {
 					"type": "string"
@@ -143,7 +143,7 @@ module.exports = {
 				}
 			},
 			"appId": {
-				"source": ['body.appId'],
+				"source": ['body.appId', 'query.appId'],
 				"required": true,
 				"validation": {
 					"type": "string"
@@ -850,8 +850,8 @@ module.exports = {
 					"l": "Get console tenant",
 					"group": "Console Tenant"
 				},
-				"code": {
-					"source": ['query.code'],
+				"id": {
+					"source": ['query.id'],
 					"required": true,
 					"validation": {
 						"type": "string"
@@ -883,7 +883,14 @@ module.exports = {
 					"validation": {
 						"type": "string"
 					}
-				}
+				},
+				"id": {
+					"source": ['query.id'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
 				
 			},
 			"/admin/tenant/application": {
@@ -917,6 +924,13 @@ module.exports = {
 					"l": "List console tenant applications",
 					"group": "Console tenant"
 				},
+				"id": {
+					"source": ['query.id'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				}
 			},
 			"/admin/tenant/applications": {
 				_apiInfo: {
@@ -931,21 +945,21 @@ module.exports = {
 					}
 				}
 			},
-			"/tenant/application/keys": {
+			"/tenant/application/key": {
 				_apiInfo: {
 					"l": "List tenant application keys",
 					"group": "Tenant"
 				},
 				"commonFields": ['appId']
 			},
-			"/tenant/console/application/keys": {
+			"/tenant/console/application/key": {
 				_apiInfo: {
 					"l": "List console tenant application keys",
 					"group": "Console tenant"
 				},
-				"commonFields": ['appId']
+				"commonFields": ['id', 'appId']
 			},
-			"/admin/tenant/application/keys": {
+			"/admin/tenant/application/key": {
 				_apiInfo: {
 					"l": "List tenant application keys",
 					"group": "Tenant"
@@ -977,6 +991,7 @@ module.exports = {
 					"l": "List console tenant application ext keys",
 					"group": "Console Tenant"
 				},
+				"commonFields": ['id'],
 				"appId": {
 					"source": ['query.appId'],
 					"required": true,
@@ -1025,7 +1040,7 @@ module.exports = {
 					"l": "List tenant application key configuration",
 					"group": "Tenant Application"
 				},
-				"commonFields": ['appId', 'key']
+				"commonFields": ['id', 'appId', 'key']
 			},
 			"/admin/tenant/application/key/config": {
 				_apiInfo: {
@@ -1033,25 +1048,6 @@ module.exports = {
 					"group": "Tenant"
 				},
 				"commonFields": ['id', 'appId', 'key']
-			},
-			"/tenant/oauth/users": {
-				_apiInfo: {
-					"l": "List tenant oauth users",
-					"group": "Tenant"
-				}
-			},
-			"/tenant/console/oauth/users": {
-				_apiInfo: {
-					"l": "List console tenant oauth users",
-					"group": "Tenant"
-				}
-			},
-			"/admin/tenant/oauth/users": {
-				_apiInfo: {
-					"l": "List tenant oauth users",
-					"group": "Tenant"
-				},
-				"commonFields": ['id']
 			},
 		},
 		
@@ -1676,6 +1672,13 @@ module.exports = {
 					"l": "Add application to console tenant with optional key and ext key",
 					"group": "Console tenant"
 				},
+				"id": {
+					"source": ['query.id'],
+					"validation": {
+						"type": "string"
+					},
+					"required": true
+				},
 				"description": {
 					"source": ['body.description'],
 					"validation": {
@@ -1854,6 +1857,13 @@ module.exports = {
 					"group": "Console tenant"
 				},
 				"commonFields": ['appId'],
+				"id": {
+					"source": ['query.id'],
+					"validation": {
+						"type": "string"
+					},
+					"required": true
+				},
 				"config": {
 					"source": ['body.config'],
 					"required": false,
@@ -1949,6 +1959,13 @@ module.exports = {
 					"l": "Add console external key to tenant application",
 					"group": "Console tenant"
 				},
+				"id": {
+					"source": ['query.id'],
+					"validation": {
+						"type": "string"
+					},
+					"required": true
+				},
 				"commonFields": ['appId', 'key', "expDate", "device", "geo"],
 				"label": {
 					"source": ['body.label'],
@@ -1964,30 +1981,6 @@ module.exports = {
 					},
 					"required": true
 				}
-			},
-			
-			"/tenant/oauth/user": {
-				_apiInfo: {
-					"l": "Add tenant oauth user",
-					"group": "Tenant"
-				},
-				"commonFields": ['userId', 'password']
-			},
-			
-			"/tenant/console/oauth/user": {
-				_apiInfo: {
-					"l": "Add console tenant oauth user",
-					"group": "Console tenant"
-				},
-				"commonFields": ['userId', 'password']
-			},
-			
-			"/admin/tenant/oauth/user": {
-				_apiInfo: {
-					"l": "Add tenant oauth user",
-					"group": "Tenant"
-				},
-				"commonFields": ['id', 'userId', 'password']
 			},
 		},
 		
@@ -2192,22 +2185,6 @@ module.exports = {
 						"type": "string"
 					}
 				}
-			},
-			
-			"/tenant/oauth/user": {
-				_apiInfo: {
-					"l": "Delete console tenant oauth user",
-					"group": "Tenant"
-				},
-				"commonFields": ['id', 'uId']
-			},
-			
-			"/tenant/console/oauth/user": {
-				_apiInfo: {
-					"l": "Delete console tenant oauth user",
-					"group": "Console tenant"
-				},
-				"commonFields": ['id', 'uId']
 			},
 			
 			"/tenant/console": {
@@ -2907,6 +2884,13 @@ module.exports = {
 					"group": "Console tenant"
 				},
 				"commonFields": ['description'],
+				"id": {
+					"source": ['query.id'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
 				"tag": {
 					"source": ['body.tag'],
 					"required": false,
@@ -2978,6 +2962,13 @@ module.exports = {
 						"type": "object"
 					}
 				},
+				"id": {
+					"source": ['query.id'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
 			},
 			
 			"/admin/tenant/profile": {
@@ -3006,14 +2997,7 @@ module.exports = {
 					"l": "Update tenant application",
 					"group": "Tenant"
 				},
-				"commonFields": ['description'],
-				"appId": {
-					"source": ['body.appId'],
-					"required": true,
-					"validation": {
-						"type": "string"
-					}
-				},
+				"commonFields": ['description', 'appId'],
 				"_TTL": {
 					"source": ['body._TTL'],
 					"required": false,
@@ -3037,17 +3021,17 @@ module.exports = {
 					"l": "Update console tenant application",
 					"group": "Console tenant"
 				},
-				"commonFields": ['description'],
-				"appId": {
-					"source": ['body.appId'],
-					"required": true,
+				"commonFields": ['description', 'appId'],
+				"_TTL": {
+					"source": ['body._TTL'],
+					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
-				"_TTL": {
-					"source": ['body._TTL'],
-					"required": false,
+				"id": {
+					"source": ['query.id'],
+					"required": true,
 					"validation": {
 						"type": "string"
 					}
@@ -3068,16 +3052,9 @@ module.exports = {
 					"l": "Update tenant application",
 					"group": "Admin Tenant"
 				},
-				"commonFields": ['description'],
+				"commonFields": ['description', 'appId'],
 				"id": {
 					"source": ['query.id'],
-					"required": true,
-					"validation": {
-						"type": "string"
-					}
-				},
-				"appId": {
-					"source": ['body.appId'],
 					"required": true,
 					"validation": {
 						"type": "string"
@@ -3113,6 +3090,13 @@ module.exports = {
 					"group": "Console tenant"
 				},
 				"commonFields": ["appId", "key"],
+				"id": {
+					"source": ['query.id'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
 				"config": {
 					"source": ['body.config'],
 					"required": true,
@@ -3179,6 +3163,13 @@ module.exports = {
 						"type": "string"
 					}
 				},
+				"id": {
+					"source": ['query.id'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
 				"extKeyEnv": {
 					"source": ['body.extKeyEnv'],
 					"required": false,
@@ -3215,7 +3206,6 @@ module.exports = {
 						"type": "string"
 					}
 				}
-				//todo: add config
 			},
 			
 			"/tenant/application/key/config": {
@@ -3223,7 +3213,21 @@ module.exports = {
 					"l": "Update tenant application key configuration",
 					"group": "Tenant Application"
 				},
-				"commonFields": ['appId', 'key', 'envCode', 'config']
+				"commonFields": ['appId', 'key'],
+				'envCode': {
+					'source': ['body.envCode'],
+					'required': true,
+					'validation': {
+						'type': 'string'
+					}
+				},
+				'config': {
+					"source": ['body.config'],
+					"required": true,
+					"validation": {
+						"type": "object"
+					}
+				},
 			},
 			
 			"/tenant/console/application/key/config": {
@@ -3231,7 +3235,21 @@ module.exports = {
 					"l": "Update console tenant application key configuration",
 					"group": "Console tenant"
 				},
-				"commonFields": ['appId', 'key', 'envCode', 'config']
+				"commonFields": ['id', 'appId', 'key'],
+				'envCode': {
+					'source': ['body.envCode'],
+					'required': true,
+					'validation': {
+						'type': 'string'
+					}
+				},
+				'config': {
+					"source": ['body.config'],
+					"required": true,
+					"validation": {
+						"type": "object"
+					}
+				},
 			},
 			
 			"/admin/tenant/application/key/config": {
@@ -3239,7 +3257,21 @@ module.exports = {
 					"l": "Update tenant application key configuration",
 					"group": "Admin Tenant"
 				},
-				"commonFields": ['id', 'appId', 'key', 'envCode', 'config']
+				"commonFields": ['id', 'appId', 'key'],
+				'envCode': {
+					'source': ['body.envCode'],
+					'required': true,
+					'validation': {
+						'type': 'string'
+					}
+				},
+				'config': {
+					"source": ['body.config'],
+					"required": true,
+					"validation": {
+						"type": "object"
+					}
+				},
 			},
 			
 			"/tenant/oauth": {
@@ -3247,7 +3279,6 @@ module.exports = {
 					"l": "Update tenant oauth configuration",
 					"group": "Tenant"
 				},
-				"commonFields": ['secret', 'redirectURI', 'availableEnv'],
 				"type": {
 					"source": ['body.type'],
 					"required": false,
@@ -3269,6 +3300,29 @@ module.exports = {
 					"required": false,
 					"validation": {
 						"type": "object"
+					}
+				},
+				"secret": {
+					"source": ['body.secret'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"redirectURI": {
+					"source": ['body.redirectURI'],
+					"required": false,
+					"validation": {
+						"type": "string",
+						"format": "uri"
+					}
+				},
+				'availableEnv': {
+					'source': ['body.availableEnv'],
+					'required': true,
+					'validation': {
+						'type': 'array',
+						'items': {'type': 'string'}
 					}
 				},
 			},
@@ -3278,7 +3332,7 @@ module.exports = {
 					"l": "Update console tenant oauth configuration",
 					"group": "Console tenant"
 				},
-				"commonFields": ['secret', 'redirectURI', 'availableEnv'],
+				"commonFields": ['id'],
 				"type": {
 					"source": ['body.type'],
 					"required": false,
@@ -3300,6 +3354,29 @@ module.exports = {
 					"required": false,
 					"validation": {
 						"type": "object"
+					}
+				},
+				"secret": {
+					"source": ['body.secret'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"redirectURI": {
+					"source": ['body.redirectURI'],
+					"required": false,
+					"validation": {
+						"type": "string",
+						"format": "uri"
+					}
+				},
+				'availableEnv': {
+					'source': ['body.availableEnv'],
+					'required': true,
+					'validation': {
+						'type': 'array',
+						'items': {'type': 'string'}
 					}
 				},
 			},
@@ -3309,7 +3386,7 @@ module.exports = {
 					"l": "Update tenant oauth configuration",
 					"group": "Admin tenant"
 				},
-				"commonFields": ['id', 'secret', 'redirectURI', 'availableEnv'],
+				"commonFields": ['id'],
 				"type": {
 					"source": ['body.type'],
 					"required": false,
@@ -3333,73 +3410,30 @@ module.exports = {
 						"type": "object"
 					}
 				},
-			},
-			
-			"/tenant/oauth/user": {
-				_apiInfo: {
-					"l": "Update Tenant oAuth User",
-					"group": "Tenant oAuth"
-				},
-				"commonFields": ['uId'],
-				"userId": {
-					"source": ['body.userId'],
-					"required": false,
+				"secret": {
+					"source": ['body.secret'],
+					"required": true,
 					"validation": {
 						"type": "string"
 					}
 				},
-				"password": {
-					"source": ['body.password'],
+				"redirectURI": {
+					"source": ['body.redirectURI'],
 					"required": false,
 					"validation": {
-						"type": "string"
-					}
-				}
-			},
-			
-			"/tenant/console/oauth/user": {
-				_apiInfo: {
-					"l": "Update console tenant oauth user",
-					"group": "Console Tenant"
-				},
-				"commonFields": ['uId'],
-				"userId": {
-					"source": ['body.userId'],
-					"required": false,
-					"validation": {
-						"type": "string"
+						"type": "string",
+						"format": "uri"
 					}
 				},
-				"password": {
-					"source": ['body.password'],
-					"required": false,
-					"validation": {
-						"type": "string"
-					}
-				}
-			},
-			
-			"/admin/tenant/oauth/user": {
-				_apiInfo: {
-					"l": "Update admin tenant oauth user",
-					"group": "Admin tenant"
-				},
-				"commonFields": ['id', 'uId'],
-				"userId": {
-					"source": ['body.userId'],
-					"required": false,
-					"validation": {
-						"type": "string"
+				'availableEnv': {
+					'source': ['body.availableEnv'],
+					'required': true,
+					'validation': {
+						'type': 'array',
+						'items': {'type': 'string'}
 					}
 				},
-				"password": {
-					"source": ['body.password'],
-					"required": false,
-					"validation": {
-						"type": "string"
-					}
-				}
-			},
+			}
 		}
 	}
 };

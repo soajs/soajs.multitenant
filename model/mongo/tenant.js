@@ -80,45 +80,20 @@ Tenant.prototype.getTenant = function (data, cb) {
 		return cb(error, null);
 	}
 	
+	let partial = [
+		{
+			console: !!data.soajs
+		}
+	];
+	if (!data.soajs) {
+		partial.push({console: null});
+	}
 	let condition = {
 		'$and': [{
-			"$or": [
-				{console: false},
-				{console: null}
-			]
+			"$or": partial
 		}]
 	};
 	
-	if (data.id) {
-		__self.validateId(data.id, (err, id) => {
-			if (err) {
-				return cb(err, null);
-			}
-			condition.$and.push({'_id': id});
-			__self.mongoCore.findOne(colName, condition, null, cb);
-		});
-	} else {
-		if (data.code) {
-			condition.$and.push({'code': data.code});
-		}
-		
-		__self.mongoCore.findOne(colName, condition, null, cb);
-	}
-};
-
-Tenant.prototype.getConsoleTenant = function (data, cb) {
-	let __self = this;
-	if (!data || !(data.id || data.code)) {
-		let error = new Error("id or code is required.");
-		return cb(error, null);
-	}
-	let condition = {
-		'$and': [{
-			"$or": [
-				{console: true}
-			]
-		}]
-	};
 	if (data.id) {
 		__self.validateId(data.id, (err, id) => {
 			if (err) {
@@ -146,6 +121,19 @@ Tenant.prototype.listTenants = function (data, cb) {
 				{console: null}
 			]
 		}]
+	};
+	
+	if (data && data.type) {
+		condition.$and.push({'type': data.type});
+	}
+	__self.mongoCore.find(colName, condition, null, cb);
+};
+
+Tenant.prototype.listConsoleTenants = function (data, cb) {
+	let __self = this;
+	
+	let condition = {
+		'$and': [{console: true}]
 	};
 	
 	if (data && data.type) {
@@ -256,6 +244,10 @@ Tenant.prototype.updateTenant = function (data, cb) {
 	}
 	if (data.applications) {
 		fields.$set.applications = data.applications;
+	}
+	
+	if (data.oauth) {
+		fields.$set.oauth = data.oauth;
 	}
 	
 	if (Object.keys(fields.$set).length === 0) {
