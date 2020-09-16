@@ -14,7 +14,7 @@ let config = require('./config.js');
 config.packagejson = require("./package.json");
 
 const bl = require("./bl/index.js");
-
+const sdk = require("./lib/sdk.js");
 const service = new soajs.server.service(config);
 
 function run(serviceStartCb) {
@@ -285,62 +285,162 @@ function run(serviceStartCb) {
 			
 			service.put("/product/package/acl/env", (req, res) => {
 				bl.product.updatePackageAclByEnv(req.soajs, req.soajs.inputmaskData, (error, data) => {
-					return res.json(req.soajs.buildResponse(error, data));
+					let response = req.soajs.buildResponse(error, data);
+					res.json(response);
+					let doc = {
+						"env": req.soajs.inputmaskData.env,
+						"type": "Multitenant",
+						"section": "ACL",
+						"locator": [req.soajs.inputmaskData.code],
+						"action": "updated"
+					};
+					sdk.ledger(req.soajs, doc, response, () => {
+					});
 				});
 			});
 			
 			service.put("/product/console/package/acl/env", (req, res) => {
 				req.soajs.inputmaskData.soajs = true;
 				bl.product.updatePackageAclByEnv(req.soajs, req.soajs.inputmaskData, (error, data) => {
-					return res.json(req.soajs.buildResponse(error, data));
+					let response = req.soajs.buildResponse(error, data);
+					res.json(response);
+					let doc = {
+						"env": req.soajs.inputmaskData.env,
+						"type": "Multitenant",
+						"section": "ACL",
+						"locator": [req.soajs.inputmaskData.code],
+						"action": "updated"
+					};
+					sdk.ledger(req.soajs, doc, response, () => {
+					});
 				});
 			});
 			
 			service.put("/product/package/acl/service", (req, res) => {
 				bl.product.updatePackagesPreviewService(req.soajs, req.soajs.inputmaskData, (error, data) => {
-					return res.json(req.soajs.buildResponse(error, data));
+					let response = req.soajs.buildResponse(error, data);
+					res.json(response);
+					let doc = {
+						"env": req.soajs.inputmaskData.env,
+						"type": "Multitenant",
+						"section": "ACL",
+						"locator": [req.soajs.inputmaskData.productCode, req.soajs.inputmaskData.packageCode],
+						"action": "updated"
+					};
+					sdk.ledger(req.soajs, doc, response, () => {
+					});
 				});
 			});
 			
 			service.put("/product/console/package/acl/service", (req, res) => {
 				req.soajs.inputmaskData.soajs = true;
 				bl.product.updatePackagesPreviewService(req.soajs, req.soajs.inputmaskData, (error, data) => {
-					return res.json(req.soajs.buildResponse(error, data));
+					let response = req.soajs.buildResponse(error, data);
+					res.json(response);
+					let doc = {
+						"env": req.soajs.inputmaskData.env,
+						"type": "Multitenant",
+						"section": "ACL",
+						"locator": [req.soajs.inputmaskData.productCode, req.soajs.inputmaskData.packageCode],
+						"action": "updated"
+					};
+					sdk.ledger(req.soajs, doc, response, () => {
+					});
 				});
 			});
 			
 			service.put("/product/package/acl/api", (req, res) => {
 				bl.product.updatePackagesPreviewApi(req.soajs, req.soajs.inputmaskData, (error, data) => {
-					return res.json(req.soajs.buildResponse(error, data));
+					let response = req.soajs.buildResponse(error, data);
+					res.json(response);
+					let doc = {
+						"env": req.soajs.inputmaskData.env,
+						"type": "Multitenant",
+						"section": "ACL",
+						"locator": [req.soajs.inputmaskData.productCode, req.soajs.inputmaskData.packageCode],
+						"action": "updated"
+					};
+					sdk.ledger(req.soajs, doc, response, () => {
+					});
 				});
 			});
 			service.put("/product/console/package/acl/api", (req, res) => {
 				req.soajs.inputmaskData.soajs = true;
 				bl.product.updatePackagesPreviewApi(req.soajs, req.soajs.inputmaskData, (error, data) => {
-					return res.json(req.soajs.buildResponse(error, data));
+					let response = req.soajs.buildResponse(error, data);
+					res.json(response);
+					let doc = {
+						"env": req.soajs.inputmaskData.env,
+						"type": "Multitenant",
+						"section": "ACL",
+						"locator": [req.soajs.inputmaskData.productCode, req.soajs.inputmaskData.packageCode],
+						"action": "updated"
+					};
+					sdk.ledger(req.soajs, doc, response, () => {
+					});
 				});
 			});
 			
 			service.put("/product/acl/scope/service", (req, res) => {
 				bl.product.updateScopePreviewService(req.soajs, req.soajs.inputmaskData, (error, data) => {
-					return res.json(req.soajs.buildResponse(error, data));
+					let response = req.soajs.buildResponse(error, data);
+					res.json(response);
+					let doc = {
+						"env": req.soajs.inputmaskData.env,
+						"type": "Multitenant",
+						"section": "ACL",
+						"locator": [req.soajs.inputmaskData.productCode],
+						"action": "updated"
+					};
+					sdk.ledger(req.soajs, doc, response, () => {
+					});
 				});
 			});
 			service.put("/product/console/acl/scope/service", (req, res) => {
 				req.soajs.inputmaskData.soajs = true;
 				bl.product.updateScopePreviewService(req.soajs, req.soajs.inputmaskData, (error, data) => {
-					return res.json(req.soajs.buildResponse(error, data));
+					let response = req.soajs.buildResponse(error, data);
+					res.json(response);
+					let doc = {
+						"env": req.soajs.inputmaskData.env,
+						"type": "Multitenant",
+						"section": "ACL",
+						"locator": [req.soajs.inputmaskData.productCode],
+						"action": "updated"
+					};
+					sdk.ledger(req.soajs, doc, response, () => {
+					});
 				});
 			});
 			service.put("/product/acl/scope/api", (req, res) => {
 				bl.product.updateScopePreviewApi(req.soajs, req.soajs.inputmaskData, (error, data) => {
-					return res.json(req.soajs.buildResponse(error, data));
+					let response = req.soajs.buildResponse(error, data);
+					res.json(response);
+					let doc = {
+						"env": req.soajs.inputmaskData.env,
+						"type": "Multitenant",
+						"section": "ACL",
+						"locator": [req.soajs.inputmaskData.productCode],
+						"action": "updated"
+					};
+					sdk.ledger(req.soajs, doc, response, () => {
+					});
 				});
 			});
 			service.put("/product/console/acl/scope/api", (req, res) => {
 				req.soajs.inputmaskData.soajs = true;
 				bl.product.updateScopePreviewApi(req.soajs, req.soajs.inputmaskData, (error, data) => {
-					return res.json(req.soajs.buildResponse(error, data));
+					let response = req.soajs.buildResponse(error, data);
+					res.json(response);
+					let doc = {
+						"env": req.soajs.inputmaskData.env,
+						"type": "Multitenant",
+						"section": "ACL",
+						"locator": [req.soajs.inputmaskData.productCode],
+						"action": "updated"
+					};
+					sdk.ledger(req.soajs, doc, response, () => {
+					});
 				});
 			});
 			

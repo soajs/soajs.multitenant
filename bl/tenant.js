@@ -529,7 +529,7 @@ let bl = {
 			if (inputmaskData.application && inputmaskData.application.appKey && inputmaskData.application.appKey.extKey) {
 				soajs.awareness.connect("console", "1", (response) => {
 					let options = {
-						uri: 'http://' + response.host + "/registry",
+						uri: 'http://' + response.host + "/registry/key",
 						headers: response.headers,
 						qs: {"env": inputmaskData.application.appKey.extKey.env.toLowerCase()},
 						json: true
@@ -539,8 +539,8 @@ let bl = {
 							bl.mp.closeModel(soajs, modelObj);
 							return cb(bl.handleError(soajs, 503, computeErrorMessageFromService(body)));
 						}
-						let envRecord = body.data;
-						if (!envRecord) {
+						let envKey = body.data;
+						if (!envKey) {
 							bl.mp.closeModel(soajs, modelObj);
 							return cb(bl.handleError(soajs, 501, null));
 						}
@@ -552,7 +552,7 @@ let bl = {
 							"product": inputmaskData.application.productCode,
 							"package": inputmaskData.application.productCode + '_' + inputmaskData.application.packageCode,
 							"appId": record.applications[0].appId.toString(),
-						}, envRecord.services.config.key, function (error, extKeyValue) {
+						}, envKey, function (error, extKeyValue) {
 							if (error) {
 								bl.mp.closeModel(soajs, modelObj);
 								return cb(bl.handleError(soajs, 502, error));
@@ -614,7 +614,7 @@ let bl = {
 			if (inputmaskData.appKey.extKey) {
 				soajs.awareness.connect("console", "1", (response) => {
 					let options = {
-						uri: 'http://' + response.host + "/registry",
+						uri: 'http://' + response.host + "/registry/key",
 						headers: response.headers,
 						qs: {"env": inputmaskData.appKey.extKey.env.toLowerCase()},
 						json: true
@@ -624,8 +624,8 @@ let bl = {
 							bl.mp.closeModel(soajs, modelObj);
 							return cb(bl.handleError(soajs, 503, computeErrorMessageFromService(body)));
 						}
-						let envRecord = body.data;
-						if (!envRecord) {
+						let envKey = body.data;
+						if (!envKey) {
 							bl.mp.closeModel(soajs, modelObj);
 							return cb(bl.handleError(soajs, 501, null));
 						}
@@ -637,7 +637,7 @@ let bl = {
 							"product": opt.product,
 							"package": opt.package,
 							"appId": opt.appId,
-						}, envRecord.services.config.key, function (error, extKeyValue) {
+						}, envKey, function (error, extKeyValue) {
 							if (error) {
 								bl.mp.closeModel(soajs, modelObj);
 								return cb(bl.handleError(soajs, 502, error));
@@ -758,7 +758,7 @@ let bl = {
 			if (inputmaskData.extKey) {
 				soajs.awareness.connect("console", "1", (response) => {
 					let options = {
-						uri: 'http://' + response.host + "/registry",
+						uri: 'http://' + response.host + "/registry/key",
 						headers: response.headers,
 						qs: {"env": inputmaskData.extKey.env.toLowerCase()},
 						json: true
@@ -768,8 +768,8 @@ let bl = {
 							bl.mp.closeModel(soajs, modelObj);
 							return cb(bl.handleError(soajs, 503, computeErrorMessageFromService(body)));
 						}
-						let envRecord = body.data;
-						if (!envRecord) {
+						let envKey = body.data;
+						if (!envKey) {
 							bl.mp.closeModel(soajs, modelObj);
 							return cb(bl.handleError(soajs, 501, null));
 						}
@@ -781,7 +781,7 @@ let bl = {
 							"product": opt.product,
 							"package": opt.package,
 							"appId": opt.appId,
-						}, envRecord.services.config.key, function (error, extKeyValue) {
+						}, envKey, function (error, extKeyValue) {
 							if (error) {
 								bl.mp.closeModel(soajs, modelObj);
 								return cb(bl.handleError(soajs, 502, error));
@@ -888,7 +888,7 @@ let bl = {
 		function createExternalKey(opt, callback) {
 			soajs.awareness.connect("console", "1", (response) => {
 				let options = {
-					uri: 'http://' + response.host + "/registry",
+					uri: 'http://' + response.host + "/registry/key",
 					headers: response.headers,
 					qs: {"env": inputmaskData.env.toLowerCase()},
 					json: true
@@ -898,8 +898,8 @@ let bl = {
 						bl.mp.closeModel(soajs, modelObj);
 						return cb(bl.handleError(soajs, 503, computeErrorMessageFromService(body)));
 					}
-					let envRecord = body.data;
-					if (!envRecord || !envRecord.services || !envRecord.services.config|| !envRecord.services.config.key) {
+					let envKey = body.data;
+					if (!envKey) {
 						bl.mp.closeModel(soajs, modelObj);
 						return cb(bl.handleError(soajs, 501, null));
 					}
@@ -911,7 +911,7 @@ let bl = {
 						"product": opt.product,
 						"package": opt.package,
 						"appId": opt.appId,
-					}, envRecord.services.config.key, function (error, extKeyValue) {
+					}, envKey, function (error, extKeyValue) {
 						if (error) {
 							bl.mp.closeModel(soajs, modelObj);
 							return cb(bl.handleError(soajs, 502, error));
