@@ -40,6 +40,11 @@ let lib = {
 						]
 					}
 				},
+				"console": {
+					"1": {
+						"access": true
+					}
+				},
 			}
 		}
 	},
@@ -71,7 +76,10 @@ let lib = {
 								"Tenant"
 							]
 						}
-					]
+					],
+					"console" : [{
+						"version": "1",
+					}]
 				}
 			},
 			"_TTL": 604800000
@@ -103,7 +111,10 @@ let lib = {
 								"Tenant"
 							]
 						}
-					]
+					],
+					"console" : [{
+						"version": "1",
+					}]
 				}
 			},
 			"_TTL": 604800000

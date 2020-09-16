@@ -28,7 +28,6 @@ describe("Testing List Packages API", () => {
 
     let prods = [];
     let selectedProd;
-    let selectedconsoleProd;
     it("Success - will return all product records", (done) => {
         let params = {};
         requester('/products', 'get', params, (error, body) => {

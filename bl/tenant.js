@@ -383,7 +383,6 @@ let bl = {
 			checkSubTenant: checkSubTenant,
 			checkApplication: checkApplication,
 			checkCode: checkCode,
-			createExternalKey: createExternalKey,
 			insertRecord: insertRecord,
 		}, (err, result) => {
 			//err is handled and returned in each function above
@@ -507,12 +506,17 @@ let bl = {
 					oneKey.extKeys = [];
 					newApplication.keys.push(oneKey);
 					record.applications.push(newApplication);
-					createExternalKey((error, extKey) => {
-						if (extKey) {
-							record.applications[0].keys[0].extKeys.push(extKey);
-						}
+					if (inputmaskData.application && inputmaskData.application.appKey && inputmaskData.application.appKey.extKey) {
+						createExternalKey((error, extKey) => {
+							if (extKey) {
+								record.applications[0].keys[0].extKeys.push(extKey);
+							}
+							return callback(null);
+						});
+					}
+					else {
 						return callback(null);
-					});
+					}
 				});
 			}
 		}
@@ -544,6 +548,7 @@ let bl = {
 							bl.mp.closeModel(soajs, modelObj);
 							return cb(bl.handleError(soajs, 501, null));
 						}
+						
 						soajsCore.key.generateExternalKey(record.applications[0].keys[0].key, {
 							id: record._id,
 							"code": record.code,

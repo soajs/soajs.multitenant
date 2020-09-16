@@ -95,6 +95,7 @@ module.exports = {
 		500: "You cannot modify or delete a locked record",
 		501: "Environment record not found!",
 		502: "Unable to create External key",
+		503: "Service Error",
 		
 		601: "Model not found",
 		602: "Model error: ",

@@ -11,7 +11,7 @@ const imported = require("../data/import.js");
 let helper = require("../helper.js");
 
 let service, controller;
-
+let consoleserver = require('./mocked_services/console-service-mock');
 describe("starting integration tests", () => {
 	
 	before((done) => {
@@ -27,12 +27,15 @@ describe("starting integration tests", () => {
 			console.log("Starting Controller ...");
 			controller = require("soajs.controller/_index.js");
 			controller.runService(() => {
-				console.log("Starting Multitenant ...");
-				service = helper.requireModule('./_index.js');
-				service.runService(() => {
-					setTimeout(function () {
-						done();
-					}, 5000);
+				console.log("Starting console ...");
+				consoleserver.runService(() => {
+					console.log("Starting Multitenant ...");
+					service = helper.requireModule('./_index.js');
+					service.runService(() => {
+						setTimeout(function () {
+							done();
+						}, 5000);
+					});
 				});
 			});
 		});
@@ -46,5 +49,11 @@ describe("starting integration tests", () => {
 	
 	it("loading use cases", (done) => {
 		done();
+	});
+	
+	it("stopping services", (done) => {
+		//consoleserver.stopService(() => {
+			done();
+		//});
 	});
 });

@@ -53,7 +53,7 @@ describe("Testing delete Package API", () => {
         let params = {
             qs: {
                 id: selectedProd._id,
-                packageCode: 'TEST2_NEWS'
+                code: 'TEST2_NEWS'
             }
         };
         requester('/product/package', 'delete', params, (error, body) => {

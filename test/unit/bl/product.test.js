@@ -2681,7 +2681,7 @@ describe("Unit test for: BL - product", () => {
         });
 
         let inputMask = {
-            "code": "EXAMPLE03",
+            "code": "TPROD_EXAMPLE03",
             "id": "SomeProductID",
             "name": "PACK_NAME3",
             "description": "Pack Description after update",
@@ -2729,7 +2729,7 @@ describe("Unit test for: BL - product", () => {
             };
             BL.updatePackage(soajs, inputMask, (err, result) => {
                 assert.ok(result);
-                assert.deepEqual(result, "product package EXAMPLE03 updated successfully");
+                assert.deepEqual(result, "product package TPROD_EXAMPLE03 updated successfully");
                 done();
             });
         });
@@ -2800,7 +2800,7 @@ describe("Unit test for: BL - product", () => {
 
             BL.updatePackage(soajsClient, inputMask, (err, record) => {
                 assert.ok(record);
-                assert.deepEqual(record, "product package EXAMPLE03 updated successfully");
+                assert.deepEqual(record, "product package TPROD_EXAMPLE03 updated successfully");
                 done();
             });
         });
@@ -3049,7 +3049,7 @@ describe("Unit test for: BL - product", () => {
 		});
 		
 		let inputMask = {
-			"code": "EXAMPLE03",
+			"code": "TPROD_EXAMPLE03",
 			"id": "SomeProductID",
 			"acl": {},
 			"env": "dashboard"
@@ -3068,6 +3068,7 @@ describe("Unit test for: BL - product", () => {
 								"name": "basic package",
 								"description": "this is a description for test product basic package",
 								"acl": {
+									
 									"urac": {},
 									"multitenant": {}
 								},
@@ -3092,7 +3093,7 @@ describe("Unit test for: BL - product", () => {
 			};
 			BL.updatePackageAclByEnv(soajs, inputMask, (err, result) => {
 				assert.ok(result);
-				assert.deepEqual(result, "product package EXAMPLE03 updated successfully");
+				assert.deepEqual(result, "product package TPROD_EXAMPLE03 updated successfully");
 				done();
 			});
 		});
@@ -3163,7 +3164,7 @@ describe("Unit test for: BL - product", () => {
 			
 			BL.updatePackageAclByEnv(soajsClient, inputMask, (err, record) => {
 				assert.ok(record);
-				assert.deepEqual(record, "product package EXAMPLE03 updated successfully");
+				assert.deepEqual(record, "product package TPROD_EXAMPLE03 updated successfully");
 				done();
 			});
 		});
@@ -3406,13 +3407,12 @@ describe("Unit test for: BL - product", () => {
             BL.modelObj = null;
             done();
         });
-
-        let inputMask = {
-            id: "Some",
-            packageCode: "TPROD_EXAMPLE03",
-        };
-
+        
         it("Success - delete package - data", (done) => {
+	        let inputMask = {
+		        id: "Some",
+		        code: "TPROD_EXAMPLE03",
+	        };
             BL.modelObj = {
                 getProduct: (inputMask, cb) => {
                     return cb(null, {
@@ -3456,6 +3456,10 @@ describe("Unit test for: BL - product", () => {
         });
 
         it("Success - delete package  - client tenant", (done) => {
+	        let inputMask = {
+		        id: "Some",
+		        code: "TPROD_EXAMPLE03",
+	        };
             let soajsClient = {
                 config: {
                     "errors": {
@@ -3519,7 +3523,7 @@ describe("Unit test for: BL - product", () => {
             };
             BL.model = Product;
 
-            BL.getPackage(soajsClient, inputMask, (err, record) => {
+            BL.deletePackage(soajsClient, inputMask, (err, record) => {
                 assert.ok(record);
                 done();
             });
@@ -3716,6 +3720,10 @@ describe("Unit test for: BL - product", () => {
         });
 
         it("Fails - delete package - updateProduct error", (done) => {
+	        let inputMask = {
+		        id: "Some",
+		        code: "TPROD_EXAMPLE03",
+	        };
             BL.modelObj = {
                 getProduct: (inputMask, cb) => {
                     return cb(null, {

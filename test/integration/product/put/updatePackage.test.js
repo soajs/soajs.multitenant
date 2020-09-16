@@ -56,7 +56,7 @@ before(function (done) {
 				id: selectedProd._id,
 			},
 			body: {
-				code: "NEWS",
+				code: "TEST2_NEWS",
 				name: "PACK_NAME2",
 				description: "Pack Description after update",
 				_TTL: "24",
@@ -70,7 +70,7 @@ before(function (done) {
 			assert.ifError(error);
 			assert.ok(body);
 			assert.ok(body.data);
-			assert.deepEqual(body.data, "product package NEWS updated successfully");
+			assert.deepEqual(body.data, "product package TEST2_NEWS updated successfully");
 			let check = validator.validate(body, updatePackagesSchema);
 			assert.deepEqual(check.valid, true);
 			assert.deepEqual(check.errors, []);
@@ -83,7 +83,7 @@ before(function (done) {
                 id: selectedProd._id,
             },
             body: {
-                code: "NEWS",
+                code: "TEST2_NEWS",
                 name: "PACK_NAME2",
                 description: "Pack Description after update",
                 _TTL: "24",
@@ -94,7 +94,7 @@ before(function (done) {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.data);
-            assert.deepEqual(body.data, "product package NEWS updated successfully");
+            assert.deepEqual(body.data, "product package TEST2_NEWS updated successfully");
             let check = validator.validate(body, updatePackagesSchema);
             assert.deepEqual(check.valid, true);
             assert.deepEqual(check.errors, []);

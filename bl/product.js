@@ -1661,7 +1661,7 @@ let bl = {
 				if (err) {
 					return cb(bl.handleError(soajs, 602, err), null);
 				}
-				return cb(null, `product package ${inputmaskData.packageCode} deleted successfully`);
+				return cb(null, `product package ${inputmaskData.code} deleted successfully`);
 			});
 		});
 	},
@@ -1885,11 +1885,10 @@ let bl = {
 			for (let i = 0; i < record.packages.length; i++) {
 				if (record.packages[i].code.toUpperCase() === inputmaskData.code) {
 					record.packages[i].acl[inputmaskData.env.toLowerCase()] = inputmaskData.acl;
+					if (!record.packages[i].aclTypeByEnv) {
+						record.packages[i].aclTypeByEnv = {};
+					}
 					if (inputmaskData.type) {
-						if (!record.packages[i].aclTypeByEnv) {
-							record.packages[i].aclTypeByEnv = {};
-						}
-						
 						record.packages[i].aclTypeByEnv[inputmaskData.env.toLowerCase()] = inputmaskData.type;
 					} else {
 						if (record.packages[i].aclTypeByEnv) {
