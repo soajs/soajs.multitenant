@@ -405,7 +405,7 @@ let bl = {
 				let options = {
 					uri: 'http://' + response.host,
 					headers: response.headers,
-					qs: {"type": 'service'},
+					qs: {"types": ['service', 'endpoint']},
 					json: true
 				};
 				
@@ -554,7 +554,7 @@ let bl = {
 				let options = {
 					uri: 'http://' + response.host,
 					headers: response.headers,
-					qs: {"type": 'service'},
+					qs: {"types": ['service', 'endpoint']},
 					json: true
 				};
 				
@@ -926,7 +926,7 @@ let bl = {
 					uri: 'http://' + response.host,
 					headers: response.headers,
 					qs: {
-						"type": 'service',
+						"types": ['service', 'endpoint'],
 						"start": 0,
 						"limit": 500
 					},
@@ -1042,7 +1042,7 @@ let bl = {
 					uri: 'http://' + response.host,
 					headers: response.headers,
 					qs: {
-						"type": 'service',
+						"types": ['service', 'endpoint'],
 						"start": 0,
 						"limit": 500
 					},
@@ -1178,7 +1178,7 @@ let bl = {
 					uri: 'http://' + response.host,
 					headers: response.headers,
 					qs: {
-						"type": 'service',
+						"types": ['service', 'endpoint'],
 						"start": 0,
 						"limit": 500
 					},
@@ -1275,7 +1275,7 @@ let bl = {
 					uri: 'http://' + response.host,
 					headers: response.headers,
 					qs: {
-						"type": 'service',
+						"types": ['service', 'endpoint'],
 						"start": 0,
 						"limit": 500
 					},
