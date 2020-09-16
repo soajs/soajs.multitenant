@@ -41,6 +41,10 @@ module.exports = {
 		{
 			"name": "marketplace",
 			"version": "1"
+		},
+		{
+			"name": "console",
+			"version": "1"
 		}
 	],
 	

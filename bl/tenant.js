@@ -8,6 +8,25 @@
 
 'use strict';
 const async = require('async');
+const request = require("request");
+
+function computeErrorMessageFromService(body) {
+	if (body && !body.result) {
+		let error = "";
+		if (body.errors && body.errors && body.errors.details && body.errors.details.length > 0) {
+			body.errors.details.forEach((detail) => {
+				if (error === "") {
+					error += " " + detail.message;
+				} else {
+					error += " - " + detail.message;
+				}
+			});
+		}
+		return new Error(error);
+	} else {
+		return new Error(" Service not found");
+	}
+}
 
 function getRequestedSubElementsPositions(tenantRecord, inputmaskData) {
 	let found = false;
@@ -508,37 +527,46 @@ let bl = {
 		
 		function createExternalKey(callback) {
 			if (inputmaskData.application && inputmaskData.application.appKey && inputmaskData.application.appKey.extKey) {
-				soajsCore.registry.loadByEnv({envCode: inputmaskData.application.appKey.extKey.env.toUpperCase()}, (err, envRecord) => {
-					if (err) {
-						bl.mp.closeModel(soajs, modelObj);
-						return cb(bl.handleError(soajs, 602, err));
-					}
-					if (!envRecord) {
-						bl.mp.closeModel(soajs, modelObj);
-						return cb(bl.handleError(soajs, 501, null));
-					}
-					soajsCore.key.generateExternalKey(record.applications[0].keys[0].key, {
-						id: record._id,
-						"code": record.code,
-						"locked": false
-					}, {
-						"product": inputmaskData.application.productCode,
-						"package": inputmaskData.application.productCode + '_' + inputmaskData.application.packageCode,
-						"appId": record.applications[0].appId.toString(),
-					}, envRecord.serviceConfig.key, function (error, extKeyValue) {
-						if (error) {
+				soajs.awareness.connect("console", "1", (response) => {
+					let options = {
+						uri: 'http://' + response.host + "/registry",
+						headers: response.headers,
+						qs: {"env": inputmaskData.application.appKey.extKey.env.toLowerCase()},
+						json: true
+					};
+					request.get(options, function (error, response, body) {
+						if (error || !body.result) {
 							bl.mp.closeModel(soajs, modelObj);
-							return cb(bl.handleError(soajs, 502, error));
+							return cb(bl.handleError(soajs, 503, computeErrorMessageFromService(body)));
 						}
-						let newExtKey = {
-							"extKey": extKeyValue,
-							"device": inputmaskData.application.appKey.extKey.device ? inputmaskData.application.appKey.extKey.device : null,
-							"geo": inputmaskData.application.appKey.extKey.geo ? inputmaskData.application.appKey.extKey.geo : null,
-							"env": inputmaskData.application.appKey.extKey.env.toUpperCase(),
-							"label": inputmaskData.application.appKey.extKey.label,
-							"expDate": (inputmaskData.application.appKey.extKey.expDate) ? new Date(inputmaskData.application.appKey.extKey.expDate).getTime() + bl.localConfig.tenant.expDateTTL : null
-						};
-						return callback(null, newExtKey);
+						let envRecord = body.data;
+						if (!envRecord) {
+							bl.mp.closeModel(soajs, modelObj);
+							return cb(bl.handleError(soajs, 501, null));
+						}
+						soajsCore.key.generateExternalKey(record.applications[0].keys[0].key, {
+							id: record._id,
+							"code": record.code,
+							"locked": false
+						}, {
+							"product": inputmaskData.application.productCode,
+							"package": inputmaskData.application.productCode + '_' + inputmaskData.application.packageCode,
+							"appId": record.applications[0].appId.toString(),
+						}, envRecord.services.config.key, function (error, extKeyValue) {
+							if (error) {
+								bl.mp.closeModel(soajs, modelObj);
+								return cb(bl.handleError(soajs, 502, error));
+							}
+							let newExtKey = {
+								"extKey": extKeyValue,
+								"device": inputmaskData.application.appKey.extKey.device ? inputmaskData.application.appKey.extKey.device : null,
+								"geo": inputmaskData.application.appKey.extKey.geo ? inputmaskData.application.appKey.extKey.geo : null,
+								"env": inputmaskData.application.appKey.extKey.env.toUpperCase(),
+								"label": inputmaskData.application.appKey.extKey.label,
+								"expDate": (inputmaskData.application.appKey.extKey.expDate) ? new Date(inputmaskData.application.appKey.extKey.expDate).getTime() + bl.localConfig.tenant.expDateTTL : null
+							};
+							return callback(null, newExtKey);
+						});
 					});
 				});
 			} else {
@@ -584,37 +612,46 @@ let bl = {
 		
 		function createExternalKey(opt, callback) {
 			if (inputmaskData.appKey.extKey) {
-				soajsCore.registry.loadByEnv({envCode: inputmaskData.appKey.extKey.env.toUpperCase()}, (err, envRecord) => {
-					if (err) {
-						bl.mp.closeModel(soajs, modelObj);
-						return cb(bl.handleError(soajs, 602, err));
-					}
-					if (!envRecord) {
-						bl.mp.closeModel(soajs, modelObj);
-						return cb(bl.handleError(soajs, 501, null));
-					}
-					soajsCore.key.generateExternalKey(opt.key, {
-						"id": opt.id,
-						"code": opt.code,
-						"locked": false
-					}, {
-						"product": opt.product,
-						"package": opt.package,
-						"appId": opt.appId,
-					}, envRecord.serviceConfig.key, function (error, extKeyValue) {
-						if (error) {
+				soajs.awareness.connect("console", "1", (response) => {
+					let options = {
+						uri: 'http://' + response.host + "/registry",
+						headers: response.headers,
+						qs: {"env": inputmaskData.appKey.extKey.env.toLowerCase()},
+						json: true
+					};
+					request.get(options, function (error, response, body) {
+						if (error || !body.result) {
 							bl.mp.closeModel(soajs, modelObj);
-							return cb(bl.handleError(soajs, 502, error));
+							return cb(bl.handleError(soajs, 503, computeErrorMessageFromService(body)));
 						}
-						let newExtKey = {
-							"extKey": extKeyValue,
-							"device": inputmaskData.appKey.extKey.device ? inputmaskData.appKey.extKey.device : null,
-							"geo": inputmaskData.appKey.extKey.geo ? inputmaskData.appKey.extKey.geo : null,
-							"env": inputmaskData.appKey.extKey.env.toUpperCase(),
-							"label": inputmaskData.appKey.extKey.label,
-							"expDate": (inputmaskData.appKey.extKey.expDate) ? new Date(inputmaskData.appKey.extKey.expDate).getTime() + bl.localConfig.tenant.expDateTTL : null
-						};
-						return callback(null, newExtKey);
+						let envRecord = body.data;
+						if (!envRecord) {
+							bl.mp.closeModel(soajs, modelObj);
+							return cb(bl.handleError(soajs, 501, null));
+						}
+						soajsCore.key.generateExternalKey(opt.key, {
+							"id": opt.id,
+							"code": opt.code,
+							"locked": false
+						}, {
+							"product": opt.product,
+							"package": opt.package,
+							"appId": opt.appId,
+						}, envRecord.services.config.key, function (error, extKeyValue) {
+							if (error) {
+								bl.mp.closeModel(soajs, modelObj);
+								return cb(bl.handleError(soajs, 502, error));
+							}
+							let newExtKey = {
+								"extKey": extKeyValue,
+								"device": inputmaskData.appKey.extKey.device ? inputmaskData.appKey.extKey.device : null,
+								"geo": inputmaskData.appKey.extKey.geo ? inputmaskData.appKey.extKey.geo : null,
+								"env": inputmaskData.appKey.extKey.env.toUpperCase(),
+								"label": inputmaskData.appKey.extKey.label,
+								"expDate": (inputmaskData.appKey.extKey.expDate) ? new Date(inputmaskData.appKey.extKey.expDate).getTime() + bl.localConfig.tenant.expDateTTL : null
+							};
+							return callback(null, newExtKey);
+						});
 					});
 				});
 			} else {
@@ -719,37 +756,46 @@ let bl = {
 		
 		function createExternalKey(opt, callback) {
 			if (inputmaskData.extKey) {
-				soajsCore.registry.loadByEnv({envCode: inputmaskData.extKey.env.toUpperCase()}, (err, envRecord) => {
-					if (err) {
-						bl.mp.closeModel(soajs, modelObj);
-						return cb(bl.handleError(soajs, 602, err));
-					}
-					if (!envRecord || !envRecord.serviceConfig || !envRecord.serviceConfig.key) {
-						bl.mp.closeModel(soajs, modelObj);
-						return cb(bl.handleError(soajs, 501, null));
-					}
-					soajsCore.key.generateExternalKey(opt.key, {
-						"id": opt.id,
-						"code": opt.code,
-						"locked": false
-					}, {
-						"product": opt.product,
-						"package": opt.package,
-						"appId": opt.appId,
-					}, envRecord.serviceConfig.key, function (error, extKeyValue) {
-						if (error) {
+				soajs.awareness.connect("console", "1", (response) => {
+					let options = {
+						uri: 'http://' + response.host + "/registry",
+						headers: response.headers,
+						qs: {"env": inputmaskData.extKey.env.toLowerCase()},
+						json: true
+					};
+					request.get(options, function (error, response, body) {
+						if (error || !body.result) {
 							bl.mp.closeModel(soajs, modelObj);
-							return cb(bl.handleError(soajs, 502, error));
+							return cb(bl.handleError(soajs, 503, computeErrorMessageFromService(body)));
 						}
-						let newExtKey = {
-							"extKey": extKeyValue,
-							"device": inputmaskData.extKey.device ? inputmaskData.extKey.device : null,
-							"geo": inputmaskData.extKey.geo ? inputmaskData.extKey.geo : null,
-							"env": inputmaskData.extKey.env.toUpperCase(),
-							"label": inputmaskData.extKey.label,
-							"expDate": (inputmaskData.extKey.expDate) ? new Date(inputmaskData.extKey.expDate).getTime() + bl.localConfig.tenant.expDateTTL : null
-						};
-						return callback(null, newExtKey);
+						let envRecord = body.data;
+						if (!envRecord) {
+							bl.mp.closeModel(soajs, modelObj);
+							return cb(bl.handleError(soajs, 501, null));
+						}
+						soajsCore.key.generateExternalKey(opt.key, {
+							"id": opt.id,
+							"code": opt.code,
+							"locked": false
+						}, {
+							"product": opt.product,
+							"package": opt.package,
+							"appId": opt.appId,
+						}, envRecord.services.config.key, function (error, extKeyValue) {
+							if (error) {
+								bl.mp.closeModel(soajs, modelObj);
+								return cb(bl.handleError(soajs, 502, error));
+							}
+							let newExtKey = {
+								"extKey": extKeyValue,
+								"device": inputmaskData.extKey.device ? inputmaskData.extKey.device : null,
+								"geo": inputmaskData.extKey.geo ? inputmaskData.extKey.geo : null,
+								"env": inputmaskData.extKey.env.toUpperCase(),
+								"label": inputmaskData.extKey.label,
+								"expDate": (inputmaskData.extKey.expDate) ? new Date(inputmaskData.extKey.expDate).getTime() + bl.localConfig.tenant.expDateTTL : null
+							};
+							return callback(null, newExtKey);
+						});
 					});
 				});
 			} else {
@@ -840,37 +886,46 @@ let bl = {
 		}
 		
 		function createExternalKey(opt, callback) {
-			soajsCore.registry.loadByEnv({envCode: inputmaskData.env.toUpperCase()}, (err, envRecord) => {
-				if (err) {
-					bl.mp.closeModel(soajs, modelObj);
-					return cb(bl.handleError(soajs, 602, err));
-				}
-				if (!envRecord || !envRecord.serviceConfig || !envRecord.serviceConfig.key) {
-					bl.mp.closeModel(soajs, modelObj);
-					return cb(bl.handleError(soajs, 501, null));
-				}
-				soajsCore.key.generateExternalKey(opt.key, {
-					"id": opt.id,
-					"code": opt.code,
-					"locked": false
-				}, {
-					"product": opt.product,
-					"package": opt.package,
-					"appId": opt.appId,
-				}, envRecord.serviceConfig.key, function (error, extKeyValue) {
-					if (error) {
+			soajs.awareness.connect("console", "1", (response) => {
+				let options = {
+					uri: 'http://' + response.host + "/registry",
+					headers: response.headers,
+					qs: {"env": inputmaskData.env.toLowerCase()},
+					json: true
+				};
+				request.get(options, function (error, response, body) {
+					if (error || !body.result) {
 						bl.mp.closeModel(soajs, modelObj);
-						return cb(bl.handleError(soajs, 502, error));
+						return cb(bl.handleError(soajs, 503, computeErrorMessageFromService(body)));
 					}
-					let newExtKey = {
-						"extKey": extKeyValue,
-						"device": inputmaskData.device ? inputmaskData.device : null,
-						"geo": inputmaskData.geo ? inputmaskData.geo : null,
-						"env": inputmaskData.env.toUpperCase(),
-						"label": inputmaskData.label,
-						"expDate": (inputmaskData.expDate) ? new Date(inputmaskData.expDate).getTime() + bl.localConfig.tenant.expDateTTL : null
-					};
-					return callback(null, newExtKey);
+					let envRecord = body.data;
+					if (!envRecord || !envRecord.services || !envRecord.services.config|| !envRecord.services.config.key) {
+						bl.mp.closeModel(soajs, modelObj);
+						return cb(bl.handleError(soajs, 501, null));
+					}
+					soajsCore.key.generateExternalKey(opt.key, {
+						"id": opt.id,
+						"code": opt.code,
+						"locked": false
+					}, {
+						"product": opt.product,
+						"package": opt.package,
+						"appId": opt.appId,
+					}, envRecord.services.config.key, function (error, extKeyValue) {
+						if (error) {
+							bl.mp.closeModel(soajs, modelObj);
+							return cb(bl.handleError(soajs, 502, error));
+						}
+						let newExtKey = {
+							"extKey": extKeyValue,
+							"device": inputmaskData.device ? inputmaskData.device : null,
+							"geo": inputmaskData.geo ? inputmaskData.geo : null,
+							"env": inputmaskData.env.toUpperCase(),
+							"label": inputmaskData.label,
+							"expDate": (inputmaskData.expDate) ? new Date(inputmaskData.expDate).getTime() + bl.localConfig.tenant.expDateTTL : null
+						};
+						return callback(null, newExtKey);
+					});
 				});
 			});
 		}
