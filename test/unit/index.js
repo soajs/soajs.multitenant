@@ -44,6 +44,7 @@ describe("Starting Unit test", () => {
 
     it("Unit test for lib", (done) => {
         require("./lib/sanitize.test.js");
+        require("./lib/sdk.test.js");
         done();
     });
 
