@@ -26,6 +26,8 @@ describe("starting tenant integration tests", () => {
         require("./get/getTenant.test.js");
         require('./get/getApplications.test');
         require('./get/listApplications.test');
+        require('./get/listApplicationKeys.test');
+        require('./get/listApplicationKeyConfig.test');
         require('./get/listAppExtKeys.test');
 
         // POST
@@ -40,6 +42,8 @@ describe("starting tenant integration tests", () => {
         require('./put/updateAppExtKey.test');
         require('./put/updateAppKey.test');
         require('./put/updateApplication.test');
+        require('./put/updateTenantOauth.test');
+        require('./put/updateAppKeyConfig.test');
 
         // DELETE
         require("./delete/deleteAppExtKeys.test.js");

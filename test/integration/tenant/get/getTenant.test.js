@@ -89,6 +89,24 @@ describe("Testing get tenant API", () => {
             done();
         });
     });
+	
+	it("Success - will return console record ", (done) => {
+		let params = {
+			qs: {
+				id: "5c0e74ba9acc3c5a84a51259"
+			}
+		};
+		requester('/tenant/console', 'get', params, (error, body) => {
+			assert.ifError(error);
+			assert.ok(body);
+			assert.ok(body.data);
+		
+			let check = validator.validate(body, getTenantsSchema);
+			assert.deepEqual(check.valid, true);
+			assert.deepEqual(check.errors, []);
+			done();
+		});
+	});
 
     it("Fail - will not return tenant record - no params", (done) => {
         let params = {};

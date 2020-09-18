@@ -57,4 +57,22 @@ describe("Testing list tenants API", () => {
             done();
         });
     });
+	
+	it("Success - will return all console tenant records - input", (done) => {
+		let params = {
+			qs: {
+				type: 'product'
+			}
+		};
+		requester('/tenants/console', 'get', params, (error, body) => {
+			assert.ifError(error);
+			assert.ok(body);
+			assert.ok(body.data);
+			assert.ok(body.data.length > 0);
+			let check = validator.validate(body, listTenantsSchema);
+			assert.deepEqual(check.valid, true);
+			assert.deepEqual(check.errors, []);
+			done();
+		});
+	});
 });

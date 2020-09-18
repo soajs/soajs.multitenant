@@ -12,6 +12,11 @@ let lib = {
 				enabled: false
 			}
 		},
+		redirectURI: "http://domain.com",
+		grants: [
+			"password",
+			"refresh_token"
+		],
 		disabled: 0,
 		type: 2,
 		loginMode: "urac"
