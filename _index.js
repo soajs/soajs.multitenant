@@ -245,13 +245,13 @@ function run(serviceStartCb) {
 			});
 			
 			service.put("/product/scope", (req, res) => {
-				bl.product.updateScope(req.soajs, req.soajs.inputmaskData, (error, data, code) => {
+				bl.product.updateScope(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					let response = req.soajs.buildResponse(error, data);
 					res.json(response);
 					let doc = {
 						"type": "Multitenant",
 						"section": "ACL",
-						"locator": [code],
+						"locator": [req.soajs.inputmaskData.id],
 						"action": "updated"
 					};
 					sdk.ledger(req.soajs, doc, response, () => {
@@ -261,13 +261,13 @@ function run(serviceStartCb) {
 			
 			service.put("/product/scope/console", (req, res) => {
 				req.soajs.inputmaskData.soajs = true;
-				bl.product.updateScope(req.soajs, req.soajs.inputmaskData, (error, data, code) => {
+				bl.product.updateScope(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					let response = req.soajs.buildResponse(error, data);
 					res.json(response);
 					let doc = {
 						"type": "Multitenant",
 						"section": "ACL",
-						"locator": [code],
+						"locator": [req.soajs.inputmaskData.id],
 						"action": "updated"
 					};
 					sdk.ledger(req.soajs, doc, response, () => {
@@ -276,14 +276,14 @@ function run(serviceStartCb) {
 			});
 			
 			service.put("/product/scope/env", (req, res) => {
-				bl.product.updateScopeByEnv(req.soajs, req.soajs.inputmaskData, (error, data, code) => {
+				bl.product.updateScopeByEnv(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					let response = req.soajs.buildResponse(error, data);
 					res.json(response);
 					let doc = {
 						"env": req.soajs.inputmaskData.env,
 						"type": "Multitenant",
 						"section": "ACL",
-						"locator": [code],
+						"locator": [req.soajs.inputmaskData.id],
 						"action": "updated"
 					};
 					sdk.ledger(req.soajs, doc, response, () => {
@@ -293,14 +293,14 @@ function run(serviceStartCb) {
 			
 			service.put("/product/console/scope/env", (req, res) => {
 				req.soajs.inputmaskData.soajs = true;
-				bl.product.updateScopeByEnv(req.soajs, req.soajs.inputmaskData, (error, data, code) => {
+				bl.product.updateScopeByEnv(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					let response = req.soajs.buildResponse(error, data);
 					res.json(response);
 					let doc = {
 						"env": req.soajs.inputmaskData.env,
 						"type": "Multitenant",
 						"section": "ACL",
-						"locator": [code],
+						"locator": [req.soajs.inputmaskData.id],
 						"action": "updated"
 					};
 					sdk.ledger(req.soajs, doc, response, () => {
