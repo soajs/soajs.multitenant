@@ -1729,7 +1729,7 @@ let bl = {
 				if (err) {
 					return cb(bl.handleError(soajs, 470, err));
 				}
-				return cb(null, result);
+				return cb(null, result, record.code);
 			});
 		});
 	},
@@ -1763,7 +1763,7 @@ let bl = {
 				if (err) {
 					return cb(bl.handleError(soajs, 470, err));
 				}
-				return cb(null, result);
+				return cb(null, result, record.code);
 			});
 		});
 	},
