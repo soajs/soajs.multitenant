@@ -29,6 +29,7 @@ module.exports = {
 	"requestTimeoutRenewal": 5,
 	"oauth": true,
 	"extKeyRequired": true,
+	"urac": true,
 	"maintenance": {
 		"readiness": "/heartbeat",
 		"port": {"type": "maintenance"},
@@ -422,7 +423,7 @@ module.exports = {
 						"type": "object",
 						"properties": {
 							"envs": {
-								"type" : "array",
+								"type": "array",
 								"items": {
 									"type": "string",
 									"uniqueItems": true,
@@ -468,7 +469,7 @@ module.exports = {
 						"type": "object",
 						"properties": {
 							"envs": {
-								"type" : "array",
+								"type": "array",
 								"items": {
 									"type": "string",
 									"uniqueItems": true,
@@ -507,21 +508,21 @@ module.exports = {
 						"type": "string",
 					}
 				},
-				"mainEnv" :{
+				"mainEnv": {
 					"source": ["query.mainEnv"],
 					"required": true,
 					"validation": {
 						"type": "string"
 					}
 				},
-				"secEnv" :{
+				"secEnv": {
 					"source": ["query.secEnv"],
 					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
-				"page" :{
+				"page": {
 					"source": ["query.page"],
 					"required": false,
 					"validation": {
@@ -552,21 +553,21 @@ module.exports = {
 						"maxLength": 6
 					}
 				},
-				"mainEnv" :{
+				"mainEnv": {
 					"source": ["query.mainEnv"],
 					"required": true,
 					"validation": {
 						"type": "string"
 					}
 				},
-				"secEnv" :{
+				"secEnv": {
 					"source": ["query.secEnv"],
 					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
-				"page" :{
+				"page": {
 					"source": ["query.page"],
 					"required": false,
 					"validation": {
@@ -587,21 +588,21 @@ module.exports = {
 						"type": "string",
 					}
 				},
-				"mainEnv" :{
+				"mainEnv": {
 					"source": ["query.mainEnv"],
 					"required": true,
 					"validation": {
 						"type": "string"
 					}
 				},
-				"secEnv" :{
+				"secEnv": {
 					"source": ["query.secEnv"],
 					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
-				"page" :{
+				"page": {
 					"source": ["query.page"],
 					"required": false,
 					"validation": {
@@ -625,21 +626,21 @@ module.exports = {
 						"maxLength": 6
 					}
 				},
-				"mainEnv" :{
+				"mainEnv": {
 					"source": ["query.mainEnv"],
 					"required": true,
 					"validation": {
 						"type": "string"
 					}
 				},
-				"secEnv" :{
+				"secEnv": {
 					"source": ["query.secEnv"],
 					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
-				"page" :{
+				"page": {
 					"source": ["query.page"],
 					"required": false,
 					"validation": {
@@ -668,21 +669,21 @@ module.exports = {
 						"type": "string",
 					}
 				},
-				"mainEnv" :{
+				"mainEnv": {
 					"source": ["query.mainEnv"],
 					"required": true,
 					"validation": {
 						"type": "string"
 					}
 				},
-				"secEnv" :{
+				"secEnv": {
 					"source": ["query.secEnv"],
 					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
-				"page" :{
+				"page": {
 					"source": ["query.page"],
 					"required": false,
 					"validation": {
@@ -713,21 +714,21 @@ module.exports = {
 						"maxLength": 6
 					}
 				},
-				"mainEnv" :{
+				"mainEnv": {
 					"source": ["query.mainEnv"],
 					"required": true,
 					"validation": {
 						"type": "string"
 					}
 				},
-				"secEnv" :{
+				"secEnv": {
 					"source": ["query.secEnv"],
 					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
-				"page" :{
+				"page": {
 					"source": ["query.page"],
 					"required": false,
 					"validation": {
@@ -748,21 +749,21 @@ module.exports = {
 						"type": "string",
 					}
 				},
-				"mainEnv" :{
+				"mainEnv": {
 					"source": ["query.mainEnv"],
 					"required": true,
 					"validation": {
 						"type": "string"
 					}
 				},
-				"secEnv" :{
+				"secEnv": {
 					"source": ["query.secEnv"],
 					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
-				"page" :{
+				"page": {
 					"source": ["query.page"],
 					"required": false,
 					"validation": {
@@ -786,21 +787,21 @@ module.exports = {
 						"maxLength": 6
 					}
 				},
-				"mainEnv" :{
+				"mainEnv": {
 					"source": ["query.mainEnv"],
 					"required": true,
 					"validation": {
 						"type": "string"
 					}
 				},
-				"secEnv" :{
+				"secEnv": {
 					"source": ["query.secEnv"],
 					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
-				"page" :{
+				"page": {
 					"source": ["query.page"],
 					"required": false,
 					"validation": {
@@ -2628,14 +2629,14 @@ module.exports = {
 						"type": "string",
 					}
 				},
-				"env" :{
+				"env": {
 					"source": ["body.env", "query.env"],
 					"required": true,
 					"validation": {
 						"type": "string"
 					}
 				},
-				"acl" :{
+				"acl": {
 					"source": ["body.acl"],
 					"required": true,
 					"validation": {
@@ -2663,14 +2664,14 @@ module.exports = {
 						"type": "string",
 					}
 				},
-				"env" :{
+				"env": {
 					"source": ["body.env", "query.env"],
 					"required": true,
 					"validation": {
 						"type": "string"
 					}
 				},
-				"acl" :{
+				"acl": {
 					"source": ["body.acl"],
 					"required": true,
 					"validation": {
@@ -2691,14 +2692,14 @@ module.exports = {
 						"type": "string",
 					}
 				},
-				"env" :{
+				"env": {
 					"source": ["body.env", "query.env"],
 					"required": true,
 					"validation": {
 						"type": "string"
 					}
 				},
-				"acl" :{
+				"acl": {
 					"source": ["body.acl"],
 					"required": true,
 					"validation": {
@@ -2719,14 +2720,14 @@ module.exports = {
 						"type": "string",
 					}
 				},
-				"env" :{
+				"env": {
 					"source": ["body.env", "query.env"],
 					"required": true,
 					"validation": {
 						"type": "string"
 					}
 				},
-				"acl" :{
+				"acl": {
 					"source": ["body.acl"],
 					"required": true,
 					"validation": {
@@ -2754,14 +2755,14 @@ module.exports = {
 						"type": "string",
 					}
 				},
-				"env" :{
+				"env": {
 					"source": ["body.env", "query.env"],
 					"required": true,
 					"validation": {
 						"type": "string"
 					}
 				},
-				"acl" :{
+				"acl": {
 					"source": ["body.acl"],
 					"required": true,
 					"validation": {
@@ -2789,14 +2790,14 @@ module.exports = {
 						"type": "string",
 					}
 				},
-				"env" :{
+				"env": {
 					"source": ["body.env", "query.env"],
 					"required": true,
 					"validation": {
 						"type": "string"
 					}
 				},
-				"acl" :{
+				"acl": {
 					"source": ["body.acl"],
 					"required": true,
 					"validation": {
@@ -2817,14 +2818,14 @@ module.exports = {
 						"type": "string",
 					}
 				},
-				"env" :{
+				"env": {
 					"source": ["body.env", "query.env"],
 					"required": true,
 					"validation": {
 						"type": "string"
 					}
 				},
-				"acl" :{
+				"acl": {
 					"source": ["body.acl"],
 					"required": true,
 					"validation": {
@@ -2845,14 +2846,14 @@ module.exports = {
 						"type": "string",
 					}
 				},
-				"env" :{
+				"env": {
 					"source": ["body.env", "query.env"],
 					"required": true,
 					"validation": {
 						"type": "string"
 					}
 				},
-				"acl" :{
+				"acl": {
 					"source": ["body.acl"],
 					"required": true,
 					"validation": {
