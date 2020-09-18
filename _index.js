@@ -291,7 +291,7 @@ function run(serviceStartCb) {
 				});
 			});
 			
-			service.put("/product/console/scope/env", (req, res, code) => {
+			service.put("/product/console/scope/env", (req, res) => {
 				req.soajs.inputmaskData.soajs = true;
 				bl.product.updateScopeByEnv(req.soajs, req.soajs.inputmaskData, (error, data, code) => {
 					let response = req.soajs.buildResponse(error, data);
