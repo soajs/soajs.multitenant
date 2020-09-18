@@ -110,7 +110,27 @@ let lib = {
                             ]
                         }
                     ]
-                }
+                },
+	            "dev": {
+		            "urac": [
+			            {
+				            "version": "3",
+				            "get": [
+					            "Administrator"
+				            ]
+			            }
+		            ]
+	            },
+	            "stage": {
+		            "urac": [
+			            {
+				            "version": "3",
+				            "get": [
+					            "Administrator"
+				            ]
+			            }
+		            ]
+	            }
             },
             "_TTL" : 86400000 // 24 hours
         },

@@ -333,7 +333,6 @@ let bl = {
 		let modelObj = bl.mp.getModel(soajs);
 		let data = {};
 		data.id = inputmaskData.id;
-		data.code = inputmaskData.code;
 		data.soajs = !!inputmaskData.soajs;
 		modelObj.getProduct(data, (err, record) => {
 			bl.mp.closeModel(soajs, modelObj);
@@ -353,7 +352,7 @@ let bl = {
 		}
 		let modelObj = bl.mp.getModel(soajs);
 		let data = {};
-		data.code = inputmaskData.productCode;
+		data.id = inputmaskData.id;
 		data.soajs = !!inputmaskData.soajs;
 		modelObj.getProduct(data, (err, record) => {
 			bl.mp.closeModel(soajs, modelObj);
@@ -365,7 +364,7 @@ let bl = {
 			}
 			let pck = null;
 			for (let i = 0; i < record.packages.length; i++) {
-				if (record.packages[i].code === inputmaskData.packageCode) {
+				if (record.packages[i].code === inputmaskData.package) {
 					pck = record.packages[i];
 					break;
 				}

@@ -12,6 +12,7 @@ let helper = require("../helper.js");
 
 let service, controller;
 let consoleserver = require('./mocked_services/console-service-mock');
+let marketplaceserver = require('./mocked_services/marketplace-service-mock');
 describe("starting integration tests", () => {
 	
 	before((done) => {
@@ -29,12 +30,15 @@ describe("starting integration tests", () => {
 			controller.runService(() => {
 				console.log("Starting console ...");
 				consoleserver.runService(() => {
-					console.log("Starting Multitenant ...");
-					service = helper.requireModule('./_index.js');
-					service.runService(() => {
-						setTimeout(function () {
-							done();
-						}, 5000);
+					console.log("Starting marketplace ...");
+					marketplaceserver.runService(() => {
+						console.log("Starting Multitenant ...");
+						service = helper.requireModule('./_index.js');
+						service.runService(() => {
+							setTimeout(function () {
+								done();
+							}, 5000);
+						});
 					});
 				});
 			});
@@ -49,11 +53,5 @@ describe("starting integration tests", () => {
 	
 	it("loading use cases", (done) => {
 		done();
-	});
-	
-	it("stopping services", (done) => {
-		//consoleserver.stopService(() => {
-			done();
-		//});
 	});
 });

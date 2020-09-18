@@ -80,6 +80,60 @@ let lib = {
 					"console" : [{
 						"version": "1",
 					}]
+				},
+				"stage": {
+					"multitenant": [
+						{
+							"version": "1",
+							"get": [
+								"Product",
+								"Console product",
+								"Tenant"
+							],
+							"post": [
+								"Product",
+								"Tenant"
+							],
+							"delete": [
+								"Product",
+								"Tenant"
+							],
+							"put":[
+								"Product",
+								"Tenant"
+							]
+						}
+					],
+					"console" : [{
+						"version": "1",
+					}]
+				},
+				"dev": {
+					"multitenant": [
+						{
+							"version": "1",
+							"get": [
+								"Product",
+								"Console product",
+								"Tenant"
+							],
+							"post": [
+								"Product",
+								"Tenant"
+							],
+							"delete": [
+								"Product",
+								"Tenant"
+							],
+							"put":[
+								"Product",
+								"Tenant"
+							]
+						}
+					],
+					"console" : [{
+						"version": "1",
+					}]
 				}
 			},
 			"_TTL": 604800000

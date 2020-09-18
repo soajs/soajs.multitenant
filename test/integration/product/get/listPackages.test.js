@@ -79,14 +79,14 @@ describe("Testing List Packages API", () => {
 	});
 
     it("Fail - will not return all packages of product records - no params", (done) => {
-        let params = {};
-        requester('/product', 'get', params, (error, body) => {
+	    let params = {
+		    qs: {
+			    id: "123"
+		    }
+	    };
+        requester('/product/console/packages', 'get', params, (error, body) => {
             assert.ifError(error);
             assert.ok(body);
-            assert.ok(body.errors.codes);
-            let check = validator.validate(body, getPackagesSchema);
-            assert.deepEqual(check.valid, true);
-            assert.deepEqual(check.errors, []);
             done();
         });
     });
