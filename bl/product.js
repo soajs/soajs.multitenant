@@ -509,7 +509,9 @@ let bl = {
 	},
 	
 	"getUIProductPackageAcl": (soajs, inputmaskData, cb) => {
-		
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
 		let modelObj = bl.mp.getModel(soajs);
 		let data = {};
 		data.id = inputmaskData.id;
@@ -546,7 +548,7 @@ let bl = {
 				return cb(bl.handleError(soajs, 461, null), null);
 			}
 			aclResponse.package = currentPackage;
-			aclResponse.aclTypeByEnv = currentPackage.aclTypeByEnv;
+			aclResponse.aclTypeByEnv = currentPackage.aclTypeByEnv ? currentPackage.aclTypeByEnv : {};
 			aclResponse.scopeFill = product.scope && product.scope.acl ? product.scope.acl : {};
 			soajs.awareness.connect("marketplace", "1", (response) => {
 				
@@ -856,34 +858,41 @@ let bl = {
 					}
 				}, function () {
 					let myAcl = {};
-					reFormPackageAclGranular(aclResponse.aclFill[env.toUpperCase()], (result) => {
-						myAcl[env.toUpperCase()] = result;
-						async.forEachOfSeries(myAcl[env.toUpperCase()], function (service, serviceName, serviceCall) {
-							let currentService = {};
-							//need to optimize this search with async
-							for (let group in aclResponse.allServiceApisGranular) {
-								if (group && aclResponse.allServiceApisGranular[group]) {
-									for (let x = 0; x < aclResponse.allServiceApisGranular[group].length; x++) {
-										if (aclResponse.allServiceApisGranular[group][x].name === serviceName) {
-											currentService = aclResponse.allServiceApisGranular[group][x];
-											break;
+					if ( aclResponse.aclTypeByEnv[env.toLowerCase()] &&  aclResponse.aclTypeByEnv[env.toLowerCase()] === "granular"){
+						reFormPackageAclGranular(aclResponse.aclFill[env.toUpperCase()], (result) => {
+							myAcl[env.toUpperCase()] = result;
+							async.forEachOfSeries(myAcl[env.toUpperCase()], function (service, serviceName, serviceCall) {
+								let currentService = {};
+								//need to optimize this search with async
+								for (let group in aclResponse.allServiceApisGranular) {
+									if (group && aclResponse.allServiceApisGranular[group]) {
+										for (let x = 0; x < aclResponse.allServiceApisGranular[group].length; x++) {
+											if (aclResponse.allServiceApisGranular[group][x].name === serviceName) {
+												currentService = aclResponse.allServiceApisGranular[group][x];
+												break;
+											}
 										}
 									}
 								}
-							}
-							async.series([
-								function (callback) {
-									fillServiceAccess(service, currentService, callback);
-								},
-								function (callback) {
-									fillServiceApiAccess(service, currentService, callback);
-								}
-							], serviceCall);
-						}, function () {
-							aclResponse.aclFill[env.toUpperCase()] = myAcl[env.toUpperCase()];
-							return cb(null, aclResponse);
+								async.series([
+									function (callback) {
+										fillServiceAccess(service, currentService, callback);
+									},
+									function (callback) {
+										fillServiceApiAccess(service, currentService, callback);
+									}
+								], serviceCall);
+							}, function () {
+								aclResponse.aclFill[env.toUpperCase()] = myAcl[env.toUpperCase()];
+								return cb(null, aclResponse);
+							});
 						});
-					});
+					}
+					else {
+						myAcl[env.toUpperCase()] = {};
+						aclResponse.aclFill[env.toUpperCase()] = myAcl[env.toUpperCase()];
+						return cb(null, aclResponse);
+					}
 				});
 			}
 		});
