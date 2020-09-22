@@ -2054,21 +2054,22 @@ let bl = {
 							}
 						}
 					} else {
-						for (let i = scope.acl[env][oneService.service][oneService.version][oneService.method].length - 1; i >= 0; i--) {
-							if (scope.acl[env][oneService.service][oneService.version][oneService.method][i].group === oneService.group &&
-								scope.acl[env][oneService.service][oneService.version][oneService.method][i].apis &&
-								scope.acl[env][oneService.service][oneService.version][oneService.method][i].apis[oneService.api]) {
-								delete scope.acl[env][oneService.service][oneService.version][oneService.method][i].apis[oneService.api];
-								if (Object.keys(scope.acl[env][oneService.service][oneService.version][oneService.method][i].apis).length === 0) {
-									scope.acl[env][oneService.service][oneService.version][oneService.method].splice(i, 1);
+						if ( scope.acl[env][oneService.service][oneService.version] && scope.acl[env][oneService.service][oneService.version][oneService.method] ){
+							for (let i = scope.acl[env][oneService.service][oneService.version][oneService.method].length - 1; i >= 0; i--) {
+								if (scope.acl[env][oneService.service][oneService.version][oneService.method][i].group === oneService.group &&
+									scope.acl[env][oneService.service][oneService.version][oneService.method][i].apis &&
+									scope.acl[env][oneService.service][oneService.version][oneService.method][i].apis[oneService.api]) {
+									delete scope.acl[env][oneService.service][oneService.version][oneService.method][i].apis[oneService.api];
+									if (Object.keys(scope.acl[env][oneService.service][oneService.version][oneService.method][i].apis).length === 0) {
+										scope.acl[env][oneService.service][oneService.version][oneService.method].splice(i, 1);
+									}
 								}
 							}
-						}
-						if (scope.acl[env][oneService.service][oneService.version][oneService.method].length === 0) {
-							delete scope.acl[env][oneService.service][oneService.version][oneService.method];
+							if (scope.acl[env][oneService.service][oneService.version][oneService.method].length === 0) {
+								delete scope.acl[env][oneService.service][oneService.version][oneService.method];
+							}
 						}
 					}
-					
 				}
 				callback();
 			}, function () {

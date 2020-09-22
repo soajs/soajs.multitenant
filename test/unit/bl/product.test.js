@@ -12480,6 +12480,1083 @@ describe("Unit test for: BL - product", () => {
 		});
 	});
 	
+	describe("Testing Get product ACL Scope preview service", () => {
+		afterEach((done) => {
+			BL.modelObj = null;
+			BL.model = null;
+			nock.cleanAll();
+			done();
+		});
+		
+		it("Success - Get product scope - granular", (done) => {
+			let inputMask = {
+				productCode: 'TEST2',
+				mainEnv: 'dashboard',
+				secEnv: 'stage',
+			};
+			nock('http://www.example.com')
+				.get('/items/type/all')
+				.query({"types": ['service', 'endpoint'], "start": 0,
+					"limit": 500})
+				.reply(200, {
+					"result": true,
+					"data": {
+						records: [{
+							_id: "5ef23b834584f11f017b3def",
+							type: "service",
+							name: "urac",
+							versions: [
+								{
+									version: "3",
+									apis: [
+										{
+											l: "Forgot password by username as (username or email) - an email will be sent with a link to reset the password",
+											v: "/password/forgot",
+											m: "get",
+											group: "My account guest"
+										},
+										{
+											l: "To validate user account after joining",
+											v: "/validate/join",
+											m: "get",
+											group: "Guest join"
+										},
+										{
+											l: "Check if a username as (username or email) is available or taken",
+											v: "/checkUsername",
+											m: "get",
+											group: "Guest join"
+										},
+										{
+											l: "Check if user (username or email) status if pendingJoin or pendingNew and send a new token email",
+											v: "/emailToken",
+											m: "get",
+											group: "My account guest"
+										},
+										{
+											l: "To validate change email",
+											v: "/validate/changeEmail",
+											m: "get",
+											group: "My account guest"
+										},
+										{
+											l: "Get user account information by username as (username or email)",
+											v: "/user",
+											m: "get",
+											group: "My account",
+											groupMain: true
+										},
+										{
+											l: "Get user by id",
+											v: "/admin/user",
+											m: "get",
+											group: "User administration"
+										},
+										{
+											l: "List users matching certain keywords",
+											v: "/admin/users",
+											m: "get",
+											group: "User administration",
+											groupMain: true
+										},
+										{
+											l: "Get users count matching certain keywords",
+											v: "/admin/users/count",
+											m: "get",
+											group: "User administration"
+										},
+										{
+											l: "List all groups",
+											v: "/admin/groups",
+											m: "get",
+											group: "Group administration"
+										},
+										{
+											l: "Get group by id or code",
+											v: "/admin/group",
+											m: "get",
+											group: "Group administration"
+										},
+										{
+											l: "Get all users and groups of a main tenant",
+											v: "/admin/all",
+											m: "get",
+											group: "Administration"
+										},
+										{
+											l: "Send custom email",
+											v: "/email",
+											m: "post",
+											group: "Custom email"
+										},
+										{
+											l: "Join and create an account",
+											v: "/join",
+											m: "post",
+											group: "Guest join"
+										},
+										{
+											l: "Add user",
+											v: "/admin/user",
+											m: "post",
+											group: "User administration"
+										},
+										{
+											l: "List users by Id",
+											v: "/admin/users/ids",
+											m: "post",
+											group: "User administration",
+											groupMain: true
+										},
+										{
+											l: "Add group",
+											v: "/admin/group",
+											m: "post",
+											group: "Group administration"
+										},
+										{
+											l: "Delete group",
+											v: "/admin/group",
+											m: "delete",
+											group: "Group administration"
+										},
+										{
+											l: "Delete user",
+											v: "/admin/user",
+											m: "delete",
+											group: "User administration"
+										},
+										{
+											l: "Reset password",
+											v: "/password/reset",
+											m: "put",
+											group: "My account guest"
+										},
+										{
+											l: "Change account's password by id",
+											v: "/account/password",
+											m: "put",
+											group: "My account"
+										},
+										{
+											l: "Change account's email by id",
+											v: "/account/email",
+											m: "put",
+											group: "My account"
+										},
+										{
+											l: "Edit account's information by id",
+											v: "/account",
+											m: "put",
+											group: "My account"
+										},
+										{
+											l: "Edit user by id",
+											v: "/admin/user",
+											m: "put",
+											group: "User administration"
+										},
+										{
+											l: "Edit user's groups by id, username, or email",
+											v: "/admin/user/groups",
+											m: "put",
+											group: "User administration"
+										},
+										{
+											l: "Edit, reset, or delete user's pin information by id, username, or email",
+											v: "/admin/user/pin",
+											m: "put",
+											group: "User administration"
+										},
+										{
+											l: "Change the status of a user by id",
+											v: "/admin/user/status",
+											m: "put",
+											group: "User administration"
+										},
+										{
+											l: "Edit group by id",
+											v: "/admin/group",
+											m: "put",
+											group: "Group administration"
+										},
+										{
+											l: "Update environment(s) of group(s) by code(s) or id(s)",
+											v: "/admin/groups/environments",
+											m: "put",
+											group: "Group administration"
+										},
+										{
+											l: "Update package(s) of group(s) by code(s) or id(s)",
+											v: "/admin/groups/packages",
+											m: "put",
+											group: "Group administration"
+										},
+										{
+											l: "Self Invite user by id or username as username or email",
+											v: "/admin/user/self/invite",
+											m: "put",
+											group: "User administration"
+										},
+										{
+											l: "Invite users by id, username or email",
+											v: "/admin/users/invite",
+											m: "put",
+											group: "User administration"
+										},
+										{
+											l: "un-Invite users by id, username or email",
+											v: "/admin/users/uninvite",
+											m: "put",
+											group: "User administration"
+										}
+									],
+								}
+							],
+							configuration: {
+								subType: "soajs",
+								group: "Gateway",
+							},
+							src: {
+								provider: "github",
+								owner: "soajs",
+								repo: "soajs.multituracenant"
+							}
+						}]
+					}
+				});
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(null, {
+						"code": "TEST2",
+						"name": "not Console UI Product",
+						"description": "This is the main Console UI Product.",
+						"scope": {
+							"acl": {
+								"dashboard": {
+									"urac": {
+										"3": {
+											"access": true,
+											"apisPermission": "restricted",
+											"get": [
+												{
+													"group": "My account guest",
+													"apis": {
+														"/password/forgot": {
+															"access": false
+														},
+														"/emailToken": {
+															"access": true
+														},
+														"/validate/changeEmail": {
+															"access": true
+														}
+													}
+												}
+											]
+										}
+									}
+								},
+								"stage": {
+									"urac": {
+										"3": {
+											"access": true,
+											"get": [
+												{
+													"group": "My account guest",
+													"apis": {
+														"/password/forgot": {
+															"access": false
+														},
+														"/emailToken": {
+															"access": false
+														},
+														"/validate/changeEmail": {
+															"access": false
+														}
+													}
+												}
+											]
+										}
+									}
+								}
+							}
+						},
+						"packages": [{
+							"code": "TEST2_NEW",
+							"name": "new package",
+							"description": "this is a description for test 2 product new package",
+							"aclTypeByEnv": {
+								"dashboard": "granular",
+								"stage": "granular"
+							},
+							"acl": {
+								"dashboard": {
+									"urac": {
+										"3" :{
+											"access": false,
+											"apisPermission": "restricted",
+											"get": {
+												"apis": {
+													"/password/forgot": {
+														"group": "My account guest",
+														"access": false
+													},
+													"/emailToken": {
+														"group": "My account guest",
+														"access": true
+													},
+													"/validate/changeEmail": {
+														"group": "My account guest",
+														"access": true
+													}
+												}
+											}
+										}
+									}
+								},
+								"stage": {
+									"urac": {
+										"3" :{
+											"access": false,
+											"apisPermission": "restricted",
+											"get": {
+												"apis": {
+													"/password/forgot": {
+														"group": "My account guest",
+														"access": false
+													},
+													"/emailToken": {
+														"group": "My account guest",
+														"access": true
+													},
+													"/validate/changeEmail": {
+														"group": "My account guest",
+														"access": true
+													}
+												}
+											}
+										}
+									}
+								},
+							},
+							"_TTL": 86400000 // 24 hours
+						}]
+					});
+				}
+			};
+			
+			BL.getScopePreviewService(soajs, inputMask, (err, acl) => {
+				assert.ok(acl);
+				assert.deepStrictEqual(acl, {
+					"product": "TEST2",
+					"acl": [
+						{
+							"service": "urac",
+							"version": "3",
+							"envs": {
+								"dashboard": true,
+								"stage": true
+							},
+							"restriction": {
+								"dashboard": true,
+								"stage": false
+							},
+							"access": {
+								"dashboard": true,
+								"stage": true
+							}
+						}
+					]
+				});
+				done();
+			});
+		});
+		
+		it("Fail - Get product - no inputmaskData", (done) => {
+			BL.getScopePreviewService(soajs, null, (err) => {
+				assert.deepEqual(err.code, 400);
+				assert.ok(err);
+				done();
+			});
+		});
+		
+		it("Fail - Get product - no record", (done) => {
+			
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(false, null);
+				}
+			};
+			BL.getScopePreviewService(soajs, {id: "found"}, (err) => {
+				assert.deepEqual(err.code, 460);
+				assert.ok(err);
+				done();
+			});
+		});
+		
+		it("Fail - Get product - error in mongo", (done) => {
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(true, null);
+				}
+			};
+			
+			BL.getScopePreviewService(soajs, {id: "found"}, (err) => {
+				assert.deepEqual(err.code, 602);
+				assert.ok(err);
+				done();
+			});
+		});
+		
+		it("Fail - Get product", (done) => {
+			let inputMask = {
+				productCode: 'TEST2',
+				packageCode: 'TEST2_NEW',
+				mainEnv: 'dev',
+				soajs: true,
+			};
+			nock('http://www.example.com')
+				.get('/soajs/items')
+				.query({"types": ['service', 'endpoint']})
+				.reply(200, {
+					"result": false,
+					"errors": {
+						"details": [
+							{
+								"code": 1,
+								"message": "error 1"
+							},
+							{
+								"code": 2,
+								"message": "error 2"
+							}
+						]
+					}
+				});
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(null, {
+						"code": "TEST2",
+						"name": "not Console UI Product",
+						"description": "This is the main Console UI Product.",
+						"scope": {
+							"acl": {
+								"dashboard": {
+									"urac": {
+										"3": {
+											"access": true,
+											"apisPermission": "restricted",
+											"get": [
+												{
+													"group": "My account guest",
+													"apis": {
+														"/password/forgot": {
+															"access": false
+														},
+														"/emailToken": {
+															"access": true
+														},
+														"/validate/changeEmail": {
+															"access": true
+														}
+													}
+												}
+											]
+										}
+									}
+								}
+							}
+						},
+						"packages": [{
+							"code": "TEST2_NEW",
+							"name": "new package",
+							"description": "this is a description for test 2 product new package",
+							"acl": {
+								"dashboard": {
+									"urac": [
+										{
+											"version": "3",
+											"get": [
+												"My account guest",
+											]
+										}
+									]
+								}
+							},
+							"_TTL": 86400000 // 24 hours
+						}]
+					});
+				}
+			};
+			
+			BL.getScopePreviewService(soajs, inputMask, (err) => {
+				assert.ok(err);
+				assert.deepEqual(err.code, 503);
+				done();
+			});
+		});
+	});
+	
+	describe("Testing Get product ACL Scope preview api", () => {
+		afterEach((done) => {
+			BL.modelObj = null;
+			BL.model = null;
+			nock.cleanAll();
+			done();
+		});
+		
+		it("Success - Get product scope - granular", (done) => {
+			let inputMask = {
+				productCode: 'TEST2',
+				mainEnv: 'dashboard',
+				secEnv: 'stage',
+			};
+			nock('http://www.example.com')
+				.get('/items/type/all')
+				.query({"types": ['service', 'endpoint'], "start": 0,
+					"limit": 500})
+				.reply(200, {
+					"result": true,
+					"data": {
+						records: [{
+							_id: "5ef23b834584f11f017b3def",
+							type: "service",
+							name: "urac",
+							versions: [
+								{
+									version: "3",
+									apis: [
+										{
+											l: "Forgot password by username as (username or email) - an email will be sent with a link to reset the password",
+											v: "/password/forgot",
+											m: "get",
+											group: "My account guest"
+										},
+										{
+											l: "To validate user account after joining",
+											v: "/validate/join",
+											m: "get",
+											group: "Guest join"
+										},
+										{
+											l: "Check if a username as (username or email) is available or taken",
+											v: "/checkUsername",
+											m: "get",
+											group: "Guest join"
+										},
+										{
+											l: "Check if user (username or email) status if pendingJoin or pendingNew and send a new token email",
+											v: "/emailToken",
+											m: "get",
+											group: "My account guest"
+										},
+										{
+											l: "To validate change email",
+											v: "/validate/changeEmail",
+											m: "get",
+											group: "My account guest"
+										},
+										{
+											l: "Get user account information by username as (username or email)",
+											v: "/user",
+											m: "get",
+											group: "My account",
+											groupMain: true
+										},
+										{
+											l: "Get user by id",
+											v: "/admin/user",
+											m: "get",
+											group: "User administration"
+										},
+										{
+											l: "List users matching certain keywords",
+											v: "/admin/users",
+											m: "get",
+											group: "User administration",
+											groupMain: true
+										},
+										{
+											l: "Get users count matching certain keywords",
+											v: "/admin/users/count",
+											m: "get",
+											group: "User administration"
+										},
+										{
+											l: "List all groups",
+											v: "/admin/groups",
+											m: "get",
+											group: "Group administration"
+										},
+										{
+											l: "Get group by id or code",
+											v: "/admin/group",
+											m: "get",
+											group: "Group administration"
+										},
+										{
+											l: "Get all users and groups of a main tenant",
+											v: "/admin/all",
+											m: "get",
+											group: "Administration"
+										},
+										{
+											l: "Send custom email",
+											v: "/email",
+											m: "post",
+											group: "Custom email"
+										},
+										{
+											l: "Join and create an account",
+											v: "/join",
+											m: "post",
+											group: "Guest join"
+										},
+										{
+											l: "Add user",
+											v: "/admin/user",
+											m: "post",
+											group: "User administration"
+										},
+										{
+											l: "List users by Id",
+											v: "/admin/users/ids",
+											m: "post",
+											group: "User administration",
+											groupMain: true
+										},
+										{
+											l: "Add group",
+											v: "/admin/group",
+											m: "post",
+											group: "Group administration"
+										},
+										{
+											l: "Delete group",
+											v: "/admin/group",
+											m: "delete",
+											group: "Group administration"
+										},
+										{
+											l: "Delete user",
+											v: "/admin/user",
+											m: "delete",
+											group: "User administration"
+										},
+										{
+											l: "Reset password",
+											v: "/password/reset",
+											m: "put",
+											group: "My account guest"
+										},
+										{
+											l: "Change account's password by id",
+											v: "/account/password",
+											m: "put",
+											group: "My account"
+										},
+										{
+											l: "Change account's email by id",
+											v: "/account/email",
+											m: "put",
+											group: "My account"
+										},
+										{
+											l: "Edit account's information by id",
+											v: "/account",
+											m: "put",
+											group: "My account"
+										},
+										{
+											l: "Edit user by id",
+											v: "/admin/user",
+											m: "put",
+											group: "User administration"
+										},
+										{
+											l: "Edit user's groups by id, username, or email",
+											v: "/admin/user/groups",
+											m: "put",
+											group: "User administration"
+										},
+										{
+											l: "Edit, reset, or delete user's pin information by id, username, or email",
+											v: "/admin/user/pin",
+											m: "put",
+											group: "User administration"
+										},
+										{
+											l: "Change the status of a user by id",
+											v: "/admin/user/status",
+											m: "put",
+											group: "User administration"
+										},
+										{
+											l: "Edit group by id",
+											v: "/admin/group",
+											m: "put",
+											group: "Group administration"
+										},
+										{
+											l: "Update environment(s) of group(s) by code(s) or id(s)",
+											v: "/admin/groups/environments",
+											m: "put",
+											group: "Group administration"
+										},
+										{
+											l: "Update package(s) of group(s) by code(s) or id(s)",
+											v: "/admin/groups/packages",
+											m: "put",
+											group: "Group administration"
+										},
+										{
+											l: "Self Invite user by id or username as username or email",
+											v: "/admin/user/self/invite",
+											m: "put",
+											group: "User administration"
+										},
+										{
+											l: "Invite users by id, username or email",
+											v: "/admin/users/invite",
+											m: "put",
+											group: "User administration"
+										},
+										{
+											l: "un-Invite users by id, username or email",
+											v: "/admin/users/uninvite",
+											m: "put",
+											group: "User administration"
+										}
+									],
+								}
+							],
+							configuration: {
+								subType: "soajs",
+								group: "Gateway",
+							},
+							src: {
+								provider: "github",
+								owner: "soajs",
+								repo: "soajs.multituracenant"
+							}
+						}]
+					}
+				});
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(null, {
+						"code": "TEST2",
+						"name": "not Console UI Product",
+						"description": "This is the main Console UI Product.",
+						"scope": {
+							"acl": {
+								"dashboard": {
+									"urac": {
+										"3": {
+											"access": true,
+											"apisPermission": "restricted",
+											"get": [
+												{
+													"group": "My account guest",
+													"apis": {
+														"/password/forgot": {
+															"access": false
+														},
+														"/emailToken": {
+															"access": true
+														},
+														"/validate/changeEmail": {
+															"access": true
+														}
+													}
+												}
+											]
+										}
+									}
+								},
+								"stage": {
+									"urac": {
+										"3": {
+											"access": true,
+											"get": [
+												{
+													"group": "My account guest",
+													"apis": {
+														"/password/forgot": {
+															"access": false
+														},
+														"/emailToken": {
+															"access": false
+														},
+														"/validate/changeEmail": {
+															"access": false
+														}
+													}
+												}
+											]
+										}
+									}
+								}
+							}
+						},
+						"packages": [{
+							"code": "TEST2_NEW",
+							"name": "new package",
+							"description": "this is a description for test 2 product new package",
+							"aclTypeByEnv": {
+								"dashboard": "granular",
+								"stage": "granular"
+							},
+							"acl": {
+								"dashboard": {
+									"urac": {
+										"3" :{
+											"access": false,
+											"apisPermission": "restricted",
+											"get": {
+												"apis": {
+													"/password/forgot": {
+														"group": "My account guest",
+														"access": false
+													},
+													"/emailToken": {
+														"group": "My account guest",
+														"access": true
+													},
+													"/validate/changeEmail": {
+														"group": "My account guest",
+														"access": true
+													}
+												}
+											}
+										}
+									}
+								},
+								"stage": {
+									"urac": {
+										"3" :{
+											"access": false,
+											"apisPermission": "restricted",
+											"get": {
+												"apis": {
+													"/password/forgot": {
+														"group": "My account guest",
+														"access": false
+													},
+													"/emailToken": {
+														"group": "My account guest",
+														"access": true
+													},
+													"/validate/changeEmail": {
+														"group": "My account guest",
+														"access": true
+													}
+												}
+											}
+										}
+									}
+								},
+							},
+							"_TTL": 86400000 // 24 hours
+						}]
+					});
+				}
+			};
+			
+			BL.getScopePreviewApi(soajs, inputMask, (err, acl) => {
+				assert.ok(acl);
+				assert.deepStrictEqual(acl, {
+					"product": "TEST2",
+					"acl": [
+						{
+							"service": "urac",
+							"version": "3",
+							"group": "My account guest",
+							"method": "get",
+							"api": "/password/forgot",
+							"envs": {
+								"dashboard": true,
+								"stage": true
+							},
+							"access": {
+								"dashboard": false,
+								"stage": false
+							},
+							"restriction": {
+								"dashboard": true,
+								"stage": false
+							}
+						},
+						{
+							"service": "urac",
+							"version": "3",
+							"group": "My account guest",
+							"method": "get",
+							"api": "/emailToken",
+							"envs": {
+								"dashboard": true,
+								"stage": true
+							},
+							"access": {
+								"dashboard": true,
+								"stage": false
+							},
+							"restriction": {
+								"dashboard": true,
+								"stage": false
+							}
+						},
+						{
+							"service": "urac",
+							"version": "3",
+							"group": "My account guest",
+							"method": "get",
+							"api": "/validate/changeEmail",
+							"envs": {
+								"dashboard": true,
+								"stage": true
+							},
+							"access": {
+								"dashboard": true,
+								"stage": false
+							},
+							"restriction": {
+								"dashboard": true,
+								"stage": false
+							}
+						}
+					]
+				});
+				done();
+			});
+		});
+		
+		it("Fail - Get product - no inputmaskData", (done) => {
+			BL.getScopePreviewApi(soajs, null, (err) => {
+				assert.deepEqual(err.code, 400);
+				assert.ok(err);
+				done();
+			});
+		});
+		
+		it("Fail - Get product - no record", (done) => {
+			
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(false, null);
+				}
+			};
+			BL.getScopePreviewApi(soajs, {id: "found"}, (err) => {
+				assert.deepEqual(err.code, 460);
+				assert.ok(err);
+				done();
+			});
+		});
+		
+		it("Fail - Get product - error in mongo", (done) => {
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(true, null);
+				}
+			};
+			
+			BL.getScopePreviewApi(soajs, {id: "found"}, (err) => {
+				assert.deepEqual(err.code, 602);
+				assert.ok(err);
+				done();
+			});
+		});
+		
+		it("Fail - Get product", (done) => {
+			let inputMask = {
+				productCode: 'TEST2',
+				packageCode: 'TEST2_NEW',
+				mainEnv: 'dev',
+				soajs: true,
+			};
+			nock('http://www.example.com')
+				.get('/soajs/items')
+				.query({"types": ['service', 'endpoint']})
+				.reply(200, {
+					"result": false,
+					"errors": {
+						"details": [
+							{
+								"code": 1,
+								"message": "error 1"
+							},
+							{
+								"code": 2,
+								"message": "error 2"
+							}
+						]
+					}
+				});
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(null, {
+						"code": "TEST2",
+						"name": "not Console UI Product",
+						"description": "This is the main Console UI Product.",
+						"scope": {
+							"acl": {
+								"dashboard": {
+									"urac": {
+										"3": {
+											"access": true,
+											"apisPermission": "restricted",
+											"get": [
+												{
+													"group": "My account guest",
+													"apis": {
+														"/password/forgot": {
+															"access": false
+														},
+														"/emailToken": {
+															"access": true
+														},
+														"/validate/changeEmail": {
+															"access": true
+														}
+													}
+												}
+											]
+										}
+									}
+								}
+							}
+						},
+						"packages": [{
+							"code": "TEST2_NEW",
+							"name": "new package",
+							"description": "this is a description for test 2 product new package",
+							"acl": {
+								"dashboard": {
+									"urac": [
+										{
+											"version": "3",
+											"get": [
+												"My account guest",
+											]
+										}
+									]
+								}
+							},
+							"_TTL": 86400000 // 24 hours
+						}]
+					});
+				}
+			};
+			
+			BL.getScopePreviewApi(soajs, inputMask, (err) => {
+				assert.ok(err);
+				assert.deepEqual(err.code, 503);
+				done();
+			});
+		});
+	});
+	
 	describe("Testing update package inside Product", () => {
 		afterEach((done) => {
 			BL.modelObj = null;
@@ -13572,4 +14649,1680 @@ describe("Unit test for: BL - product", () => {
 		});
 	});
 	
+	describe("Testing Update product ACL Scope preview service", () => {
+		afterEach((done) => {
+			BL.modelObj = null;
+			BL.model = null;
+			done();
+		});
+		
+		it("Success - update product scope", (done) => {
+			let inputMask = {
+				productCode: 'TEST2',
+				env: 'dashboard',
+				acl: [
+					{
+						"service": "urac",
+						"version": "3",
+						"envs": {
+							"dashboard": true
+						},
+						"restriction": {
+							"dashboard": true
+						},
+						"access": {
+							"dashboard": true
+						},
+					},
+					{
+						"service": "multitenant",
+						"version": "1",
+						"envs": {
+							"dashboard": false
+						},
+						"restriction": {
+							"dashboard": false
+						},
+						"access": {
+							"dashboard": false
+						},
+					}
+				]
+			};
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(null, {
+						"code": "TEST2",
+						"name": "not Console UI Product",
+						"description": "This is the main Console UI Product.",
+						"scope": {
+							"acl": {
+								"dashboard": {
+									"urac": {
+										"3": {
+											"access": true,
+											"apisPermission": "restricted",
+											"get": [
+												{
+													"group": "My account guest",
+													"apis": {
+														"/password/forgot": {
+															"access": false
+														},
+														"/emailToken": {
+															"access": true
+														},
+														"/validate/changeEmail": {
+															"access": true
+														}
+													}
+												}
+											]
+										}
+									}
+								},
+								"stage": {
+									"urac": {
+										"3": {
+											"access": true,
+											"get": [
+												{
+													"group": "My account guest",
+													"apis": {
+														"/password/forgot": {
+															"access": false
+														},
+														"/emailToken": {
+															"access": false
+														},
+														"/validate/changeEmail": {
+															"access": false
+														}
+													}
+												}
+											]
+										}
+									}
+								}
+							}
+						},
+						"packages": [{
+							"code": "TEST2_NEW",
+							"name": "new package",
+							"description": "this is a description for test 2 product new package",
+							"aclTypeByEnv": {
+								"dashboard": "granular",
+								"stage": "granular"
+							},
+							"acl": {
+								"dashboard": {
+									"urac": {
+										"3" :{
+											"access": false,
+											"apisPermission": "restricted",
+											"get": {
+												"apis": {
+													"/password/forgot": {
+														"group": "My account guest",
+														"access": false
+													},
+													"/emailToken": {
+														"group": "My account guest",
+														"access": true
+													},
+													"/validate/changeEmail": {
+														"group": "My account guest",
+														"access": true
+													}
+												}
+											}
+										}
+									}
+								},
+								"stage": {
+									"urac": {
+										"3" :{
+											"access": false,
+											"apisPermission": "restricted",
+											"get": {
+												"apis": {
+													"/password/forgot": {
+														"group": "My account guest",
+														"access": false
+													},
+													"/emailToken": {
+														"group": "My account guest",
+														"access": true
+													},
+													"/validate/changeEmail": {
+														"group": "My account guest",
+														"access": true
+													}
+												}
+											}
+										}
+									}
+								},
+							},
+							"_TTL": 86400000 // 24 hours
+						}]
+					});
+				},
+				updateScope: (inputMask, cb) => {
+					return cb(null, true);
+				},
+			};
+			
+			BL.updateScopePreviewService(soajs, inputMask, (err, result) => {
+				assert.ok(result);
+				assert.deepStrictEqual(result, "Product Acl Updated!");
+				done();
+			});
+		});
+		
+		it("Success - update product scope empty", (done) => {
+			let inputMask = {
+				productCode: 'TEST2',
+				env: 'dashboard',
+				acl: [
+					{
+						"service": "urac",
+						"version": "3",
+						"envs": {
+							"dashboard": true
+						},
+						"restriction": {
+							"dashboard": true
+						},
+						"access": {
+							"dashboard": true
+						},
+					},
+					{
+						"service": "multitenant",
+						"version": "1",
+						"envs": {
+							"dashboard": false
+						},
+						"restriction": {
+							"dashboard": false
+						},
+						"access": {
+							"dashboard": false
+						},
+					}
+				]
+			};
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(null, {
+						"code": "TEST2",
+						"name": "not Console UI Product",
+						"description": "This is the main Console UI Product."
+					});
+				},
+				updateScope: (inputMask, cb) => {
+					return cb(null, true);
+				},
+			};
+			
+			BL.updateScopePreviewService(soajs, inputMask, (err, result) => {
+				assert.ok(result);
+				assert.deepStrictEqual(result, "Product Acl Updated!");
+				done();
+			});
+		});
+		
+		it("Fail - Get product - no inputmaskData", (done) => {
+			BL.updateScopePreviewService(soajs, null, (err) => {
+				assert.deepEqual(err.code, 400);
+				assert.ok(err);
+				done();
+			});
+		});
+		
+		it("Fail - Get product - no record", (done) => {
+			
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(false, null);
+				}
+			};
+			BL.updateScopePreviewService(soajs, {id: "found"}, (err) => {
+				assert.deepEqual(err.code, 460);
+				assert.ok(err);
+				done();
+			});
+		});
+		
+		it("Fail - Get product - error in mongo", (done) => {
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(true, null);
+				}
+			};
+			
+			BL.updateScopePreviewService(soajs, {id: "found"}, (err) => {
+				assert.deepEqual(err.code, 602);
+				assert.ok(err);
+				done();
+			});
+		});
+		
+		it("Fail - update product", (done) => {
+			let inputMask = {
+				productCode: 'TEST2',
+				env: 'dashboard',
+				acl: [
+					{
+						"service": "urac",
+						"version": "3",
+						"envs": {
+							"dev": true
+						},
+						"restriction": {
+							"dev": true
+						},
+						"access": {
+							"dev": true
+						},
+					},
+					{
+						"service": "multitenant",
+						"version": "1",
+						"envs": {
+							"dev": false
+						},
+						"restriction": {
+							"dev": true
+						},
+						"access": {
+							"dev": true
+						},
+					}
+				]
+			};
+			
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(null, {
+						"code": "TEST2",
+						"name": "not Console UI Product",
+						"description": "This is the main Console UI Product.",
+						"scope": {
+							"acl": {
+								"dashboard": {
+									"urac": {
+										"3": {
+											"access": true,
+											"apisPermission": "restricted",
+											"get": [
+												{
+													"group": "My account guest",
+													"apis": {
+														"/password/forgot": {
+															"access": false
+														},
+														"/emailToken": {
+															"access": true
+														},
+														"/validate/changeEmail": {
+															"access": true
+														}
+													}
+												}
+											]
+										}
+									}
+								}
+							}
+						},
+						"packages": [{
+							"code": "TEST2_NEW",
+							"name": "new package",
+							"description": "this is a description for test 2 product new package",
+							"acl": {
+								"dashboard": {
+									"urac": [
+										{
+											"version": "3",
+											"get": [
+												"My account guest",
+											]
+										}
+									]
+								}
+							},
+							"_TTL": 86400000 // 24 hours
+						}]
+					});
+				},
+				updateScope: (inputMask, cb) => {
+					return cb(true, true);
+				},
+			};
+			
+			BL.updateScopePreviewService(soajs, inputMask, (err) => {
+				assert.ok(err);
+				assert.deepEqual(err.code, 470);
+				done();
+			});
+		});
+	});
+	
+	describe("Testing Update product ACL Scope preview api", () => {
+		afterEach((done) => {
+			BL.modelObj = null;
+			BL.model = null;
+			done();
+		});
+		
+		it("Success - update product scope", (done) => {
+			let inputMask = {
+				productCode: 'TEST2',
+				env: 'dashboard',
+				acl: [
+					{
+						"service": "urac",
+						"version": "3",
+						"group": "NEW",
+						"method": "put",
+						"api": "/password/forgot/no",
+						"envs": {
+							"dashboard": true
+						},
+						"access": {
+							"dashboard": false
+						},
+						"restriction": {
+							"dashboard": true
+						},
+					},
+					{
+						"service": "urac",
+						"version": "3",
+						"group": "My account guest",
+						"method": "get",
+						"api": "/emailToken",
+						"envs": {
+							"dashboard": false
+						},
+						"access": {
+							"dashboard": false
+						},
+						"restriction": {
+							"dashboard": false
+						},
+					},
+					{
+						"service": "urac",
+						"version": "3",
+						"group": "My account guest",
+						"method": "get",
+						"api": "/validate/changeEmail",
+						"envs": {
+							"dashboard": true
+						},
+						"access": {
+							"dashboard": true
+						},
+						"restriction": {
+							"dashboard": true
+						},
+					}
+				]
+			};
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(null, {
+						"code": "TEST2",
+						"name": "not Console UI Product",
+						"description": "This is the main Console UI Product.",
+						"scope": {
+							"acl": {
+								"dashboard": {
+									"urac": {
+										"3": {
+											"access": true,
+											"apisPermission": "restricted",
+											"get": [
+												{
+													"group": "My account guest",
+													"apis": {
+														"/password/forgot": {
+															"access": false
+														},
+														"/emailToken": {
+															"access": true
+														},
+														"/validate/changeEmail": {
+															"access": true
+														}
+													}
+												}
+											]
+										}
+									}
+								},
+								"stage": {
+									"urac": {
+										"3": {
+											"access": true,
+											"get": [
+												{
+													"group": "My account guest",
+													"apis": {
+														"/password/forgot": {
+															"access": false
+														},
+														"/emailToken": {
+															"access": false
+														},
+														"/validate/changeEmail": {
+															"access": false
+														}
+													}
+												}
+											]
+										}
+									}
+								}
+							}
+						},
+						"packages": [{
+							"code": "TEST2_NEW",
+							"name": "new package",
+							"description": "this is a description for test 2 product new package",
+							"aclTypeByEnv": {
+								"dashboard": "granular",
+								"stage": "granular"
+							},
+							"acl": {
+								"dashboard": {
+									"urac": {
+										"3" :{
+											"access": false,
+											"apisPermission": "restricted",
+											"get": {
+												"apis": {
+													"/password/forgot": {
+														"group": "My account guest",
+														"access": false
+													},
+													"/emailToken": {
+														"group": "My account guest",
+														"access": true
+													},
+													"/validate/changeEmail": {
+														"group": "My account guest",
+														"access": true
+													}
+												}
+											}
+										}
+									}
+								},
+								"stage": {
+									"urac": {
+										"3" :{
+											"access": false,
+											"apisPermission": "restricted",
+											"get": {
+												"apis": {
+													"/password/forgot": {
+														"group": "My account guest",
+														"access": false
+													},
+													"/emailToken": {
+														"group": "My account guest",
+														"access": true
+													},
+													"/validate/changeEmail": {
+														"group": "My account guest",
+														"access": true
+													}
+												}
+											}
+										}
+									}
+								},
+							},
+							"_TTL": 86400000 // 24 hours
+						}]
+					});
+				},
+				updateScope: (inputMask, cb) => {
+					return cb(null, true);
+				},
+			};
+			
+			BL.updateScopePreviewApi(soajs, inputMask, (err, result) => {
+				assert.ok(result);
+				assert.deepStrictEqual(result, "Product Acl Updated!");
+				done();
+			});
+		});
+		
+		
+		it("Fail - Get product - no inputmaskData", (done) => {
+			BL.updateScopePreviewApi(soajs, null, (err) => {
+				assert.deepEqual(err.code, 400);
+				assert.ok(err);
+				done();
+			});
+		});
+		
+		it("Fail - Get product - no record", (done) => {
+			
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(false, null);
+				}
+			};
+			BL.updateScopePreviewApi(soajs, {id: "found"}, (err) => {
+				assert.deepEqual(err.code, 460);
+				assert.ok(err);
+				done();
+			});
+		});
+		
+		it("Fail - Get product - error in mongo", (done) => {
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(true, null);
+				}
+			};
+			
+			BL.updateScopePreviewApi(soajs, {id: "found"}, (err) => {
+				assert.deepEqual(err.code, 602);
+				assert.ok(err);
+				done();
+			});
+		});
+		
+		it("Fail - update product", (done) => {
+			let inputMask = {
+				productCode: 'TEST2',
+				env: 'dashboard',
+				acl: [
+				
+				]
+			};
+			
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(null, {
+						"code": "TEST2",
+						"name": "not Console UI Product",
+						"description": "This is the main Console UI Product.",
+						"scope": {
+							"acl": {
+								"dashboard": {
+									"urac": {
+										"3": {
+											"access": true,
+											"apisPermission": "restricted",
+											"get": [
+												{
+													"group": "My account guest",
+													"apis": {
+														"/password/forgot": {
+															"access": false
+														},
+														"/emailToken": {
+															"access": true
+														},
+														"/validate/changeEmail": {
+															"access": true
+														}
+													}
+												}
+											]
+										}
+									}
+								}
+							}
+						},
+						"packages": [{
+							"code": "TEST2_NEW",
+							"name": "new package",
+							"description": "this is a description for test 2 product new package",
+							"acl": {
+								"dashboard": {
+									"urac": [
+										{
+											"version": "3",
+											"get": [
+												"My account guest",
+											]
+										}
+									]
+								}
+							},
+							"_TTL": 86400000 // 24 hours
+						}]
+					});
+				},
+				updateScope: (inputMask, cb) => {
+					return cb(true, true);
+				},
+			};
+			
+			BL.updateScopePreviewApi(soajs, inputMask, (err) => {
+				assert.ok(err);
+				assert.deepEqual(err.code, 470);
+				done();
+			});
+		});
+	});
+	
+	describe("Testing Update product ACL Package preview service", () => {
+		afterEach((done) => {
+			BL.modelObj = null;
+			BL.model = null;
+			nock.cleanAll();
+			done();
+		});
+		
+		it("Success - Update ", (done) => {
+			let inputMask = {
+				productCode: 'TEST2',
+				packageCode: 'TEST2_NEW',
+				env: 'dashboard',
+				"acl": [
+					{
+						"service": "urac",
+						"version": "3",
+						"envs": {
+							"dashboard": true
+						},
+						"restriction": {
+							"dashboard": true
+						},
+						"access": {
+							"dashboard": true
+						},
+					},
+					{
+						"service": "multitenant",
+						"version": "1",
+						"envs": {
+							"dashboard": false
+						},
+						"restriction": {
+							"dashboard": false
+						},
+						"access": {
+							"dashboard": false
+						},
+					}
+				]
+			};
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(null, {
+						"code": "TEST2",
+						"name": "not Console UI Product",
+						"description": "This is the main Console UI Product.",
+						"scope": {
+							"acl": {
+								"dashboard": {
+									"urac": {
+										"3": {
+											"access": true,
+											"apisPermission": "restricted",
+											"get": [
+												{
+													"group": "My account guest",
+													"apis": {
+														"/password/forgot": {
+															"access": false
+														},
+														"/emailToken": {
+															"access": true
+														},
+														"/validate/changeEmail": {
+															"access": true
+														}
+													}
+												}
+											]
+										}
+									}
+								}
+							}
+						},
+						"packages": [{
+							"code": "TEST2_NEW",
+							"name": "new package",
+							"description": "this is a description for test 2 product new package",
+							"aclTypeByEnv": {
+								"dashboard": "granular",
+								"stage": "granular"
+							},
+							"acl": {
+								"dashboard": {
+									"urac": {
+										"3" :{
+											"access": false,
+											"apisPermission": "restricted",
+											"get": {
+												"apis": {
+													"/password/forgot": {
+														"group": "My account guest",
+														"access": false
+													},
+													"/emailToken": {
+														"group": "My account guest",
+														"access": true
+													},
+													"/validate/changeEmail": {
+														"group": "My account guest",
+														"access": true
+													}
+												}
+											}
+										}
+									}
+								},
+								"stage": {
+									"urac": {
+										"3" :{
+											"access": false,
+											"apisPermission": "restricted",
+											"get": {
+												"apis": {
+													"/password/forgot": {
+														"group": "My account guest",
+														"access": false
+													},
+													"/emailToken": {
+														"group": "My account guest",
+														"access": true
+													},
+													"/validate/changeEmail": {
+														"group": "My account guest",
+														"access": true
+													}
+												}
+											}
+										}
+									}
+								},
+							},
+							"_TTL": 86400000 // 24 hours
+						}]
+					});
+				},
+				updatePackageACL: (inputMask, cb) => {
+					return cb(null, true);
+				},
+			};
+			
+			BL.updatePackagesPreviewService(soajs, inputMask, (err, acl) => {
+				assert.ok(acl);
+				assert.deepStrictEqual(acl, "Product Package Acl Updated!");
+				done();
+			});
+		});
+		
+		it("Success - Update empty", (done) => {
+			let inputMask = {
+				productCode: 'TEST2',
+				packageCode: 'TEST2_NEW',
+				env: 'dashboard',
+				"acl": [
+					{
+						"service": "urac",
+						"version": "3",
+						"envs": {
+							"dashboard": true
+						},
+						"restriction": {
+							"dashboard": true
+						},
+						"access": {
+							"dashboard": true
+						},
+					},
+					{
+						"service": "multitenant",
+						"version": "1",
+						"envs": {
+							"dashboard": false
+						},
+						"restriction": {
+							"dashboard": false
+						},
+						"access": {
+							"dashboard": false
+						},
+					}
+				]
+			};
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(null, {
+						"code": "TEST2",
+						"name": "not Console UI Product",
+						"description": "This is the main Console UI Product.",
+						"scope": {
+							"acl": {
+								"dashboard": {
+									"urac": {
+										"3": {
+											"access": true,
+											"apisPermission": "restricted",
+											"get": [
+												{
+													"group": "My account guest",
+													"apis": {
+														"/password/forgot": {
+															"access": false
+														},
+														"/emailToken": {
+															"access": true
+														},
+														"/validate/changeEmail": {
+															"access": true
+														}
+													}
+												}
+											]
+										}
+									}
+								}
+							}
+						},
+						"packages": [{
+							"code": "TEST2_NEW",
+							"name": "new package",
+							"description": "this is a description for test 2 product new package",
+							"aclTypeByEnv": {
+								"dashboard": "granular",
+								"stage": "granular"
+							},
+							"_TTL": 86400000 // 24 hours
+						}]
+					});
+				},
+				updatePackageACL: (inputMask, cb) => {
+					return cb(null, true);
+				},
+			};
+			
+			BL.updatePackagesPreviewService(soajs, inputMask, (err, acl) => {
+				assert.ok(acl);
+				assert.deepStrictEqual(acl, "Product Package Acl Updated!");
+				done();
+			});
+		});
+		
+		it("Fail - Get product - no inputmaskData", (done) => {
+			BL.updatePackagesPreviewService(soajs, null, (err) => {
+				assert.deepEqual(err.code, 400);
+				assert.ok(err);
+				done();
+			});
+		});
+		
+		it("Fail - Get product - no record", (done) => {
+			
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(false, null);
+				}
+			};
+			BL.updatePackagesPreviewService(soajs, {id: "found"}, (err) => {
+				assert.deepEqual(err.code, 461);
+				assert.ok(err);
+				done();
+			});
+		});
+		
+		it("Fail - Get product - error in mongo", (done) => {
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(true, null);
+				}
+			};
+			
+			BL.updatePackagesPreviewService(soajs, {id: "found"}, (err) => {
+				assert.deepEqual(err.code, 602);
+				assert.ok(err);
+				done();
+			});
+		});
+		
+		it("Fail - Get product packages", (done) => {
+			let inputMask = {
+				productCode: 'TEST2',
+				packageCode: 'TEST2_NEW',
+				env: 'dashboard',
+				"acl": [
+					{
+						"service": "urac",
+						"version": "3",
+						"envs": {
+							"dashboard": true
+						},
+						"restriction": {
+							"dashboard": true
+						},
+						"access": {
+							"dashboard": true
+						},
+					},
+					{
+						"service": "multitenant",
+						"version": "1",
+						"envs": {
+							"dashboard": false
+						},
+						"restriction": {
+							"dashboard": false
+						},
+						"access": {
+							"dashboard": false
+						},
+					}
+				]
+			};
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(null, {
+						"code": "TEST2",
+						"name": "not Console UI Product",
+						"description": "This is the main Console UI Product.",
+					});
+				}
+			};
+			
+			BL.updatePackagesPreviewService(soajs, inputMask, (err) => {
+				assert.ok(err);
+				assert.deepEqual(err.code, 461);
+				done();
+			});
+		});
+		
+		it("Fail - Get product packages", (done) => {
+			let inputMask = {
+				productCode: 'TEST2',
+				packageCode: 'TEST2_NEW',
+				env: 'dashboard',
+				"acl": [
+					{
+						"service": "urac",
+						"version": "3",
+						"envs": {
+							"dashboard": true
+						},
+						"restriction": {
+							"dashboard": true
+						},
+						"access": {
+							"dashboard": true
+						},
+					},
+					{
+						"service": "multitenant",
+						"version": "1",
+						"envs": {
+							"dashboard": false
+						},
+						"restriction": {
+							"dashboard": false
+						},
+						"access": {
+							"dashboard": false
+						},
+					}
+				]
+			};
+			
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(null, {
+						"code": "TEST2",
+						"name": "not Console UI Product",
+						"description": "This is the main Console UI Product.",
+						"packages": []
+					});
+				}
+			};
+			
+			BL.updatePackagesPreviewService(soajs, inputMask, (err) => {
+				assert.ok(err);
+				assert.deepEqual(err.code, 461);
+				done();
+			});
+		});
+		
+		it("Fail - Get product packages", (done) => {
+			let inputMask = {
+				productCode: 'TEST2',
+				packageCode: 'TEST2_NEW',
+				env: 'dashboard',
+				"acl": [
+					{
+						"service": "urac",
+						"version": "3",
+						"envs": {
+							"dashboard": true
+						},
+						"restriction": {
+							"dashboard": true
+						},
+						"access": {
+							"dashboard": true
+						},
+					},
+					{
+						"service": "multitenant",
+						"version": "1",
+						"envs": {
+							"dashboard": false
+						},
+						"restriction": {
+							"dashboard": false
+						},
+						"access": {
+							"dashboard": false
+						},
+					}
+				]
+			};
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(null, {
+						"code": "TEST2",
+						"name": "not Console UI Product",
+						"description": "This is the main Console UI Product.",
+						"scope": {
+							"acl": {
+								"dashboard": {
+									"urac": {
+										"3": {
+											"access": true,
+											"apisPermission": "restricted",
+											"get": [
+												{
+													"group": "My account guest",
+													"apis": {
+														"/password/forgot": {
+															"access": false
+														},
+														"/emailToken": {
+															"access": true
+														},
+														"/validate/changeEmail": {
+															"access": true
+														}
+													}
+												}
+											]
+										}
+									}
+								}
+							}
+						},
+						"packages": [{
+							"code": "TEST2_NEW",
+							"name": "new package",
+							"description": "this is a description for test 2 product new package",
+							"acl": {
+								"dashboard": {
+									"urac": [
+										{
+											"version": "3",
+											"get": [
+												"My account guest",
+											]
+										}
+									]
+								}
+							},
+							"_TTL": 86400000 // 24 hours
+						}]
+					});
+				},
+				updatePackageACL: (inputMask, cb) => {
+					return cb(true, true);
+				},
+			};
+			
+			BL.updatePackagesPreviewService(soajs, inputMask, (err) => {
+				assert.ok(err);
+				assert.deepEqual(err.code, 470);
+				done();
+			});
+		});
+	});
+	
+	describe("Testing Update product ACL Package preview api", () => {
+		afterEach((done) => {
+			BL.modelObj = null;
+			BL.model = null;
+			nock.cleanAll();
+			done();
+		});
+		
+		it("Success - Update ", (done) => {
+			let inputMask = {
+				productCode: 'TEST2',
+				packageCode: 'TEST2_NEW',
+				env: 'dashboard',
+				"acl": [
+					{
+						"service": "urac",
+						"version": "3",
+						"group": "My account guest",
+						"method": "get",
+						"api": "/password/forgot",
+						"envs": {
+							"dashboard": true
+						},
+						"access": {
+							"dashboard": false
+						},
+						"restriction": {
+							"dashboard": true
+						},
+					},
+					{
+						"service": "urac",
+						"version": "3",
+						"group": "My account guest",
+						"method": "get",
+						"api": "/emailToken",
+						"envs": {
+							"dashboard": true
+						},
+						"access": {
+							"dashboard": true
+						},
+						"restriction": {
+							"dashboard": true
+						},
+					},
+					{
+						"service": "urac",
+						"version": "3",
+						"group": "My account guest",
+						"method": "get",
+						"api": "/validate/changeEmail",
+						"envs": {
+							"dashboard": true
+						},
+						"access": {
+							"dashboard": true
+						},
+						"restriction": {
+							"dashboard": true
+						},
+					}
+				]
+			};
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(null, {
+						"code": "TEST2",
+						"name": "not Console UI Product",
+						"description": "This is the main Console UI Product.",
+						"scope": {
+							"acl": {
+								"dashboard": {
+									"urac": {
+										"3": {
+											"access": true,
+											"apisPermission": "restricted",
+											"get": [
+												{
+													"group": "My account guest",
+													"apis": {
+														"/password/forgot": {
+															"access": false
+														},
+														"/emailToken": {
+															"access": true
+														},
+														"/validate/changeEmail": {
+															"access": true
+														}
+													}
+												}
+											]
+										}
+									}
+								}
+							}
+						},
+						"packages": [{
+							"code": "TEST2_NEW",
+							"name": "new package",
+							"description": "this is a description for test 2 product new package",
+							"aclTypeByEnv": {
+								"dashboard": "granular",
+								"stage": "granular"
+							},
+							"acl": {
+								"dashboard": {
+									"urac": {
+										"3" :{
+											"access": false,
+											"apisPermission": "restricted",
+											"get": {
+												"apis": {
+													"/password/forgot": {
+														"group": "My account guest",
+														"access": false
+													},
+													"/emailToken": {
+														"group": "My account guest",
+														"access": true
+													},
+													"/validate/changeEmail": {
+														"group": "My account guest",
+														"access": true
+													}
+												}
+											}
+										}
+									}
+								},
+								"stage": {
+									"urac": {
+										"3" :{
+											"access": false,
+											"apisPermission": "restricted",
+											"get": {
+												"apis": {
+													"/password/forgot": {
+														"group": "My account guest",
+														"access": false
+													},
+													"/emailToken": {
+														"group": "My account guest",
+														"access": true
+													},
+													"/validate/changeEmail": {
+														"group": "My account guest",
+														"access": true
+													}
+												}
+											}
+										}
+									}
+								},
+							},
+							"_TTL": 86400000 // 24 hours
+						}]
+					});
+				},
+				updatePackageACL: (inputMask, cb) => {
+					return cb(null, true);
+				},
+			};
+			
+			BL.updatePackagesPreviewApi(soajs, inputMask, (err, acl) => {
+				assert.ok(acl);
+				assert.deepStrictEqual(acl, "Product Package Acl Updated!");
+				done();
+			});
+		});
+		
+		it("Success - Update empty", (done) => {
+			let inputMask = {
+				productCode: 'TEST2',
+				packageCode: 'TEST2_NEW',
+				env: 'dashboard',
+				"acl": [
+					{
+						"service": "urac",
+						"version": "3",
+						"group": "My account guest",
+						"method": "get",
+						"api": "/password/forgot",
+						"envs": {
+							"dashboard": true
+						},
+						"access": {
+							"dashboard": false
+						},
+						"restriction": {
+							"dashboard": true
+						},
+					},
+					{
+						"service": "urac",
+						"version": "3",
+						"group": "My account",
+						"method": "put",
+						"api": "/emailToken/lady",
+						"envs": {
+							"dashboard": false
+						},
+						"access": {
+							"dashboard": true
+						},
+						"restriction": {
+							"dashboard": true
+						},
+					},
+					{
+						"service": "urac",
+						"version": "3",
+						"group": "My account guest",
+						"method": "get",
+						"api": "/validate/changeEmail",
+						"envs": {
+							"dashboard": true
+						},
+						"access": {
+							"dashboard": true
+						},
+						"restriction": {
+							"dashboard": false
+						},
+					}
+				]
+			};
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(null, {
+						"code": "TEST2",
+						"name": "not Console UI Product",
+						"description": "This is the main Console UI Product.",
+						"scope": {
+							"acl": {
+								"dashboard": {
+									"urac": {
+										"3": {
+											"access": true,
+											"apisPermission": "restricted",
+											"get": [
+												{
+													"group": "My account guest",
+													"apis": {
+														"/password/forgot": {
+															"access": false
+														},
+														"/emailToken": {
+															"access": true
+														},
+														"/validate/changeEmail": {
+															"access": true
+														}
+													}
+												}
+											]
+										}
+									}
+								}
+							}
+						},
+						"packages": [{
+							"code": "TEST2_NEW",
+							"name": "new package",
+							"description": "this is a description for test 2 product new package",
+							"aclTypeByEnv": {
+								"dashboard": "granular",
+								"stage": "granular"
+							},
+							"_TTL": 86400000 // 24 hours
+						}]
+					});
+				},
+				updatePackageACL: (inputMask, cb) => {
+					return cb(null, true);
+				},
+			};
+			
+			BL.updatePackagesPreviewApi(soajs, inputMask, (err, acl) => {
+				assert.ok(acl);
+				assert.deepStrictEqual(acl, "Product Package Acl Updated!");
+				done();
+			});
+		});
+		
+		it("Fail - Get product - no inputmaskData", (done) => {
+			BL.updatePackagesPreviewApi(soajs, null, (err) => {
+				assert.deepEqual(err.code, 400);
+				assert.ok(err);
+				done();
+			});
+		});
+		
+		it("Fail - Get product - no record", (done) => {
+			
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(false, null);
+				}
+			};
+			BL.updatePackagesPreviewApi(soajs, {id: "found"}, (err) => {
+				assert.deepEqual(err.code, 461);
+				assert.ok(err);
+				done();
+			});
+		});
+		
+		it("Fail - Get product - error in mongo", (done) => {
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(true, null);
+				}
+			};
+			
+			BL.updatePackagesPreviewApi(soajs, {id: "found"}, (err) => {
+				assert.deepEqual(err.code, 602);
+				assert.ok(err);
+				done();
+			});
+		});
+		
+		it("Fail - Get product packages", (done) => {
+			let inputMask = {
+				productCode: 'TEST2',
+				packageCode: 'TEST2_NEW',
+				env: 'dashboard',
+				"acl": [
+					{
+						"service": "urac",
+						"version": "3",
+						"envs": {
+							"dashboard": true
+						},
+						"restriction": {
+							"dashboard": true
+						},
+						"access": {
+							"dashboard": true
+						},
+					},
+					{
+						"service": "multitenant",
+						"version": "1",
+						"envs": {
+							"dashboard": false
+						},
+						"restriction": {
+							"dashboard": false
+						},
+						"access": {
+							"dashboard": false
+						},
+					}
+				]
+			};
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(null, {
+						"code": "TEST2",
+						"name": "not Console UI Product",
+						"description": "This is the main Console UI Product.",
+					});
+				}
+			};
+			
+			BL.updatePackagesPreviewApi(soajs, inputMask, (err) => {
+				assert.ok(err);
+				assert.deepEqual(err.code, 461);
+				done();
+			});
+		});
+		
+		it("Fail - Get product packages", (done) => {
+			let inputMask = {
+				productCode: 'TEST2',
+				packageCode: 'TEST2_NEW',
+				env: 'dashboard',
+				"acl": [
+					{
+						"service": "urac",
+						"version": "3",
+						"envs": {
+							"dashboard": true
+						},
+						"restriction": {
+							"dashboard": true
+						},
+						"access": {
+							"dashboard": true
+						},
+					},
+					{
+						"service": "multitenant",
+						"version": "1",
+						"envs": {
+							"dashboard": false
+						},
+						"restriction": {
+							"dashboard": false
+						},
+						"access": {
+							"dashboard": false
+						},
+					}
+				]
+			};
+			
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(null, {
+						"code": "TEST2",
+						"name": "not Console UI Product",
+						"description": "This is the main Console UI Product.",
+						"packages": []
+					});
+				}
+			};
+			
+			BL.updatePackagesPreviewApi(soajs, inputMask, (err) => {
+				assert.ok(err);
+				assert.deepEqual(err.code, 461);
+				done();
+			});
+		});
+		
+		it("Fail - Get product packages", (done) => {
+			let inputMask = {
+				productCode: 'TEST2',
+				packageCode: 'TEST2_NEW',
+				env: 'dashboard',
+				"acl": [
+					{
+						"service": "urac",
+						"version": "3",
+						"envs": {
+							"dashboard": true
+						},
+						"restriction": {
+							"dashboard": true
+						},
+						"access": {
+							"dashboard": true
+						},
+					},
+					{
+						"service": "multitenant",
+						"version": "1",
+						"envs": {
+							"dashboard": false
+						},
+						"restriction": {
+							"dashboard": false
+						},
+						"access": {
+							"dashboard": false
+						},
+					}
+				]
+			};
+			BL.modelObj = {
+				getProduct: (inputMask, cb) => {
+					return cb(null, {
+						"code": "TEST2",
+						"name": "not Console UI Product",
+						"description": "This is the main Console UI Product.",
+						"scope": {
+							"acl": {
+								"dashboard": {
+									"urac": {
+										"3": {
+											"access": true,
+											"apisPermission": "restricted",
+											"get": [
+												{
+													"group": "My account guest",
+													"apis": {
+														"/password/forgot": {
+															"access": false
+														},
+														"/emailToken": {
+															"access": true
+														},
+														"/validate/changeEmail": {
+															"access": true
+														}
+													}
+												}
+											]
+										}
+									}
+								}
+							}
+						},
+						"packages": [{
+							"code": "TEST2_NEW",
+							"name": "new package",
+							"description": "this is a description for test 2 product new package",
+							"acl": {
+								"dashboard": {
+									"urac": [
+										{
+											"version": "3",
+											"get": [
+												"My account guest",
+											]
+										}
+									]
+								}
+							},
+							"_TTL": 86400000 // 24 hours
+						}]
+					});
+				},
+				updatePackageACL: (inputMask, cb) => {
+					return cb(true, true);
+				},
+			};
+			
+			BL.updatePackagesPreviewApi(soajs, inputMask, (err) => {
+				assert.ok(err);
+				assert.deepEqual(err.code, 470);
+				done();
+			});
+		});
+	});
 });
