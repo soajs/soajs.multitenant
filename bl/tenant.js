@@ -33,43 +33,45 @@ function getRequestedSubElementsPositions(tenantRecord, inputmaskData) {
 	let position = [];
 	
 	//find the application
-	for (let i = 0; i < tenantRecord.applications.length; i++) {
-		if (tenantRecord.applications[i].appId.toString() === inputmaskData.appId) {
-			position.push(i); //application position found
-			
-			//if key is requested, go one level deeper
-			if (inputmaskData.key) {
+	if (tenantRecord.applications){
+		for (let i = 0; i < tenantRecord.applications.length; i++) {
+			if (tenantRecord.applications[i].appId.toString() === inputmaskData.appId) {
+				position.push(i); //application position found
 				
-				//find the key
-				for (let j = 0; j < tenantRecord.applications[i].keys.length; j++) {
-					if (tenantRecord.applications[i].keys[j].key === inputmaskData.key) {
-						position.push(j); //application key position found
-						
-						//if extKey is requested, go one level deeper
-						if (inputmaskData.extKey && inputmaskData.extKeyEnv) {
-							//find the ext key
-							for (let k = 0; k < tenantRecord.applications[i].keys[j].extKeys.length; k++) {
-								if (tenantRecord.applications[i].keys[j].extKeys[k].extKey === inputmaskData.extKey && tenantRecord.applications[i].keys[j].extKeys[k].env === inputmaskData.extKeyEnv) {
-									position.push(k); //application extKey found
-									
-									//no need to go further, simply return
-									found = true;
-									break;
+				//if key is requested, go one level deeper
+				if (inputmaskData.key) {
+					
+					//find the key
+					for (let j = 0; j < tenantRecord.applications[i].keys.length; j++) {
+						if (tenantRecord.applications[i].keys[j].key === inputmaskData.key) {
+							position.push(j); //application key position found
+							
+							//if extKey is requested, go one level deeper
+							if (inputmaskData.extKey && inputmaskData.extKeyEnv) {
+								//find the ext key
+								for (let k = 0; k < tenantRecord.applications[i].keys[j].extKeys.length; k++) {
+									if (tenantRecord.applications[i].keys[j].extKeys[k].extKey === inputmaskData.extKey && tenantRecord.applications[i].keys[j].extKeys[k].env === inputmaskData.extKeyEnv) {
+										position.push(k); //application extKey found
+										
+										//no need to go further, simply return
+										found = true;
+										break;
+									}
 								}
 							}
-						}
-						//else return what is found
-						else {
-							found = true;
-							break;
+							//else return what is found
+							else {
+								found = true;
+								break;
+							}
 						}
 					}
 				}
-			}
-			//else return what is found
-			else {
-				found = true;
-				break;
+				//else return what is found
+				else {
+					found = true;
+					break;
+				}
 			}
 		}
 	}
@@ -259,11 +261,13 @@ let bl = {
 				return cb(bl.handleError(soajs, 450, err), null);
 			}
 			let keys = [];
-			record.applications.forEach(function (oneApplication) {
-				if (oneApplication.appId.toString() === inputmaskData.appId) {
-					keys = oneApplication.keys;
-				}
-			});
+			if (record.applications){
+				record.applications.forEach(function (oneApplication) {
+					if (oneApplication.appId.toString() === inputmaskData.appId) {
+						keys = oneApplication.keys;
+					}
+				});
+			}
 			return cb(null, keys);
 		});
 	},
@@ -333,8 +337,7 @@ let bl = {
 				return cb(bl.handleError(soajs, 450, err), null);
 			}
 			let x = getRequestedSubElementsPositions(record, inputmaskData);
-			
-			if (x.found) {
+			if (x.found && x.position.length === 2) {
 				return cb(null, record.applications[x.position[0]].keys[x.position[1]].config);
 			} else {
 				return cb(null, {});
@@ -1530,10 +1533,11 @@ let bl = {
 					}
 				}
 			}
-			
-			record.applications[x.position[0]].keys[x.position[1]].config[inputmaskData.envCode.toLowerCase()] = inputmaskData.config;
-			if (Object.keys(record.applications[x.position[0]].keys[x.position[1]].config[inputmaskData.envCode.toLowerCase()]).length === 0) {
-				delete record.applications[x.position[0]].keys[x.position[1]].config[inputmaskData.envCode.toLowerCase()];
+			if (x.found && x.position.length === 2) {
+				record.applications[x.position[0]].keys[x.position[1]].config[inputmaskData.envCode.toLowerCase()] = inputmaskData.config;
+				if (Object.keys(record.applications[x.position[0]].keys[x.position[1]].config[inputmaskData.envCode.toLowerCase()]).length === 0) {
+					delete record.applications[x.position[0]].keys[x.position[1]].config[inputmaskData.envCode.toLowerCase()];
+				}
 			}
 			let opts  = {
 				_id: record._id,

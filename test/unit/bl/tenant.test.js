@@ -192,6 +192,87 @@ describe("Unit test for: BL - tenant", () => {
 		
 	});
 	
+	describe("Testing list console tenants", () => {
+		afterEach((done) => {
+			BL.modelObj = null;
+			done();
+		});
+		
+		it("Success - List console tenants - empty object", (done) => {
+			BL.modelObj = {
+				listConsoleTenants: (nullObject, cb) => {
+					return cb(null, []);
+				}
+			};
+			BL.listConsole(soajs, {}, (err, records) => {
+				assert.ok(records);
+				assert(Array.isArray(records));
+				done();
+			});
+		});
+		
+		it("Fails - List console tenants - null data", (done) => {
+			BL.modelObj = {
+				listConsoleTenants: (nullObject, cb) => {
+					return cb(true, null);
+				}
+			};
+			BL.listConsole(soajs, null, (err, records) => {
+				assert.ok(err);
+				assert.equal(records, null);
+				assert.deepEqual(err, {code: 400, msg: soajs.config.errors[400]});
+				done();
+			});
+		});
+		
+		it("Fails - List console tenants - listTenants error", (done) => {
+			BL.modelObj = {
+				listConsoleTenants: (nullObject, cb) => {
+					return cb(true, null);
+				}
+			};
+			BL.listConsole(soajs, {}, (err, records) => {
+				assert.ok(err);
+				assert.equal(records, null);
+				assert.deepEqual(err.code, 602);
+				done();
+			});
+		});
+		
+		it("Success - List console tenants - empty object - client tenant", (done) => {
+			let soajsClient = {
+				config: {},
+				tenant: {
+					type: "client",
+					dbConfig: {}
+				},
+				log: {
+					error: () => {
+						console.log();
+					}
+				}
+			};
+			
+			function Tenant() {
+				console.log("");
+			}
+			
+			Tenant.prototype.listConsoleTenants = (nullObject, cb) => {
+				return cb(null, []);
+			};
+			Tenant.prototype.closeConnection = () => {
+			};
+			BL.model = Tenant;
+			
+			BL.listConsole(soajsClient, {}, (err, records) => {
+				assert.ok(records);
+				assert(Array.isArray(records));
+				done();
+			});
+		});
+		
+	});
+	
 	describe("Testing Get tenant", () => {
 		afterEach((done) => {
 			BL.modelObj = null;
@@ -5397,6 +5478,479 @@ describe("Unit test for: BL - tenant", () => {
 			};
 			
 			BL.listApplications(soajs, {}, (err) => {
+				assert.ok(err);
+				assert.deepEqual(err, {
+					code: 450,
+					msg: soajs.config.errors[450]
+				});
+				done();
+			});
+		});
+	});
+	
+	describe("Testing List application keys", () => {
+		afterEach((done) => {
+			BL.modelObj = null;
+			done();
+		});
+		
+		it("Success - List applications keys- data - (admin)", (done) => {
+			let inputMask = {
+				id: 'TenantID',
+				appId: 'AppID'
+			};
+			
+			BL.modelObj = {
+				getTenant: (inputMask, cb) => {
+					return cb(null, {
+						"type": "product",
+						"oauth": {
+							secret: "this is a secret",
+							redirectURI: "http://domain.com",
+							grants: [
+								"password",
+								"refresh_token"
+							],
+							disabled: 0,
+							type: 2.0,
+							loginMode: "urac",
+							pin: {
+								DSBRD: {
+									enabled: false
+								}
+							},
+						},
+						"code": "test",
+						"name": "Test Tenant",
+						"description": "this is a description for test tenant",
+						"applications": [
+							{
+								"product": "PROD",
+								"package": "PROD_TEST",
+								"appId": "AppID",
+								"description": "this is a description",
+								"_TTL": 86400000, // 24 hours
+								"keys": [
+									{
+										"key": "KEY1",
+										"extKeys": [
+											{
+												"expDate": new Date().getTime() + 86400000,
+												"extKey": "EXTKEY1",
+												"device": {},
+												"geo": {}
+											}
+										],
+										"config": {
+											"dev": {
+												"commonFields": {},
+												"oauth": {
+													"loginMode": 'urac'
+												}
+											}
+										}
+									}
+								]
+							}
+						]
+					});
+				}
+			};
+			
+			BL.listApplicationKeys(soajs, inputMask, (err, record) => {
+				assert.ok(record);
+				assert.deepEqual(Array.isArray(record), true);
+				assert.deepEqual(record.length, 1);
+				done();
+			});
+		});
+		
+		it("Success - List applications keys - data - no id", (done) => {
+			let inputMask = {appId: 'AppID'};
+			
+			BL.modelObj = {
+				getTenant: (inputMask, cb) => {
+					return cb(null, {
+						"type": "product",
+						"oauth": {
+							secret: "this is a secret",
+							redirectURI: "http://domain.com",
+							grants: [
+								"password",
+								"refresh_token"
+							],
+							disabled: 0,
+							type: 2.0,
+							loginMode: "urac",
+							pin: {
+								DSBRD: {
+									enabled: false
+								}
+							},
+						},
+						"code": "test",
+						"name": "Test Tenant",
+						"description": "this is a description for test tenant",
+						"applications": [
+							{
+								"product": "PROD",
+								"package": "PROD_TEST",
+								"appId": "AppID",
+								"description": "this is a description",
+								"_TTL": 86400000, // 24 hours
+								"keys": [
+									{
+										"key": "KEY1",
+										"extKeys": [
+											{
+												"expDate": new Date().getTime() + 86400000,
+												"extKey": "EXTKEY1",
+												"device": {},
+												"geo": {}
+											}
+										],
+										"config": {
+											"dev": {
+												"commonFields": {},
+												"oauth": {
+													"loginMode": 'urac'
+												}
+											}
+										}
+									}
+								]
+							}
+						]
+					});
+				}
+			};
+			
+			BL.listApplicationKeys(soajs, inputMask, (err, record) => {
+				assert.ok(record);
+				assert.deepEqual(Array.isArray(record), true);
+				assert.deepEqual(record.length, 1);
+				done();
+			});
+		});
+		
+		it("Success - List applications keys - empty array - data - no id", (done) => {
+			let inputMask = {appId: 'AppID'};
+			
+			BL.modelObj = {
+				getTenant: (inputMask, cb) => {
+					return cb(null, {
+						"type": "product",
+						"oauth": {
+							secret: "this is a secret",
+							redirectURI: "http://domain.com",
+							grants: [
+								"password",
+								"refresh_token"
+							],
+							disabled: 0,
+							type: 2.0,
+							loginMode: "urac",
+							pin: {
+								DSBRD: {
+									enabled: false
+								}
+							},
+						},
+						"code": "test",
+						"name": "Test Tenant",
+						"description": "this is a description for test tenant"
+					});
+				}
+			};
+			
+			BL.listApplicationKeys(soajs, inputMask, (err, record) => {
+				assert.ok(record);
+				assert.deepEqual(Array.isArray(record), true);
+				assert.deepEqual(record.length, 0);
+				done();
+			});
+		});
+		
+		it("Fails - List applications keys - null data", (done) => {
+			BL.modelObj = {};
+			
+			BL.listApplicationKeys(soajs, null, (err) => {
+				assert.ok(err);
+				assert.deepEqual(err, {
+					code: 400,
+					msg: soajs.config.errors[400]
+				});
+				done();
+			});
+		});
+		
+		it("Fails - List applications keys - getTenant Error", (done) => {
+			BL.modelObj = {
+				getTenant: (inputMask, cb) => {
+					return cb(true, null);
+				}
+			};
+			
+			BL.listApplicationKeys(soajs, {}, (err) => {
+				assert.ok(err);
+				assert.deepEqual(err.code, 602);
+				done();
+			});
+		});
+		
+		it("Fails - List applications keys - no record", (done) => {
+			BL.modelObj = {
+				getTenant: (inputMask, cb) => {
+					return cb(null, null);
+				}
+			};
+			
+			BL.listApplicationKeys(soajs, {}, (err) => {
+				assert.ok(err);
+				assert.deepEqual(err, {
+					code: 450,
+					msg: soajs.config.errors[450]
+				});
+				done();
+			});
+		});
+	});
+	
+	describe("Testing List application key config ", () => {
+		afterEach((done) => {
+			BL.modelObj = null;
+			done();
+		});
+		
+		it("Success - List applications key config - data - (admin)", (done) => {
+			let inputMask = {
+				id: 'TenantID',
+				appId: 'AppID',
+				key: 'KEY1'
+			};
+			
+			BL.modelObj = {
+				getTenant: (inputMask, cb) => {
+					return cb(null, {
+						"type": "product",
+						"oauth": {
+							secret: "this is a secret",
+							redirectURI: "http://domain.com",
+							grants: [
+								"password",
+								"refresh_token"
+							],
+							disabled: 0,
+							type: 2.0,
+							loginMode: "urac",
+							pin: {
+								DSBRD: {
+									enabled: false
+								}
+							},
+						},
+						"code": "test",
+						"name": "Test Tenant",
+						"description": "this is a description for test tenant",
+						"applications": [
+							{
+								"product": "PROD",
+								"package": "PROD_TEST",
+								"appId": "AppID",
+								"description": "this is a description",
+								"_TTL": 86400000, // 24 hours
+								"keys": [
+									{
+										"key": "KEY1",
+										"extKeys": [
+											{
+												"expDate": new Date().getTime() + 86400000,
+												"extKey": "EXTKEY1",
+												"device": {},
+												"geo": {}
+											}
+										],
+										"config": {
+											"dev": {
+												"commonFields": {},
+												"oauth": {
+													"loginMode": 'urac'
+												}
+											}
+										}
+									}
+								]
+							}
+						]
+					});
+				}
+			};
+			
+			BL.listApplicationKeyConfig(soajs, inputMask, (err, record) => {
+				assert.deepStrictEqual(record, {
+					"dev": {
+						"commonFields": {},
+						"oauth": {
+							"loginMode": 'urac'
+						}
+					}
+				});
+				done();
+			});
+		});
+		
+		it("Success - List applications key config  - data - no id", (done) => {
+			let inputMask = {
+				appId: 'AppID',
+				key: 'KEY1'
+			};
+			
+			BL.modelObj = {
+				getTenant: (inputMask, cb) => {
+					return cb(null, {
+						"type": "product",
+						"oauth": {
+							secret: "this is a secret",
+							redirectURI: "http://domain.com",
+							grants: [
+								"password",
+								"refresh_token"
+							],
+							disabled: 0,
+							type: 2.0,
+							loginMode: "urac",
+							pin: {
+								DSBRD: {
+									enabled: false
+								}
+							},
+						},
+						"code": "test",
+						"name": "Test Tenant",
+						"description": "this is a description for test tenant",
+						"applications": [
+							{
+								"product": "PROD",
+								"package": "PROD_TEST",
+								"appId": "AppID",
+								"description": "this is a description",
+								"_TTL": 86400000, // 24 hours
+								"keys": [
+									{
+										"key": "KEY1",
+										"extKeys": [
+											{
+												"expDate": new Date().getTime() + 86400000,
+												"extKey": "EXTKEY1",
+												"device": {},
+												"geo": {}
+											}
+										],
+										"config": {
+											"dev": {
+												"commonFields": {},
+												"oauth": {
+													"loginMode": 'urac'
+												}
+											}
+										}
+									}
+								]
+							}
+						]
+					});
+				}
+			};
+			
+			BL.listApplicationKeyConfig(soajs, inputMask, (err, record) => {
+				assert.ok(record);
+				assert.deepStrictEqual(record, {
+					"dev": {
+						"commonFields": {},
+						"oauth": {
+							"loginMode": 'urac'
+						}
+					}
+				});
+				done();
+			});
+		});
+		
+		it("Success - List applications key config  - empty array - data - no id", (done) => {
+			let inputMask = {
+				appId: 'AppID',
+				key: 'KEY1'
+			};
+			
+			BL.modelObj = {
+				getTenant: (inputMask, cb) => {
+					return cb(null, {
+						"type": "product",
+						"oauth": {
+							secret: "this is a secret",
+							redirectURI: "http://domain.com",
+							grants: [
+								"password",
+								"refresh_token"
+							],
+							disabled: 0,
+							type: 2.0,
+							loginMode: "urac",
+							pin: {
+								DSBRD: {
+									enabled: false
+								}
+							},
+						},
+						"code": "test",
+						"name": "Test Tenant",
+						"description": "this is a description for test tenant"
+					});
+				}
+			};
+			
+			BL.listApplicationKeyConfig(soajs, inputMask, (err, record) => {
+				assert.ok(record);
+				assert.deepStrictEqual(record, {});
+				done();
+			});
+		});
+		
+		it("Fails - List applications key config  - null data", (done) => {
+			BL.modelObj = {};
+			
+			BL.listApplicationKeyConfig(soajs, null, (err) => {
+				assert.ok(err);
+				assert.deepEqual(err, {
+					code: 400,
+					msg: soajs.config.errors[400]
+				});
+				done();
+			});
+		});
+		
+		it("Fails - List applications key config  - getTenant Error", (done) => {
+			BL.modelObj = {
+				getTenant: (inputMask, cb) => {
+					return cb(true, null);
+				}
+			};
+			
+			BL.listApplicationKeyConfig(soajs, {}, (err) => {
+				assert.ok(err);
+				assert.deepEqual(err.code, 602);
+				done();
+			});
+		});
+		
+		it("Fails - List applications key config  - no record", (done) => {
+			BL.modelObj = {
+				getTenant: (inputMask, cb) => {
+					return cb(null, null);
+				}
+			};
+			
+			BL.listApplicationKeyConfig(soajs, {}, (err) => {
 				assert.ok(err);
 				assert.deepEqual(err, {
 					code: 450,
