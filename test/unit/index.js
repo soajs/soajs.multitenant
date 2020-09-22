@@ -27,8 +27,8 @@ describe("Starting Unit test", () => {
 
     it("Unit test for BL", (done) => {
         require("./bl/index.test.js");
+	    require("./bl/product.test.js");
         require("./bl/tenant.test.js");
-        require("./bl/product.test.js");
         done();
     });
 
