@@ -1517,20 +1517,22 @@ let bl = {
 			let x = getRequestedSubElementsPositions(record, inputmaskData);
 			//check config input for throttling null entries
 			for (let service in inputmaskData.config) {
-				if (inputmaskData.config[service] && inputmaskData.config.hasOwnProperty(service) &&
-					inputmaskData.config[service].SOAJS && inputmaskData.config[service].SOAJS.THROTTLING) {
-					for (let strategy in inputmaskData.config[service].SOAJS.THROTTLING) {
-						if (inputmaskData.config[service].SOAJS.THROTTLING.hasOwnProperty(strategy)) {
-							if (inputmaskData.config[service].SOAJS.THROTTLING[strategy] === 'null') {
-								inputmaskData.config[service].SOAJS.THROTTLING[strategy] = null;
-							} else if (inputmaskData.config[service].SOAJS.THROTTLING[strategy] === "--inherit--") {
-								delete inputmaskData.config[service].SOAJS.THROTTLING[strategy];
+				if (service && inputmaskData.config.hasOwnProperty(service)){
+					if (inputmaskData.config[service] && inputmaskData.config.hasOwnProperty(service) &&
+						inputmaskData.config[service].SOAJS && inputmaskData.config[service].SOAJS.THROTTLING) {
+						for (let strategy in inputmaskData.config[service].SOAJS.THROTTLING) {
+							if (inputmaskData.config[service].SOAJS.THROTTLING.hasOwnProperty(strategy)) {
+								if (inputmaskData.config[service].SOAJS.THROTTLING[strategy] === 'null') {
+									inputmaskData.config[service].SOAJS.THROTTLING[strategy] = null;
+								} else if (inputmaskData.config[service].SOAJS.THROTTLING[strategy] === "--inherit--") {
+									delete inputmaskData.config[service].SOAJS.THROTTLING[strategy];
+								}
 							}
 						}
 					}
-				}
-				if (Object.keys(inputmaskData.config[service].SOAJS).length === 0) {
-					delete inputmaskData.config[service].SOAJS;
+					if (Object.keys(inputmaskData.config[service].SOAJS).length === 0) {
+						delete inputmaskData.config[service].SOAJS;
+					}
 				}
 			}
 			if (x.found && x.position.length === 2) {
