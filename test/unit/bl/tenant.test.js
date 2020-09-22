@@ -4770,6 +4770,650 @@ describe("Unit test for: BL - tenant", () => {
 		});
 	});
 	
+	describe("Testing Update application config key of tenant", () => {
+		afterEach((done) => {
+			BL.modelObj = null;
+			done();
+		});
+		
+		it("Success - Update application key - data - id (admin)", (done) => {
+			let inputMask = {
+				id: 'tenantID',
+				appId: 'appID',
+				key: "KEY1",
+				envCode: "dashboard",
+				config: {
+					"infra": {"SOAJS": {"THROTTLING": {"publicAPIStrategy":"null", "privateAPIStrategy": "--inherit--"}}},
+					"oauth": {"SOAJS": {"THROTTLING": {"privateAPIStrategy": "--inherit--"}}},
+					"urac": {"SOAJS": {"THROTTLING": {"privateAPIStrategy": "--inherit--"}}},
+					"multitenant": {"SOAJS": {"THROTTLING": {"privateAPIStrategy": "--inherit--"}}},
+					"repositories": {"SOAJS": {"THROTTLING": {"privateAPIStrategy": "--inherit--"}}},
+					"controller": {"SOAJS": {"THROTTLING": {"privateAPIStrategy": "--inherit--"}}},
+					"marketplace": {"SOAJS": {"THROTTLING": {"privateAPIStrategy": "--inherit--"}}},
+					"soamonitor": {"SOAJS": {"THROTTLING": {"privateAPIStrategy": "--inherit--"}}},
+					"soaanalytics": {"SOAJS": {"THROTTLING": {"privateAPIStrategy": "--inherit--"}}},
+					"console": {"SOAJS": {"THROTTLING": {"privateAPIStrategy": "--inherit--"}}},
+					"dashboard": {"SOAJS": {}}
+				}
+			};
+			
+			BL.modelObj = {
+				getTenant: (inputMask, cb) => {
+					return cb(null, {
+						"_id": "tenantID",
+						"code": "test",
+						"name": "Test Tenant",
+						"description": "this is a description for test tenant",
+						"applications": [
+							{
+								product: "TEND",
+								package: "TEND_GUEST",
+								description: "TEN application for TEND_GUEST package",
+								appId: "appID",
+								_TTL: 604800000,
+								keys: [
+									{
+										key: "KEY1",
+										extKeys: [
+											{
+												extKey: "extKey1",
+												device: null,
+												geo: null,
+												env: "DASHBOARD",
+												dashboardAccess: true,
+												expDate: null
+											}
+										],
+										config: {}
+									}
+								]
+							}
+						],
+					});
+				},
+				updateTenant: (inputMask, cb) => {
+					return cb(null, 1);
+				}
+			};
+			
+			BL.updateApplicationKeyConfig(soajs, inputMask, (err, record) => {
+				assert.ok(record);
+				assert.deepEqual(record, 1);
+				done();
+			});
+		});
+		
+		it("Success - Update application key - data - no id", (done) => {
+			let inputMask = {
+				appId: 'appID',
+				key: "KEY1",
+				envCode: "dashboard",
+				config: {
+				}
+			};
+			
+			BL.modelObj = {
+				getTenant: (inputMask, cb) => {
+					return cb(null, {
+						"_id": "tenantID",
+						"code": "test",
+						"name": "Test Tenant",
+						"description": "this is a description for test tenant",
+						"applications": [
+							{
+								product: "TEND",
+								package: "TEND_GUEST",
+								description: "TEN application for TEND_GUEST package",
+								appId: "appID",
+								_TTL: 604800000,
+								keys: [
+									{
+										key: "KEY1",
+										extKeys: [
+											{
+												extKey: "extKey1",
+												device: null,
+												geo: null,
+												env: "DASHBOARD",
+												dashboardAccess: true,
+												expDate: null
+											}
+										],
+										config: {}
+									}
+								]
+							}
+						]
+					});
+				},
+				updateTenant: (inputMask, cb) => {
+					return cb(null, 1);
+				}
+			};
+			
+			BL.updateApplicationKeyConfig(soajs, inputMask, (err, record) => {
+				assert.ok(record);
+				assert.deepEqual(record, 1);
+				done();
+			});
+		});
+		
+		it("Fails - Update application key - null data", (done) => {
+			BL.modelObj = {};
+			
+			BL.updateApplicationKeyConfig(soajs, null, (err) => {
+				assert.ok(err);
+				assert.deepEqual(err, {
+					code: 400,
+					msg: soajs.config.errors[400]
+				});
+				done();
+			});
+		});
+		
+		it("Fails - Update application key - get tenant error", (done) => {
+			
+			BL.modelObj = {
+				getTenant: (inputMask, cb) => {
+					return cb(true, null);
+				}
+			};
+			
+			BL.updateApplicationKeyConfig(soajs, {}, (err) => {
+				assert.ok(err);
+				assert.deepEqual(err.code, 602);
+				done();
+			});
+		});
+		
+		it("Fails - Update application key - update tenants error", (done) => {
+			let inputMask = {
+				id: 'tenantID',
+				appId: 'appID',
+				key: "KEY1",
+				envCode: "dashboard",
+				config: {
+					"infra": {"SOAJS": {"THROTTLING": {"publicAPIStrategy":"null", "privateAPIStrategy": "--inherit--"}}},
+					"oauth": {"SOAJS": {"THROTTLING": {"privateAPIStrategy": "--inherit--"}}},
+					"urac": {"SOAJS": {"THROTTLING": {"privateAPIStrategy": "--inherit--"}}},
+					"multitenant": {"SOAJS": {"THROTTLING": {"privateAPIStrategy": "--inherit--"}}},
+					"repositories": {"SOAJS": {"THROTTLING": {"privateAPIStrategy": "--inherit--"}}},
+					"controller": {"SOAJS": {"THROTTLING": {"privateAPIStrategy": "--inherit--"}}},
+					"marketplace": {"SOAJS": {"THROTTLING": {"privateAPIStrategy": "--inherit--"}}},
+					"soamonitor": {"SOAJS": {"THROTTLING": {"privateAPIStrategy": "--inherit--"}}},
+					"soaanalytics": {"SOAJS": {"THROTTLING": {"privateAPIStrategy": "--inherit--"}}},
+					"console": {"SOAJS": {"THROTTLING": {"privateAPIStrategy": "--inherit--"}}},
+					"dashboard": {"SOAJS": {}}
+				}
+			};
+			
+			BL.modelObj = {
+				getTenant: (inputMask, cb) => {
+					return cb(null, {
+						"_id": "tenantID",
+						"code": "test",
+						"name": "Test Tenant",
+						"description": "this is a description for test tenant",
+						"applications": [
+							{
+								product: "TEND",
+								package: "TEND_GUEST",
+								description: "TEN application for TEND_GUEST package",
+								appId: "appID",
+								_TTL: 604800000,
+								keys: [
+									{
+										key: "KEY1",
+										extKeys: [
+											{
+												extKey: "extkey1",
+												device: null,
+												geo: null,
+												env: "DASHBOARD",
+												dashboardAccess: true,
+												expDate: null
+											}
+										],
+										config: {}
+									}
+								]
+							}
+						]
+					});
+				},
+				updateTenant: (inputMask, cb) => {
+					return cb(true, null);
+				}
+			};
+			
+			BL.updateApplicationKeyConfig(soajs, inputMask, (err) => {
+				assert.ok(err);
+				console.log(err);
+				assert.deepEqual(err, {
+					code: 471,
+					msg: soajs.config.errors[471]
+				});
+				done();
+			});
+		});
+		
+		it("Fails - Update application key - app key not found error", (done) => {
+			BL.modelObj = {
+				getTenant: (inputMask, cb) => {
+					return cb(null, {
+						"_id": "tenantID",
+						"code": "test",
+						"name": "Test Tenant",
+						"description": "this is a description for test tenant",
+						"applications": [
+							{
+								product: "TEND",
+								package: "TEND_GUEST",
+								description: "TEN application for TEND_GUEST package",
+								appId: "appID",
+								_TTL: 604800000,
+								keys: [
+									{
+										key: "KEY1",
+										extKeys: [
+											{
+												extKey: "extkey1",
+												device: null,
+												geo: null,
+												env: "DASHBOARD",
+												dashboardAccess: true,
+												expDate: null
+											}
+										],
+										config: {}
+									}
+								]
+							}
+						]
+					});
+				},
+				updateTenant: (inputMask, cb) => {
+					return cb(true, null);
+				}
+			};
+			
+			BL.updateApplicationKeyConfig(soajs, {key: 'notFound', id: 'tenantID'}, (err) => {
+				assert.ok(err);
+				assert.deepEqual(err.code, 471);
+				done();
+			});
+		});
+		
+		it("Fails - Update application key - get tenant null record", (done) => {
+			
+			BL.modelObj = {
+				getTenant: (inputMask, cb) => {
+					return cb(null, null);
+				}
+			};
+			
+			BL.updateApplicationKeyConfig(soajs, {}, (err) => {
+				assert.ok(err);
+				assert.deepEqual(err, {
+					code: 450,
+					msg: soajs.config.errors[450]
+				});
+				done();
+			});
+		});
+	});
+	
+	describe("Testing Update tenant oauth", () => {
+		afterEach((done) => {
+			BL.modelObj = null;
+			done();
+		});
+		
+		it("Success - Update application key - data - id (admin)", (done) => {
+			let inputMask = {
+				id: 'tenantID',
+				type: 2,
+				oauthType: "miniurac",
+				redirectURI: "http://domain.com",
+				grants: [
+					"password",
+					"refresh_token"
+				],
+				secret: "this is a secret",
+				availableEnv: ["dashboard"]
+			};
+			
+			BL.modelObj = {
+				getTenant: (inputMask, cb) => {
+					return cb(null, {
+						"_id": "tenantID",
+						"code": "test",
+						"name": "Test Tenant",
+						"description": "this is a description for test tenant",
+						"applications": [
+							{
+								product: "TEND",
+								package: "TEND_GUEST",
+								description: "TEN application for TEND_GUEST package",
+								appId: "appID",
+								_TTL: 604800000,
+								keys: [
+									{
+										key: "KEY1",
+										extKeys: [
+											{
+												extKey: "extKey1",
+												device: null,
+												geo: null,
+												env: "DASHBOARD",
+												dashboardAccess: true,
+												expDate: null
+											}
+										],
+										config: {}
+									}
+								]
+							}
+						],
+					});
+				},
+				updateTenant: (inputMask, cb) => {
+					return cb(null, 1);
+				}
+			};
+			
+			BL.updateOauth(soajs, inputMask, (err, record) => {
+				assert.ok(record);
+				assert.deepEqual(record, 1);
+				done();
+			});
+		});
+		
+		it("Success - Update application key - data - no id", (done) => {
+			let inputMask = {
+				type: 1,
+				oauthType: "urac",
+				redirectURI: "http://domain.com",
+				grants: [
+					"password",
+					"refresh_token"
+				],
+				pin: {
+					DSBRD: {
+						enabled: false
+					}
+				},
+				secret: "this is a secret too",
+				availableEnv: ["dashboard"]
+			};
+			
+			BL.modelObj = {
+				getTenant: (inputMask, cb) => {
+					return cb(null, {
+						"_id": "tenantID",
+						"code": "test",
+						"name": "Test Tenant",
+						"description": "this is a description for test tenant",
+						"applications": [
+							{
+								product: "TEND",
+								package: "TEND_GUEST",
+								description: "TEN application for TEND_GUEST package",
+								appId: "appID",
+								_TTL: 604800000,
+								keys: [
+									{
+										key: "KEY1",
+										extKeys: [
+											{
+												extKey: "extKey1",
+												device: null,
+												geo: null,
+												env: "DASHBOARD",
+												dashboardAccess: true,
+												expDate: null
+											}
+										],
+										config: {}
+									}
+								]
+							}
+						]
+					});
+				},
+				updateTenant: (inputMask, cb) => {
+					return cb(null, 1);
+				}
+			};
+			
+			BL.updateOauth(soajs, inputMask, (err, record) => {
+				assert.ok(record);
+				assert.deepEqual(record, 1);
+				done();
+			});
+		});
+		
+		it("fail - Update application key oauth type incompatible", (done) => {
+			let inputMask = {
+				type: 0,
+				oauthType: "urac",
+				redirectURI: "http://domain.com",
+				grants: [
+					"password",
+					"refresh_token"
+				],
+				pin: {
+					DSBRD: {
+						enabled: false
+					}
+				},
+				secret: "this is a secret too",
+				availableEnv: ["dashboard"]
+			};
+			
+			BL.modelObj = {
+				getTenant: (inputMask, cb) => {
+					return cb(null, {
+						"_id": "tenantID",
+						"code": "test",
+						"name": "Test Tenant",
+						"description": "this is a description for test tenant",
+						"applications": [
+							{
+								product: "TEND",
+								package: "TEND_GUEST",
+								description: "TEN application for TEND_GUEST package",
+								appId: "appID",
+								_TTL: 604800000,
+								keys: [
+									{
+										key: "KEY1",
+										extKeys: [
+											{
+												extKey: "extKey1",
+												device: null,
+												geo: null,
+												env: "DASHBOARD",
+												dashboardAccess: true,
+												expDate: null
+											}
+										],
+										config: {}
+									}
+								]
+							}
+						]
+					});
+				},
+				updateTenant: (inputMask, cb) => {
+					return cb(null, 1);
+				}
+			};
+			
+			BL.updateOauth(soajs, inputMask, (err) => {
+				assert.ok(err);
+				assert.deepEqual(err.code, 459);
+				done();
+			});
+		});
+		
+		it("Fails - Update application key - null data", (done) => {
+			BL.modelObj = {};
+			
+			BL.updateOauth(soajs, null, (err) => {
+				assert.ok(err);
+				assert.deepEqual(err, {
+					code: 400,
+					msg: soajs.config.errors[400]
+				});
+				done();
+			});
+		});
+		
+		it("Fails - Update application key - get tenant error", (done) => {
+			
+			BL.modelObj = {
+				getTenant: (inputMask, cb) => {
+					return cb(true, null);
+				}
+			};
+			
+			BL.updateOauth(soajs, {}, (err) => {
+				assert.ok(err);
+				assert.deepEqual(err.code, 602);
+				done();
+			});
+		});
+		
+		it("Fails - Update application key - update tenants error", (done) => {
+			let inputMask = {
+				type: 2,
+				oauthType: "miniurac",
+				redirectURI: "http://domain.com",
+				grants: [
+					"password",
+					"refresh_token"
+				],
+				secret: "this is a secret too",
+				availableEnv: ["dashboard"]
+			};
+			
+			BL.modelObj = {
+				getTenant: (inputMask, cb) => {
+					return cb(null, {
+						"_id": "tenantID",
+						"code": "test",
+						"name": "Test Tenant",
+						"description": "this is a description for test tenant",
+						"applications": [
+							{
+								product: "TEND",
+								package: "TEND_GUEST",
+								description: "TEN application for TEND_GUEST package",
+								appId: "appID",
+								_TTL: 604800000,
+								keys: [
+									{
+										key: "KEY1",
+										extKeys: [
+											{
+												extKey: "extkey1",
+												device: null,
+												geo: null,
+												env: "DASHBOARD",
+												dashboardAccess: true,
+												expDate: null
+											}
+										],
+										config: {}
+									}
+								]
+							}
+						]
+					});
+				},
+				updateTenant: (inputMask, cb) => {
+					return cb(true, null);
+				}
+			};
+			
+			BL.updateOauth(soajs, inputMask, (err) => {
+				assert.ok(err);
+				console.log(err);
+				assert.deepEqual(err, {
+					code: 471,
+					msg: soajs.config.errors[471]
+				});
+				done();
+			});
+		});
+		
+		it("Fails - Update application key - app key not found error", (done) => {
+			BL.modelObj = {
+				getTenant: (inputMask, cb) => {
+					return cb(null, {
+						"_id": "tenantID",
+						"code": "test",
+						"name": "Test Tenant",
+						"description": "this is a description for test tenant",
+						"applications": [
+							{
+								product: "TEND",
+								package: "TEND_GUEST",
+								description: "TEN application for TEND_GUEST package",
+								appId: "appID",
+								_TTL: 604800000,
+								keys: [
+									{
+										key: "KEY1",
+										extKeys: [
+											{
+												extKey: "extkey1",
+												device: null,
+												geo: null,
+												env: "DASHBOARD",
+												dashboardAccess: true,
+												expDate: null
+											}
+										],
+										config: {}
+									}
+								]
+							}
+						]
+					});
+				},
+				updateTenant: (inputMask, cb) => {
+					return cb(true, null);
+				}
+			};
+			
+			BL.updateOauth(soajs, {key: 'notFound', id: 'tenantID'}, (err) => {
+				assert.ok(err);
+				assert.deepEqual(err.code, 471);
+				done();
+			});
+		});
+		
+		it("Fails - Update application key - get tenant null record", (done) => {
+			
+			BL.modelObj = {
+				getTenant: (inputMask, cb) => {
+					return cb(null, null);
+				}
+			};
+			
+			BL.updateOauth(soajs, {}, (err) => {
+				assert.ok(err);
+				assert.deepEqual(err, {
+					code: 450,
+					msg: soajs.config.errors[450]
+				});
+				done();
+			});
+		});
+	});
+	
 	describe("Testing Delete tenant", () => {
 		afterEach((done) => {
 			BL.modelObj = null;

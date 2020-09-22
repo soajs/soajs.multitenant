@@ -33,9 +33,10 @@ function getRequestedSubElementsPositions(tenantRecord, inputmaskData) {
 	let position = [];
 	
 	//find the application
-	if (tenantRecord.applications){
+	if (tenantRecord.applications) {
 		for (let i = 0; i < tenantRecord.applications.length; i++) {
-			if (tenantRecord.applications[i].appId.toString() === inputmaskData.appId) {
+			if (tenantRecord.applications[i] && tenantRecord.applications[i].appId &&
+				tenantRecord.applications[i].appId.toString() === inputmaskData.appId) {
 				position.push(i); //application position found
 				
 				//if key is requested, go one level deeper
@@ -47,7 +48,8 @@ function getRequestedSubElementsPositions(tenantRecord, inputmaskData) {
 							position.push(j); //application key position found
 							
 							//if extKey is requested, go one level deeper
-							if (inputmaskData.extKey && inputmaskData.extKeyEnv) {
+							if (inputmaskData.extKey && inputmaskData.extKeyEnv && tenantRecord.applications[i].keys[j] &&
+								tenantRecord.applications[i].keys[j].extKeys) {
 								//find the ext key
 								for (let k = 0; k < tenantRecord.applications[i].keys[j].extKeys.length; k++) {
 									if (tenantRecord.applications[i].keys[j].extKeys[k].extKey === inputmaskData.extKey && tenantRecord.applications[i].keys[j].extKeys[k].env === inputmaskData.extKeyEnv) {
@@ -261,7 +263,7 @@ let bl = {
 				return cb(bl.handleError(soajs, 450, err), null);
 			}
 			let keys = [];
-			if (record.applications){
+			if (record.applications) {
 				record.applications.forEach(function (oneApplication) {
 					if (oneApplication.appId.toString() === inputmaskData.appId) {
 						keys = oneApplication.keys;
@@ -516,8 +518,7 @@ let bl = {
 							}
 							return callback(null);
 						});
-					}
-					else {
+					} else {
 						return callback(null);
 					}
 				});
@@ -1519,18 +1520,17 @@ let bl = {
 				if (inputmaskData.config[service] && inputmaskData.config.hasOwnProperty(service) &&
 					inputmaskData.config[service].SOAJS && inputmaskData.config[service].SOAJS.THROTTLING) {
 					for (let strategy in inputmaskData.config[service].SOAJS.THROTTLING) {
-						if (inputmaskData.config[service].SOAJS.THROTTLING.hasOwnProperty(strategy) ){
-							if ( inputmaskData.config[service].SOAJS.THROTTLING[strategy] === 'null') {
+						if (inputmaskData.config[service].SOAJS.THROTTLING.hasOwnProperty(strategy)) {
+							if (inputmaskData.config[service].SOAJS.THROTTLING[strategy] === 'null') {
 								inputmaskData.config[service].SOAJS.THROTTLING[strategy] = null;
 							} else if (inputmaskData.config[service].SOAJS.THROTTLING[strategy] === "--inherit--") {
 								delete inputmaskData.config[service].SOAJS.THROTTLING[strategy];
 							}
 						}
 					}
-					
-					if (Object.keys(inputmaskData.config[service].SOAJS).length === 0) {
-						delete inputmaskData.config[service].SOAJS;
-					}
+				}
+				if (Object.keys(inputmaskData.config[service].SOAJS).length === 0) {
+					delete inputmaskData.config[service].SOAJS;
 				}
 			}
 			if (x.found && x.position.length === 2) {
@@ -1539,7 +1539,7 @@ let bl = {
 					delete record.applications[x.position[0]].keys[x.position[1]].config[inputmaskData.envCode.toLowerCase()];
 				}
 			}
-			let opts  = {
+			let opts = {
 				_id: record._id,
 				applications: record.applications
 			};
@@ -1572,6 +1572,9 @@ let bl = {
 			}
 			if (!record) {
 				return cb(bl.handleError(soajs, 450, err), null);
+			}
+			if (!record.oauth) {
+				record.oauth = {};
 			}
 			record.oauth.secret = inputmaskData.secret;
 			if (inputmaskData.redirectURI) {
@@ -1610,7 +1613,7 @@ let bl = {
 				}
 			}
 			
-			let opts  = {
+			let opts = {
 				_id: record._id,
 				oauth: record.oauth
 			};
