@@ -126,6 +126,7 @@ let bl = {
 		let modelObj = bl.mp.getModel(soajs);
 		let data = {};
 		data.id = inputmaskData.id;
+		data.code = inputmaskData.code;
 		
 		if (!data.id) {
 			data.id = soajs.tenant.id;

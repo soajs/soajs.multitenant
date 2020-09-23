@@ -858,7 +858,14 @@ module.exports = {
 				},
 				"id": {
 					"source": ['query.id'],
-					"required": true,
+					"required": false,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"code": {
+					"source": ['query.code'],
+					"required": false,
 					"validation": {
 						"type": "string"
 					}
