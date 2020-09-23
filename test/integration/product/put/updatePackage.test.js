@@ -77,6 +77,29 @@ before(function (done) {
 			done();
 		});
 	});
+	
+	it("Success - will update product package console", (done) => {
+		let params = {
+			qs: {
+				id: "5512867be603d7e01ab1688d"
+			},
+			body: {
+				code: "DSBRD_ELAS",
+				name: "PACK1232321_NAME2",
+				description: "Pack Description after update",
+			}
+		};
+		requester('/product/console/package', 'put', params, (error, body) => {
+			assert.ifError(error);
+			assert.ok(body);
+			assert.ok(body.data);
+			assert.deepEqual(body.data, "product package DSBRD_ELAS updated successfully");
+			let check = validator.validate(body, updatePackagesSchema);
+			assert.deepEqual(check.valid, true);
+			assert.deepEqual(check.errors, []);
+			done();
+		});
+	});
     it("Success - will update product package", (done) => {
         let params = {
             qs: {

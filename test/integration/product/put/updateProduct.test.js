@@ -60,6 +60,29 @@ describe("Testing update product API", () => {
 
         });
     });
+	
+	it("Success - will update ", (done) => {
+		let params = {
+			qs: {
+				id: "5512867be603d7e01ab1688d"
+			},
+			body: {
+				name: "dsdsdsd",
+				description: "Product description to update product"
+			}
+		};
+		requester('/product/console', 'put', params, (error, body) => {
+			assert.ifError(error);
+			assert.ok(body);
+			assert.ok(body.data);
+			let check = validator.validate(body, updateProductSchema);
+			assert.deepEqual(check.valid, true);
+			assert.deepEqual(check.errors, []);
+			assert.deepEqual(body.data, 1);
+			done();
+			
+		});
+	});
 
     it("Success - will return updated product record", (done) => {
         let params = {

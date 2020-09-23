@@ -118,6 +118,97 @@ describe("Testing add product API", () => {
         });
     });
 	
+	it("Success - will add console product ", (done) => {
+		let params = {
+			body: {
+				name: 'lola',
+				code: 'lucky',
+				description: 'Will add due test',
+				scope: {
+					acl: {
+						dashboard: {
+							multitenant: {
+								"1": {
+									access: false,
+									get: [
+										{
+											"/product": {
+												access: false
+											},
+											group: 'Product'
+										}
+									]
+								},
+								"2.1" : {
+									access: false,
+									get: [
+										{
+											"/product": {
+												access: false
+											},
+											group: 'Product'
+										}
+									]
+								}
+							},
+							urac: {
+								"1.0": {
+									access: false,
+									get: [
+										{
+											"/user": {
+												access: false
+											},
+											group: 'Admin'
+										}
+									]
+								}
+							}
+						},
+						dev: {
+							multitenant: {
+								"1": {
+									apisPermission : "restricted",
+									access: false,
+									get: [
+										{
+											"/product": {
+												access: false
+											},
+											group: 'Product'
+										}
+									]
+								},
+								"2.1" : {
+									access: false,
+									get: [
+										{
+											"/product": {
+												access: false
+											},
+											group: 'Product'
+										}
+									]
+								}
+							}
+						}
+					}
+				}
+			}
+		};
+		requester('/product/console', 'post', params, (error, body) => {
+			assert.ifError(error);
+			assert.ok(body);
+			assert.deepEqual(body.data.name, 'lola');
+			assert.deepEqual(body.data.code, 'lucky');
+			assert.deepEqual(typeof body.data.scope.acl, "object");
+			let check = validator.validate(body, addProductSchema);
+			assert.deepEqual(check.valid, true);
+			assert.deepEqual(check.errors, []);
+			done();
+		});
+	});
+	
 	it("Success - validate added product ", (done) => {
 		let params = {
 			qs: {

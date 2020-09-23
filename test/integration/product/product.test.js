@@ -43,7 +43,9 @@ describe("starting product integration tests", () => {
 		require("./put/purgeProduct.test.js");
 		require("./put/updateProduct.test.js");
 		require("./put/updateScope.test.js");
+		require("./put/updateScope_ENV.test");
 		require("./put/updatePackage.test.js");
+		require("./put/updatePackage_acl.test.js");
 		require("./put/updateScope_service.test");
 		require("./put/updateScope_api.test");
 		require("./put/updatePackage_api.test");

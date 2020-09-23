@@ -66,6 +66,24 @@ describe("Testing delete Package API", () => {
             done();
         });
     });
+	
+	it("Success - will delete package from product ", (done) => {
+		let params = {
+			qs: {
+				id: "5512867be603d7e01ab1688d",
+				code: 'DSBRD_ELAS'
+			}
+		};
+		requester('/product/console/package', 'delete', params, (error, body) => {
+			assert.ifError(error);
+			assert.ok(body);
+			assert.deepEqual(body.data, 'product package DSBRD_ELAS deleted successfully');
+			let check = validator.validate(body, deletePackagesSchema);
+			assert.deepEqual(check.valid, true);
+			assert.deepEqual(check.errors, []);
+			done();
+		});
+	});
 
     it("Fails - will get product", (done) => {
         let params = {

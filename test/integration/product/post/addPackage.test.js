@@ -74,6 +74,27 @@ describe("Testing Add Package API", () => {
             done();
         });
     });
+	
+	it("Success - will add console product package", (done) => {
+		let params = {
+			qs: {
+				id: "5512867be603d7e01ab1688d"
+			},
+			body: {
+				name: "PACK_NAME",
+				code: "ELAS",
+				description: "Pack Description",
+				acl: {},
+				_TTL: "24"
+			}
+		};
+		requester('/product/console/package', 'post', params, (error, body) => {
+			assert.ifError(error);
+			assert.ok(body);
+			assert.ok(body.data);
+			done();
+		});
+	});
     
 	it("Success - will get product", (done) => {
 		let params = {

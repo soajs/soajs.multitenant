@@ -43,6 +43,22 @@ describe("Testing delete product API", () => {
             done();
         });
     });
+	
+	it("Success - will delete console- code", (done) => {
+		let params = {
+			qs: {
+				code: 'lucky'
+			}
+		};
+		requester('/product/console/', 'delete', params, (error, body) => {
+			assert.ifError(error);
+			assert.ok(body);
+			let check = validator.validate(body, deleteProductSchema);
+			assert.deepEqual(check.valid, true);
+			assert.deepEqual(check.errors, []);
+			done();
+		});
+	});
 
     it("Fails - will not delete - invalid", (done) => {
         let params = {

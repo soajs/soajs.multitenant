@@ -259,7 +259,7 @@ function run(serviceStartCb) {
 				});
 			});
 			
-			service.put("/product/scope/console", (req, res) => {
+			service.put("/product/console/scope", (req, res) => {
 				req.soajs.inputmaskData.soajs = true;
 				bl.product.updateScope(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					let response = req.soajs.buildResponse(error, data);
