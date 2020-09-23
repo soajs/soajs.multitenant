@@ -67,6 +67,21 @@ describe("Testing delete application key API", () => {
             done();
         });
     });
+	
+	it("Success - will delete application key console - input", (done) => {
+		let params = {
+			qs: {
+				id: "5c0e74ba9acc3c5a84a51259",
+				appId: '30d2cb5fc04ce51e06000003',
+				key: "ff7b65bb252201121f1be95adc08f44a"
+			}
+		};
+		requester('/tenant/console/application/key', 'delete', params, (error, body) => {
+			assert.ifError(error);
+			assert.ok(body);
+			done();
+		});
+	});
 
     it("Success - will delete application key - input", (done) => {
         let params = {

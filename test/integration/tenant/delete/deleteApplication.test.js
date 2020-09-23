@@ -66,7 +66,21 @@ describe("Testing delete application API", () => {
             done();
         });
     });
-
+	
+	it("Success - will delete console application record - input", (done) => {
+		let params = {
+			qs: {
+				id: "5c0e74ba9acc3c5a84a51259",
+				appId: '30d2cb5fc04ce51e06000003'
+			}
+		};
+		requester('/tenant/console/application', 'delete', params, (error, body) => {
+			assert.ifError(error);
+			assert.ok(body);
+			done();
+		});
+	});
+	
     it("Success - will delete application record - input", (done) => {
         let params = {
             qs: {

@@ -76,6 +76,30 @@ describe("Testing update tenant profile API", () => {
 		});
 	});
 	
+	
+	it("Success - will update tenant console profile - id", (done) => {
+		let params = {
+			qs: {
+				id: "5c0e74ba9acc3c5a84a51259"
+			},
+			body: {
+				profile: {
+					"test": "profile"
+				}
+			}
+		};
+		requester('/tenant/console/profile', 'put', params, (error, body) => {
+			assert.ifError(error);
+			assert.ok(body);
+			assert.ok(body.data);
+			assert.deepEqual(body.data, 1);
+			let check = validator.validate(body, updateProfileSchema);
+			assert.deepEqual(check.valid, true);
+			assert.deepEqual(check.errors, []);
+			done();
+		});
+	});
+	
 	it("Success - will return product record - id", (done) => {
 		let params = {
 			qs: {

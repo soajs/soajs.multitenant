@@ -1,4 +1,3 @@
-
 /**
  * @license
  * Copyright SOAJS All Rights Reserved.
@@ -68,6 +67,22 @@ describe("Testing delete application external keys API", () => {
             done();
         });
     });
+	
+	it("Success - will delete application console extenal key - input", (done) => {
+		let params = {
+			qs: {
+				id: "5c0e74ba9acc3c5a84a51259",
+				appId: '5c0e74ba9acc3c5a84a5125a',
+				key: "a139786a6e6d18e48b4987e83789430b",
+				extKey: '123'
+			}
+		};
+		requester('/tenant/console/application/key/ext', 'delete', params, (error, body) => {
+			assert.ifError(error);
+			assert.ok(body);
+			done();
+		});
+	});
 
     it("Success - will delete application extenal key - input", (done) => {
         let params = {

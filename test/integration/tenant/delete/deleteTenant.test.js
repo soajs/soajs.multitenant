@@ -27,25 +27,45 @@ describe("Testing delete tenant API", () => {
         done();
     });
 
-    let selectedTenant;
+    let selectedTenant, consoleTenant;
 
-    it("Success - will return all tenant records - no input", (done) => {
-        let params = {};
-        requester('/tenants', 'get', params, (error, body) => {
-            assert.ifError(error);
-            assert.ok(body);
-            assert.ok(body.data);
-            body.data.forEach(tenant => {
-                if (tenant.code === 'test2') {
-                    selectedTenant = tenant;
-                }
-            });
-            let check = validator.validate(body, listTenantsSchema);
-            assert.deepEqual(check.valid, true);
-            assert.deepEqual(check.errors, []);
-            done();
-        });
-    });
+	it("Success - will return all tenant records - no input", (done) => {
+		let params = {};
+		requester('/tenants/console', 'get', params, (error, body) => {
+			assert.ifError(error);
+			assert.ok(body);
+			assert.ok(body.data);
+			body.data.forEach(tenant => {
+				if (tenant.code === 'lolbo') {
+					consoleTenant = tenant;
+				}
+			});
+			let check = validator.validate(body, listTenantsSchema);
+			assert.deepEqual(check.valid, true);
+			assert.deepEqual(check.errors, []);
+			done();
+		});
+	});
+	
+	
+	it("Success - will return all tenant records - no input", (done) => {
+		let params = {};
+		requester('/tenants', 'get', params, (error, body) => {
+			assert.ifError(error);
+			assert.ok(body);
+			assert.ok(body.data);
+			body.data.forEach(tenant => {
+				if (tenant.code === 'test2') {
+					selectedTenant = tenant;
+				}
+			});
+			let check = validator.validate(body, listTenantsSchema);
+			assert.deepEqual(check.valid, true);
+			assert.deepEqual(check.errors, []);
+			done();
+		});
+	});
+    
 
     it("Success - will delete tenant record - input", (done) => {
         let params = {
@@ -63,7 +83,24 @@ describe("Testing delete tenant API", () => {
             done();
         });
     });
-
+	
+	it("Success - will delete tenant record - input", (done) => {
+		let params = {
+			qs: {
+				id: consoleTenant._id
+			}
+		};
+		requester('/tenant/console', 'delete', params, (error, body) => {
+			assert.ifError(error);
+			assert.ok(body);
+			assert.ok(body.data);
+			let check = validator.validate(body, deleteTenantSchema);
+			assert.deepEqual(check.valid, true);
+			assert.deepEqual(check.errors, []);
+			done();
+		});
+	});
+	
     it("Fails - will not delete tenant record - no input", (done) => {
         let params = {};
 

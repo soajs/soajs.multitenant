@@ -70,7 +70,28 @@ describe("Testing get applications API", () => {
             done();
         });
     });
-
+	
+	it("Success - will return tenant application - id (admin)", (done) => {
+		let params = {
+			qs: {
+				id: "5c0e74ba9acc3c5a84a51259",
+				appId: '5c0e74ba9acc3c5a84a5125a'
+			}
+		};
+		requester('/tenant/console/application', 'get', params, (error, body) => {
+			assert.ifError(error);
+			assert.ok(body);
+			assert.ok(body.data);
+			assert.deepEqual(body.data.product, 'DSBRD');
+			assert.deepEqual(body.data.package, 'DSBRD_GUEST');
+			assert.deepEqual(body.data.appId, '5c0e74ba9acc3c5a84a5125a');
+			let check = validator.validate(body, getApplicationsSchema);
+			assert.deepEqual(check.valid, true);
+			assert.deepEqual(check.errors, []);
+			done();
+		});
+	});
+	
     it("Success - will return tenant application - no id", (done) => {
         let params = {
             qs: {

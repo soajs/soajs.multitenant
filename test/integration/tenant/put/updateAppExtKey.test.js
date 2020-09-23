@@ -80,6 +80,34 @@ describe("Testing update app external key of tenant API", () => {
             done();
         });
     });
+	
+	it("Success - will update tenant console application external key - id", (done) => {
+		let params = {
+			qs: {
+				id: "5c0e74ba9acc3c5a84a51259"
+			},
+			body: {
+				appId: '5c0e74ba9acc3c5a84a5125a',
+				key: 'a139786a6e6d18e48b4987e83789430b',
+				extKey: "3d90163cf9d6b3076ad26aa5ed58556348069258e5c6c941ee0f18448b570ad1c5c790e2d2a1989680c55f4904e2005ff5f8e71606e4aa641e67882f4210ebbc5460ff305dcb36e6ec2a2299cf0448ef60b9e38f41950ec251c1cf41f05f3ce9",
+				expDate: '2043-12-23T18:25:43.511Z',
+				device: {},
+				geo: {},
+				label: "labelUdate",
+				extKeyEnv: "DASHBOARD",
+			}
+		};
+		requester('/tenant/console/application/key/ext', 'put', params, (error, body) => {
+			assert.ifError(error);
+			assert.ok(body);
+			assert.ok(body.data);
+			assert.deepEqual(body.data, 1);
+			let check = validator.validate(body, updateAppExtKeySchema);
+			assert.deepEqual(check.valid, true);
+			assert.deepEqual(check.errors, []);
+			done();
+		});
+	});
 
     it("Success - will return tenant record - id", (done) => {
         let params = {

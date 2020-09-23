@@ -64,6 +64,39 @@ describe("Testing add tenant API", () => {
             done();
         });
     });
+	
+	it("Success - will add console product tenant record - tenant only ", (done) => {
+		let params = {
+			body: {
+				"name": "tenant console product only",
+				"code": "lolbo",
+				"description": "tenant product only",
+				"type": "product",
+				"profile": {},
+				"tag": "tag",
+				"oauth": {
+					"secret": "this is a secret test",
+					"redirectURI": "http://domain.com",
+					"grants": [
+						"password",
+						"refresh_token"
+					],
+					"disabled": 0,
+					"type": 1,
+					"loginMode": "urac"
+				}
+			}
+		};
+		requester('/tenant/console', 'post', params, (error, body) => {
+			assert.ifError(error);
+			assert.ok(body);
+			assert.ok(body.data);
+			let check = validator.validate(body, addTenantSchema);
+			assert.deepEqual(check.valid, true);
+			assert.deepEqual(check.errors, []);
+			done();
+		});
+	});
 
     it("Success - will return product tenant record - id", (done) => {
         let params = {

@@ -75,6 +75,28 @@ describe("Testing update app of tenant API", () => {
             done();
         });
     });
+	
+	it("Success - will update console tenant application - id", (done) => {
+		let params = {
+			qs: {
+				id: "5c0e74ba9acc3c5a84a51259"
+			},
+			body: {
+				appId: '5c0e74ba9acc3c5a84a5125a',
+				description: 'Updated one',
+			}
+		};
+		requester('/tenant/console/application', 'put', params, (error, body) => {
+			assert.ifError(error);
+			assert.ok(body);
+			assert.ok(body.data);
+			assert.deepEqual(body.data, 1);
+			let check = validator.validate(body, updateAppSchema);
+			assert.deepEqual(check.valid, true);
+			assert.deepEqual(check.errors, []);
+			done();
+		});
+	});
 
     it("Success - will return tenant record - id", (done) => {
         let params = {

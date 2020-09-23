@@ -81,7 +81,40 @@ describe("Testing add application API", () => {
             done();
         });
     });
-
+	
+	
+	it("Success - will add application - console", (done) => {
+		let params = {
+			qs: {
+				id: "5c0e74ba9acc3c5a84a51259"
+			},
+			body: {
+				description: 'Descripton for admin add tenant',
+				productCode: 'FPROD',
+				packageCode: 'TEST1',
+				_TTL: '12',
+				appKey: {
+					extKey: {
+						label: 'Label for Key',
+						env: 'dashboard',
+						expDate: '2019-09-27T14:43:24Z',
+						device: {},
+						geo: {}
+					}
+				},
+			}
+		};
+		requester('/tenant/console/application', 'post', params, (error, body) => {
+			assert.ifError(error);
+			assert.ok(body);
+			assert.ok(body.data);
+			let check = validator.validate(body, addAppSchema);
+			assert.deepEqual(check.valid, true);
+			assert.deepEqual(check.errors, []);
+			done();
+		});
+	});
+	
     it("Success - will add application - input", (done) => {
         let params = {
             headers: {

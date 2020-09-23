@@ -83,7 +83,80 @@ describe("Testing update app key of tenant API", () => {
             done();
         });
     });
-
+	
+	it("Success - will update tenant console application key - id", (done) => {
+		let params = {
+			qs: {
+				id: "5c0e74ba9acc3c5a84a51259"
+			},
+			body: {
+				appId: '5c0e74ba9acc3c5a84a5125a',
+				key: 'a139786a6e6d18e48b4987e83789430b',
+				config: {
+					dashboard: {
+						oauth: {
+							loginMode: "urac"
+						},
+						commonFields: {
+							mail: {
+								from: "me@localhost.com",
+								transport: {
+									type: "sendmail",
+									options: {
+									
+									}
+								}
+							}
+						},
+						urac: {
+							hashIterations: 12,
+							link: {
+								addUser: "http://dashboard.soajs.org:80/#/setNewPassword",
+								changeEmail: "http://dashboard.soajs.org:80/#/changeEmail/validate",
+								forgotPassword: "http://dashboard.soajs.org:80/#/resetPassword",
+								join: "http://dashboard.soajs.org:80/#/join/validate"
+							},
+							tokenExpiryTTL: 172800000,
+							validateJoin: true,
+							mail: {
+								join: {
+									subject: "Welcome to SOAJS",
+									path: "undefined/soajs/node_modules/soajs.urac/mail/urac/join.tmpl"
+								},
+								forgotPassword: {
+									subject: "Reset Your Password at SOAJS",
+									path: "undefined/soajs/node_modules/soajs.urac/mail/urac/forgotPassword.tmpl"
+								},
+								addUser: {
+									subject: "Account Created at SOAJS",
+									path: "undefined/soajs/node_modules/soajs.urac/mail/urac/addUser.tmpl"
+								},
+								changeUserStatus: {
+									subject: "Account Status changed at SOAJSs",
+									path: "undefined/soajs/node_modules/soajs.urac/mail/urac/changeUserStatus.tmpl"
+								},
+								changeEmail: {
+									subject: "Change Account Email at SOAJS",
+									path: "undefined/soajs/node_modules/soajs.urac/mail/urac/changeEmail.tmpl"
+								}
+							}
+						}
+					}
+				}
+			}
+		};
+		requester('/tenant/console/application/key', 'put', params, (error, body) => {
+			assert.ifError(error);
+			assert.ok(body);
+			assert.ok(body.data);
+			assert.deepEqual(body.data, 1);
+			let check = validator.validate(body, updateAppKeySchema);
+			assert.deepEqual(check.valid, true);
+			assert.deepEqual(check.errors, []);
+			done();
+		});
+	});
+	
     it("Success - will return tenant record - id", (done) => {
         let params = {
             qs: {

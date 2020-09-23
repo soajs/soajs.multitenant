@@ -612,25 +612,6 @@ function run(serviceStartCb) {
 				});
 			});
 			
-			service.get("/tenant/oauth/users", (req, res) => {
-				bl.tenant.listTenantOauthUsers(req.soajs, req.soajs.inputmaskData, (error, data) => {
-					return res.json(req.soajs.buildResponse(error, data));
-				});
-			});
-			
-			service.get("/tenant/console/oauth/users", (req, res) => {
-				req.soajs.inputmaskData.soajs = true;
-				bl.tenant.listTenantOauthUsers(req.soajs, req.soajs.inputmaskData, (error, data) => {
-					return res.json(req.soajs.buildResponse(error, data));
-				});
-			});
-			
-			service.get("/admin/tenant/oauth/users", (req, res) => {
-				bl.tenant.listTenantOauthUsers(req.soajs, req.soajs.inputmaskData, (error, data) => {
-					return res.json(req.soajs.buildResponse(error, data));
-				});
-			});
-			
 			//* Post
 			
 			service.post("/tenant", (req, res) => {
@@ -699,25 +680,6 @@ function run(serviceStartCb) {
 			
 			service.post("/admin/tenant/application/key/ext", (req, res) => {
 				bl.tenant.addApplicationExtKey(req.soajs, req.soajs.inputmaskData, soajs, (error, data) => {
-					return res.json(req.soajs.buildResponse(error, data));
-				});
-			});
-			
-			service.post("/tenant/oauth/user", (req, res) => {
-				bl.tenant.addOauthUser(req.soajs, req.soajs.inputmaskData, soajs, (error, data) => {
-					return res.json(req.soajs.buildResponse(error, data));
-				});
-			});
-			
-			service.post("/tenant/console/oauth/user", (req, res) => {
-				req.soajs.inputmaskData.soajs = true;
-				bl.tenant.addOauthUser(req.soajs, req.soajs.inputmaskData, soajs, (error, data) => {
-					return res.json(req.soajs.buildResponse(error, data));
-				});
-			});
-			
-			service.post("/admin/tenant/oauth/user", (req, res) => {
-				bl.tenant.addOauthUser(req.soajs, req.soajs.inputmaskData, soajs, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
 				});
 			});
@@ -854,25 +816,6 @@ function run(serviceStartCb) {
 			
 			service.put("/admin/tenant/oauth", (req, res) => {
 				bl.tenant.updateOauth(req.soajs, req.soajs.inputmaskData, (error, data) => {
-					return res.json(req.soajs.buildResponse(error, data));
-				});
-			});
-			
-			service.put("/tenant/oauth/user", (req, res) => {
-				bl.tenant.updateOuathUser(req.soajs, req.soajs.inputmaskData, (error, data) => {
-					return res.json(req.soajs.buildResponse(error, data));
-				});
-			});
-			
-			service.put("/tenant/console/oauth/user", (req, res) => {
-				req.soajs.inputmaskData.soajs = true;
-				bl.tenant.updateOuathUser(req.soajs, req.soajs.inputmaskData, (error, data) => {
-					return res.json(req.soajs.buildResponse(error, data));
-				});
-			});
-			
-			service.put("/admin/tenant/oauth/user", (req, res) => {
-				bl.tenant.updateOuathUser(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));
 				});
 			});

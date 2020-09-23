@@ -69,7 +69,24 @@ describe("Testing list application external keys API", () => {
             done();
         });
     });
-
+	
+	
+	it("Success - will return all tenant application key - id (admin)", (done) => {
+		let params = {
+			qs: {
+				id: "5c0e74ba9acc3c5a84a51259",
+				appId: "5c0e74ba9acc3c5a84a5125a",
+				key: "a139786a6e6d18e48b4987e83789430b"
+			}
+		};
+		requester('/tenant/console/application/key/ext', 'get', params, (error, body) => {
+			assert.ifError(error);
+			assert.ok(body);
+			assert.ok(body.data);
+			done();
+		});
+	});
+	
     it("Success - will return all application external keys - no id", (done) => {
         let params = {
             qs: {

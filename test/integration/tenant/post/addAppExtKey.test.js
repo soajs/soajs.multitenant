@@ -76,8 +76,36 @@ describe("Testing add application external key API", () => {
             done();
         });
     });
-
-    it("Success - will add application ext key - input", (done) => {
+	
+	it("Success - will add application ext key - console", (done) => {
+		let params = {
+			qs: {
+				id: "5c0e74ba9acc3c5a84a51259"
+			},
+			body: {
+				key: 'a139786a6e6d18e48b4987e83789430b',
+				appId: '5c0e74ba9acc3c5a84a5125a',
+				label: 'Label for Key one',
+				env: 'dashboard',
+				expDate: '2019-09-27T14:43:24Z',
+				device: {},
+				geo: {}
+			}
+		};
+		requester('/tenant/console/application/key/ext', 'post', params, (error, body) => {
+			assert.ifError(error);
+			assert.ok(body);
+			assert.ok(body.data);
+			assert.deepEqual(body.data, 1);
+			let check = validator.validate(body, addAppKeySchema);
+			assert.deepEqual(check.valid, true);
+			assert.deepEqual(check.errors, []);
+			done();
+		});
+	});
+	
+	
+	it("Success - will add application ext key - input", (done) => {
         let params = {
             headers: {
 	            access_token: "ddfd5eb42417b480471b4cec06381244658ffc7a",
