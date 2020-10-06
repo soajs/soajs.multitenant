@@ -486,6 +486,12 @@ function run(serviceStartCb) {
 			
 			//* GET
 			
+			service.get("/tenants/product/keys/ext", (req, res) => {
+				bl.tenant.tenants_product_extKeys(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
+			
 			service.get("/tenant", (req, res) => {
 				bl.tenant.get(req.soajs, req.soajs.inputmaskData, (error, data) => {
 					return res.json(req.soajs.buildResponse(error, data));

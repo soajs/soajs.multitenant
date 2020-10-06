@@ -119,6 +119,112 @@ let bl = {
 	 * tenant
 	 */
 	
+	"tenants_product_extKeys": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData || !inputmaskData.tenants || !inputmaskData.tenants.tenant || !inputmaskData.tenants.tenant.code || !inputmaskData.productCode || !inputmaskData.env) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		// get for main tenant
+		let response = {};
+		let consoleTenant = false;
+		let data = {
+			code: inputmaskData.tenants.tenant.code,
+			soajs: consoleTenant
+		};
+		let modelObj = bl.mp.getModel(soajs);
+		modelObj.getTenant(data, (err, record) => {
+			if (record) {
+				let t_obj = {
+					"code": record.code,
+					"id": record._id,
+					"extKeys": []
+				};
+				for (let a = 0; a < record.applications.length; a++) {
+					if (record.applications[a].product === inputmaskData.productCode) {
+						if (record.applications[a].keys) {
+							for (let k = 0; k < record.applications[a].keys.length; k++) {
+								if (record.applications[a].keys[k].extKeys) {
+									for (let ek = 0; ek < record.applications[a].keys[k].extKeys.length; ek++) {
+										delete record.applications[a].keys[k].extKeys[ek].device;
+										delete record.applications[a].keys[k].extKeys[ek].geo;
+										delete record.applications[a].keys[k].extKeys[ek].dashboardAccess;
+										if (record.applications[a].keys[k].extKeys[ek].env) {
+											if (record.applications[a].keys[k].extKeys[ek].env.toLowerCase() === inputmaskData.env.toLowerCase()) {
+												t_obj.extKeys.push(record.applications[a].keys[k].extKeys[ek]);
+											}
+										} else {
+											t_obj.extKeys.push(record.applications[a].keys[k].extKeys[ek]);
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				response.tenant = t_obj;
+			}
+			
+			//get for allowedTenants
+			if (inputmaskData.tenants.allowedTenants) {
+				let tenants_code_array = [];
+				for (let i = 0; i < inputmaskData.tenants.allowedTenants.length; i++) {
+					if (inputmaskData.tenants.allowedTenants[i].tenant && inputmaskData.tenants.allowedTenants[i].tenant.code) {
+						tenants_code_array.push(inputmaskData.tenants.allowedTenants[i].tenant.code);
+					}
+				}
+				if (tenants_code_array.length > 0) {
+					let data = {
+						codes: tenants_code_array,
+						soajs: consoleTenant
+					};
+					modelObj.getTenants(data, (err, records) => {
+						if (records && records.length > 0) {
+							response.allowedTenants = [];
+							for (let t = 0; t < records.length; t++) {
+								let record = records[t];
+								let t_obj = {
+									"code": record.code,
+									"id": record._id,
+									"extKeys": []
+								};
+								for (let a = 0; a < record.applications.length; a++) {
+									if (record.applications[a].product === inputmaskData.productCode) {
+										if (record.applications[a].keys) {
+											for (let k = 0; k < record.applications[a].keys.length; k++) {
+												if (record.applications[a].keys[k].extKeys) {
+													for (let ek = 0; ek < record.applications[a].keys[k].extKeys.length; ek++) {
+														delete record.applications[a].keys[k].extKeys[ek].device;
+														delete record.applications[a].keys[k].extKeys[ek].geo;
+														delete record.applications[a].keys[k].extKeys[ek].dashboardAccess;
+														if (record.applications[a].keys[k].extKeys[ek].env) {
+															if (record.applications[a].keys[k].extKeys[ek].env.toLowerCase() === inputmaskData.env.toLowerCase()) {
+																t_obj.extKeys.push(record.applications[a].keys[k].extKeys[ek]);
+															}
+														} else {
+															t_obj.extKeys.push(record.applications[a].keys[k].extKeys[ek]);
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+								response.allowedTenants.push(t_obj);
+							}
+						}
+						bl.mp.closeModel(soajs, modelObj);
+						return cb(null, response);
+					});
+				} else {
+					bl.mp.closeModel(soajs, modelObj);
+					return cb(null, response);
+				}
+			} else {
+				bl.mp.closeModel(soajs, modelObj);
+				return cb(null, response);
+			}
+		});
+	},
+	
 	"get": (soajs, inputmaskData, cb) => {
 		if (!inputmaskData) {
 			return cb(bl.handleError(soajs, 400, null));
@@ -1518,7 +1624,7 @@ let bl = {
 			let x = getRequestedSubElementsPositions(record, inputmaskData);
 			//check config input for throttling null entries
 			for (let service in inputmaskData.config) {
-				if (service && inputmaskData.config.hasOwnProperty(service)){
+				if (service && inputmaskData.config.hasOwnProperty(service)) {
 					if (inputmaskData.config[service] && inputmaskData.config.hasOwnProperty(service) &&
 						inputmaskData.config[service].SOAJS && inputmaskData.config[service].SOAJS.THROTTLING) {
 						for (let strategy in inputmaskData.config[service].SOAJS.THROTTLING) {

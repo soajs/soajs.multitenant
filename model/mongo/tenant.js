@@ -73,6 +73,32 @@ Tenant.prototype.validateId = function (id, cb) {
 	}
 };
 
+Tenant.prototype.getTenants = function (data, cb) {
+	let __self = this;
+	if (!data || !data.codes || !Array.isArray(data.codes) || data.codes.length <= 0) {
+		let error = new Error("Array of codes is required.");
+		return cb(error, null);
+	}
+	
+	let partial = [
+		{
+			console: !!data.soajs
+		}
+	];
+	if (!data.soajs) {
+		partial.push({console: null});
+	}
+	let condition = {
+		'$and': [{
+			"$or": partial
+		}]
+	};
+	
+	condition.$and.push({'code': {'$in': data.codes}});
+	
+	__self.mongoCore.find(colName, condition, null, cb);
+};
+
 Tenant.prototype.getTenant = function (data, cb) {
 	let __self = this;
 	if (!data || !(data.id || data.code)) {
