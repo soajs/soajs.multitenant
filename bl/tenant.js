@@ -164,7 +164,7 @@ let bl = {
 		};
 		
 		let response = {};
-		let consoleTenant = false;
+		let consoleTenant = !!inputmaskData.soajs;
 		let data = {
 			code: inputmaskData.tenants.tenant.code,
 			soajs: consoleTenant

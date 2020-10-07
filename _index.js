@@ -491,6 +491,12 @@ function run(serviceStartCb) {
 					return res.json(req.soajs.buildResponse(error, data));
 				});
 			});
+			service.get("/tenants/console/product/keys/ext", (req, res) => {
+				req.soajs.inputmaskData.soajs = true;
+				bl.tenant.tenants_product_extKeys(req.soajs, req.soajs.inputmaskData, (error, data) => {
+					return res.json(req.soajs.buildResponse(error, data));
+				});
+			});
 			
 			service.get("/tenant", (req, res) => {
 				bl.tenant.get(req.soajs, req.soajs.inputmaskData, (error, data) => {

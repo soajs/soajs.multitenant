@@ -801,7 +801,7 @@ module.exports = {
 			"/tenants/product/keys/ext": {
 				_apiInfo: {
 					"l": "Get ext keys of a product for certain tenants in a specific environment.",
-					"group": "Product"
+					"group": "Tenant"
 				},
 				"productCode": {
 					"source": ["query.productCode"],
@@ -1025,6 +1025,78 @@ module.exports = {
 					"group": "Tenant"
 				},
 				"commonFields": ['id', 'appId', 'key']
+			},
+			
+			"/tenants/console/product/keys/ext": {
+				_apiInfo: {
+					"l": "Get ext keys of a product for certain console tenants in a specific environment.",
+					"group": "Console tenant"
+				},
+				"productCode": {
+					"source": ["query.productCode"],
+					"required": true,
+					"validation": {
+						"type": "string",
+						"format": "alphanumeric",
+						"maxLength": 6
+					}
+				},
+				"env": {
+					"source": ["query.env"],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				},
+				"profile": {
+					"source": ["query.profile"],
+					"required": false,
+					"validation": {
+						"type": "boolean"
+					}
+				},
+				"tenants": {
+					"source": ["query.tenants"],
+					"required": true,
+					"validation": {
+						"type": "object",
+						"properties": {
+							"tenant": {
+								"type": "object",
+								"properties": {
+									"id": {
+										"type": "string"
+									},
+									"code": {
+										"type": "string"
+									}
+								},
+								"required": ["code"]
+							},
+							"allowedTenants": {
+								"type": "array",
+								"items": {
+									"type": "object",
+									"properties": {
+										"tenant": {
+											"type": "object",
+											"properties": {
+												"id": {
+													"type": "string"
+												},
+												"code": {
+													"type": "string"
+												}
+											},
+											"required": ["code"]
+										}
+									}
+								}
+							}
+						},
+						"required": ["tenant"]
+					}
+				}
 			},
 			
 			"/tenants/console": {
