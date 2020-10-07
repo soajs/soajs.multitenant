@@ -123,7 +123,46 @@ let bl = {
 		if (!inputmaskData || !inputmaskData.tenants || !inputmaskData.tenants.tenant || !inputmaskData.tenants.tenant.code || !inputmaskData.productCode || !inputmaskData.env) {
 			return cb(bl.handleError(soajs, 400, null));
 		}
-		// get for main tenant
+		
+		let buildKeyObj = (record) => {
+			let t_obj = {
+				"code": record.code,
+				"id": record._id,
+				"extKeys": []
+			};
+			if (record.tenant) {
+				t_obj.tenant = record.tenant;
+			}
+			if (inputmaskData.profile && record.profile) {
+				t_obj.profile = record.profile;
+			}
+			for (let a = 0; a < record.applications.length; a++) {
+				if (record.applications[a].product === inputmaskData.productCode) {
+					t_obj.product = record.applications[a].product;
+					t_obj.package = record.applications[a].package;
+					if (record.applications[a].keys) {
+						for (let k = 0; k < record.applications[a].keys.length; k++) {
+							if (record.applications[a].keys[k].extKeys) {
+								for (let ek = 0; ek < record.applications[a].keys[k].extKeys.length; ek++) {
+									delete record.applications[a].keys[k].extKeys[ek].device;
+									delete record.applications[a].keys[k].extKeys[ek].geo;
+									delete record.applications[a].keys[k].extKeys[ek].dashboardAccess;
+									if (record.applications[a].keys[k].extKeys[ek].env) {
+										if (record.applications[a].keys[k].extKeys[ek].env.toLowerCase() === inputmaskData.env.toLowerCase()) {
+											t_obj.extKeys.push(record.applications[a].keys[k].extKeys[ek]);
+										}
+									} else {
+										t_obj.extKeys.push(record.applications[a].keys[k].extKeys[ek]);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			return t_obj;
+		};
+		
 		let response = {};
 		let consoleTenant = false;
 		let data = {
@@ -133,37 +172,9 @@ let bl = {
 		let modelObj = bl.mp.getModel(soajs);
 		modelObj.getTenant(data, (err, record) => {
 			if (record) {
-				let t_obj = {
-					"code": record.code,
-					"id": record._id,
-					"extKeys": []
-				};
-				for (let a = 0; a < record.applications.length; a++) {
-					if (record.applications[a].product === inputmaskData.productCode) {
-						if (record.applications[a].keys) {
-							for (let k = 0; k < record.applications[a].keys.length; k++) {
-								if (record.applications[a].keys[k].extKeys) {
-									for (let ek = 0; ek < record.applications[a].keys[k].extKeys.length; ek++) {
-										delete record.applications[a].keys[k].extKeys[ek].device;
-										delete record.applications[a].keys[k].extKeys[ek].geo;
-										delete record.applications[a].keys[k].extKeys[ek].dashboardAccess;
-										if (record.applications[a].keys[k].extKeys[ek].env) {
-											if (record.applications[a].keys[k].extKeys[ek].env.toLowerCase() === inputmaskData.env.toLowerCase()) {
-												t_obj.extKeys.push(record.applications[a].keys[k].extKeys[ek]);
-											}
-										} else {
-											t_obj.extKeys.push(record.applications[a].keys[k].extKeys[ek]);
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-				response.tenant = t_obj;
+				response.tenant = buildKeyObj(record);
 			}
 			
-			//get for allowedTenants
 			if (inputmaskData.tenants.allowedTenants) {
 				let tenants_code_array = [];
 				for (let i = 0; i < inputmaskData.tenants.allowedTenants.length; i++) {
@@ -180,35 +191,7 @@ let bl = {
 						if (records && records.length > 0) {
 							response.allowedTenants = [];
 							for (let t = 0; t < records.length; t++) {
-								let record = records[t];
-								let t_obj = {
-									"code": record.code,
-									"id": record._id,
-									"extKeys": []
-								};
-								for (let a = 0; a < record.applications.length; a++) {
-									if (record.applications[a].product === inputmaskData.productCode) {
-										if (record.applications[a].keys) {
-											for (let k = 0; k < record.applications[a].keys.length; k++) {
-												if (record.applications[a].keys[k].extKeys) {
-													for (let ek = 0; ek < record.applications[a].keys[k].extKeys.length; ek++) {
-														delete record.applications[a].keys[k].extKeys[ek].device;
-														delete record.applications[a].keys[k].extKeys[ek].geo;
-														delete record.applications[a].keys[k].extKeys[ek].dashboardAccess;
-														if (record.applications[a].keys[k].extKeys[ek].env) {
-															if (record.applications[a].keys[k].extKeys[ek].env.toLowerCase() === inputmaskData.env.toLowerCase()) {
-																t_obj.extKeys.push(record.applications[a].keys[k].extKeys[ek]);
-															}
-														} else {
-															t_obj.extKeys.push(record.applications[a].keys[k].extKeys[ek]);
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-								response.allowedTenants.push(t_obj);
+								response.allowedTenants.push(buildKeyObj(records[t]));
 							}
 						}
 						bl.mp.closeModel(soajs, modelObj);

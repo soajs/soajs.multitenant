@@ -819,6 +819,13 @@ module.exports = {
 						"type": "string"
 					}
 				},
+				"profile": {
+					"source": ["query.profile"],
+					"required": false,
+					"validation": {
+						"type": "boolean"
+					}
+				},
 				"tenants": {
 					"source": ["query.tenants"],
 					"required": true,
