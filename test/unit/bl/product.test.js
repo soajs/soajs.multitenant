@@ -3232,7 +3232,7 @@ describe("Unit test for: BL - product", () => {
 			};
 			nock('http://www.example.com')
 				.get('/items/type/all')
-				.query({"types": ['service', 'endpoint']})
+				.query({"types": ['service', 'endpoint'], "compact": true})
 				.reply(200, {
 					"result": true,
 					"data": {
@@ -4200,7 +4200,7 @@ describe("Unit test for: BL - product", () => {
 			};
 			nock('http://www.example.com')
 				.get('/soajs/items')
-				.query({"types": ['service', 'endpoint']})
+				.query({"types": ['service', 'endpoint'], "compact": true})
 				.reply(200, {
 					"result": true,
 					"data": {
@@ -5167,7 +5167,7 @@ describe("Unit test for: BL - product", () => {
 			};
 			nock('http://www.example.com')
 				.get('/items/type/all')
-				.query({"types": ['service', 'endpoint']})
+				.query({"types": ['service', 'endpoint'], "compact": true})
 				.reply(200, {
 					"result": true,
 					"data": {
@@ -6270,7 +6270,7 @@ describe("Unit test for: BL - product", () => {
 			};
 			nock('http://www.example.com')
 				.get('/soajs/items')
-				.query({"types": ['service', 'endpoint']})
+				.query({"types": ['service', 'endpoint'], "compact": true})
 				.reply(200, {
 					"result": true,
 					"errors": {
@@ -6323,7 +6323,7 @@ describe("Unit test for: BL - product", () => {
 			};
 			nock('http://www.example.com')
 				.get('/items/type/all')
-				.query({"types": ['service', 'endpoint']})
+				.query({"types": ['service', 'endpoint'], "compact": true})
 				.reply(200, {
 					"result": true,
 					"data": {
@@ -7660,7 +7660,7 @@ describe("Unit test for: BL - product", () => {
 			};
 			nock('http://www.example.com')
 				.get('/items/type/all')
-				.query({"types": ['service', 'endpoint']})
+				.query({"types": ['service', 'endpoint'], "compact": true})
 				.reply(200, {
 					"result": true,
 					"data": {
@@ -9083,7 +9083,7 @@ describe("Unit test for: BL - product", () => {
 			};
 			nock('http://www.example.com')
 				.get('/items/type/all')
-				.query({"types": ['service', 'endpoint']})
+				.query({"types": ['service', 'endpoint'], "compact": true})
 				.reply(200, {
 					"result": true,
 					"data": {
@@ -9741,7 +9741,7 @@ describe("Unit test for: BL - product", () => {
 			};
 			nock('http://www.example.com')
 				.get('/items/type/all')
-				.query({"types": ['service', 'endpoint']})
+				.query({"types": ['service', 'endpoint'], "compact": true})
 				.reply(200, {
 					"result": true,
 					"data": {
@@ -10459,7 +10459,7 @@ describe("Unit test for: BL - product", () => {
 			};
 			nock('http://www.example.com')
 				.get('/soajs/items')
-				.query({"types": ['service', 'endpoint']})
+				.query({"types": ['service', 'endpoint'], "compact": true})
 				.reply(200, {
 					"result": false,
 					"errors": {
@@ -10503,7 +10503,7 @@ describe("Unit test for: BL - product", () => {
 			};
 			nock('http://www.example.com')
 				.get('/soajs/items')
-				.query({"types": ['service', 'endpoint']})
+				.query({"types": ['service', 'endpoint'], "compact": true})
 				.reply(200, {
 					"result": false,
 					"errors": {
@@ -10600,7 +10600,7 @@ describe("Unit test for: BL - product", () => {
 			};
 			nock('http://www.example.com')
 				.get('/items/type/all')
-				.query({"types": ['service', 'endpoint'], "start": 0,
+				.query({"types": ['service', 'endpoint'], "compact": true, "start": 0,
 					"limit": 500})
 				.reply(200, {
 					"result": true,
@@ -10968,7 +10968,7 @@ describe("Unit test for: BL - product", () => {
 			};
 			nock('http://www.example.com')
 				.get('/items/type/all')
-				.query({"types": ['service', 'endpoint'], "start": 0,
+				.query({"types": ['service', 'endpoint'], "compact": true, "start": 0,
 					"limit": 500})
 				.reply(200, {
 					"result": true,
@@ -11346,7 +11346,7 @@ describe("Unit test for: BL - product", () => {
 			};
 			nock('http://www.example.com')
 				.get('/soajs/items')
-				.query({"types": ['service', 'endpoint']})
+				.query({"types": ['service', 'endpoint'], "compact": true})
 				.reply(200, {
 					"result": false,
 					"errors": {
@@ -11388,7 +11388,7 @@ describe("Unit test for: BL - product", () => {
 			};
 			nock('http://www.example.com')
 				.get('/soajs/items')
-				.query({"types": ['service', 'endpoint']})
+				.query({"types": ['service', 'endpoint'], "compact": true})
 				.reply(200, {
 					"result": false,
 					"errors": {
@@ -11431,7 +11431,7 @@ describe("Unit test for: BL - product", () => {
 			};
 			nock('http://www.example.com')
 				.get('/soajs/items')
-				.query({"types": ['service', 'endpoint']})
+				.query({"types": ['service', 'endpoint'], "compact": true})
 				.reply(200, {
 					"result": false,
 					"errors": {
@@ -11528,7 +11528,7 @@ describe("Unit test for: BL - product", () => {
 			};
 			nock('http://www.example.com')
 				.get('/items/type/all')
-				.query({"types": ['service', 'endpoint'], "start": 0,
+				.query({"types": ['service', 'endpoint'], "compact": true, "start": 0,
 					"limit": 500})
 				.reply(200, {
 					"result": true,
@@ -11937,7 +11937,7 @@ describe("Unit test for: BL - product", () => {
 			};
 			nock('http://www.example.com')
 				.get('/items/type/all')
-				.query({"types": ['service', 'endpoint'], "start": 0,
+				.query({"types": ['service', 'endpoint'], "compact": true, "start": 0,
 					"limit": 500})
 				.reply(200, {
 					"result": true,
@@ -12315,7 +12315,7 @@ describe("Unit test for: BL - product", () => {
 			};
 			nock('http://www.example.com')
 				.get('/soajs/items')
-				.query({"types": ['service', 'endpoint']})
+				.query({"types": ['service', 'endpoint'], "compact": true})
 				.reply(200, {
 					"result": false,
 					"errors": {
@@ -12357,7 +12357,7 @@ describe("Unit test for: BL - product", () => {
 			};
 			nock('http://www.example.com')
 				.get('/soajs/items')
-				.query({"types": ['service', 'endpoint']})
+				.query({"types": ['service', 'endpoint'], "compact": true})
 				.reply(200, {
 					"result": false,
 					"errors": {
@@ -12400,7 +12400,7 @@ describe("Unit test for: BL - product", () => {
 			};
 			nock('http://www.example.com')
 				.get('/soajs/items')
-				.query({"types": ['service', 'endpoint']})
+				.query({"types": ['service', 'endpoint'], "compact": true})
 				.reply(200, {
 					"result": false,
 					"errors": {
@@ -12496,7 +12496,7 @@ describe("Unit test for: BL - product", () => {
 			};
 			nock('http://www.example.com')
 				.get('/items/type/all')
-				.query({"types": ['service', 'endpoint'], "start": 0,
+				.query({"types": ['service', 'endpoint'], "compact": true, "start": 0,
 					"limit": 500})
 				.reply(200, {
 					"result": true,
@@ -12918,7 +12918,7 @@ describe("Unit test for: BL - product", () => {
 			};
 			nock('http://www.example.com')
 				.get('/soajs/items')
-				.query({"types": ['service', 'endpoint']})
+				.query({"types": ['service', 'endpoint'], "compact": true})
 				.reply(200, {
 					"result": false,
 					"errors": {
@@ -13014,7 +13014,7 @@ describe("Unit test for: BL - product", () => {
 			};
 			nock('http://www.example.com')
 				.get('/items/type/all')
-				.query({"types": ['service', 'endpoint'], "start": 0,
+				.query({"types": ['service', 'endpoint'], "compact": true, "start": 0,
 					"limit": 500})
 				.reply(200, {
 					"result": true,
@@ -13477,7 +13477,7 @@ describe("Unit test for: BL - product", () => {
 			};
 			nock('http://www.example.com')
 				.get('/soajs/items')
-				.query({"types": ['service', 'endpoint']})
+				.query({"types": ['service', 'endpoint'], "compact": true})
 				.reply(200, {
 					"result": false,
 					"errors": {
