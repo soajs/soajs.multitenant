@@ -404,7 +404,7 @@ let bl = {
 				let options = {
 					uri: 'http://' + response.host,
 					headers: response.headers,
-					qs: {"types": ['service', 'endpoint']},
+					qs: {"types": ['service', 'endpoint'], "compact": true},
 					json: true
 				};
 				
@@ -555,7 +555,7 @@ let bl = {
 				let options = {
 					uri: 'http://' + response.host,
 					headers: response.headers,
-					qs: {"types": ['service', 'endpoint']},
+					qs: {"types": ['service', 'endpoint'], "compact": true},
 					json: true
 				};
 				
@@ -858,7 +858,7 @@ let bl = {
 					}
 				}, function () {
 					let myAcl = {};
-					if ( aclResponse.aclTypeByEnv[env.toLowerCase()] &&  aclResponse.aclTypeByEnv[env.toLowerCase()] === "granular"){
+					if (aclResponse.aclTypeByEnv[env.toLowerCase()] && aclResponse.aclTypeByEnv[env.toLowerCase()] === "granular") {
 						reFormPackageAclGranular(aclResponse.aclFill[env.toUpperCase()], (result) => {
 							myAcl[env.toUpperCase()] = result;
 							async.forEachOfSeries(myAcl[env.toUpperCase()], function (service, serviceName, serviceCall) {
@@ -936,7 +936,8 @@ let bl = {
 					qs: {
 						"types": ['service', 'endpoint'],
 						"start": 0,
-						"limit": 500
+						"limit": 500,
+						"compact": true
 					},
 					json: true
 				};
@@ -1052,7 +1053,8 @@ let bl = {
 					qs: {
 						"types": ['service', 'endpoint'],
 						"start": 0,
-						"limit": 500
+						"limit": 500,
+						"compact": true
 					},
 					json: true
 				};
@@ -1188,7 +1190,8 @@ let bl = {
 					qs: {
 						"types": ['service', 'endpoint'],
 						"start": 0,
-						"limit": 500
+						"limit": 500,
+						"compact": true
 					},
 					json: true
 				};
@@ -1285,7 +1288,8 @@ let bl = {
 					qs: {
 						"types": ['service', 'endpoint'],
 						"start": 0,
-						"limit": 500
+						"limit": 500,
+						"compact": true
 					},
 					json: true
 				};
@@ -2054,7 +2058,7 @@ let bl = {
 							}
 						}
 					} else {
-						if ( scope.acl[env][oneService.service][oneService.version] && scope.acl[env][oneService.service][oneService.version][oneService.method] ){
+						if (scope.acl[env][oneService.service][oneService.version] && scope.acl[env][oneService.service][oneService.version][oneService.method]) {
 							for (let i = scope.acl[env][oneService.service][oneService.version][oneService.method].length - 1; i >= 0; i--) {
 								if (scope.acl[env][oneService.service][oneService.version][oneService.method][i].group === oneService.group &&
 									scope.acl[env][oneService.service][oneService.version][oneService.method][i].apis &&
