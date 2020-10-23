@@ -1,4 +1,3 @@
-
 /**
  * @license
  * Copyright SOAJS All Rights Reserved.
@@ -44,7 +43,7 @@ describe("Testing update tenant profile API", () => {
 			let check = validator.validate(body, listTenantsSchema);
 			assert.deepEqual(check.valid, true);
 			assert.deepEqual(check.errors, []);
-			let tenants = body.data.items;
+			tenants = body.data.items;
 			tenants.forEach(tenant => {
 				if (tenant.code === 'test2') {
 					selectedTenant = tenant;

@@ -166,7 +166,6 @@ Tenant.prototype.listTenants = function (data, cb) {
 	if (data && data.start) {
 		options.skip = data.start;
 	}
-	console.log(condition)
 	__self.mongoCore.find(colName, condition, options, (error, response) => {
 		if (error) {
 			return cb(error);
