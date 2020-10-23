@@ -84,12 +84,12 @@ describe("Unit test for: BL - tenant", () => {
 		it("Success - List tenants - empty object", (done) => {
 			BL.modelObj = {
 				listTenants: (nullObject, cb) => {
-					return cb(null, []);
+					return cb(null, {"items": []});
 				}
 			};
 			BL.list(soajs, {}, (err, records) => {
 				assert.ok(records);
-				assert(Array.isArray(records));
+				assert(Array.isArray(records.items));
 				done();
 			});
 		});
@@ -141,7 +141,7 @@ describe("Unit test for: BL - tenant", () => {
 			}
 			
 			Tenant.prototype.listTenants = (nullObject, cb) => {
-				return cb(null, []);
+				return cb(null, {"items": []});
 			};
 			Tenant.prototype.closeConnection = () => {
 			};
@@ -149,7 +149,7 @@ describe("Unit test for: BL - tenant", () => {
 			
 			BL.list(soajsClient, {}, (err, records) => {
 				assert.ok(records);
-				assert(Array.isArray(records));
+				assert(Array.isArray(records.items));
 				done();
 			});
 		});

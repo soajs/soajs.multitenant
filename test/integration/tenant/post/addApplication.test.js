@@ -35,18 +35,21 @@ describe("Testing add application API", () => {
     it("Success - will return all tenant records - no input", (done) => {
         let params = {};
         requester('/tenants', 'get', params, (error, body) => {
-            assert.ifError(error);
-            assert.ok(body);
-            assert.ok(body.data);
-            body.data.forEach(tenant => {
-                if (tenant.code === 'test2') {
-                    selectedTenant = tenant;
-                }
-            });
-            let check = validator.validate(body, listTenantsSchema);
-            assert.deepEqual(check.valid, true);
-            assert.deepEqual(check.errors, []);
-            done();
+	        assert.ifError(error);
+	        assert.ok(body);
+	        assert.ok(body.data);
+	        assert.ok(body.data.items);
+	        assert.ok(body.data.items.length > 0);
+	        let check = validator.validate(body, listTenantsSchema);
+	        assert.deepEqual(check.valid, true);
+	        assert.deepEqual(check.errors, []);
+	        let tenants = body.data.items;
+	        tenants.forEach(tenant => {
+		        if (tenant.code === 'test2') {
+			        selectedTenant = tenant;
+		        }
+	        });
+	        done();
         });
     });
 

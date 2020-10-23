@@ -114,8 +114,8 @@ describe("Unit test for: Model - tenant", () => {
         it("Success - listProducts - empty object", (done) => {
             model.listTenants({}, (err, records) => {
                 assert.ok(records);
-                assert.deepEqual(Array.isArray(records), true);
-                assert.deepEqual(records.length, 2);
+                assert.deepEqual(Array.isArray(records.items), true);
+                assert.deepEqual(records.items.length, 2);
                 done();
             });
         });
@@ -123,7 +123,7 @@ describe("Unit test for: Model - tenant", () => {
         it("Success - listProducts - client type", (done) => {
             model.listTenants({type: 'client'}, (err, records) => {
                 assert.ok(records);
-                assert.deepEqual(Array.isArray(records), true);
+                assert.deepEqual(Array.isArray(records.items), true);
                 done();
             });
         });
@@ -149,7 +149,7 @@ describe("Unit test for: Model - tenant", () => {
         it("Success - getTenant id", (done) => {
             let selectedTenant;
             model.listTenants({}, (err, records) => {
-                records.forEach(record => {
+                records.items.forEach(record => {
                     if (record.code === 'test') {
                         selectedTenant = record;
                     }
