@@ -41,7 +41,7 @@ function Tenant(service, options, mongoCore) {
 			});
 			__self.mongoCore.createIndex(colName, {'type': 1}, () => {
 			});
-			__self.mongoCore.createIndex(colName, {'console': 1, 'type': 1, 'name': 1}, () => {
+			__self.mongoCore.createIndex(colName, {'console': 1, 'type': 1, 'name': 1, 'code': 1}, () => {
 			});
 			__self.mongoCore.createIndex(colName, {'_id': 1, 'console': 1}, () => {
 			});
@@ -139,20 +139,21 @@ Tenant.prototype.listTenants = function (data, cb) {
 	let __self = this;
 	
 	let condition = {
-		'$and': [{
-			"$or": [
-				{console: false},
-				{console: null}
-			]
-		}]
+		"$or": [
+			{console: false},
+			{console: null}
+		]
 	};
-	
+	let andCond = [];
 	if (data && data.type) {
-		condition.$and.push({'type': data.type});
+		andCond.push({'type': data.type});
 	}
 	if (data.keywords) {
 		let rePattern = new RegExp(data.keywords, 'i');
-		condition.$and.push({"name": {"$regex": rePattern}});
+		andCond.push({"$or": [{"name": {"$regex": rePattern}}, {"code": {"$regex": rePattern}}]});
+	}
+	if (andCond.length > 0) {
+		condition.$and = andCond;
 	}
 	let options = {
 		"skip": 0,
@@ -165,6 +166,7 @@ Tenant.prototype.listTenants = function (data, cb) {
 	if (data && data.start) {
 		options.skip = data.start;
 	}
+	console.log(condition)
 	__self.mongoCore.find(colName, condition, options, (error, response) => {
 		if (error) {
 			return cb(error);
