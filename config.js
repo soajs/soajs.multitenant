@@ -177,6 +177,29 @@ module.exports = {
 					"type": "object"
 				}
 			},
+			"start": {
+				"required": false,
+				"source": ["query.start", "body.start"],
+				"default": 0,
+				"validation": {
+					"type": "integer",
+					"min": 0
+				}
+			},
+			"limit": {
+				"required": false,
+				"source": ["query.limit", "body.limit"],
+				"default": 500,
+				"validation": {
+					"type": "integer",
+					"max": 2000
+				}
+			},
+			"keywords": {
+				"source": ['query.keywords', 'body.keywords'],
+				"required": false,
+				"validation": {"type": "string"}
+			}
 		},
 		
 		"get": {
@@ -875,6 +898,7 @@ module.exports = {
 					"l": "List tenants",
 					"group": "Tenant"
 				},
+				"commonFields": ["start", "limit", "keywords"],
 				"type": {
 					"source": ['query.type'],
 					"required": false,

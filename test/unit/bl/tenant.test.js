@@ -2257,7 +2257,7 @@ describe("Unit test for: BL - tenant", () => {
 			});
 		});
 		
-		it("Fails - add tenant - no code and failed listing tenants ", (done) => {
+		it.skip("Fails - add tenant - no code and failed listing tenants ", (done) => {
 			BL.modelObj = {};
 			let inputMask = {
 				"name": "tenant only name",
@@ -2659,7 +2659,8 @@ describe("Unit test for: BL - tenant", () => {
 				core: {
 					key: {
 						generateExternalKey: (key, opt, opt1, opt2, cb) => {
-							return cb(true, "2313131312312");
+							return cb("error");
+							//return cb(true, "2313131312312");
 						}
 					}
 				},
@@ -4783,7 +4784,14 @@ describe("Unit test for: BL - tenant", () => {
 				key: "KEY1",
 				envCode: "dashboard",
 				config: {
-					"infra": {"SOAJS": {"THROTTLING": {"publicAPIStrategy":"null", "privateAPIStrategy": "--inherit--"}}},
+					"infra": {
+						"SOAJS": {
+							"THROTTLING": {
+								"publicAPIStrategy": "null",
+								"privateAPIStrategy": "--inherit--"
+							}
+						}
+					},
 					"oauth": {"SOAJS": {"THROTTLING": {"privateAPIStrategy": "--inherit--"}}},
 					"urac": {"SOAJS": {"THROTTLING": {"privateAPIStrategy": "--inherit--"}}},
 					"multitenant": {"SOAJS": {"THROTTLING": {"privateAPIStrategy": "--inherit--"}}},
@@ -4848,8 +4856,7 @@ describe("Unit test for: BL - tenant", () => {
 				appId: 'appID',
 				key: "KEY1",
 				envCode: "dashboard",
-				config: {
-				}
+				config: {}
 			};
 			
 			BL.modelObj = {
@@ -4933,7 +4940,14 @@ describe("Unit test for: BL - tenant", () => {
 				key: "KEY1",
 				envCode: "dashboard",
 				config: {
-					"infra": {"SOAJS": {"THROTTLING": {"publicAPIStrategy":"null", "privateAPIStrategy": "--inherit--"}}},
+					"infra": {
+						"SOAJS": {
+							"THROTTLING": {
+								"publicAPIStrategy": "null",
+								"privateAPIStrategy": "--inherit--"
+							}
+						}
+					},
 					"oauth": {"SOAJS": {"THROTTLING": {"privateAPIStrategy": "--inherit--"}}},
 					"urac": {"SOAJS": {"THROTTLING": {"privateAPIStrategy": "--inherit--"}}},
 					"multitenant": {"SOAJS": {"THROTTLING": {"privateAPIStrategy": "--inherit--"}}},

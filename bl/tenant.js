@@ -238,8 +238,12 @@ let bl = {
 			return cb(bl.handleError(soajs, 400, null));
 		}
 		let modelObj = bl.mp.getModel(soajs);
+		
 		let data = {};
 		data.type = inputmaskData.type;
+		data.keywords = inputmaskData.keywords;
+		data.start = inputmaskData.start;
+		data.limit = inputmaskData.limit;
 		
 		modelObj.listTenants(data, (err, record) => {
 			bl.mp.closeModel(soajs, modelObj);
@@ -460,7 +464,6 @@ let bl = {
 			"console": !!inputmaskData.soajs,
 			"applications": []
 		};
-		let tenantCodes = [];
 		if (inputmaskData.code) {
 			record.code = inputmaskData.code;
 		}
@@ -482,7 +485,11 @@ let bl = {
 		}, (err, result) => {
 			//err is handled and returned in each function above
 			bl.mp.closeModel(soajs, modelObj);
-			return cb(null, result.insertRecord);
+			if (err) {
+				return cb(err, null);
+			} else {
+				return cb(null, result.insertRecord);
+			}
 		});
 		
 		function checkIfExist(callback) {
@@ -493,12 +500,10 @@ let bl = {
 			}
 			modelObj.countTenants(opts, (err, count) => {
 				if (err) {
-					bl.mp.closeModel(soajs, modelObj);
-					return cb(bl.handleError(soajs, 602, err));
+					return callback(bl.handleError(soajs, 602, err));
 				}
 				if (count > 0) {
-					bl.mp.closeModel(soajs, modelObj);
-					return cb(bl.handleError(soajs, 451, null));
+					return callback(bl.handleError(soajs, 451, null));
 				}
 				return callback(null);
 			});
@@ -521,10 +526,10 @@ let bl = {
 				opt.soajs = !!inputmaskData.soajs;
 				modelObj.getTenant(opt, (err, mainTenant) => {
 					if (err) {
-						return cb(bl.handleError(soajs, 602, err));
+						return callback(bl.handleError(soajs, 602, err));
 					}
 					if (!mainTenant || !mainTenant.code) {
-						return cb(bl.handleError(soajs, 453, null));
+						return callback(bl.handleError(soajs, 453, null));
 					}
 					record.tenant = {
 						id: mainTenant._id.toString(),
@@ -543,35 +548,16 @@ let bl = {
 			if (record.code) {
 				return callback(null);
 			}
-			let opts = {
-				fields: ["code"]
-			};
-			modelObj.listAllTenants(opts, (err, tenants) => {
-				if (err) {
-					bl.mp.closeModel(soajs, modelObj);
-					return cb(bl.handleError(soajs, 602, err));
-				}
-				if (tenants && tenants.length !== 0) {
-					tenants.forEach((oneTenant) => {
-						tenantCodes.push(oneTenant.code);
-					});
-				}
-				
-				record.code = calculateCode(tenantCodes, bl.localConfig.tenant.generatedCodeLength);
-				return callback(null);
-			});
+			record.code = calculateCode(bl.localConfig.tenant.generatedCodeLength);
+			return callback(null);
 		}
 		
-		function calculateCode(codes, length) {
+		function calculateCode(length) {
 			let code = '';
 			for (let i = 0; i < length; i++) {
 				code += bl.localConfig.tenant.character.charAt(Math.floor(Math.random() * bl.localConfig.tenant.character.length));
 			}
-			if (codes.indexOf(code) !== -1) {
-				calculateCode(codes, length);
-			} else {
-				return code;
-			}
+			return code;
 		}
 		
 		function checkApplication(callback) {
@@ -590,7 +576,7 @@ let bl = {
 				let oneKey = {};
 				createOrUseKey(function (error, internalKey) {
 					if (error) {
-						return cb(bl.handleError(soajs, 602, error));
+						return callback(bl.handleError(soajs, 602, error));
 					}
 					if (!internalKey) {
 						record.applications.push(newApplication);
@@ -603,10 +589,14 @@ let bl = {
 					record.applications.push(newApplication);
 					if (inputmaskData.application && inputmaskData.application.appKey && inputmaskData.application.appKey.extKey) {
 						createExternalKey((error, extKey) => {
-							if (extKey) {
-								record.applications[0].keys[0].extKeys.push(extKey);
+							if (error) {
+								return callback(error);
+							} else {
+								if (extKey) {
+									record.applications[0].keys[0].extKeys.push(extKey);
+								}
+								return callback(null);
 							}
-							return callback(null);
 						});
 					} else {
 						return callback(null);
@@ -634,38 +624,38 @@ let bl = {
 					};
 					request.get(options, function (error, response, body) {
 						if (error || !body.result) {
-							bl.mp.closeModel(soajs, modelObj);
-							return cb(bl.handleError(soajs, 503, computeErrorMessageFromService(body)));
+							return callback(bl.handleError(soajs, 503, computeErrorMessageFromService(body)));
 						}
 						let envKey = body.data;
 						if (!envKey) {
-							bl.mp.closeModel(soajs, modelObj);
-							return cb(bl.handleError(soajs, 501, null));
+							return callback(bl.handleError(soajs, 501, null));
 						}
 						
-						soajsCore.key.generateExternalKey(record.applications[0].keys[0].key, {
-							id: record._id,
-							"code": record.code,
-							"locked": false
-						}, {
-							"product": inputmaskData.application.productCode,
-							"package": inputmaskData.application.productCode + '_' + inputmaskData.application.packageCode,
-							"appId": record.applications[0].appId.toString(),
-						}, envKey, function (error, extKeyValue) {
-							if (error) {
-								bl.mp.closeModel(soajs, modelObj);
-								return cb(bl.handleError(soajs, 502, error));
+						soajsCore.key.generateExternalKey(
+							record.applications[0].keys[0].key,
+							{
+								id: record._id,
+								"locked": false
+							},
+							{
+								"package": inputmaskData.application.productCode + '_' + inputmaskData.application.packageCode
+							},
+							envKey,
+							function (error, extKeyValue) {
+								if (error) {
+									return callback(bl.handleError(soajs, 502, error));
+								}
+								let newExtKey = {
+									"extKey": extKeyValue,
+									"device": inputmaskData.application.appKey.extKey.device ? inputmaskData.application.appKey.extKey.device : null,
+									"geo": inputmaskData.application.appKey.extKey.geo ? inputmaskData.application.appKey.extKey.geo : null,
+									"env": inputmaskData.application.appKey.extKey.env.toUpperCase(),
+									"label": inputmaskData.application.appKey.extKey.label,
+									"expDate": (inputmaskData.application.appKey.extKey.expDate) ? new Date(inputmaskData.application.appKey.extKey.expDate).getTime() + bl.localConfig.tenant.expDateTTL : null
+								};
+								return callback(null, newExtKey);
 							}
-							let newExtKey = {
-								"extKey": extKeyValue,
-								"device": inputmaskData.application.appKey.extKey.device ? inputmaskData.application.appKey.extKey.device : null,
-								"geo": inputmaskData.application.appKey.extKey.geo ? inputmaskData.application.appKey.extKey.geo : null,
-								"env": inputmaskData.application.appKey.extKey.env.toUpperCase(),
-								"label": inputmaskData.application.appKey.extKey.label,
-								"expDate": (inputmaskData.application.appKey.extKey.expDate) ? new Date(inputmaskData.application.appKey.extKey.expDate).getTime() + bl.localConfig.tenant.expDateTTL : null
-							};
-							return callback(null, newExtKey);
-						});
+						);
 					});
 				});
 			} else {
@@ -677,21 +667,14 @@ let bl = {
 			modelObj.addTenant(record, (err, response) => {
 				if (err) {
 					if (err.message && err.message.indexOf("code_1 dup key") !== -1 && !inputmaskData.code) {
-						record.code = calculateCode(tenantCodes, bl.localConfig.tenant.generatedCodeLength);
-						createExternalKey((err, extKey) => {
-							if (extKey) {
-								record.applications[0].keys[0].extKeys = [extKey];
-							}
-							insertRecord(callback);
-						});
+						record.code = calculateCode(bl.localConfig.tenant.generatedCodeLength);
+						insertRecord(callback);
 					} else {
-						bl.mp.closeModel(soajs, modelObj);
-						return cb(bl.handleError(soajs, 602, err), null);
+						return callback(bl.handleError(soajs, 602, err), null);
 					}
 				} else {
 					return callback(null, response);
 				}
-				
 			});
 		}
 	},

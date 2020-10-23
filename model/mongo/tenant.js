@@ -41,9 +41,7 @@ function Tenant(service, options, mongoCore) {
 			});
 			__self.mongoCore.createIndex(colName, {'type': 1}, () => {
 			});
-			__self.mongoCore.createIndex(colName, {'console': 1}, () => {
-			});
-			__self.mongoCore.createIndex(colName, {'console': 1, 'type': 1}, () => {
+			__self.mongoCore.createIndex(colName, {'console': 1, 'type': 1, 'name': 1}, () => {
 			});
 			__self.mongoCore.createIndex(colName, {'_id': 1, 'console': 1}, () => {
 			});
@@ -152,7 +150,60 @@ Tenant.prototype.listTenants = function (data, cb) {
 	if (data && data.type) {
 		condition.$and.push({'type': data.type});
 	}
-	__self.mongoCore.find(colName, condition, null, cb);
+	if (data.keywords) {
+		let rePattern = new RegExp(data.keywords, 'i');
+		condition.$and.push({"name": {"$regex": rePattern}});
+	}
+	let options = {
+		"skip": 0,
+		"limit": 500,
+		"sort": {"name": 1}
+	};
+	if (data && data.limit) {
+		options.limit = data.limit;
+	}
+	if (data && data.start) {
+		options.skip = data.start;
+	}
+	__self.mongoCore.find(colName, condition, options, (error, response) => {
+		if (error) {
+			return cb(error);
+		} else {
+			let current_count = options.skip;
+			if (response && response.length) {
+				current_count = current_count + response.length;
+			}
+			if (current_count < options.limit) {
+				return cb(null, {
+					"limit": options.limit,
+					"start": options.skip,
+					"count": response.length,
+					"items": response
+				});
+			} else {
+				__self.count(data, condition, (error, count) => {
+					if (error) {
+						return cb(error);
+					} else {
+						return cb(null, {
+							"limit": options.limit,
+							"start": options.skip,
+							"count": count,
+							"items": response
+						});
+					}
+				});
+			}
+		}
+	});
+};
+
+Tenant.prototype.count = function (data, condition, cb) {
+	let __self = this;
+	
+	let options = {};
+	__self.mongoCore.countDocuments(colName, condition, options, cb);
+	
 };
 
 Tenant.prototype.listConsoleTenants = function (data, cb) {
@@ -186,7 +237,7 @@ Tenant.prototype.listAllTenants = function (data, cb) {
 
 Tenant.prototype.countTenants = function (data, cb) {
 	let __self = this;
-	if (!data || !(data.name)) {
+	if (!data || !data.name) {
 		let error = new Error("name is required.");
 		return cb(error, null);
 	}
@@ -198,7 +249,8 @@ Tenant.prototype.countTenants = function (data, cb) {
 	if (data.code) {
 		condition.code = data.code;
 	}
-	__self.mongoCore.count(colName, condition, cb);
+	let options = {};
+	__self.mongoCore.countDocuments(colName, condition, options, cb);
 };
 
 Tenant.prototype.generateId = function () {
