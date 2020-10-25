@@ -253,6 +253,26 @@ let bl = {
 			return cb(null, record ? record : []);
 		});
 	},
+	"listTenantSubTenants": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		let modelObj = bl.mp.getModel(soajs);
+		
+		let data = {};
+		data.code = inputmaskData.code;
+		data.keywords = inputmaskData.keywords;
+		data.start = inputmaskData.start;
+		data.limit = inputmaskData.limit;
+		
+		modelObj.listTenantSubTenants(data, (err, record) => {
+			bl.mp.closeModel(soajs, modelObj);
+			if (err) {
+				return cb(bl.handleError(soajs, 602, err), null);
+			}
+			return cb(null, record ? record : []);
+		});
+	},
 	
 	"listConsole": (soajs, inputmaskData, cb) => {
 		if (!inputmaskData) {

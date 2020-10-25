@@ -893,6 +893,20 @@ module.exports = {
 				}
 			},
 			
+			"/tenant/tenants": {
+				_apiInfo: {
+					"l": "List of the tenant sub tenants",
+					"group": "Tenant"
+				},
+				"commonFields": ["start", "limit", "keywords"],
+				"code": {
+					"source": ['query.code'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				}
+			},
 			"/tenants": {
 				_apiInfo: {
 					"l": "List tenants",

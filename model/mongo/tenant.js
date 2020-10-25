@@ -35,19 +35,29 @@ function Tenant(service, options, mongoCore) {
 			indexing[index] = true;
 			__self.mongoCore.createIndex(colName, {'code': 1}, {unique: true}, () => {
 			});
-			__self.mongoCore.createIndex(colName, {'_id': 1, 'locked': 1}, () => {
+			__self.mongoCore.createIndex(colName, {'_id': 1, 'locked': 1}, {}, () => {
 			});
-			__self.mongoCore.createIndex(colName, {'name': 1}, () => {
+			__self.mongoCore.createIndex(colName, {'name': 1}, {}, () => {
 			});
-			__self.mongoCore.createIndex(colName, {'type': 1}, () => {
+			__self.mongoCore.createIndex(colName, {'type': 1}, {}, () => {
 			});
-			__self.mongoCore.createIndex(colName, {'console': 1, 'type': 1, 'name': 1, 'code': 1}, () => {
+			
+			__self.mongoCore.createIndex(colName, {'console': 1, 'type': 1, 'tenant.code': 1, 'name': 1, 'code': 1}, {
+				partialFilterExpression: {
+					"tenant.code": {
+						"$exists": true
+					}
+				}
+			}, () => {
 			});
-			__self.mongoCore.createIndex(colName, {'_id': 1, 'console': 1}, () => {
+			
+			__self.mongoCore.createIndex(colName, {'console': 1, 'type': 1, 'name': 1, 'code': 1}, {}, () => {
 			});
-			__self.mongoCore.createIndex(colName, {'applications.keys.extKeys.env': 1}, () => {
+			__self.mongoCore.createIndex(colName, {'_id': 1, 'console': 1}, {}, () => {
 			});
-			__self.mongoCore.createIndex(colName, {'applications.keys.key': 1}, () => {
+			__self.mongoCore.createIndex(colName, {'applications.keys.extKeys.env': 1}, {}, () => {
+			});
+			__self.mongoCore.createIndex(colName, {'applications.keys.key': 1}, {}, () => {
 			});
 			
 			service.log.debug("Tenant: Indexes for " + index + " Updated!");
@@ -133,6 +143,73 @@ Tenant.prototype.getTenant = function (data, cb) {
 		
 		__self.mongoCore.findOne(colName, condition, null, cb);
 	}
+};
+
+Tenant.prototype.listTenantSubTenants = function (data, cb) {
+	let __self = this;
+	if (!data || !data.code) {
+		let error = new Error("code is required.");
+		return cb(error, null);
+	}
+	let condition = {
+		"$or": [
+			{console: false},
+			{console: null}
+		]
+	};
+	let andCond = [];
+	andCond.push({'type': "client"});
+	andCond.push({'tenant.code': data.code});
+	
+	if (data.keywords) {
+		let rePattern = new RegExp(data.keywords, 'i');
+		andCond.push({"$or": [{"name": {"$regex": rePattern}}, {"code": {"$regex": rePattern}}]});
+	}
+	if (andCond.length > 0) {
+		condition.$and = andCond;
+	}
+	let options = {
+		"skip": 0,
+		"limit": 50,
+		"sort": {"name": 1}
+	};
+	if (data && data.limit) {
+		options.limit = data.limit;
+	}
+	if (data && data.start) {
+		options.skip = data.start;
+	}
+	__self.mongoCore.find(colName, condition, options, (error, response) => {
+		if (error) {
+			return cb(error);
+		} else {
+			let current_count = options.skip;
+			if (response && response.length) {
+				current_count = current_count + response.length;
+			}
+			if (current_count < options.limit) {
+				return cb(null, {
+					"limit": options.limit,
+					"start": options.skip,
+					"count": response.length,
+					"items": response
+				});
+			} else {
+				__self.count(data, condition, (error, count) => {
+					if (error) {
+						return cb(error);
+					} else {
+						return cb(null, {
+							"limit": options.limit,
+							"start": options.skip,
+							"count": count,
+							"items": response
+						});
+					}
+				});
+			}
+		}
+	});
 };
 
 Tenant.prototype.listTenants = function (data, cb) {
