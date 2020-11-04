@@ -814,8 +814,8 @@ let bl = {
 			if (!tenantRecord.applications) {
 				tenantRecord.applications = [];
 			}
-			if (!inputmaskData.application._TTL) {
-				inputmaskData.application._TTL = 168;
+			if (!inputmaskData._TTL) {
+				inputmaskData._TTL = 168;
 			}
 			let newApplication = {
 				"product": inputmaskData.productCode,
