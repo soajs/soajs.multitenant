@@ -584,6 +584,9 @@ let bl = {
 			if (!inputmaskData.application) {
 				return callback(null);
 			} else {
+				if (!inputmaskData.application._TTL) {
+					inputmaskData.application._TTL = 168;
+				}
 				let newApplication = {
 					"product": inputmaskData.application.productCode,
 					"package": inputmaskData.application.productCode + '_' + inputmaskData.application.packageCode,
