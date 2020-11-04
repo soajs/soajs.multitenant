@@ -227,7 +227,7 @@ module.exports = {
 					"validation": {
 						"type": "string",
 						"format": "alphanumeric",
-						"minLength": 5
+						"minLength": 4
 					}
 				}
 			},
@@ -249,7 +249,7 @@ module.exports = {
 					"validation": {
 						"type": "string",
 						"format": "alphanumeric",
-						"minLength": 5
+						"minLength": 4
 					}
 				}
 			},
@@ -412,7 +412,7 @@ module.exports = {
 					"validation": {
 						"type": "string",
 						"format": "alphanumeric",
-						"minLength": 5
+						"minLength": 4
 					}
 				},
 				"mainEnv": {
@@ -485,7 +485,7 @@ module.exports = {
 					"validation": {
 						"type": "string",
 						"format": "alphanumeric",
-						"minLength": 5
+						"minLength": 4
 					}
 				},
 				"mainEnv": {
@@ -536,7 +536,7 @@ module.exports = {
 					"validation": {
 						"type": "string",
 						"format": "alphanumeric",
-						"minLength": 5
+						"minLength": 4
 					}
 				}
 			},
@@ -565,7 +565,7 @@ module.exports = {
 					"validation": {
 						"type": "string",
 						"format": "alphanumeric",
-						"minLength": 5
+						"minLength": 4
 					}
 				}
 			},
@@ -721,7 +721,7 @@ module.exports = {
 					"validation": {
 						"type": "string",
 						"format": "alphanumeric",
-						"minLength": 5
+						"minLength": 4
 					}
 				},
 				"mainEnv": {
@@ -794,7 +794,7 @@ module.exports = {
 					"validation": {
 						"type": "string",
 						"format": "alphanumeric",
-						"minLength": 5
+						"minLength": 4
 					}
 				},
 				"mainEnv": {
@@ -832,7 +832,7 @@ module.exports = {
 					"validation": {
 						"type": "string",
 						"format": "alphanumeric",
-						"minLength": 5
+						"minLength": 4
 					}
 				},
 				"env": {
@@ -1076,7 +1076,7 @@ module.exports = {
 					"validation": {
 						"type": "string",
 						"format": "alphanumeric",
-						"minLength": 5
+						"minLength": 4
 					}
 				},
 				"env": {
@@ -1247,7 +1247,7 @@ module.exports = {
 					"validation": {
 						"type": "string",
 						"format": "alphanumeric",
-						"minLength": 5
+						"minLength": 4
 					}
 				},
 				"scope": {
@@ -1273,7 +1273,7 @@ module.exports = {
 					"validation": {
 						"type": "string",
 						"format": "alphanumeric",
-						"minLength": 5
+						"minLength": 4
 					}
 				},
 				"tags": {
@@ -1309,7 +1309,7 @@ module.exports = {
 					"validation": {
 						"type": "string",
 						"format": "alphanumeric",
-						"minLength": 5
+						"minLength": 4
 					}
 				},
 				"scope": {
@@ -1335,7 +1335,7 @@ module.exports = {
 					"validation": {
 						"type": "string",
 						"format": "alphanumeric",
-						"minLength": 5
+						"minLength": 4
 					}
 				},
 				"tags": {
@@ -1371,7 +1371,7 @@ module.exports = {
 					"validation": {
 						"type": "string",
 						"format": "alphanumeric",
-						"minLength": 5
+						"minLength": 4
 					}
 				},
 				"type": {
@@ -1462,13 +1462,13 @@ module.exports = {
 								"type": "string",
 								"required": true,
 								"format": "alphanumeric",
-								"minLength": 5
+								"minLength": 4
 							},
 							"packageCode": {
 								"type": "string",
 								"required": true,
 								"format": "alphanumeric",
-								"minLength": 5
+								"minLength": 4
 							},
 							"_TTL": {
 								"type": "string",
@@ -1533,7 +1533,7 @@ module.exports = {
 					"validation": {
 						"type": "string",
 						"format": "alphanumeric",
-						"minLength": 5
+						"minLength": 4
 					},
 					"required": true
 				},
@@ -1542,7 +1542,7 @@ module.exports = {
 					"validation": {
 						"type": "string",
 						"format": "alphanumeric",
-						"minLength": 5
+						"minLength": 4
 					},
 					"required": true
 				},
@@ -1685,7 +1685,7 @@ module.exports = {
 					"validation": {
 						"type": "string",
 						"format": "alphanumeric",
-						"minLength": 5
+						"minLength": 4
 					},
 					"required": true
 				},
@@ -1694,7 +1694,7 @@ module.exports = {
 					"validation": {
 						"type": "string",
 						"format": "alphanumeric",
-						"minLength": 5
+						"minLength": 4
 					},
 					"required": true
 				},
@@ -1839,7 +1839,7 @@ module.exports = {
 					"validation": {
 						"type": "string",
 						"format": "alphanumeric",
-						"minLength": 5
+						"minLength": 4
 					}
 				},
 				"type": {
@@ -1930,13 +1930,13 @@ module.exports = {
 								"type": "string",
 								"required": true,
 								"format": "alphanumeric",
-								"minLength": 5
+								"minLength": 4
 							},
 							"packageCode": {
 								"type": "string",
 								"required": true,
 								"format": "alphanumeric",
-								"minLength": 5
+								"minLength": 4
 							},
 							"_TTL": {
 								"type": "string",
@@ -2008,7 +2008,7 @@ module.exports = {
 					"validation": {
 						"type": "string",
 						"format": "alphanumeric",
-						"minLength": 5
+						"minLength": 4
 					},
 					"required": true
 				},
@@ -2017,7 +2017,7 @@ module.exports = {
 					"validation": {
 						"type": "string",
 						"format": "alphanumeric",
-						"minLength": 5
+						"minLength": 4
 					},
 					"required": true
 				},
@@ -3056,7 +3056,7 @@ module.exports = {
 					"validation": {
 						"type": "string",
 						"format": "alphanumeric",
-						"minLength": 5
+						"minLength": 4
 					},
 					"required": false
 				},
@@ -3436,7 +3436,7 @@ module.exports = {
 					"validation": {
 						"type": "string",
 						"format": "alphanumeric",
-						"minLength": 5
+						"minLength": 4
 					},
 					"required": false
 				},

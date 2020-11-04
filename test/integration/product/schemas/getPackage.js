@@ -10,7 +10,7 @@
 "use strict";
 
 let aclSchema = require('../../../../schemas/acl');
-aclSchema.required = true;
+//aclSchema.required = true;
 
 let getPackageSchema = {
     "type": "object",
