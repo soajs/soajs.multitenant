@@ -343,7 +343,7 @@ Tenant.prototype.addTenant = function (data, cb) {
 		let error = new Error("name and code are required.");
 		return cb(error, null);
 	}
-	__self.mongoCore.insert(colName, data, (err, record) => {
+	__self.mongoCore.insertOne(colName, data, {}, (err, record) => {
 		if (record && Array.isArray(record)) {
 			record = record [0];
 		}
@@ -366,7 +366,7 @@ Tenant.prototype.deleteTenant = function (data, cb) {
 	} else {
 		condition.code = data.code;
 	}
-	__self.mongoCore.remove(colName, condition, (err, count) => {
+	__self.mongoCore.deleteOne(colName, condition, {}, (err, count) => {
 		return cb(err, count);
 	});
 };
@@ -410,8 +410,21 @@ Tenant.prototype.updateTenant = function (data, cb) {
 		//nothing to update
 		return cb(null, 0);
 	}
-	__self.mongoCore.update(colName, condition, fields, options, (err, result) => {
-		return cb(err, result);
+	__self.mongoCore.updateOne(colName, condition, fields, options, (err, result) => {
+		if (err) {
+			return cb(err);
+		} else {
+			if (result && result.nModified) {
+				result = result.nModified;
+			} else {
+				if (result && result.ok && result.upserted && Array.isArray(result.upserted)) {
+					result = result.upserted.length;
+				} else {
+					result = 0;
+				}
+			}
+			return cb(err, result);
+		}
 	});
 	
 };
@@ -439,8 +452,21 @@ Tenant.prototype.removeApplication = function (data, cb) {
 		}
 	};
 	
-	__self.mongoCore.update(colName, condition, fields, options, (err, result) => {
-		return cb(err, result);
+	__self.mongoCore.updateOne(colName, condition, fields, options, (err, result) => {
+		if (err) {
+			return cb(err);
+		} else {
+			if (result && result.nModified) {
+				result = result.nModified;
+			} else {
+				if (result && result.ok && result.upserted && Array.isArray(result.upserted)) {
+					result = result.upserted.length;
+				} else {
+					result = 0;
+				}
+			}
+			return cb(err, result);
+		}
 	});
 };
 
@@ -469,8 +495,21 @@ Tenant.prototype.removeApplicationKey = function (data, cb) {
 		}
 	};
 	
-	__self.mongoCore.update(colName, condition, fields, options, (err, result) => {
-		return cb(err, result);
+	__self.mongoCore.updateOne(colName, condition, fields, options, (err, result) => {
+		if (err) {
+			return cb(err);
+		} else {
+			if (result && result.nModified) {
+				result = result.nModified;
+			} else {
+				if (result && result.ok && result.upserted && Array.isArray(result.upserted)) {
+					result = result.upserted.length;
+				} else {
+					result = 0;
+				}
+			}
+			return cb(err, result);
+		}
 	});
 };
 

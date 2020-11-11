@@ -463,7 +463,7 @@ describe("Unit test for: Model - product", () => {
 		it('Success - save - data', (done) => {
 			model.saveProduct({_id: "5d78cdea63c27118573c2975"}, (err, record) => {
 				assert.ok(record);
-				assert.deepEqual(record.result.ok, 1);
+				assert.deepEqual(record.ok, 1);
 				done();
 			});
 		});
