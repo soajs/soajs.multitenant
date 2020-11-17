@@ -31,11 +31,11 @@
     "mocha": "6.2.2",
     "nock": "13.0.3",
     "request": "2.88.2",
-    "soajs.controller": "4.0.27"
+    "soajs.controller": "4.0.30"
   },
   "dependencies": {
     "async": "3.2.0",
-    "soajs": "4.0.18",
+    "soajs": "4.0.19",
     "soajs.core.libs": "1.2.0"
   }
 }
