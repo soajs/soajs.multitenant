@@ -1785,7 +1785,7 @@ let bl = {
 			if (!record.scope || !record.scope.acl) {
 				modelObj.initScope({"_id": record._id}, () => {
 					updateScope();
-				})
+				});
 			} else {
 				updateScope();
 			}
@@ -2016,7 +2016,7 @@ let bl = {
 				if (!record.scope || !record.scope.acl) {
 					modelObj.initScope({"_id": record._id}, () => {
 						updateScope();
-					})
+					});
 				} else {
 					updateScope();
 				}
@@ -2113,7 +2113,7 @@ let bl = {
 				if (!record.scope || !record.scope.acl) {
 					modelObj.initScope({"_id": record._id}, () => {
 						updateScope();
-					})
+					});
 				} else {
 					updateScope();
 				}

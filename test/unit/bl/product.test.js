@@ -1497,6 +1497,9 @@ describe("Unit test for: BL - product", () => {
 						]
 					});
 				},
+				initScope: (data, cb) => {
+					return cb(null, true);
+				},
 				updateScope: (data, cb) => {
 					return cb(null, true);
 				}
@@ -1579,6 +1582,9 @@ describe("Unit test for: BL - product", () => {
 							}
 						]
 					});
+				},
+				initScope: (data, cb) => {
+					return cb(null, true);
 				},
 				updateScope: (data, cb) => {
 					return cb(true, null);
@@ -14808,6 +14814,9 @@ describe("Unit test for: BL - product", () => {
 						}]
 					});
 				},
+				initScope: (data, cb) => {
+					return cb(null, true);
+				},
 				updateScope: (inputMask, cb) => {
 					return cb(null, true);
 				},
@@ -14860,6 +14869,9 @@ describe("Unit test for: BL - product", () => {
 						"name": "not Console UI Product",
 						"description": "This is the main Console UI Product."
 					});
+				},
+				initScope: (data, cb) => {
+					return cb(null, true);
 				},
 				updateScope: (inputMask, cb) => {
 					return cb(null, true);
