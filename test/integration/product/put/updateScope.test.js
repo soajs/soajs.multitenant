@@ -155,19 +155,21 @@ describe("Testing update product API", () => {
 			assert.ifError(error);
 			assert.ok(body);
 			assert.ok(body.data);
-			assert.deepEqual(body.data.scope, {
-				"dashboard": {
-					"multitenant": {
-						"1": {
-							"access": false,
-							"get": [
-								{
-									"/product": {
-										"access": false
-									},
-									"group": "Product"
-								}
-							]
+			assert.strictEqual(body.data.scope, {
+				"acl": {
+					"dashboard": {
+						"multitenant": {
+							"1": {
+								"access": false,
+								"get": [
+									{
+										"/product": {
+											"access": false
+										},
+										"group": "Product"
+									}
+								]
+							}
 						}
 					}
 				}
