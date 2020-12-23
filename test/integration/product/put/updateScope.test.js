@@ -155,7 +155,7 @@ describe("Testing update product API", () => {
 			assert.ifError(error);
 			assert.ok(body);
 			assert.ok(body.data);
-			assert.strictEqual(body.data.scope, {
+			assert.deepStrictEqual(body.data.scope, {
 				"acl": {
 					"dashboard": {
 						"multitenant": {

@@ -269,7 +269,6 @@ Product.prototype.updateProduct = function (data, cb) {
 		fields.$set.packages = data.packages;
 	}
 	if (data.scope && data.scope.acl) {
-		//let scope = data.scope.acl;
 		lib.sanitize(data.scope.acl, () => {
 			fields.$set.scope = data.scope;
 			__self.mongoCore.updateOne(colName, condition, fields, options, (err, result) => {
