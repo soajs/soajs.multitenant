@@ -1768,16 +1768,27 @@ let bl = {
 				bl.mp.closeModel(soajs, modelObj);
 				return cb(bl.handleError(soajs, 500, null));
 			}
-			data.acl = inputmaskData.acl;
-			data.env = inputmaskData.env;
-			data._id = record._id;
-			modelObj.updateScope(data, (err, result) => {
-				bl.mp.closeModel(soajs, modelObj);
-				if (err) {
-					return cb(bl.handleError(soajs, 470, err));
-				}
-				return cb(null, result);
-			});
+			
+			let updateScope = () => {
+				data.acl = inputmaskData.acl;
+				data.env = inputmaskData.env;
+				data._id = record._id;
+				modelObj.updateScope(data, (err, result) => {
+					bl.mp.closeModel(soajs, modelObj);
+					if (err) {
+						return cb(bl.handleError(soajs, 470, err));
+					}
+					return cb(null, result);
+				});
+			};
+			
+			if (!record.scope || !record.scope.acl) {
+				modelObj.initScope({"_id": record._id}, () => {
+					updateScope();
+				})
+			} else {
+				updateScope();
+			}
 		});
 	},
 	
@@ -1988,19 +1999,27 @@ let bl = {
 				}
 				callback();
 			}, function () {
-				let data = {
-					acl: scope.acl[env],
-					env: env,
-					_id: record._id
+				let updateScope = () => {
+					let data = {
+						acl: scope.acl[env],
+						env: env,
+						_id: record._id
+					};
+					modelObj.updateScope(data, (err) => {
+						bl.mp.closeModel(soajs, modelObj);
+						if (err) {
+							return cb(bl.handleError(soajs, 470, err));
+						}
+						return cb(null, "Product Acl Updated!");
+					});
 				};
-				
-				modelObj.updateScope(data, (err) => {
-					bl.mp.closeModel(soajs, modelObj);
-					if (err) {
-						return cb(bl.handleError(soajs, 470, err));
-					}
-					return cb(null, "Product Acl Updated!");
-				});
+				if (!record.scope || !record.scope.acl) {
+					modelObj.initScope({"_id": record._id}, () => {
+						updateScope();
+					})
+				} else {
+					updateScope();
+				}
 			});
 		});
 	},
@@ -2077,18 +2096,27 @@ let bl = {
 				}
 				callback();
 			}, function () {
-				let data = {
-					acl: scope.acl[env],
-					env: env,
-					_id: record._id
+				let updateScope = () => {
+					let data = {
+						acl: scope.acl[env],
+						env: env,
+						_id: record._id
+					};
+					modelObj.updateScope(data, (err) => {
+						bl.mp.closeModel(soajs, modelObj);
+						if (err) {
+							return cb(bl.handleError(soajs, 470, err));
+						}
+						return cb(null, "Product Acl Updated!");
+					});
 				};
-				modelObj.updateScope(data, (err) => {
-					bl.mp.closeModel(soajs, modelObj);
-					if (err) {
-						return cb(bl.handleError(soajs, 470, err));
-					}
-					return cb(null, "Product Acl Updated!");
-				});
+				if (!record.scope || !record.scope.acl) {
+					modelObj.initScope({"_id": record._id}, () => {
+						updateScope();
+					})
+				} else {
+					updateScope();
+				}
 			});
 		});
 	},

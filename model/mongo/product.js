@@ -253,7 +253,7 @@ Product.prototype.updateProduct = function (data, cb) {
 	}
 	
 	let condition = {'_id': data._id};
-	let options = {'upsert': false, 'safe': true};
+	let options = {'upsert': false};
 	let fields = {
 		'$set': {}
 	};
@@ -268,10 +268,10 @@ Product.prototype.updateProduct = function (data, cb) {
 	if (data.packages) {
 		fields.$set.packages = data.packages;
 	}
-	if (data.scope) {
-		let scope = data.scope.acl;
-		lib.sanitize(scope, () => {
-			fields.$set.scope = scope;
+	if (data.scope && data.scope.acl) {
+		//let scope = data.scope.acl;
+		lib.sanitize(data.scope.acl, () => {
+			fields.$set.scope = data.scope;
 			__self.mongoCore.updateOne(colName, condition, fields, options, (err, result) => {
 				if (err) {
 					return cb(err);
@@ -279,11 +279,7 @@ Product.prototype.updateProduct = function (data, cb) {
 					if (result && result.nModified) {
 						result = result.nModified;
 					} else {
-						if (result && result.ok && result.upserted && Array.isArray(result.upserted)) {
-							result = result.upserted.length;
-						} else {
-							result = 0;
-						}
+						result = 0;
 					}
 					return cb(err, result);
 				}
@@ -315,6 +311,36 @@ Product.prototype.updateProduct = function (data, cb) {
 	
 };
 
+Product.prototype.initScope = function (data, cb) {
+	let __self = this;
+	if (!data || !data._id) {
+		let error = new Error("_id is required.");
+		return cb(error, null);
+	}
+	
+	let condition = {'_id': data._id};
+	let options = {'upsert': false};
+	let fields = {
+		'$set': {
+			"scope": {
+				"acl": {}
+			}
+		}
+	};
+	__self.mongoCore.updateOne(colName, condition, fields, options, (err, result) => {
+		if (err) {
+			return cb(err);
+		} else {
+			if (result && result.nModified) {
+				result = result.nModified;
+			} else {
+				result = 0;
+			}
+			return cb(err, result);
+		}
+	});
+};
+
 Product.prototype.updateScope = function (data, cb) {
 	let __self = this;
 	if (!data || !data._id || !data.env || !data.acl) {
@@ -323,7 +349,7 @@ Product.prototype.updateScope = function (data, cb) {
 	}
 	
 	let condition = {'_id': data._id};
-	let options = {'upsert': false, 'safe': true};
+	let options = {'upsert': false};
 	
 	let scope = {
 		[data.env]: data.acl
@@ -341,11 +367,7 @@ Product.prototype.updateScope = function (data, cb) {
 				if (result && result.nModified) {
 					result = result.nModified;
 				} else {
-					if (result && result.ok && result.upserted && Array.isArray(result.upserted)) {
-						result = result.upserted.length;
-					} else {
-						result = 0;
-					}
+					result = 0;
 				}
 				return cb(err, result);
 			}
@@ -364,7 +386,7 @@ Product.prototype.updatePackageACL = function (data, cb) {
 		'code': data.code,
 		'packages.code': data.packageCode
 	};
-	let options = {'upsert': false, 'safe': true};
+	let options = {'upsert': false};
 	let fields = {
 		'$set': {
 			'packages.$.acl': data.acl
@@ -378,11 +400,7 @@ Product.prototype.updatePackageACL = function (data, cb) {
 			if (result && result.nModified) {
 				result = result.nModified;
 			} else {
-				if (result && result.ok && result.upserted && Array.isArray(result.upserted)) {
-					result = result.upserted.length;
-				} else {
-					result = 0;
-				}
+				result = 0;
 			}
 			return cb(err, result);
 		}
