@@ -1629,7 +1629,7 @@ let bl = {
 							}
 						}
 					}
-					if (Object.keys(inputmaskData.config[service].SOAJS).length === 0) {
+					if (inputmaskData.config[service].SOAJS && Object.keys(inputmaskData.config[service].SOAJS).length === 0) {
 						delete inputmaskData.config[service].SOAJS;
 					}
 				}
