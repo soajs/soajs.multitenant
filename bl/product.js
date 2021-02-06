@@ -887,8 +887,7 @@ let bl = {
 								return cb(null, aclResponse);
 							});
 						});
-					}
-					else {
+					} else {
 						myAcl[env.toUpperCase()] = {};
 						aclResponse.aclFill[env.toUpperCase()] = myAcl[env.toUpperCase()];
 						return cb(null, aclResponse);
@@ -1907,11 +1906,17 @@ let bl = {
 			let found = false;
 			for (let i = 0; i < record.packages.length; i++) {
 				if (record.packages[i].code.toUpperCase() === inputmaskData.code) {
+					if (!record.packages[i].acl) {
+						record.packages[i].acl = {};
+					}
 					record.packages[i].acl[inputmaskData.env.toLowerCase()] = inputmaskData.acl;
 					if (!record.packages[i].aclTypeByEnv) {
 						record.packages[i].aclTypeByEnv = {};
 					}
 					if (inputmaskData.type) {
+						if (!record.packages[i].aclTypeByEnv) {
+							record.packages[i].aclTypeByEnv = {};
+						}
 						record.packages[i].aclTypeByEnv[inputmaskData.env.toLowerCase()] = inputmaskData.type;
 					} else {
 						if (record.packages[i].aclTypeByEnv) {
