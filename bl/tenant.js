@@ -217,7 +217,7 @@ let bl = {
 		data.id = inputmaskData.id;
 		data.code = inputmaskData.code;
 		
-		if (!data.id) {
+		if (!data.id && !data.code) {
 			data.id = soajs.tenant.id;
 		}
 		data.soajs = !!inputmaskData.soajs;

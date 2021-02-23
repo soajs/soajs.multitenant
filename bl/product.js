@@ -263,6 +263,11 @@ let bl = {
 		let data = {};
 		data.id = inputmaskData.id;
 		data.code = inputmaskData.code;
+		
+		if (!data.id && !data.code) {
+			data.code = soajs.tenant.application.product;
+		}
+		
 		data.soajs = !!inputmaskData.soajs;
 		modelObj.getProduct(data, (err, record) => {
 			bl.mp.closeModel(soajs, modelObj);
