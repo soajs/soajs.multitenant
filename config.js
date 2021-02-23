@@ -120,7 +120,7 @@ module.exports = {
 				}
 			},
 			"id": {
-				"source": ['query.id'],
+				"source": ['query.id', 'body.id'],
 				"required": true,
 				"validation": {
 					"type": "string"
