@@ -107,7 +107,6 @@ module.exports = {
 			"acl": aclSchema,
 			"description": {
 				"source": ['body.description'],
-				"required": false,
 				"validation": {
 					"type": "string"
 				}
@@ -157,7 +156,6 @@ module.exports = {
 			},
 			'expDate': {
 				"source": ['body.expDate'],
-				"required": false,
 				"validation": {
 					"type": "string",
 					"format": "date-time"
@@ -165,20 +163,17 @@ module.exports = {
 			},
 			'device': {
 				"source": ['body.device'],
-				"required": false,
 				"validation": {
 					"type": "object"
 				}
 			},
 			'geo': {
 				"source": ['body.geo'],
-				"required": false,
 				"validation": {
 					"type": "object"
 				}
 			},
 			"start": {
-				"required": false,
 				"source": ["query.start", "body.start"],
 				"default": 0,
 				"validation": {
@@ -187,7 +182,6 @@ module.exports = {
 				}
 			},
 			"limit": {
-				"required": false,
 				"source": ["query.limit", "body.limit"],
 				"default": 500,
 				"validation": {
@@ -197,7 +191,6 @@ module.exports = {
 			},
 			"keywords": {
 				"source": ['query.keywords', 'body.keywords'],
-				"required": false,
 				"validation": {"type": "string"}
 			}
 		},
@@ -216,14 +209,12 @@ module.exports = {
 				},
 				"id": {
 					"source": ['query.id'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
 				"code": {
 					"source": ["query.code"],
-					"required": false,
 					"validation": {
 						"type": "string",
 						"format": "alphanumeric",
@@ -340,12 +331,8 @@ module.exports = {
 								}
 							},
 							"type": {
-								"source": ["query.type"],
-								"required": false,
-								"validation": {
-									"type": "string",
-									"enum": ["granular", "apiGroup"]
-								}
+								"type": "string",
+								"enum": ["granular", "apiGroup"]
 							}
 						}
 					}
@@ -379,14 +366,12 @@ module.exports = {
 				},
 				"secEnv": {
 					"source": ["query.secEnv"],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
 				"page": {
 					"source": ["query.page"],
-					"required": false,
 					"validation": {
 						"type": "integer",
 						"minimum": 1
@@ -424,14 +409,12 @@ module.exports = {
 				},
 				"secEnv": {
 					"source": ["query.secEnv"],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
 				"page": {
 					"source": ["query.page"],
-					"required": false,
 					"validation": {
 						"type": "integer",
 						"minimum": 1
@@ -459,14 +442,12 @@ module.exports = {
 				},
 				"secEnv": {
 					"source": ["query.secEnv"],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
 				"page": {
 					"source": ["query.page"],
-					"required": false,
 					"validation": {
 						"type": "integer",
 						"minimum": 1
@@ -497,14 +478,12 @@ module.exports = {
 				},
 				"secEnv": {
 					"source": ["query.secEnv"],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
 				"page": {
 					"source": ["query.page"],
-					"required": false,
 					"validation": {
 						"type": "integer",
 						"minimum": 1
@@ -525,14 +504,12 @@ module.exports = {
 				},
 				"id": {
 					"source": ['query.id'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
 				"code": {
 					"source": ["query.code"],
-					"required": false,
 					"validation": {
 						"type": "string",
 						"format": "alphanumeric",
@@ -649,12 +626,8 @@ module.exports = {
 								}
 							},
 							"type": {
-								"source": ["query.type"],
-								"required": false,
-								"validation": {
-									"type": "string",
-									"enum": ["granular", "apiGroup"]
-								}
+								"type": "string",
+								"enum": ["granular", "apiGroup"]
 							}
 						}
 					}
@@ -688,14 +661,12 @@ module.exports = {
 				},
 				"secEnv": {
 					"source": ["query.secEnv"],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
 				"page": {
 					"source": ["query.page"],
-					"required": false,
 					"validation": {
 						"type": "integer",
 						"minimum": 1
@@ -733,14 +704,12 @@ module.exports = {
 				},
 				"secEnv": {
 					"source": ["query.secEnv"],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
 				"page": {
 					"source": ["query.page"],
-					"required": false,
 					"validation": {
 						"type": "integer",
 						"minimum": 1
@@ -768,14 +737,12 @@ module.exports = {
 				},
 				"secEnv": {
 					"source": ["query.secEnv"],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
 				"page": {
 					"source": ["query.page"],
-					"required": false,
 					"validation": {
 						"type": "integer",
 						"minimum": 1
@@ -806,14 +773,12 @@ module.exports = {
 				},
 				"secEnv": {
 					"source": ["query.secEnv"],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
 				"page": {
 					"source": ["query.page"],
-					"required": false,
 					"validation": {
 						"type": "integer",
 						"minimum": 1
@@ -844,7 +809,6 @@ module.exports = {
 				},
 				"profile": {
 					"source": ["query.profile"],
-					"required": false,
 					"validation": {
 						"type": "boolean"
 					}
@@ -915,7 +879,6 @@ module.exports = {
 				"commonFields": ["start", "limit", "keywords"],
 				"type": {
 					"source": ['query.type'],
-					"required": false,
 					"validation": {
 						"type": "string",
 						"enum": ["product", "client"]
@@ -1088,7 +1051,6 @@ module.exports = {
 				},
 				"profile": {
 					"source": ["query.profile"],
-					"required": false,
 					"validation": {
 						"type": "boolean"
 					}
@@ -1150,14 +1112,12 @@ module.exports = {
 				},
 				"id": {
 					"source": ['query.id'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
 				"code": {
 					"source": ['query.code'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
@@ -1278,7 +1238,6 @@ module.exports = {
 				},
 				"tags": {
 					"source": ['body.tags'],
-					"required": false,
 					"validation": {
 						"type": "array",
 						"items": {
@@ -1290,7 +1249,6 @@ module.exports = {
 				},
 				"type": {
 					"source": ['body.type'],
-					"required": false,
 					"validation": {
 						"type": "object"
 					}
@@ -1340,7 +1298,6 @@ module.exports = {
 				},
 				"tags": {
 					"source": ['body.tags'],
-					"required": false,
 					"validation": {
 						"type": "array",
 						"items": {
@@ -1352,7 +1309,6 @@ module.exports = {
 				},
 				"type": {
 					"source": ['body.type'],
-					"required": false,
 					"validation": {
 						"type": "object"
 					}
@@ -1367,7 +1323,6 @@ module.exports = {
 				"commonFields": ['name', 'description'],
 				"code": {
 					"source": ['body.code'],
-					"required": false,
 					"validation": {
 						"type": "string",
 						"format": "alphanumeric",
@@ -1385,42 +1340,35 @@ module.exports = {
 				},
 				"tag": {
 					"source": ['body.tag'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
 				"mainTenant": {
 					"source": ['body.mainTenant'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
 				"profile": {
 					"source": ['body.profile'],
-					"required": false,
 					"validation": {
 						"type": "object"
 					}
 				},
 				"oauth": {
 					"source": ['body.oauth'],
-					"required": false,
 					"validation": {
 						"type": "object",
 						"properties": {
 							"secret": {
-								"type": "string",
-								"required": true
+								"type": "string"
 							},
 							"redirectURI": {
-								"type": "string",
-								"required": true
+								"type": "string"
 							},
 							"grants": {
 								"type": "array",
-								"required": true,
 								"minItems": 1,
 								"items": {
 									"type": "string",
@@ -1428,45 +1376,38 @@ module.exports = {
 							},
 							"disabled": {
 								"type": "integer",
-								"required": true,
 								"enum": [0, 1]
 							},
 							"type": {
 								"type": "integer",
-								"required": true,
 								"enum": [1, 2]
 							},
 							"loginMode": {
 								"type": "string",
-								"required": true,
 								"enum": ["urac", "oauth"]
 							},
 							"pin": {
-								"type": "object",
-								"required": false,
+								"type": "object"
 							}
-						}
+						},
+						"required": ["secret", "redirectURI", "grants", "disabled", "type", "loginMode"]
 					}
 				},
 				"application": {
 					"source": ['body.application'],
-					"required": false,
 					"validation": {
 						"type": "object",
 						"properties": {
 							"description": {
-								"type": "string",
-								"required": false
+								"type": "string"
 							},
 							"productCode": {
 								"type": "string",
-								"required": true,
 								"format": "alphanumeric",
 								"minLength": 4
 							},
 							"packageCode": {
 								"type": "string",
-								"required": true,
 								"format": "alphanumeric",
 								"minLength": 4
 							},
@@ -1476,43 +1417,37 @@ module.exports = {
 							},
 							"appKey": {
 								"type": "object",
-								"required": false,
 								"properties": {
 									"config": {
-										"type": "object",
-										"required": false
+										"type": "object"
 									},
 									"extKey": {
 										"type": "object",
-										"required": false,
 										"properties": {
 											"label": {
-												"type": "string",
-												"required": true
+												"type": "string"
 											},
 											"env": {
-												"type": "string",
-												"required": true
+												"type": "string"
 											},
 											"expDate": {
 												"type": "string",
-												"required": false,
 												"format": "date-time"
 											},
 											"device": {
-												"type": "object",
-												"required": false
+												"type": "object"
 											},
 											"geo": {
-												"type": "object",
-												"required": false
+												"type": "object"
 											}
-										}
+										},
+										"required": ["label", "env"]
 									}
 								}
 							},
 						},
-						"additionalProperties": false
+						"additionalProperties": false,
+						"required": ["productCode", "packageCode"]
 					}
 				}
 			},
@@ -1525,8 +1460,7 @@ module.exports = {
 					"source": ['body.description'],
 					"validation": {
 						"type": "string"
-					},
-					"required": false
+					}
 				},
 				"productCode": {
 					"source": ['body.productCode'],
@@ -1556,40 +1490,33 @@ module.exports = {
 				},
 				"appKey": {
 					"source": ['body.appKey'],
-					"required": false,
 					"validation": {
 						"type": "object",
 						"properties": {
 							"config": {
-								"type": "object",
-								"required": false
+								"type": "object"
 							},
 							"extKey": {
 								"type": "object",
-								"required": false,
 								"properties": {
 									"label": {
-										"type": "string",
-										"required": true
+										"type": "string"
 									},
 									"env": {
-										"type": "string",
-										"required": true
+										"type": "string"
 									},
 									"expDate": {
 										"type": "string",
-										"required": false,
 										"format": "date-time"
 									},
 									"device": {
-										"type": "object",
-										"required": false
+										"type": "object"
 									},
 									"geo": {
-										"type": "object",
-										"required": false
+										"type": "object"
 									}
-								}
+								},
+								"required": ["label", "env"]
 							}
 						}
 					}
@@ -1603,39 +1530,33 @@ module.exports = {
 				"commonFields": ['appId'],
 				"config": {
 					"source": ['body.config'],
-					"required": false,
 					"validation": {
 						"type": "object",
 					}
 				},
 				"extKey": {
 					"source": ['body.extKey'],
-					"required": false,
 					"validation": {
 						"type": "object",
 						"properties": {
 							"label": {
-								"type": "string",
-								"required": true
+								"type": "string"
 							},
 							"env": {
-								"type": "string",
-								"required": true
+								"type": "string"
 							},
 							"expDate": {
 								"type": "string",
-								"required": false,
 								"format": "date-time"
 							},
 							"device": {
-								"type": "object",
-								"required": false
+								"type": "object"
 							},
 							"geo": {
-								"type": "object",
-								"required": false
+								"type": "object"
 							}
-						}
+						},
+						"required": ["label", "env"]
 					}
 				}
 			},
@@ -1677,8 +1598,7 @@ module.exports = {
 					"source": ['body.description'],
 					"validation": {
 						"type": "string"
-					},
-					"required": false
+					}
 				},
 				"productCode": {
 					"source": ['body.productCode'],
@@ -1708,40 +1628,33 @@ module.exports = {
 				},
 				"appKey": {
 					"source": ['body.appKey'],
-					"required": false,
 					"validation": {
 						"type": "object",
 						"properties": {
 							"config": {
-								"type": "object",
-								"required": false
+								"type": "object"
 							},
 							"extKey": {
 								"type": "object",
-								"required": false,
 								"properties": {
 									"label": {
-										"type": "string",
-										"required": true
+										"type": "string"
 									},
 									"env": {
-										"type": "string",
-										"required": true
+										"type": "string"
 									},
 									"expDate": {
 										"type": "string",
-										"required": false,
 										"format": "date-time"
 									},
 									"device": {
-										"type": "object",
-										"required": false
+										"type": "object"
 									},
 									"geo": {
-										"type": "object",
-										"required": false
+										"type": "object"
 									}
-								}
+								},
+								"required": ["label", "env"]
 							}
 						}
 					}
@@ -1762,39 +1675,33 @@ module.exports = {
 				},
 				"config": {
 					"source": ['body.config'],
-					"required": false,
 					"validation": {
 						"type": "object",
 					}
 				},
 				"extKey": {
 					"source": ['body.extKey'],
-					"required": false,
 					"validation": {
 						"type": "object",
 						"properties": {
 							"label": {
-								"type": "string",
-								"required": true
+								"type": "string"
 							},
 							"env": {
-								"type": "string",
-								"required": true
+								"type": "string"
 							},
 							"expDate": {
 								"type": "string",
-								"required": false,
 								"format": "date-time"
 							},
 							"device": {
-								"type": "object",
-								"required": false
+								"type": "object"
 							},
 							"geo": {
-								"type": "object",
-								"required": false
+								"type": "object"
 							}
-						}
+						},
+						"required": ["label", "env"]
 					}
 				}
 			},
@@ -1835,7 +1742,6 @@ module.exports = {
 				"commonFields": ['name', 'description'],
 				"code": {
 					"source": ['body.code'],
-					"required": false,
 					"validation": {
 						"type": "string",
 						"format": "alphanumeric",
@@ -1853,42 +1759,35 @@ module.exports = {
 				},
 				"tag": {
 					"source": ['body.tag'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
 				"mainTenant": {
 					"source": ['body.mainTenant'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
 				"profile": {
 					"source": ['body.profile'],
-					"required": false,
 					"validation": {
 						"type": "object"
 					}
 				},
 				"oauth": {
 					"source": ['body.oauth'],
-					"required": false,
 					"validation": {
 						"type": "object",
 						"properties": {
 							"secret": {
-								"type": "string",
-								"required": true
+								"type": "string"
 							},
 							"redirectURI": {
 								"type": "string",
-								"required": true
 							},
 							"grants": {
 								"type": "array",
-								"required": true,
 								"minItems": 1,
 								"items": {
 									"type": "string",
@@ -1896,45 +1795,38 @@ module.exports = {
 							},
 							"disabled": {
 								"type": "integer",
-								"required": true,
 								"enum": [0, 1]
 							},
 							"type": {
 								"type": "integer",
-								"required": true,
 								"enum": [1, 2]
 							},
 							"loginMode": {
 								"type": "string",
-								"required": true,
 								"enum": ["urac", "oauth"]
 							},
 							"pin": {
-								"type": "object",
-								"required": false,
+								"type": "object"
 							}
-						}
+						},
+						"required": ["loginMode", "type", "disabled", "grants", "redirectURI", "secret"]
 					}
 				},
 				"application": {
 					"source": ['body.application'],
-					"required": false,
 					"validation": {
 						"type": "object",
 						"properties": {
 							"description": {
-								"type": "string",
-								"required": false
+								"type": "string"
 							},
 							"productCode": {
 								"type": "string",
-								"required": true,
 								"format": "alphanumeric",
 								"minLength": 4
 							},
 							"packageCode": {
 								"type": "string",
-								"required": true,
 								"format": "alphanumeric",
 								"minLength": 4
 							},
@@ -1944,43 +1836,37 @@ module.exports = {
 							},
 							"appKey": {
 								"type": "object",
-								"required": false,
 								"properties": {
 									"config": {
-										"type": "object",
-										"required": false
+										"type": "object"
 									},
 									"extKey": {
 										"type": "object",
-										"required": false,
 										"properties": {
 											"label": {
-												"type": "string",
-												"required": true
+												"type": "string"
 											},
 											"env": {
-												"type": "string",
-												"required": true
+												"type": "string"
 											},
 											"expDate": {
 												"type": "string",
-												"required": false,
 												"format": "date-time"
 											},
 											"device": {
-												"type": "object",
-												"required": false
+												"type": "object"
 											},
 											"geo": {
-												"type": "object",
-												"required": false
+												"type": "object"
 											}
-										}
+										},
+										"required": ["label", "env"]
 									}
 								}
 							},
 						},
-						"additionalProperties": false
+						"additionalProperties": false,
+						"required": ["productCode", "packageCode"]
 					}
 				}
 			},
@@ -2001,7 +1887,6 @@ module.exports = {
 					"validation": {
 						"type": "string"
 					},
-					"required": false
 				},
 				"productCode": {
 					"source": ['body.productCode'],
@@ -2031,40 +1916,33 @@ module.exports = {
 				},
 				"appKey": {
 					"source": ['body.appKey'],
-					"required": false,
 					"validation": {
 						"type": "object",
 						"properties": {
 							"config": {
-								"type": "object",
-								"required": false
+								"type": "object"
 							},
 							"extKey": {
 								"type": "object",
-								"required": false,
 								"properties": {
 									"label": {
-										"type": "string",
-										"required": true
+										"type": "string"
 									},
 									"env": {
-										"type": "string",
-										"required": true
+										"type": "string"
 									},
 									"expDate": {
 										"type": "string",
-										"required": false,
 										"format": "date-time"
 									},
 									"device": {
-										"type": "object",
-										"required": false
+										"type": "object"
 									},
 									"geo": {
-										"type": "object",
-										"required": false
+										"type": "object"
 									}
-								}
+								},
+								"required": ["label", "env"]
 							}
 						}
 					}
@@ -2085,39 +1963,33 @@ module.exports = {
 				},
 				"config": {
 					"source": ['body.config'],
-					"required": false,
 					"validation": {
 						"type": "object",
 					}
 				},
 				"extKey": {
 					"source": ['body.extKey'],
-					"required": false,
 					"validation": {
 						"type": "object",
 						"properties": {
 							"label": {
-								"type": "string",
-								"required": true
+								"type": "string"
 							},
 							"env": {
-								"type": "string",
-								"required": true
+								"type": "string"
 							},
 							"expDate": {
 								"type": "string",
-								"required": false,
 								"format": "date-time"
 							},
 							"device": {
-								"type": "object",
-								"required": false
+								"type": "object"
 							},
 							"geo": {
-								"type": "object",
-								"required": false
+								"type": "object"
 							}
-						}
+						},
+						"required": ["label", "env"]
 					}
 				}
 			},
@@ -2159,14 +2031,12 @@ module.exports = {
 				},
 				"id": {
 					"source": ['query.id'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
 				"code": {
 					"source": ['query.code'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
@@ -2187,7 +2057,6 @@ module.exports = {
 				},
 				"soajs": {
 					"source": ["query.soajs"],
-					"required": false,
 					"validation": {
 						"type": "boolean"
 					}
@@ -2201,14 +2070,12 @@ module.exports = {
 				},
 				"id": {
 					"source": ['query.id'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
 				"code": {
 					"source": ['query.code'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
@@ -2236,14 +2103,12 @@ module.exports = {
 				},
 				"id": {
 					"source": ['query.id'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
 				"code": {
 					"source": ['query.code'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
@@ -2256,14 +2121,12 @@ module.exports = {
 				},
 				"id": {
 					"source": ['query.id'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
 				"code": {
 					"source": ['query.code'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
@@ -2283,14 +2146,12 @@ module.exports = {
 				},
 				"id": {
 					"source": ['query.id'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
 				"code": {
 					"source": ['query.code'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
@@ -2317,14 +2178,12 @@ module.exports = {
 				},
 				"id": {
 					"source": ['query.id'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
 				"code": {
 					"source": ['query.code'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
@@ -2359,14 +2218,12 @@ module.exports = {
 				},
 				"id": {
 					"source": ['query.id'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
 				"code": {
 					"source": ['query.code'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
@@ -2379,14 +2236,12 @@ module.exports = {
 				},
 				"id": {
 					"source": ['query.id'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
 				"code": {
 					"source": ['query.code'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
@@ -2406,14 +2261,12 @@ module.exports = {
 				},
 				"id": {
 					"source": ['query.id'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
 				"code": {
 					"source": ['query.code'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
@@ -2440,14 +2293,12 @@ module.exports = {
 				},
 				"id": {
 					"source": ['query.id'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
 				"code": {
 					"source": ['query.code'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
@@ -2554,14 +2405,12 @@ module.exports = {
 				},
 				"soajs": {
 					"source": ["query.soajs"],
-					"required": false,
 					"validation": {
 						"type": "boolean"
 					}
 				},
 				"_TTL": {
 					"source": ['body._TTL'],
-					"required": false,
 					"validation": {
 						"type": "string",
 						"enum": ['6', '12', '24', '48', '72', '96', '120', '144', '168']
@@ -2569,7 +2418,6 @@ module.exports = {
 				},
 				"tags": {
 					"source": ['body.tags'],
-					"required": false,
 					"validation": {
 						"type": "array",
 						"items": {
@@ -2581,7 +2429,6 @@ module.exports = {
 				},
 				"type": {
 					"source": ["body.type"],
-					"required": false,
 					"validation": {
 						"type": "object"
 					}
@@ -2602,7 +2449,6 @@ module.exports = {
 				},
 				"type": {
 					"source": ["query.type"],
-					"required": false,
 					"validation": {
 						"type": "string",
 						"enum": ["granular"]
@@ -2814,14 +2660,12 @@ module.exports = {
 				},
 				"soajs": {
 					"source": ["query.soajs"],
-					"required": false,
 					"validation": {
 						"type": "boolean"
 					}
 				},
 				"_TTL": {
 					"source": ['body._TTL'],
-					"required": false,
 					"validation": {
 						"type": "string",
 						"enum": ['6', '12', '24', '48', '72', '96', '120', '144', '168']
@@ -2829,7 +2673,6 @@ module.exports = {
 				},
 				"tags": {
 					"source": ['body.tags'],
-					"required": false,
 					"validation": {
 						"type": "array",
 						"items": {
@@ -2841,7 +2684,6 @@ module.exports = {
 				},
 				"type": {
 					"source": ["body.type"],
-					"required": false,
 					"validation": {
 						"type": "object"
 					}
@@ -2862,7 +2704,6 @@ module.exports = {
 				},
 				"type": {
 					"source": ["query.type"],
-					"required": false,
 					"validation": {
 						"type": "string",
 						"enum": ["granular"]
@@ -3012,14 +2853,12 @@ module.exports = {
 				"commonFields": ['description'],
 				"tag": {
 					"source": ['body.tag'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
 				"name": {
 					"source": ['body.name'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
@@ -3046,7 +2885,6 @@ module.exports = {
 				"commonFields": ['description', 'appId'],
 				"_TTL": {
 					"source": ['body._TTL'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
@@ -3057,8 +2895,7 @@ module.exports = {
 						"type": "string",
 						"format": "alphanumeric",
 						"minLength": 4
-					},
-					"required": false
+					}
 				},
 			},
 			"/tenant/application/key": {
@@ -3083,14 +2920,12 @@ module.exports = {
 				"commonFields": ['appId', 'key', 'extKey', 'expDate', 'device', 'geo'],
 				"label": {
 					"source": ['body.label'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
 				"extKeyEnv": {
 					"source": ['body.extKeyEnv'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
@@ -3124,7 +2959,6 @@ module.exports = {
 				},
 				"type": {
 					"source": ['body.type'],
-					"required": false,
 					"validation": {
 						"type": "number",
 						"enum": [0, 2]
@@ -3132,7 +2966,6 @@ module.exports = {
 				},
 				"oauthType": {
 					"source": ['body.oauthType'],
-					"required": false,
 					"validation": {
 						"type": "string",
 						"enum": ["urac", "miniurac", "off"]
@@ -3140,7 +2973,6 @@ module.exports = {
 				},
 				"pin": {
 					"source": ['body.pin'],
-					"required": false,
 					"validation": {
 						"type": "object"
 					}
@@ -3154,7 +2986,6 @@ module.exports = {
 				},
 				"redirectURI": {
 					"source": ['body.redirectURI'],
-					"required": false,
 					"validation": {
 						"type": "string",
 						"format": "uri"
@@ -3185,14 +3016,12 @@ module.exports = {
 				},
 				"tag": {
 					"source": ['body.tag'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
 				"name": {
 					"source": ['body.name'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
@@ -3233,7 +3062,6 @@ module.exports = {
 				},
 				"_TTL": {
 					"source": ['body._TTL'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
@@ -3275,14 +3103,12 @@ module.exports = {
 				},
 				"label": {
 					"source": ['body.label'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
 				"extKeyEnv": {
 					"source": ['body.extKeyEnv'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
@@ -3317,7 +3143,6 @@ module.exports = {
 				"commonFields": ['id'],
 				"type": {
 					"source": ['body.type'],
-					"required": false,
 					"validation": {
 						"type": "number",
 						"enum": [0, 2]
@@ -3325,7 +3150,6 @@ module.exports = {
 				},
 				"oauthType": {
 					"source": ['body.oauthType'],
-					"required": false,
 					"validation": {
 						"type": "string",
 						"enum": ["urac", "miniurac", "off"]
@@ -3333,7 +3157,6 @@ module.exports = {
 				},
 				"pin": {
 					"source": ['body.pin'],
-					"required": false,
 					"validation": {
 						"type": "object"
 					}
@@ -3347,7 +3170,6 @@ module.exports = {
 				},
 				"redirectURI": {
 					"source": ['body.redirectURI'],
-					"required": false,
 					"validation": {
 						"type": "string",
 						"format": "uri"
@@ -3378,14 +3200,12 @@ module.exports = {
 				},
 				"tag": {
 					"source": ['body.tag'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
 				},
 				"name": {
 					"source": ['body.name'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
@@ -3419,7 +3239,6 @@ module.exports = {
 				"commonFields": ['description', 'appId'],
 				"_TTL": {
 					"source": ['body._TTL'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
@@ -3437,8 +3256,7 @@ module.exports = {
 						"type": "string",
 						"format": "alphanumeric",
 						"minLength": 4
-					},
-					"required": false
+					}
 				},
 			},
 			"/tenant/console/application/key": {
@@ -3470,7 +3288,6 @@ module.exports = {
 				"commonFields": ['appId', 'key', 'extKey', 'expDate', 'device', 'geo'],
 				"label": {
 					"source": ['body.label'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
@@ -3484,7 +3301,6 @@ module.exports = {
 				},
 				"extKeyEnv": {
 					"source": ['body.extKeyEnv'],
-					"required": false,
 					"validation": {
 						"type": "string"
 					}
@@ -3519,7 +3335,6 @@ module.exports = {
 				"commonFields": ['id'],
 				"type": {
 					"source": ['body.type'],
-					"required": false,
 					"validation": {
 						"type": "number",
 						"enum": [0, 2]
@@ -3527,7 +3342,6 @@ module.exports = {
 				},
 				"oauthType": {
 					"source": ['body.oauthType'],
-					"required": false,
 					"validation": {
 						"type": "string",
 						"enum": ["urac", "miniurac", "off"]
@@ -3535,7 +3349,6 @@ module.exports = {
 				},
 				"pin": {
 					"source": ['body.pin'],
-					"required": false,
 					"validation": {
 						"type": "object"
 					}
@@ -3549,7 +3362,6 @@ module.exports = {
 				},
 				"redirectURI": {
 					"source": ['body.redirectURI'],
-					"required": false,
 					"validation": {
 						"type": "string",
 						"format": "uri"
