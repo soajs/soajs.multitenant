@@ -1,4 +1,3 @@
-
 /**
  * @license
  * Copyright SOAJS All Rights Reserved.
@@ -11,13 +10,12 @@
 
 const apisObject = {
 	"type": "object",
-	"required": false,
 	"patternProperties": {
 		"^[_a-z\/][_a-zA-Z0-9\/:]*$": { //pattern to match an api route
 			"type": "object",
 			"required": true,
 			"properties": {
-				"access": {"type": "boolean", "required": false},
+				"access": {"type": "boolean"},
 			}
 		}
 	}
@@ -25,13 +23,11 @@ const apisObject = {
 
 const aclRoute = {
 	"type": "array",
-	"required": false,
 	"items":
 		{
 			"type": "object",
-			"required": false,
 			"properties": {
-				"access": {"type": "string", "required": false},
+				"access": {"type": "string"},
 				"apis": apisObject
 			}
 		}
@@ -39,19 +35,16 @@ const aclRoute = {
 
 let scope = {
 	"type": "object",
-	"required": false,
 	"patternProperties": {
-		"^[^\W\.]+$": 	{
+		"^[^\W\.]+$": {
 			"type": "object",
-			"required": false,
 			"patternProperties": {
 				".+": {
 					"type": "object",
-					"required": false,
 					"properties": {
-						"access": {"type": "boolean", "required": false},
+						"access": {"type": "boolean"},
 						"apisPermission": {
-							"type": "string", "enum": ["restricted"], "required": false
+							"type": "string", "enum": ["restricted"]
 						},
 						"get": aclRoute,
 						"post": aclRoute,

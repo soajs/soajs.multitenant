@@ -1,18 +1,17 @@
 "use strict";
 
-const apiGroup = {"type": "array", "items": {"type": "string", "required": true}, "required": false};
+const apiGroup = {"type": "array", "items": {"type": "string"}};
 
 const aclApi = {
 	"type": "array",
 	"minItems": 1,
 	"items": {
 		"type": "object",
-		"required": false,
 		"properties": {
-			"access": {"type": "boolean", "required": false},
-			"version": {"type": "string", "required": false},
+			"access": {"type": "boolean"},
+			"version": {"type": "string"},
 			"apisPermission": {
-				"type": "string", "enum": ["restricted"], "required": false
+				"type": "string", "enum": ["restricted"]
 			},
 			"get": apiGroup,
 			"post": apiGroup,
@@ -21,12 +20,11 @@ const aclApi = {
 			"head": apiGroup,
 			"patch": apiGroup,
 			"options": apiGroup,
-			"other": apiGroup,
-			"additionalProperties": false
+			"other": apiGroup
 		},
-		"additionalProperties": false
-	},
-	"required": false
+		"additionalProperties": false,
+		"required": ["get", "post", "put", "delete", "head", "patch", "options", "other"]
+	}
 };
 
 module.exports = aclApi;

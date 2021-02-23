@@ -2,14 +2,13 @@
 
 const apisObject = {
 	"type": "object",
-	"required": false,
 	"patternProperties": {
 		"^[_a-z\/][_a-zA-Z0-9\/:]*$": { //pattern to match an api route
 			"type": "object",
 			"required": true,
 			"properties": {
-				"access": {"type": "boolean", "required": false},
-				"group:": {"type": "string", "required": false}
+				"access": {"type": "boolean"},
+				"group:": {"type": "string"}
 			}
 		}
 	}
@@ -17,7 +16,6 @@ const apisObject = {
 
 const granularAcl = {
 	"type": "object",
-	"required": false,
 	"properties": {
 		"apis": apisObject
 	}
@@ -25,15 +23,13 @@ const granularAcl = {
 
 const granular = {
 	"type": "object",
-	"required": false,
 	"patternProperties": {
 		".+": {
 			"type": "object",
-			"required": false,
 			"properties": {
-				"access": {"type": "boolean", "required": false},
+				"access": {"type": "boolean"},
 				"apisPermission": {
-					"type": "string", "enum": ["restricted"], "required": false
+					"type": "string", "enum": ["restricted"]
 				},
 				"apis": apisObject,
 				"get": granularAcl,
@@ -46,7 +42,6 @@ const granular = {
 				"other": granularAcl,
 				"apisRegExp": {
 					"type": "array",
-					"required": false,
 					"minItems": 1,
 					"items": {
 						"type": "object",
@@ -56,7 +51,7 @@ const granular = {
 								"required": true,
 								"pattern": /\.+/
 							},
-							"access": {"type": "boolean", "required": false}
+							"access": {"type": "boolean"}
 						},
 						"additionalProperties": false
 					}

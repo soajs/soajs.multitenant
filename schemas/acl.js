@@ -5,7 +5,6 @@ const granularAcl = require("./aclGranular");
 
 const acl = {
 	'source': ['body.acl'],
-	'required': false,
 	'validation': {
 		"type": "object",
 		"patternProperties": {
