@@ -825,6 +825,9 @@ let bl = {
 				"_TTL": inputmaskData._TTL * 3600 * 1000, // 24 hours
 				"keys": []
 			};
+			if (inputmaskData.packageCode.indexOf(inputmaskData.productCode + "_") === 0) {
+				newApplication.package = inputmaskData.packageCode;
+			}
 			generateKey(newApplication, tenantRecord, (err, internalKey, externalKey) => {
 				tenantRecord.applications.push(newApplication);
 				data = {
@@ -1142,6 +1145,9 @@ let bl = {
 			}
 			if (inputmaskData.description) {
 				data.description = inputmaskData.description;
+			}
+			if (inputmaskData.profile) {
+				data.profile = inputmaskData.profile;
 			}
 			modelObj.updateTenant(data, (err, response) => {
 				bl.mp.closeModel(soajs, modelObj);

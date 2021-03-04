@@ -2863,6 +2863,12 @@ module.exports = {
 						"type": "string"
 					}
 				},
+				"profile": {
+					"source": ['body.profile'],
+					"validation": {
+						"type": "object"
+					}
+				}
 			},
 			"/tenant/profile": {
 				_apiInfo: {
@@ -2990,15 +2996,7 @@ module.exports = {
 						"type": "string",
 						"format": "uri"
 					}
-				},
-				'availableEnv': {
-					'source': ['body.availableEnv'],
-					'required': true,
-					'validation': {
-						'type': 'array',
-						'items': {'type': 'string'}
-					}
-				},
+				}
 			},
 			
 			"/admin/tenant": {
@@ -3026,6 +3024,12 @@ module.exports = {
 						"type": "string"
 					}
 				},
+				"profile": {
+					"source": ['body.profile'],
+					"validation": {
+						"type": "object"
+					}
+				}
 			},
 			"/admin/tenant/profile": {
 				_apiInfo: {
@@ -3174,15 +3178,7 @@ module.exports = {
 						"type": "string",
 						"format": "uri"
 					}
-				},
-				'availableEnv': {
-					'source': ['body.availableEnv'],
-					'required': true,
-					'validation': {
-						'type': 'array',
-						'items': {'type': 'string'}
-					}
-				},
+				}
 			},
 			
 			"/tenant/console": {
@@ -3210,6 +3206,12 @@ module.exports = {
 						"type": "string"
 					}
 				},
+				"profile": {
+					"source": ['body.profile'],
+					"validation": {
+						"type": "object"
+					}
+				}
 			},
 			"/tenant/console/profile": {
 				_apiInfo: {
