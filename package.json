@@ -1,7 +1,7 @@
 {
   "name": "soajs.multitenant",
   "description": "soajs multitenant service",
-  "version": "2.0.29",
+  "version": "2.0.30",
   "author": "soajs team <team@soajs.org>",
   "repository": {
     "type": "git",
@@ -31,11 +31,11 @@
     "mocha": "6.2.2",
     "nock": "13.0.3",
     "request": "2.88.2",
-    "soajs.controller": "4.0.36"
+    "soajs.controller": "4.0.37"
   },
   "dependencies": {
     "async": "3.2.0",
-    "soajs": "4.0.22",
+    "soajs": "4.0.23",
     "soajs.core.libs": "1.2.0"
   }
 }
