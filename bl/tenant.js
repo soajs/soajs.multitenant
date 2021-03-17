@@ -1710,7 +1710,7 @@ let bl = {
 				}
 			}
 			
-			if (inputmaskData.oauthType === "miniurac") {
+			if (inputmaskData.oauthType === "miniurac" || inputmaskData.oauthType === "oauth") {
 				record.oauth.loginMode = "oauth";
 			}
 			

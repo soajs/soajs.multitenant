@@ -1588,7 +1588,7 @@ module.exports = {
 					"group": "Admin Tenant"
 				},
 				"id": {
-					"source": ['query.id'],
+					"source": ['query.id', 'body.id'],
 					"validation": {
 						"type": "string"
 					},
@@ -1613,7 +1613,6 @@ module.exports = {
 					"source": ['body.packageCode'],
 					"validation": {
 						"type": "string",
-						"format": "alphanumeric",
 						"minLength": 4
 					},
 					"required": true
@@ -1667,7 +1666,7 @@ module.exports = {
 				},
 				"commonFields": ['appId'],
 				"id": {
-					"source": ['query.id'],
+					"source": ['query.id', "body.id"],
 					"validation": {
 						"type": "string"
 					},
@@ -1711,7 +1710,7 @@ module.exports = {
 					"group": "Admin Tenant"
 				},
 				"id": {
-					"source": ['query.id'],
+					"source": ['query.id', "body.id"],
 					"validation": {
 						"type": "string"
 					},
@@ -1901,7 +1900,6 @@ module.exports = {
 					"source": ['body.packageCode'],
 					"validation": {
 						"type": "string",
-						"format": "alphanumeric",
 						"minLength": 4
 					},
 					"required": true
@@ -2441,21 +2439,21 @@ module.exports = {
 				},
 				"commonFields": ['id'],
 				"code": {
-					"source": ["query.code"],
+					"source": ["query.code", "body.code"],
 					"required": true,
 					"validation": {
 						"type": "string"
 					}
 				},
 				"type": {
-					"source": ["query.type"],
+					"source": ["query.type", "body.type"],
 					"validation": {
 						"type": "string",
 						"enum": ["granular"]
 					}
 				},
 				"env": {
-					"source": ["query.env"],
+					"source": ["query.env", "body.env"],
 					"required": true,
 					"validation": {
 						"type": "string"
@@ -2899,7 +2897,6 @@ module.exports = {
 					"source": ['body.packageCode'],
 					"validation": {
 						"type": "string",
-						"format": "alphanumeric",
 						"minLength": 4
 					}
 				},
@@ -3006,7 +3003,7 @@ module.exports = {
 				},
 				"commonFields": ['description'],
 				"id": {
-					"source": ['query.id'],
+					"source": ['query.id', 'body.id'],
 					"required": true,
 					"validation": {
 						"type": "string"
@@ -3058,7 +3055,7 @@ module.exports = {
 				},
 				"commonFields": ['description', 'appId'],
 				"id": {
-					"source": ['query.id'],
+					"source": ['query.id', "body.id"],
 					"required": true,
 					"validation": {
 						"type": "string"
@@ -3099,7 +3096,7 @@ module.exports = {
 				},
 				"commonFields": ['appId', 'key', 'extKey', 'expDate', 'device', 'geo'],
 				"id": {
-					"source": ['query.id'],
+					"source": ['query.id', "body.id"],
 					"required": true,
 					"validation": {
 						"type": "string"
@@ -3156,7 +3153,7 @@ module.exports = {
 					"source": ['body.oauthType'],
 					"validation": {
 						"type": "string",
-						"enum": ["urac", "miniurac", "off"]
+						"enum": ["urac", "miniurac", "oauth", "off"]
 					}
 				},
 				"pin": {
