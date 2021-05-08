@@ -248,7 +248,7 @@ let bl = {
 		let modelObj = bl.mp.getModel(soajs);
 		let data = {
 			"code": soajs.tenant.application.product,
-			"scope": inputmaskData.scope || null
+			"scope": inputmaskData ? inputmaskData.scope || null : null
 		};
 		modelObj.listConsoleProducts(data, (err, records) => {
 			bl.mp.closeModel(soajs, modelObj);

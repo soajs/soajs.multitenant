@@ -231,7 +231,10 @@ describe("Unit test for: BL - product", () => {
 				},
 				tenant: {
 					type: "client",
-					dbConfig: {}
+					dbConfig: {},
+					"application":{
+					
+					}
 				},
 				log: {
 					error: () => {
@@ -272,7 +275,10 @@ describe("Unit test for: BL - product", () => {
 				},
 				tenant: {
 					type: "client",
-					dbConfig: {}
+					dbConfig: {},
+					"application":{
+					
+					}
 				},
 				log: {
 					error: () => {
