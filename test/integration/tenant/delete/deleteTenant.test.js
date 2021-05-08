@@ -35,14 +35,12 @@ describe("Testing delete tenant API", () => {
 			assert.ifError(error);
 			assert.ok(body);
 			assert.ok(body.data);
-			body.data.forEach(tenant => {
+			body.data.items.forEach(tenant => {
 				if (tenant.code === 'lolbo') {
 					consoleTenant = tenant;
 				}
 			});
-			body.data = {
-				items: body.data
-			};
+			
 			let check = validator.validate(body, listTenantsSchema);
 			assert.deepEqual(check.valid, true);
 			assert.deepEqual(check.errors, []);
