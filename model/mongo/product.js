@@ -69,12 +69,16 @@ Product.prototype.listProducts = function (data, cb) {
 Product.prototype.listConsoleProducts = function (data, cb) {
 	let __self = this;
 	
-	let condition = {
-		$or: [
-			{console: true},
-			{code: "DBTN"},
-		]
-	};
+	let condition = {console: true};
+	
+	if (data && data.scope === "other") {
+		condition = {
+			$and: [
+				{console: true},
+				{code: {"$ne": data.code}}
+			]
+		};
+	}
 	__self.mongoCore.find(colName, condition, null, (err, records) => {
 		async.map(records, function (record, callback) {
 			lib.unsanitize(record, callback);
@@ -284,8 +288,7 @@ Product.prototype.updateProduct = function (data, cb) {
 				}
 			});
 		});
-	}
-	else {
+	} else {
 		if (Object.keys(fields.$set).length === 0) {
 			//nothing to update
 			return cb(null, 0);

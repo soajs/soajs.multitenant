@@ -287,14 +287,73 @@ Tenant.prototype.count = function (data, condition, cb) {
 Tenant.prototype.listConsoleTenants = function (data, cb) {
 	let __self = this;
 	
+	let options = {
+		"skip": 0,
+		"limit": 500,
+		"sort": {"name": 1}
+	};
+	if (data && data.limit) {
+		options.limit = data.limit;
+	}
+	if (data && data.start) {
+		options.skip = data.start;
+	}
 	let condition = {
 		'$and': [{console: true}]
 	};
-	
+	if (data.keywords) {
+		let rePattern = new RegExp(data.keywords, 'i');
+		condition.$and.push({"$or": [{"name": {"$regex": rePattern}}, {"code": {"$regex": rePattern}}]});
+	}
 	if (data && data.type) {
 		condition.$and.push({'type': data.type});
 	}
-	__self.mongoCore.find(colName, condition, null, cb);
+	
+	let find = (condition) => {
+		__self.mongoCore.find(colName, condition, options, (error, response) => {
+			if (error) {
+				return cb(error);
+			} else {
+				let current_count = options.skip;
+				if (response && response.length) {
+					current_count = current_count + response.length;
+				}
+				if (current_count < options.limit) {
+					return cb(null, {
+						"limit": options.limit,
+						"start": options.skip,
+						"count": response.length,
+						"items": response
+					});
+				} else {
+					__self.count(data, condition, (error, count) => {
+						if (error) {
+							return cb(error);
+						} else {
+							return cb(null, {
+								"limit": options.limit,
+								"start": options.skip,
+								"count": count,
+								"items": response
+							});
+						}
+					});
+				}
+			}
+		});
+	};
+	
+	if (data.scope === "other") {
+		__self.validateId(data.id, (err, id) => {
+			if (err) {
+				return cb(err, null);
+			}
+			condition.$and.push({"_id": {"$ne": id}});
+			find(condition);
+		});
+	} else {
+		find(condition);
+	}
 };
 
 Tenant.prototype.listAllTenants = function (data, cb) {

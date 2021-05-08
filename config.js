@@ -495,6 +495,14 @@ module.exports = {
 				_apiInfo: {
 					"l": "List console products",
 					"group": "Console product"
+				},
+				"scope": {
+					"source": ['query.scope'],
+					"default": "all",
+					"validation": {
+						"type": "string",
+						"enum": ["all", "other"]
+					}
 				}
 			},
 			"/product/console": {
@@ -1103,6 +1111,22 @@ module.exports = {
 				_apiInfo: {
 					"l": "List console tenants",
 					"group": "Console tenant"
+				},
+				"commonFields": ["start", "limit", "keywords"],
+				"scope": {
+					"source": ['query.scope'],
+					"default": "all",
+					"validation": {
+						"type": "string",
+						"enum": ["all", "other"]
+					}
+				},
+				"type": {
+					"source": ['query.type'],
+					"validation": {
+						"type": "string",
+						"enum": ["product", "client"]
+					}
 				}
 			},
 			"/tenant/console": {
@@ -1875,7 +1899,7 @@ module.exports = {
 					"group": "Console tenant"
 				},
 				"id": {
-					"source": ['query.id'],
+					"source": ['query.id', 'body.id'],
 					"validation": {
 						"type": "string"
 					},
@@ -1953,7 +1977,7 @@ module.exports = {
 				},
 				"commonFields": ['appId'],
 				"id": {
-					"source": ['query.id'],
+					"source": ['query.id', "body.id"],
 					"validation": {
 						"type": "string"
 					},
@@ -1997,7 +2021,7 @@ module.exports = {
 					"group": "Console tenant"
 				},
 				"id": {
-					"source": ['query.id'],
+					"source": ['query.id', "body.id"],
 					"validation": {
 						"type": "string"
 					},
@@ -3185,7 +3209,7 @@ module.exports = {
 				},
 				"commonFields": ['description'],
 				"id": {
-					"source": ['query.id'],
+					"source": ['query.id', 'body.id'],
 					"required": true,
 					"validation": {
 						"type": "string"
@@ -3243,7 +3267,7 @@ module.exports = {
 					}
 				},
 				"id": {
-					"source": ['query.id'],
+					"source": ['query.id', "body.id"],
 					"required": true,
 					"validation": {
 						"type": "string"
@@ -3292,7 +3316,7 @@ module.exports = {
 					}
 				},
 				"id": {
-					"source": ['query.id'],
+					"source": ['query.id', "body.id"],
 					"required": true,
 					"validation": {
 						"type": "string"

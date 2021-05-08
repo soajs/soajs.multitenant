@@ -280,8 +280,9 @@ let bl = {
 		}
 		let modelObj = bl.mp.getModel(soajs);
 		let data = {};
-		data.type = inputmaskData.type;
-		
+		data.scope = inputmaskData.scope || null;
+		data.type = inputmaskData.type || null;
+		data.id = soajs.tenant.id;
 		modelObj.listConsoleTenants(data, (err, record) => {
 			bl.mp.closeModel(soajs, modelObj);
 			if (err) {
@@ -1375,9 +1376,9 @@ let bl = {
 									if (inputmaskData.geo) {
 										tenantRecord.applications[i].keys[j].extKeys[x].geo = inputmaskData.geo;
 									}
-									if (inputmaskData.expDate) {
-										tenantRecord.applications[i].keys[j].extKeys[x].expDate = inputmaskData.expDate;
-									}
+									//if (inputmaskData.expDate) {
+									tenantRecord.applications[i].keys[j].extKeys[x].expDate = inputmaskData.expDate || null;
+									//}
 									if (inputmaskData.extKeyEnv) {
 										tenantRecord.applications[i].keys[j].extKeys[x].env = inputmaskData.extKeyEnv.toUpperCase();
 									}
