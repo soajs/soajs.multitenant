@@ -244,6 +244,7 @@ let bl = {
 		data.keywords = inputmaskData.keywords;
 		data.start = inputmaskData.start;
 		data.limit = inputmaskData.limit;
+		data.category = inputmaskData.category;
 		
 		modelObj.listTenants(data, (err, record) => {
 			bl.mp.closeModel(soajs, modelObj);
@@ -282,6 +283,9 @@ let bl = {
 		let data = {};
 		data.scope = inputmaskData.scope || null;
 		data.type = inputmaskData.type || null;
+		data.keywords = inputmaskData.keywords;
+		data.start = inputmaskData.start;
+		data.limit = inputmaskData.limit;
 		data.id = soajs.tenant.id;
 		modelObj.listConsoleTenants(data, (err, record) => {
 			bl.mp.closeModel(soajs, modelObj);

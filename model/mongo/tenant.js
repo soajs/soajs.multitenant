@@ -217,17 +217,29 @@ Tenant.prototype.listTenants = function (data, cb) {
 	
 	let condition = {
 		"$or": [
-			{console: false},
-			{console: null}
+			{"console": false},
+			{"console": null}
 		]
 	};
 	let andCond = [];
 	if (data && data.type) {
-		andCond.push({'type': data.type});
+		andCond.push({"type": data.type});
 	}
 	if (data.keywords) {
 		let rePattern = new RegExp(data.keywords, 'i');
 		andCond.push({"$or": [{"name": {"$regex": rePattern}}, {"code": {"$regex": rePattern}}]});
+	}
+	if (data.category) {
+		if (data.category === "tenant") {
+			andCond.push({
+				"$or": [
+					{"category": data.category},
+					{"category": null}
+				]
+			});
+		} else if (data.category === "application") {
+			andCond.push({"category": data.category});
+		}
 	}
 	if (andCond.length > 0) {
 		condition.$and = andCond;

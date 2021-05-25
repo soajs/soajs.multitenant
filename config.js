@@ -891,6 +891,13 @@ module.exports = {
 						"type": "string",
 						"enum": ["product", "client"]
 					}
+				},
+				"category": {
+					"source": ['query.category'],
+					"validation": {
+						"type": "string",
+						"enum": ["tenant", "application"]
+					}
 				}
 			},
 			"/tenant": {
