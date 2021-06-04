@@ -1421,7 +1421,7 @@ module.exports = {
 								"type": "object"
 							}
 						},
-						"required": ["secret", "redirectURI", "grants", "disabled", "type", "loginMode"]
+						"required": ["secret", "disabled", "type", "loginMode"]
 					}
 				},
 				"application": {
@@ -1839,7 +1839,7 @@ module.exports = {
 								"type": "object"
 							}
 						},
-						"required": ["loginMode", "type", "disabled", "grants", "redirectURI", "secret"]
+						"required": ["loginMode", "type", "disabled", "secret"]
 					}
 				},
 				"application": {
