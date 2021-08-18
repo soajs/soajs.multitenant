@@ -7,6 +7,7 @@
  */
 
 'use strict';
+const uuid = request("uuid");
 const async = require('async');
 const request = require("request");
 
@@ -494,6 +495,9 @@ let bl = {
 		}
 		if (inputmaskData.oauth) {
 			record.oauth = inputmaskData.oauth;
+			if (!record.oauth.secret || record.oauth.secret === "") {
+				record.oauth.secret = uuid.v4();
+			}
 		}
 		if (inputmaskData.profile) {
 			record.profile = inputmaskData.profile;
