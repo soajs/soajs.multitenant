@@ -7,7 +7,7 @@
  */
 
 'use strict';
-const uuid = request("uuid");
+const uuid = require("uuid");
 const async = require('async');
 const request = require("request");
 
