@@ -43,8 +43,7 @@ describe("Unit test for: Model - tenant", () => {
                             ],
                             "credentials": null,
                             "URLParam": {
-                                "poolSize": 5,
-                                "autoReconnect": true
+															"useUnifiedTopology": true
                             }
                         }
                     }
@@ -77,8 +76,7 @@ describe("Unit test for: Model - tenant", () => {
                 ],
                 "credentials": null,
                 "URLParam": {
-                    "poolSize": 5,
-                    "autoReconnect": true
+									"useUnifiedTopology": true
                 }
             }, null);
             done();
@@ -419,8 +417,7 @@ describe("Unit test for: Model - tenant", () => {
 			    "index": "test",
 			    "credentials": null,
 			    "URLParam": {
-				    "poolSize": 5,
-				    "autoReconnect": true
+						"useUnifiedTopology": true
 			    },
 		    }, null);
 		    model.closeConnection();
@@ -440,8 +437,7 @@ describe("Unit test for: Model - tenant", () => {
 			    "index": "test",
 			    "credentials": null,
 			    "URLParam": {
-				    "poolSize": 5,
-				    "autoReconnect": true
+						"useUnifiedTopology": true
 			    },
 			    "dbConfig" : {}
 		    }, null);

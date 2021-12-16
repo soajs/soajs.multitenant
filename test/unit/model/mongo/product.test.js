@@ -41,8 +41,7 @@ describe("Unit test for: Model - product", () => {
 							],
 							"credentials": null,
 							"URLParam": {
-								"poolSize": 5,
-								"autoReconnect": true
+								"useUnifiedTopology": true
 							}
 						}
 					}
@@ -257,8 +256,7 @@ describe("Unit test for: Model - product", () => {
 				],
 				"credentials": null,
 				"URLParam": {
-					"poolSize": 5,
-					"autoReconnect": true
+					"useUnifiedTopology": true
 				}
 			}, null);
 			done();
@@ -539,8 +537,7 @@ describe("Unit test for: Model - product", () => {
 				"index": "test",
 				"credentials": null,
 				"URLParam": {
-					"poolSize": 5,
-					"autoReconnect": true
+					"useUnifiedTopology": true
 				},
 			}, null);
 			model.closeConnection();
@@ -560,8 +557,7 @@ describe("Unit test for: Model - product", () => {
 				"index": "test",
 				"credentials": null,
 				"URLParam": {
-					"poolSize": 5,
-					"autoReconnect": true
+					"useUnifiedTopology": true
 				},
 				"dbConfig": {}
 			}, null);

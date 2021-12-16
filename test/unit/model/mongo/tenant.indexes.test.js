@@ -42,8 +42,7 @@ describe("Unit test for: Model - tenant - indexes", () => {
                             ],
                             "credentials": null,
                             "URLParam": {
-                                "poolSize": 5,
-                                "autoReconnect": true
+															"useUnifiedTopology": true
                             }
                         }
                     }

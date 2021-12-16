@@ -71,8 +71,7 @@ describe("Unit test for: BLs", () => {
                             ],
                             "credentials": null,
                             "URLParam": {
-                                "poolSize": 5,
-                                "autoReconnect": true
+															"useUnifiedTopology": true
                             }
                         }
                     }
