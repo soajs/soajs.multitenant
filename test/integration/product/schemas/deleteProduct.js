@@ -22,12 +22,12 @@ let deleteProductSchema = {
             "type": "object",
             "required": false,
             "properties": {
-                "n": {
+                "deletedCount": {
                     "type": "integer",
                     "required": true
                 },
-                "ok": {
-                    "type": "integer",
+                "acknowledged": {
+                    "type": "boolean",
                     "required": true
                 }
             }

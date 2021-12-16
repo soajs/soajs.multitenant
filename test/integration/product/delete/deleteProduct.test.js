@@ -105,10 +105,10 @@ describe("Testing delete product API", () => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.data);
-            assert.deepEqual(body.data.ok, 1);
+            assert.strictEqual(body.data.acknowledged, true);
             let check = validator.validate(body, deleteProductSchema);
-            assert.deepEqual(check.valid, true);
-            assert.deepEqual(check.errors, []);
+            assert.strictEqual(check.valid, true);
+            assert.deepStrictEqual(check.errors, []);
             done();
         });
         
