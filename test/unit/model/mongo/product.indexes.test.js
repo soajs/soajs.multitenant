@@ -64,9 +64,8 @@ describe("Unit test for: Model - product - indexes", () => {
 			name: "Console UI Product",
 			code: "DSBRD"
 		}, (err) => {
-			console.log(err)
 			// assert.deepEqual(err.name, 'MongoServerError');
-			assert.ok(err.message.contains("E11000 duplicate key"));
+			assert.ok(err.message.indexOf("E11000 duplicate key") !== -1);
 			// assert.deepEqual(err.message, 'E11000 duplicate key error collection: core_provision.products index: code_1 dup key: { code: "DSBRD" }');
 			assert.ok(err);
 			done();
