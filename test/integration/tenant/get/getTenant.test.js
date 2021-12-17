@@ -69,7 +69,27 @@ describe("Testing get tenant API", () => {
             done();
         });
     });
-
+    
+	it("Success - will return tenant record - name (admin)", (done) => {
+		let params = {
+			qs: {
+				name: selectedTenant.name
+			}
+		};
+		requester('/admin/tenant/name', 'get', params, (error, body) => {
+			assert.ifError(error);
+			assert.ok(body);
+			assert.ok(body.data);
+			assert.deepEqual(body.data.name, 'Test 2 Tenant');
+			assert.deepEqual(body.data.code, 'test2');
+			assert.deepEqual(body.data.description, 'this is a description for test tenant');
+			let check = validator.validate(body, getTenantsSchema);
+			assert.deepEqual(check.valid, true);
+			assert.deepEqual(check.errors, []);
+			done();
+		});
+	});
+	
     it("Success - will return tenant record - no id", (done) => {
         let params = {
             qs: {
