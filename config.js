@@ -974,6 +974,19 @@ module.exports = {
 					}
 				}
 			},
+			"/admin/tenant/name": {
+				_apiInfo: {
+					"l": "Get admin tenant by name",
+					"group": "Admin Tenant"
+				},
+				"name": {
+					"source": ['query.name'],
+					"required": true,
+					"validation": {
+						"type": "string"
+					}
+				}
+			},
 			"/admin/tenant/application": {
 				_apiInfo: {
 					"l": "Get tenant application",

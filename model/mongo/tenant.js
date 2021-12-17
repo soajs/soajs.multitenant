@@ -109,8 +109,8 @@ Tenant.prototype.getTenants = function (data, cb) {
 
 Tenant.prototype.getTenant = function (data, cb) {
 	let __self = this;
-	if (!data || !(data.id || data.code)) {
-		let error = new Error("id or code is required.");
+	if (!data || !(data.id || data.code || data.name)) {
+		let error = new Error("id, code, or name is required.");
 		return cb(error, null);
 	}
 	
@@ -136,11 +136,13 @@ Tenant.prototype.getTenant = function (data, cb) {
 			condition.$and.push({'_id': id});
 			__self.mongoCore.findOne(colName, condition, null, cb);
 		});
+	} else if (data.code) {
+		condition.$and.push({'code': data.code});
+		__self.mongoCore.findOne(colName, condition, null, cb);
 	} else {
-		if (data.code) {
-			condition.$and.push({'code': data.code});
+		if (data.name) {
+			condition.$and.push({'name': data.name});
 		}
-		
 		__self.mongoCore.findOne(colName, condition, null, cb);
 	}
 };
