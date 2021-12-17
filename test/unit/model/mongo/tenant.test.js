@@ -165,7 +165,7 @@ describe("Unit test for: Model - tenant", () => {
 		it("Success - getTenant - null", (done) => {
 			model.getTenant(null, (err) => {
 				assert.ok(err);
-				assert.deepEqual(err, new Error("id or code is required."));
+				assert.deepEqual(err, new Error("id, code, or name is required."));
 				done();
 			});
 		});
@@ -173,7 +173,7 @@ describe("Unit test for: Model - tenant", () => {
 		it("Fail - getTenant - empty object", (done) => {
 			model.getTenant({}, (err) => {
 				assert.ok(err);
-				assert.deepEqual(err, new Error("id or code is required."));
+				assert.deepEqual(err, new Error("id, code, or name is required."));
 				done();
 			});
 		});
