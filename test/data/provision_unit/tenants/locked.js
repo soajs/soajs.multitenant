@@ -2,7 +2,7 @@
 let lib = {
 	type: "product",
 	code: "DBTN",
-	name: "Console Tenant",
+	name: "console tenant",
 	description: "This is the tenant that holds the access rights and configuration for the console users with DSBRD_GUEST as Guest default package",
 	oauth: {
 		secret: "this is a secret",
