@@ -288,14 +288,14 @@ describe("Unit test for: BL - tenant", () => {
 				getTenant: (inputMask, cb) => {
 					return cb(null, {
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 					});
 				}
 			};
 			BL.get(soajs, inputMask, (err, record) => {
 				assert.ok(record);
-				assert.deepEqual(record.name, "Test Tenant");
+				assert.deepEqual(record.name, "test tenant");
 				done();
 			});
 		});
@@ -308,14 +308,14 @@ describe("Unit test for: BL - tenant", () => {
 					return cb(null, {
 						"id": "5c0e74ba9acc3c5a84a51259",
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 					});
 				}
 			};
 			BL.get(soajs, inputMask, (err, record) => {
 				assert.ok(record);
-				assert.deepEqual(record.name, "Test Tenant");
+				assert.deepEqual(record.name, "test tenant");
 				done();
 			});
 		});
@@ -329,14 +329,14 @@ describe("Unit test for: BL - tenant", () => {
 				getTenant: (inputMask, cb) => {
 					return cb(null, {
 						"_id": "testid",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 					});
 				}
 			};
 			BL.get(soajs, inputMask, (err, record) => {
 				assert.ok(record);
-				assert.deepEqual(record.name, "Test Tenant");
+				assert.deepEqual(record.name, "test tenant");
 				done();
 			});
 		});
@@ -374,7 +374,7 @@ describe("Unit test for: BL - tenant", () => {
 			Tenant.prototype.getTenant = (data, cb) => {
 				return cb(null, {
 					"code": "test",
-					"name": "Test Tenant",
+					"name": "test tenant",
 					"description": "this is a description for test tenant",
 				});
 			};
@@ -388,7 +388,7 @@ describe("Unit test for: BL - tenant", () => {
 			
 			BL.get(soajsClient, inputMask, (err, record) => {
 				assert.ok(record);
-				assert.deepEqual(record.name, "Test Tenant");
+				assert.deepEqual(record.name, "test tenant");
 				done();
 			});
 		});
@@ -418,7 +418,7 @@ describe("Unit test for: BL - tenant", () => {
 			Tenant.prototype.getTenant = (inputMask, cb) => {
 				return cb(null, {
 					"_id": "testid",
-					"name": "Test Tenant",
+					"name": "test tenant",
 					"description": "this is a description for test tenant",
 				});
 			};
@@ -433,7 +433,7 @@ describe("Unit test for: BL - tenant", () => {
 			
 			BL.get(soajsClient, inputMask, (err, record) => {
 				assert.ok(record);
-				assert.deepEqual(record.name, "Test Tenant");
+				assert.deepEqual(record.name, "test tenant");
 				done();
 			});
 		});
@@ -3151,7 +3151,7 @@ describe("Unit test for: BL - tenant", () => {
 					return cb(null, {
 						"id": "SomeID",
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 					});
 				},
@@ -3256,7 +3256,7 @@ describe("Unit test for: BL - tenant", () => {
 				getTenant: (inputMask, cb) => {
 					return cb(null, {
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 					});
 				},
@@ -3328,7 +3328,7 @@ describe("Unit test for: BL - tenant", () => {
 		it("Success - Update tenant - data - id", (done) => {
 			let inputMask = {
 				"id": "SomeID",
-				"name": "Test Tenant",
+				"name": "test tenant",
 				"description": "this is an updated description for test tenant",
 				"tag": "sometag",
 			};
@@ -3338,7 +3338,7 @@ describe("Unit test for: BL - tenant", () => {
 					return cb(null, {
 						"_id": "SomeID",
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 					});
 				},
@@ -3357,7 +3357,7 @@ describe("Unit test for: BL - tenant", () => {
 		it("Success - Update tenant - data - code", (done) => {
 			let inputMask = {
 				"code": "twr2",
-				"name": "Test Tenant",
+				"name": "test tenant",
 				"description": "this is an updated description for twr2 tenant",
 				"tag": "sometag",
 			};
@@ -3385,7 +3385,7 @@ describe("Unit test for: BL - tenant", () => {
 		
 		it("Success - Update tenant - no data - no code", (done) => {
 			let inputMask = {
-				"name": "Test Tenant",
+				"name": "test tenant",
 				"description": "this is an updated description for twr2 tenant",
 				"tag": "sometag",
 			};
@@ -3443,7 +3443,7 @@ describe("Unit test for: BL - tenant", () => {
 				getTenant: (inputMask, cb) => {
 					return cb(null, {
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 					});
 				},
@@ -3525,7 +3525,7 @@ describe("Unit test for: BL - tenant", () => {
 					return cb(null, {
 						"_id": "tenantID",
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -3579,7 +3579,7 @@ describe("Unit test for: BL - tenant", () => {
 					return cb(null, {
 						"_id": "tenantID",
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -3632,7 +3632,7 @@ describe("Unit test for: BL - tenant", () => {
 					return cb(null, {
 						"_id": "tenantID",
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant"
 					});
 				},
@@ -3660,7 +3660,7 @@ describe("Unit test for: BL - tenant", () => {
 					return cb(null, {
 						"_id": "tenantID",
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -3741,7 +3741,7 @@ describe("Unit test for: BL - tenant", () => {
 					return cb(null, {
 						"_id": "tenantID",
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -3881,7 +3881,7 @@ describe("Unit test for: BL - tenant", () => {
 					return cb(null, {
 						"_id": "tenantID",
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -3949,7 +3949,7 @@ describe("Unit test for: BL - tenant", () => {
 					return cb(null, {
 						"_id": "tenantID",
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -4017,7 +4017,7 @@ describe("Unit test for: BL - tenant", () => {
 					return cb(null, {
 						"_id": "tenantID",
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant"
 					});
 				},
@@ -4060,7 +4060,7 @@ describe("Unit test for: BL - tenant", () => {
 					return cb(null, {
 						"_id": "tenantID",
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -4156,7 +4156,7 @@ describe("Unit test for: BL - tenant", () => {
 					return cb(null, {
 						"_id": "tenantID",
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -4207,7 +4207,7 @@ describe("Unit test for: BL - tenant", () => {
 					return cb(null, {
 						"_id": "tenantID",
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -4311,7 +4311,7 @@ describe("Unit test for: BL - tenant", () => {
 					return cb(null, {
 						"_id": "tenantID",
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -4368,7 +4368,7 @@ describe("Unit test for: BL - tenant", () => {
 				getTenant: (inputMask, cb) => {
 					return cb(null, {
 						"_id": "tenantID",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -4425,7 +4425,7 @@ describe("Unit test for: BL - tenant", () => {
 				getTenant: (inputMask, cb) => {
 					return cb(null, {
 						"_id": "tenantID",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant"
 					});
 				},
@@ -4457,7 +4457,7 @@ describe("Unit test for: BL - tenant", () => {
 				getTenant: (inputMask, cb) => {
 					return cb(null, {
 						"_id": "tenantID",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -4513,7 +4513,7 @@ describe("Unit test for: BL - tenant", () => {
 				getTenant: (inputMask, cb) => {
 					return cb(null, {
 						"_id": "tenantID",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -4560,7 +4560,7 @@ describe("Unit test for: BL - tenant", () => {
 				getTenant: (inputMask, cb) => {
 					return cb(null, {
 						"_id": "tenantID",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -4640,7 +4640,7 @@ describe("Unit test for: BL - tenant", () => {
 					return cb(null, {
 						"_id": "tenantID",
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -4691,7 +4691,7 @@ describe("Unit test for: BL - tenant", () => {
 					return cb(null, {
 						"_id": "tenantID",
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -4810,7 +4810,7 @@ describe("Unit test for: BL - tenant", () => {
 					return cb(null, {
 						"_id": "tenantID",
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -4864,7 +4864,7 @@ describe("Unit test for: BL - tenant", () => {
 					return cb(null, {
 						"_id": "tenantID",
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -4966,7 +4966,7 @@ describe("Unit test for: BL - tenant", () => {
 					return cb(null, {
 						"_id": "tenantID",
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -5017,7 +5017,7 @@ describe("Unit test for: BL - tenant", () => {
 					return cb(null, {
 						"_id": "tenantID",
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -5102,7 +5102,7 @@ describe("Unit test for: BL - tenant", () => {
 					return cb(null, {
 						"_id": "tenantID",
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -5166,7 +5166,7 @@ describe("Unit test for: BL - tenant", () => {
 					return cb(null, {
 						"_id": "tenantID",
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -5230,7 +5230,7 @@ describe("Unit test for: BL - tenant", () => {
 					return cb(null, {
 						"_id": "tenantID",
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -5317,7 +5317,7 @@ describe("Unit test for: BL - tenant", () => {
 					return cb(null, {
 						"_id": "tenantID",
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -5368,7 +5368,7 @@ describe("Unit test for: BL - tenant", () => {
 					return cb(null, {
 						"_id": "tenantID",
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -5445,7 +5445,7 @@ describe("Unit test for: BL - tenant", () => {
 					return cb(null, {
 						"id": "SomeID",
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 					});
 				},
@@ -5496,7 +5496,7 @@ describe("Unit test for: BL - tenant", () => {
 				getTenant: (inputMask, cb) => {
 					return cb(null, {
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 					});
 				},
@@ -5650,7 +5650,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -5720,7 +5720,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -5835,7 +5835,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant"
 					});
 				}
@@ -5875,7 +5875,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -5951,7 +5951,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -6019,7 +6019,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -6087,7 +6087,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant"
 					});
 				}
@@ -6179,7 +6179,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -6247,7 +6247,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -6315,7 +6315,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant"
 					});
 				}
@@ -6408,7 +6408,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -6484,7 +6484,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -6561,7 +6561,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant"
 					});
 				}
@@ -6653,7 +6653,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -6724,7 +6724,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -6792,7 +6792,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant"
 					});
 				}
@@ -6833,7 +6833,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -6883,7 +6883,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -6996,7 +6996,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -7095,7 +7095,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -7293,7 +7293,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -7392,7 +7392,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -7591,7 +7591,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -7666,7 +7666,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -7762,7 +7762,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -7955,7 +7955,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant"
 					});
 				}
@@ -7996,7 +7996,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -8066,7 +8066,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -8169,7 +8169,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -8259,7 +8259,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -8338,7 +8338,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant"
 					});
 				},
@@ -8389,7 +8389,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -8503,7 +8503,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -8606,7 +8606,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -8712,7 +8712,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -8831,7 +8831,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -8918,7 +8918,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -9082,7 +9082,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -9179,7 +9179,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -9257,7 +9257,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant"
 					});
 				},
@@ -9326,7 +9326,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -9410,7 +9410,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -9532,7 +9532,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -9641,7 +9641,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -9755,7 +9755,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -9904,7 +9904,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -10070,7 +10070,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -10157,7 +10157,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -10236,7 +10236,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant"
 					});
 				},
@@ -10315,7 +10315,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -10394,7 +10394,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -10499,7 +10499,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -10608,7 +10608,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{
@@ -10701,7 +10701,7 @@ describe("Unit test for: BL - tenant", () => {
 							},
 						},
 						"code": "test",
-						"name": "Test Tenant",
+						"name": "test tenant",
 						"description": "this is a description for test tenant",
 						"applications": [
 							{

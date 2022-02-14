@@ -137,7 +137,7 @@ describe("Unit test for: Model - tenant", () => {
 				assert.ifError(err);
 				assert.ok(record);
 				tenantTest = record;
-				assert.deepEqual(record.name, 'Test Tenant');
+				assert.deepEqual(record.name, 'test tenant');
 				assert.deepEqual(record.description, 'this is a description for test tenant');
 				done();
 			});
@@ -154,7 +154,7 @@ describe("Unit test for: Model - tenant", () => {
 				model.getTenant({id: selectedTenant._id}, (err, record) => {
 					assert.ifError(err);
 					assert.ok(record);
-					assert.deepEqual(record.name, 'Test Tenant');
+					assert.deepEqual(record.name, 'test tenant');
 					assert.deepEqual(record.description, 'this is a description for test tenant');
 					assert.deepEqual(typeof record, "object");
 					done();
