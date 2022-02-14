@@ -60,7 +60,7 @@ describe("Testing get tenant API", () => {
             assert.ifError(error);
             assert.ok(body);
             assert.ok(body.data);
-            assert.deepEqual(body.data.name, 'Test 2 Tenant');
+            assert.deepEqual(body.data.name, 'test 2 tenant');
             assert.deepEqual(body.data.code, 'test2');
             assert.deepEqual(body.data.description, 'this is a description for test tenant');
             let check = validator.validate(body, getTenantsSchema);
@@ -80,7 +80,7 @@ describe("Testing get tenant API", () => {
 			assert.ifError(error);
 			assert.ok(body);
 			assert.ok(body.data);
-			assert.deepEqual(body.data.name, 'Test 2 Tenant');
+			assert.deepEqual(body.data.name, 'test 2 tenant');
 			assert.deepEqual(body.data.code, 'test2');
 			assert.deepEqual(body.data.description, 'this is a description for test tenant');
 			let check = validator.validate(body, getTenantsSchema);

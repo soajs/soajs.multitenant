@@ -20,7 +20,7 @@ let lib = {
 		},
 	},
 	"code": "test2",
-	"name": "Test 2 Tenant",
+	"name": "test 2 tenant",
 	"description": "this is a description for test tenant",
 	"applications": [
 		{
