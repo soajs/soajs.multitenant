@@ -214,7 +214,7 @@ describe("Unit test for: Model - tenant", () => {
 		});
 		
 		it("Success - countTenants - data", (done) => {
-			model.countTenants({name: 'Console Tenant', code: 'DBTN'}, (err, count) => {
+			model.countTenants({name: 'console tenant', code: 'DBTN'}, (err, count) => {
 				assert.ok(count);
 				assert.deepEqual(count, 1);
 				done();
