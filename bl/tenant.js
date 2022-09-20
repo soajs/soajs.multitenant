@@ -1150,6 +1150,9 @@ let bl = {
 			if (inputmaskData.tag) {
 				data.tag = inputmaskData.tag;
 			}
+			if (inputmaskData.category) {
+				data.category = inputmaskData.category;
+			}
 			if (inputmaskData.name) {
 				data.name = inputmaskData.name;
 			}

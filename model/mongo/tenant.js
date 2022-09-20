@@ -142,7 +142,7 @@ Tenant.prototype.getTenant = function (data, cb) {
 	} else {
 		if (data.name) {
 			data.name = data.name.trim();
-			data.name = data.name.toLowerCase();
+			// data.name = data.name.toLowerCase();
 			condition.$and.push({'name': data.name});
 		}
 		__self.mongoCore.findOne(colName, condition, null, cb);
@@ -396,7 +396,7 @@ Tenant.prototype.countTenants = function (data, cb) {
 	}
 	
 	data.name = data.name.trim();
-	data.name = data.name.toLowerCase();
+	// data.name = data.name.toLowerCase();
 	let condition = {
 		name: data.name
 	};
@@ -421,7 +421,7 @@ Tenant.prototype.addTenant = function (data, cb) {
 		return cb(error, null);
 	}
 	data.name = data.name.trim();
-	data.name = data.name.toLowerCase();
+	// data.name = data.name.toLowerCase();
 	__self.mongoCore.insertOne(colName, data, {}, (err, record) => {
 		if (record && Array.isArray(record)) {
 			record = record [0];
@@ -468,7 +468,7 @@ Tenant.prototype.updateTenant = function (data, cb) {
 	
 	if (data.name) {
 		data.name = data.name.trim();
-		data.name = data.name.toLowerCase();
+		// data.name = data.name.toLowerCase();
 		fields.$set.name = data.name;
 	}
 	
@@ -476,9 +476,14 @@ Tenant.prototype.updateTenant = function (data, cb) {
 		fields.$set.tag = data.tag;
 	}
 	
+	if (data.category) {
+		fields.$set.category = data.category;
+	}
+	
 	if (data.profile) {
 		fields.$set.profile = data.profile;
 	}
+	
 	if (data.applications) {
 		fields.$set.applications = data.applications;
 	}

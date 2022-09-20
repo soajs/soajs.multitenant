@@ -2910,6 +2910,12 @@ module.exports = {
 					"validation": {
 						"type": "object"
 					}
+				},
+				"category": {
+					"source": ['body.category'],
+					"validation": {
+						"type": "string"
+					}
 				}
 			},
 			"/tenant/profile": {
@@ -3069,6 +3075,12 @@ module.exports = {
 					"source": ['body.profile'],
 					"validation": {
 						"type": "object"
+					}
+				},
+				"category": {
+					"source": ['body.category'],
+					"validation": {
+						"type": "string"
 					}
 				}
 			},
