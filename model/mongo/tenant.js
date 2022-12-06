@@ -241,7 +241,7 @@ Tenant.prototype.listTenants = function (data, cb) {
 					{"category": null}
 				]
 			});
-		} else if (data.category === "application") {
+		} else {
 			andCond.push({"category": data.category});
 		}
 	}
