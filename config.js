@@ -896,7 +896,7 @@ module.exports = {
 					"source": ['query.category'],
 					"validation": {
 						"type": "string",
-						"enum": ["tenant", "application"]
+						"enum": ["tenant", "application", "integration"]
 					}
 				}
 			},
