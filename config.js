@@ -32,10 +32,10 @@ module.exports = {
 	"urac": true,
 	"maintenance": {
 		"readiness": "/heartbeat",
-		"port": {"type": "maintenance"},
+		"port": { "type": "maintenance" },
 		"commands": [
-			{"label": "Reload Registry", "path": "/reloadRegistry", "icon": "fas fa-undo"},
-			{"label": "Resource Info", "path": "/resourceInfo", "icon": "fas fa-info"}
+			{ "label": "Reload Registry", "path": "/reloadRegistry", "icon": "fas fa-undo" },
+			{ "label": "Resource Info", "path": "/resourceInfo", "icon": "fas fa-info" }
 		]
 	},
 	"interConnect": [
@@ -48,7 +48,7 @@ module.exports = {
 			"version": "1"
 		}
 	],
-	
+
 	"tags": ["productization", "packaging"],
 	"attributes": {
 		"multitenant": ["main tenant", "sub tenant"],
@@ -59,14 +59,14 @@ module.exports = {
 		"readme": "/README.md",
 		"release": "/RELEASE.md"
 	},
-	
+
 	//-------------------------------------
 	"tenant": {
 		"generatedCodeLength": 5,
 		"character": "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
 		"expDateTTL": 86400000
 	},
-	
+
 	"errors": {
 		400: "Business logic required data are missing",
 		450: "Unable to find tenant",
@@ -82,25 +82,25 @@ module.exports = {
 		461: "Unable to find package",
 		462: "You are not allowed to remove the tenant you are currently logged in with",
 		463: "Invalid product code or package code provided",
-		
+
 		466: "You are not allowed to remove the product you are currently logged in with",
 		467: "Package already exists",
 		468: "Product already exists",
-		
+
 		470: "Unable to update product",
 		471: "Unable to update tenant",
 		472: "Unable to get the tenant application",
 		473: "Unable to get the tenant application key",
-		
+
 		480: "Unable to compare different acl environment types",
 		500: "You cannot modify or delete a locked record",
 		501: "Environment record not found!",
 		502: "Unable to create External key",
 		503: "Service Error",
-		
+
 		601: "Model not found",
 		602: "Model error: ",
-		
+
 	},
 	"schema": {
 		"commonFields": {
@@ -191,10 +191,10 @@ module.exports = {
 			},
 			"keywords": {
 				"source": ['query.keywords', 'body.keywords'],
-				"validation": {"type": "string"}
+				"validation": { "type": "string" }
 			}
 		},
-		
+
 		"get": {
 			"/products": {
 				_apiInfo: {
@@ -377,7 +377,7 @@ module.exports = {
 						"minimum": 1
 					}
 				}
-				
+
 			},
 			"/product/package/acl/api": {
 				_apiInfo: {
@@ -453,7 +453,7 @@ module.exports = {
 						"minimum": 1
 					}
 				}
-				
+
 			},
 			"/product/acl/scope/api": {
 				_apiInfo: {
@@ -490,7 +490,7 @@ module.exports = {
 					}
 				}
 			},
-			
+
 			"/products/console": {
 				_apiInfo: {
 					"l": "List console products",
@@ -680,7 +680,7 @@ module.exports = {
 						"minimum": 1
 					}
 				}
-				
+
 			},
 			"/product/console/package/acl/api": {
 				_apiInfo: {
@@ -756,7 +756,7 @@ module.exports = {
 						"minimum": 1
 					}
 				}
-				
+
 			},
 			"/product/console/acl/scope/api": {
 				_apiInfo: {
@@ -793,7 +793,7 @@ module.exports = {
 					}
 				}
 			},
-			
+
 			"/tenants/product/keys/ext": {
 				_apiInfo: {
 					"l": "Get ext keys of a product for certain tenants in a specific environment.",
@@ -864,7 +864,7 @@ module.exports = {
 					}
 				}
 			},
-			
+
 			"/tenant/tenants": {
 				_apiInfo: {
 					"l": "List of the tenant sub tenants",
@@ -918,7 +918,7 @@ module.exports = {
 						"type": "string"
 					}
 				}
-				
+
 			},
 			"/tenant/applications": {
 				_apiInfo: {
@@ -960,7 +960,7 @@ module.exports = {
 				},
 				"commonFields": ['appId', 'key']
 			},
-			
+
 			"/admin/tenant": {
 				_apiInfo: {
 					"l": "Get admin tenant",
@@ -1055,7 +1055,7 @@ module.exports = {
 				},
 				"commonFields": ['id', 'appId', 'key']
 			},
-			
+
 			"/tenants/console/product/keys/ext": {
 				_apiInfo: {
 					"l": "Get ext keys of a product for certain console tenants in a specific environment.",
@@ -1126,7 +1126,7 @@ module.exports = {
 					}
 				}
 			},
-			
+
 			"/tenants/console": {
 				_apiInfo: {
 					"l": "List console tenants",
@@ -1186,7 +1186,7 @@ module.exports = {
 						"type": "string"
 					}
 				},
-				
+
 			},
 			"/tenant/console/applications": {
 				_apiInfo: {
@@ -1237,7 +1237,7 @@ module.exports = {
 				"commonFields": ['id', 'appId', 'key']
 			}
 		},
-		
+
 		"post": {
 			"/product": {
 				_apiInfo: {
@@ -1298,7 +1298,7 @@ module.exports = {
 					}
 				},
 			},
-			
+
 			"/product/console": {
 				_apiInfo: {
 					"l": "Add console product",
@@ -1358,7 +1358,7 @@ module.exports = {
 					}
 				},
 			},
-			
+
 			"/tenant": {
 				_apiInfo: {
 					"l": "Add tenant with optional application, key, and ext key",
@@ -1625,7 +1625,7 @@ module.exports = {
 					"required": true
 				}
 			},
-			
+
 			"/admin/tenant/application": {
 				_apiInfo: {
 					"l": "Add application to tenant with optional key and ext key",
@@ -1776,7 +1776,7 @@ module.exports = {
 					"required": true
 				}
 			},
-			
+
 			"/tenant/console": {
 				_apiInfo: {
 					"l": "Add console tenant with optional application, key, and ext key",
@@ -2064,7 +2064,7 @@ module.exports = {
 				}
 			}
 		},
-		
+
 		"delete": {
 			"/product": {//
 				_apiInfo: {
@@ -2104,7 +2104,7 @@ module.exports = {
 					}
 				},
 			},
-			
+
 			"/product/console": {//
 				_apiInfo: {
 					"l": "Delete console product",
@@ -2137,7 +2137,7 @@ module.exports = {
 					}
 				}
 			},
-			
+
 			"/tenant": {
 				_apiInfo: {
 					"l": "Delete tenant",
@@ -2252,7 +2252,7 @@ module.exports = {
 					}
 				}
 			},
-			
+
 			"/tenant/console": {
 				_apiInfo: {
 					"l": "Delete console tenant",
@@ -2368,7 +2368,7 @@ module.exports = {
 				}
 			}
 		},
-		
+
 		"put": {
 			"/product/purge": {
 				_apiInfo: {
@@ -2631,7 +2631,7 @@ module.exports = {
 					}
 				}
 			},
-			
+
 			"/product/console": {//
 				_apiInfo: {
 					"l": "Update console product",
@@ -2886,7 +2886,7 @@ module.exports = {
 					}
 				}
 			},
-			
+
 			"/tenant": {
 				_apiInfo: {
 					"l": "Update tenant",
@@ -3045,7 +3045,7 @@ module.exports = {
 					}
 				}
 			},
-			
+
 			"/admin/tenant": {
 				_apiInfo: {
 					"l": "Update tenant",
@@ -3233,7 +3233,7 @@ module.exports = {
 					}
 				}
 			},
-			
+
 			"/tenant/console": {
 				_apiInfo: {
 					"l": "Update console tenant",
@@ -3427,7 +3427,7 @@ module.exports = {
 					'required': true,
 					'validation': {
 						'type': 'array',
-						'items': {'type': 'string'}
+						'items': { 'type': 'string' }
 					}
 				},
 			}
