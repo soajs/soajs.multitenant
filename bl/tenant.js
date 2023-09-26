@@ -700,7 +700,7 @@ let bl = {
 			modelObj.addTenant(record, (err, response) => {
 				if (err) {
 					if (err.message && err.message.indexOf("code_1 dup key") !== -1 && !inputmaskData.code) {
-						record.code = calculateCode(bl.localConfig.tenant.generatedCodeLength);
+						record.code = calculateCode(bl.localConfig.tenant.generatedCodeLength + 5);
 						insertRecord(callback);
 					} else {
 						return callback(bl.handleError(soajs, 602, err), null);
