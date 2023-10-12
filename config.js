@@ -1147,6 +1147,13 @@ module.exports = {
 						"type": "string",
 						"enum": ["product", "client"]
 					}
+				},
+				"category": {
+					"source": ['query.category'],
+					"validation": {
+						"type": "string",
+						"enum": ["tenant", "application", "integration"]
+					}
 				}
 			},
 			"/tenant/console": {
@@ -3263,6 +3270,12 @@ module.exports = {
 					"source": ['body.profile'],
 					"validation": {
 						"type": "object"
+					}
+				},
+				"category": {
+					"source": ['body.category'],
+					"validation": {
+						"type": "string"
 					}
 				}
 			},

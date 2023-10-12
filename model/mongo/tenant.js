@@ -324,6 +324,18 @@ Tenant.prototype.listConsoleTenants = function (data, cb) {
 	if (data && data.type) {
 		condition.$and.push({'type': data.type});
 	}
+	if (data.category) {
+		if (data.category === "tenant") {
+			condition.push({
+				"$or": [
+					{"category": data.category},
+					{"category": null}
+				]
+			});
+		} else {
+			condition.push({"category": data.category});
+		}
+	}
 	
 	let find = (condition) => {
 		__self.mongoCore.find(colName, condition, options, (error, response) => {

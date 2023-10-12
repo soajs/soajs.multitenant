@@ -289,6 +289,8 @@ let bl = {
 		data.start = inputmaskData.start;
 		data.limit = inputmaskData.limit;
 		data.id = soajs.tenant.id;
+		data.category = inputmaskData.category;
+		
 		modelObj.listConsoleTenants(data, (err, record) => {
 			bl.mp.closeModel(soajs, modelObj);
 			if (err) {
