@@ -326,14 +326,14 @@ Tenant.prototype.listConsoleTenants = function (data, cb) {
 	}
 	if (data.category) {
 		if (data.category === "tenant") {
-			condition.push({
+			condition.$and.push({
 				"$or": [
 					{"category": data.category},
 					{"category": null}
 				]
 			});
 		} else {
-			condition.push({"category": data.category});
+			condition.$and.push({"category": data.category});
 		}
 	}
 	
