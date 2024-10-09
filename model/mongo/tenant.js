@@ -449,11 +449,10 @@ Tenant.prototype.deleteTenants = function (data, cb) {
 		let error = new Error("ids is required.");
 		return cb(error, null);
 	}
-	const objectIdsArray = data.ids.map((id) => __self.ObjectId(id));
+	const objectIdsArray = data.ids.map((id) => __self.mongoCore.ObjectId(id));
 	let condition = {
-		"_id": objectIdsArray
+		"_id": { "$in": objectIdsArray }
 	};
-
 	__self.mongoCore.deleteMany(colName, condition, {}, (err, result) => {
 		return cb(err, result);
 	});

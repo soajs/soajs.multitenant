@@ -50,6 +50,7 @@ describe("starting tenant integration tests", () => {
         require("./delete/deleteAppKey.test.js");
         require("./delete/deleteApplication.test.js");
         require("./delete/deleteTenant.test.js");
+        require("./delete/deleteTenants.test.js");
 
         done();
     });
