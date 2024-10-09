@@ -1425,6 +1425,20 @@ let bl = {
 		});
 	},
 	
+	"deleteMany": (soajs, inputmaskData, cb) => {
+		if (!inputmaskData) {
+			return cb(bl.handleError(soajs, 400, null));
+		}
+		let modelObj = bl.mp.getModel(soajs);
+		modelObj.deleteTenants(inputmaskData, (err, result) => {
+			bl.mp.closeModel(soajs, modelObj);
+			if (err) {
+				return cb(bl.handleError(soajs, 602, err));
+			}
+			return cb(null, result);
+		});
+	},
+
 	"delete": (soajs, inputmaskData, cb) => {
 		if (!inputmaskData) {
 			return cb(bl.handleError(soajs, 400, null));

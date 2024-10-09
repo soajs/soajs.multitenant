@@ -2145,6 +2145,26 @@ module.exports = {
 				}
 			},
 
+			"/tenants": {
+				_apiInfo: {
+					"l": "Delete tenants",
+					"group": "Tenant"
+				},
+				"ids": {
+					"source": ['query.ids'],
+					"validation": {
+						"type": "array",
+						"minItems": 1,
+						"items": {
+							"type": "string",
+							"pattern": `^[a-f\\d]{24}$`,
+							"errorMessage": {
+								"pattern": "Tenant Id provided is not valid."
+							}
+						}
+					}
+				}
+			},
 			"/tenant": {
 				_apiInfo: {
 					"l": "Delete tenant",
