@@ -28,15 +28,15 @@
     "grunt-istanbul": "0.8.0",
     "grunt-jsdoc": "2.4.1",
     "grunt-mocha-test": "0.13.3",
-    "mocha": "11.5.0",
-    "nock": "14.0.5",
-    "soajs.controller": "4.2.37"
+    "mocha": "11.7.2",
+    "nock": "14.0.10",
+    "soajs.controller": "4.2.40"
   },
   "dependencies": {
     "async": "3.2.6",
-    "soajs": "4.1.15",
+    "soajs": "4.1.16",
     "soajs.core.libs": "1.2.1",
     "request": "2.88.2",
-    "uuid": "11.1.0"
+    "uuid": "13.0.0"
   }
 }
