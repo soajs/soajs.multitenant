@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "async": "3.2.6",
-    "soajs": "4.1.18",
+    "soajs": "4.1.19",
     "soajs.core.libs": "1.2.1",
     "request": "2.88.2",
     "uuid": "13.0.0"
