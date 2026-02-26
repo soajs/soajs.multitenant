@@ -29,13 +29,13 @@
     "grunt-jsdoc": "2.4.1",
     "grunt-mocha-test": "0.13.3",
     "mocha": "11.7.5",
-    "nock": "14.0.10",
-    "soajs.controller": "4.2.41"
+    "nock": "14.0.11",
+    "soajs.controller": "4.3.0"
   },
   "dependencies": {
     "async": "3.2.6",
-    "soajs": "4.1.19",
-    "soajs.core.libs": "1.2.1",
+    "soajs": "4.1.21",
+    "soajs.core.libs": "1.2.2",
     "request": "2.88.2",
     "uuid": "13.0.0"
   }
