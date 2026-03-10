@@ -107,6 +107,55 @@ Tenant.prototype.getTenants = function (data, cb) {
 	__self.mongoCore.find(colName, condition, null, cb);
 };
 
+Tenant.prototype.getTenantsById = function (data, cb) {
+	let __self = this;
+	if (!data || !data.ids || !Array.isArray(data.ids) || data.ids.length === 0) {
+		let error = new Error("Array of ids is required.");
+		return cb(error, null);
+	}
+
+	let objectIds = data.ids.map(id => __self.mongoCore.ObjectId(id));
+
+	let pipeline = [
+		{ "$match": { "_id": { "$in": objectIds } } },
+		{
+			"$facet": {
+				"count": [{ "$count": "count" }],
+				"items": [
+					{
+						"$project": {
+							"_id": 1,
+							"name": 1
+						}
+					}
+				]
+			}
+		},
+		{ "$unwind": { "path": "$count", "preserveNullAndEmptyArrays": true } },
+		{
+			"$project": {
+				"items": "$items",
+				"count": { "$ifNull": ["$count.count", 0] }
+			}
+		}
+	];
+
+	__self.mongoCore.aggregate(colName, pipeline, {}, (err, cursor) => {
+		if (err) {
+			return cb(err);
+		}
+		cursor.toArray((err, response) => {
+			if (err) {
+				return cb(err);
+			}
+			if (response && response[0]) {
+				return cb(null, response[0]);
+			}
+			return cb(null, { items: [], count: 0 });
+		});
+	});
+};
+
 Tenant.prototype.getTenant = function (data, cb) {
 	let __self = this;
 	if (!data || !(data.id || data.code || data.name)) {

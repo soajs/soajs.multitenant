@@ -961,6 +961,20 @@ module.exports = {
 				"commonFields": ['appId', 'key']
 			},
 
+			"/admin/tenants": {
+				_apiInfo: {
+					"l": "Get admin tenants by ids",
+					"group": "Admin Tenant"
+				},
+				"ids": {
+					"source": ['query.ids'],
+					"required": true,
+					"validation": {
+						'type': 'array',
+						'items': { 'type': 'string' }
+					}
+				}
+			},
 			"/admin/tenant": {
 				_apiInfo: {
 					"l": "Get admin tenant",
